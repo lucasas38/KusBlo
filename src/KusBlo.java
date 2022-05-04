@@ -1,8 +1,12 @@
+import Vue.InterfaceKusBlo;
+
 import Modele.Niveau;
 import Modele.Piece;
 
 public class KusBlo {
     public static void main(String args[]){
+
+        InterfaceKusBlo.demarrer();
         System.out.println("Hello World!");
 
         Niveau n = new Niveau();
