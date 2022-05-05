@@ -7,44 +7,54 @@ import java.awt.event.*;
 public class AdaptateurSouris implements MouseListener, MouseMotionListener {
     VueNiveau n;
     MenuPiece m;
+    Controleur cont;
     int x;
     int y;
 
 
-
-    public void mouseDragged(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {}
-    public void mouseEntered(MouseEvent e) {}
-    public void mouseExited(MouseEvent e) {}
-    public void mouseReleased(MouseEvent e) {}
-
-
-
-
-    AdaptateurSouris(VueNiveau niv, MenuPiece menu) {
+    AdaptateurSouris(VueNiveau niv, MenuPiece menu, Controleur c) {
         n = niv;
         m=menu;
+        cont=c;
         x=0;
         y=0;
 
     }
 
+
+    public void mouseDragged(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+        n.supprimerVisualisation(x,y,m.getGrillePiece(), m.x,m.y);
+    }
+    public void mouseReleased(MouseEvent e) {}
+
+
+
+
+
+
     @Override
     public void mousePressed(MouseEvent e) {
         int l = e.getY() / n.hauteurCase();
         int c = e.getX() / n.largeurCase();
-        n.poserPiece(l, c, m.getGrillePiece());
-
-
+        n.poserPiece(l, c, m.getGrillePiece(),m.x,m.y);
+        cont.click();
     }
     @Override
     public void mouseMoved(MouseEvent e){
+
         int l = e.getY() / n.hauteurCase();
         int c = e.getX() / n.largeurCase();
-        n.supprimerVisualisation(x,y,m.getGrillePiece());
-        n.visualiser(l,c,m.getGrillePiece());
-        x=l;
-        y=c;
+        //On exécute la fonction que lorsqu'on change de case
+        if(l!=x || c!=y){
+            n.supprimerVisualisation(x,y,m.getGrillePiece(), m.x,m.y);
+            n.visualiser(l,c,m.getGrillePiece(), m.x,m.y);
+            x=l;
+            y=c;
+        }
+
 
     }
 

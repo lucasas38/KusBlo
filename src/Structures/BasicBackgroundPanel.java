@@ -18,7 +18,7 @@ public class BasicBackgroundPanel extends JPanel
     {
         super.paintComponent(g);
 
-        g.drawImage(background, 0, 0, null);
+        g.drawImage(background, 0, 0,getWidth(),getHeight(), null);
     }
 
     @Override
@@ -30,6 +30,10 @@ public class BasicBackgroundPanel extends JPanel
     public void changeBackground(Image i){
         this.background=i;
         this.updateUI();
+    }
+
+    public Image getBackgroundImage() {
+        return background;
     }
 }
 

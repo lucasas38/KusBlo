@@ -22,6 +22,8 @@ public class VueNiveau {
         panelJeu = new JPanel();
         im = new ImageKusBlo();
         panelJeu.setLayout(new GridLayout(20, 20));
+
+        //Création de la grille
         listPanel = new BasicBackgroundPanel[20][20];
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
@@ -43,43 +45,56 @@ public class VueNiveau {
         return  panelJeu.getWidth()/20;
     }
 
-
+    //Pas utilisé
     public void updatePan(int i, int j){
-        listPanel[i][j].changeBackground(im.choco);
+        listPanel[i][j].changeBackground(im.rouge);
     }
 
-    public void poserPiece(int x, int y, int[][] grille){
+    //Pose la pièce (dans la mesure du possible)
+    public void poserPiece(int x, int y, int[][] grille, int decx, int decy){
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
-                if(x+i<20 && y+j<20){
+                if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
                     if(grille[i][j]==1){
-                        listPanel[i+x][j+y].changeBackground(im.choco);
+                        listPanel[i+x-decx][j+y-decy].changeBackground(im.rouge);
                     }
                 }
             }
         }
     }
 
-    public void visualiser(int x, int y, int[][] grille){
+    //Visualisation de la pièce(à rajouter la condition du estPosable)
+    public void visualiser(int x, int y, int[][] grille, int decx, int decy ){
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
-                if(x+i<20 && y+j<20){
+                if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
                     if(grille[i][j]==1){
-                        listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.red));
+                        if(listPanel[i+x-decx][j+y-decy].getBackgroundImage()!=im.rouge){
+                            listPanel[i+x-decx][j+y-decy].changeBackground(im.grisRouge);
+                        }
+                        listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.red));
                     }
                 }
             }
         }
     }
-    public void supprimerVisualisation(int x, int y, int[][] grille){
+
+    //Supprime la visualisation
+    public void supprimerVisualisation(int x, int y, int[][] grille, int decx, int decy){
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
-                if(x+i<20 && y+j<20){
+                if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
                     if(grille[i][j]==1){
-                        listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.black));
+                        if(listPanel[i+x-decx][j+y-decy].getBackgroundImage()!=im.rouge){
+                            listPanel[i+x-decx][j+y-decy].changeBackground(im.gris);
+                        }
+
+                        listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
                     }
                 }
             }
         }
     }
+
+
 }

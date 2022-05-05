@@ -8,13 +8,17 @@ import static javax.imageio.ImageIO.read;
 
 public class ImageKusBlo {
     Image gris;
-    Image choco;
+    Image blanc;
+    Image rouge;
     Image grisRouge;
+    Image selRouge;
 
     ImageKusBlo(){
-        gris = getImage("Gris2.png");
-        choco=getImage("ChocoTest.png");
-        grisRouge= getImage("GrisRouge.png");
+        gris = getImage("Gris.png");
+        blanc=getImage("Blanc.png");
+        rouge =getImage("Rouge.png");
+        grisRouge=getImage("visRouge.png");
+        selRouge= getImage("selRouge.png");
     }
 
     public Image getImage(String s){
