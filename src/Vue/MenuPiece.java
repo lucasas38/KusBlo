@@ -11,6 +11,7 @@ public class MenuPiece {
     BasicBackgroundPanel[][] listePiece;
     ImageKusBlo im;
     JPanel menuType2;
+    int [][] grillePiece;
 
 
     public MenuPiece(){
@@ -37,16 +38,16 @@ public class MenuPiece {
     }
 
     public void setMenuType2(/*int joueur, int piece*/){
-        int [][] matricePiece= new int[5][5];
+        grillePiece= new int[5][5];
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 Random rand = new Random();
-                matricePiece[i][j]=rand.nextInt(2);
+                grillePiece[i][j]=rand.nextInt(2);
             }
         }
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
-                if(matricePiece[i][j]==0){
+                if(grillePiece[i][j]==0){
                     listePiece[i][j].changeBackground(im.gris);
                 }else{
                     listePiece[i][j].changeBackground(im.choco);
@@ -65,5 +66,8 @@ public class MenuPiece {
         info.add(new JLabel("Ce n'est pas a votre tour de jouer"));
         menu.add(info);
 
+    }
+    public int[][] getGrillePiece(){
+        return grillePiece;
     }
 }

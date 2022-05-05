@@ -47,4 +47,39 @@ public class VueNiveau {
     public void updatePan(int i, int j){
         listPanel[i][j].changeBackground(im.choco);
     }
+
+    public void poserPiece(int x, int y, int[][] grille){
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(x+i<20 && y+j<20){
+                    if(grille[i][j]==1){
+                        listPanel[i+x][j+y].changeBackground(im.choco);
+                    }
+                }
+            }
+        }
+    }
+
+    public void visualiser(int x, int y, int[][] grille){
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(x+i<20 && y+j<20){
+                    if(grille[i][j]==1){
+                        listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.red));
+                    }
+                }
+            }
+        }
+    }
+    public void supprimerVisualisation(int x, int y, int[][] grille){
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(x+i<20 && y+j<20){
+                    if(grille[i][j]==1){
+                        listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.black));
+                    }
+                }
+            }
+        }
+    }
 }

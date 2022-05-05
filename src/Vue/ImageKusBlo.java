@@ -9,10 +9,12 @@ import static javax.imageio.ImageIO.read;
 public class ImageKusBlo {
     Image gris;
     Image choco;
+    Image grisRouge;
 
     ImageKusBlo(){
         gris = getImage("Gris2.png");
         choco=getImage("ChocoTest.png");
+        grisRouge= getImage("GrisRouge.png");
     }
 
     public Image getImage(String s){
