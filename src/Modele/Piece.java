@@ -1,6 +1,5 @@
 package Modele;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -9,6 +8,7 @@ public class Piece {
     int taille;
     int[][] matrice; // /!\ doit être une matrice carrée
     Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice
+    LinkedList<Case> listeCases;
 
     public Piece(){
     }
@@ -19,6 +19,7 @@ public class Piece {
         this.matrice = null;
         this.debMatrice = null;
         this.finMatrice = null;
+        this.listeCases = null; //liste des cases d'une piece avec les vraies coordonnées dans la grille du niveau
     }
 
     public int getId() {
@@ -39,6 +40,10 @@ public class Piece {
 
     public Case getFinMatrice() {
         return finMatrice;
+    }
+
+    public LinkedList<Case> getListeCases() {
+        return listeCases;
     }
 
     public void setMatrice(int[][] matrice) {
@@ -106,7 +111,28 @@ public class Piece {
             res +="\n";
         }
         res += "debMatrice=" + debMatrice.toString();
-        res += "finMatrice=" + finMatrice.toString();
+        res += ", finMatrice=" + finMatrice.toString() + "\n";
+
+        if(listeCases != null){
+            Iterator<Case> it = listeCases.iterator();
+            while (it.hasNext()){
+                Case c = it.next();
+                res += c.toString() + " ";
+            }
+        }else{
+            res += ", listeCases=null";
+        }
+        res +="\n";
+
         return res;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return id == piece.id;
+    }
+
 }
