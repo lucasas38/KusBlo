@@ -1,44 +1,38 @@
 package Vue;
 
+import Controleur.Controleur;
+import Modele.Piece;
 import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class MenuPiece {
     JPanel menu;
     BasicBackgroundPanel[][] listePiece;
     ImageKusBlo im;
     Bouton b;
+    Controleur c;
+    Piece piece;
     JPanel menuType1;
     JPanel menuType2;
     JPanel menuType3;
     JPanel affichagePiece;
-    int [][] grillePiece;
+    //int [][] grillePiece;
     int x;
     int y;
 
 
-    public MenuPiece(Bouton bout){
+    public MenuPiece(Controleur cont){
         menu= new JPanel(new BorderLayout());
         im=new ImageKusBlo();
-        b=bout;
+        b=new Bouton(cont);
+        c=cont;
         creerMenuType1();
         creerMenuType2();
         creerMenuType3();
         //Création de la grille, à importer depuis la piece
-        grillePiece= new int[5][5];
-        for(int i=0; i<5;i++){
-            for(int j=0; j<5;j++){
-                Random rand = new Random();
-                grillePiece[i][j]=rand.nextInt(2);
-                if(i==0){
-                    grillePiece[i][j]=0;
-                }
-            }
-        }
-
+        piece = c.getPiece(1,3);
     }
 
     public void setMenuType1(/*int joueur*/){
@@ -48,7 +42,7 @@ public class MenuPiece {
             for(int i=0; i<5;i++){
                 for(int j=0; j<5;j++){
                     BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
-                        if(grillePiece[i][j]==0){
+                        if(piece.getMatrice()[i][j]==0){
                             newPan.changeBackground(im.gris);
                         }else{
                             newPan.changeBackground(im.rouge);
@@ -83,7 +77,6 @@ public class MenuPiece {
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 BasicBackgroundPanel newPan= new BasicBackgroundPanel(im.blanc);
-                //newPan.setBorder(BorderFactory.createLineBorder(Color.black));
                 affichagePiece.add(newPan);
                 listePiece[i][j]=newPan;
             }
@@ -103,7 +96,9 @@ public class MenuPiece {
         menuType2.add(centre);
 
         //Rotation + Flip
-        menuType2.add(new JPanel());
+        JPanel boutDroit=new JPanel(new GridLayout(2,2,15,5));
+        boutDroit.add(b.rotaHorraire());
+        menuType2.add(boutDroit);
 
 
     }
@@ -114,20 +109,6 @@ public class MenuPiece {
     }
 
     public void setMenuType2(/*int joueur, int piece*/){
-
-        x=0;
-        y=0;
-
-        //On place le décalage à la première case
-        while(x<4 && grillePiece[x][y]==0){
-            while (y<4 && grillePiece[x][y]==0){
-                y++;
-            }
-            if(grillePiece[x][y]==0){
-                y=0;
-                x++;
-            }
-        }
 
         //Affichage de la piece
         refreshPiece();
@@ -148,9 +129,9 @@ public class MenuPiece {
     }
 
 
-    public int[][] getGrillePiece(){
-        return grillePiece;
-    }
+    //public int[][] getGrillePiece(){
+  //      return grillePiece;
+   // }
 
     //Hauteur de la piece
     public int getHautAffPiece(){
@@ -164,7 +145,7 @@ public class MenuPiece {
 
     //Modifie le déclage en fonction de la case sélectionné
     public void updateCaseSelec(int i, int j){
-        if(grillePiece[i][j]==1){
+        if(piece.getMatrice()[i][j]==1){
             listePiece[x][y].changeBackground(im.rouge);
             x=i;
             y=j;
@@ -173,14 +154,30 @@ public class MenuPiece {
     }
 
 
+    public void refreshCaseSelec(){
+        x=0;
+        y=0;
+        //On place le décalage à la première case
+        while(x<4 && piece.getMatrice()[x][y]==0){
+            while (y<4 && piece.getMatrice()[x][y]==0){
+                y++;
+            }
+            if(piece.getMatrice()[x][y]==0){
+                y=0;
+                x++;
+            }
+        }
+    }
+
     //Affiche la pièce actuelle
     public void refreshPiece(){
+        refreshCaseSelec();
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 if(i==x & j==y){
                     listePiece[i][j].changeBackground(im.selRouge);
                 }else {
-                    if(grillePiece[i][j]==0){
+                    if(piece.getMatrice()[i][j]==0){
                         listePiece[i][j].changeBackground(im.gris);
                     }else{
                         listePiece[i][j].changeBackground(im.rouge);
@@ -189,6 +186,7 @@ public class MenuPiece {
 
             }
         }
+
     }
 
     //Hauteur du menu complet
@@ -199,5 +197,9 @@ public class MenuPiece {
     //Largeur du menu complet
     public int getLargMenu(){
         return menuType1.getWidth();
+    }
+
+    public Piece getPiece() {
+        return piece;
     }
 }

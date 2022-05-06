@@ -6,9 +6,11 @@ import java.awt.*;
 public class BasicBackgroundPanel extends JPanel
 {
     private Image background;
+    private boolean vide;
 
     public BasicBackgroundPanel(Image background)
     {
+        this.vide=true;
         this.background = background;
         setLayout( new BorderLayout() );
     }
@@ -34,6 +36,14 @@ public class BasicBackgroundPanel extends JPanel
 
     public Image getBackgroundImage() {
         return background;
+    }
+
+    public void setVide(boolean b){
+        this.vide =b;
+    }
+
+    public boolean estVide(){
+        return  this.vide;
     }
 }
 

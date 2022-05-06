@@ -1,6 +1,8 @@
 package Modele;
 
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedList;
 
 public class Niveau {
@@ -50,27 +52,20 @@ public class Niveau {
 
     public boolean estPosable(Piece p, int x, int y){
         int[][] matrice = p.getMatrice();
-
-        int debX = p.getDebMatrice().getX();
-        int debY = p.getDebMatrice().getY();
-        int finX = p.getFinMatrice().getX();
-        int finY = p.getFinMatrice().getY();
-
-        int tailleX = finX-debX;
-        int tailleY = finY-debY;
-        //test piece ne depasse pas grille du niveau
-        if(estDansGrille(x+tailleX,y+tailleY)){
-            for (int i = 0;i< tailleX+1;i++){
-                for (int j = 0;j< tailleY+1;j++){
-                    if(grille[x+i][y+j] != 0 && matrice[i][j] == 1){
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(matrice[i][j]==1){
+                    if(x+i<20 && y+j<20 && x+i>=0 && y+j>=0){
+                        if(grille[i+x][j+y]==1){
+                            return false;
+                        }
+                    } else{
                         return false;
                     }
                 }
             }
-            return true;
-        }else{
-            return false;
         }
+        return true;
 
     }
 

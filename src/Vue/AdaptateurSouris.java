@@ -26,7 +26,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {
-        n.supprimerVisualisation(x,y,m.getGrillePiece(), m.x,m.y);
+        n.supprimerVisualisation(x,y,m.piece.getMatrice(), m.x,m.y);
     }
     public void mouseReleased(MouseEvent e) {}
 
@@ -39,8 +39,10 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         int l = e.getY() / n.hauteurCase();
         int c = e.getX() / n.largeurCase();
-        n.poserPiece(l, c, m.getGrillePiece(),m.x,m.y);
-        cont.click();
+        if(cont.estPosable(m.piece, l,c,m.x,m.y)){
+            n.poserPiece(l, c, m.piece.getMatrice(),m.x,m.y);
+            cont.click(m.piece, l,c,m.x,m.y);
+        }
     }
     @Override
     public void mouseMoved(MouseEvent e){
@@ -49,10 +51,13 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
         int c = e.getX() / n.largeurCase();
         //On exécute la fonction que lorsqu'on change de case
         if(l!=x || c!=y){
-            n.supprimerVisualisation(x,y,m.getGrillePiece(), m.x,m.y);
-            n.visualiser(l,c,m.getGrillePiece(), m.x,m.y);
+            n.supprimerVisualisation(x,y,m.piece.getMatrice(), m.x,m.y);
+            if(cont.estPosable(m.piece, l,c,m.x,m.y)){
+                n.visualiser(l,c,m.piece.getMatrice(), m.x,m.y);
+            }
             x=l;
             y=c;
+
         }
 
 

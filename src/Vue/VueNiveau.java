@@ -1,5 +1,6 @@
 package Vue;
 
+import Controleur.AnimationVisualisation;
 import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ public class VueNiveau {
     JPanel panelJeu;
     BasicBackgroundPanel [][] listPanel;
     ImageKusBlo im;
+    AnimationVisualisation anim;
 
     public JPanel getPanelJeu() {
         return panelJeu;
@@ -22,7 +24,7 @@ public class VueNiveau {
         panelJeu = new JPanel();
         im = new ImageKusBlo();
         panelJeu.setLayout(new GridLayout(20, 20));
-
+        anim= new AnimationVisualisation();
         //Création de la grille
         listPanel = new BasicBackgroundPanel[20][20];
         for (int i = 0; i < 20; i++) {
@@ -57,6 +59,8 @@ public class VueNiveau {
                 if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
                     if(grille[i][j]==1){
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.rouge);
+                        listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
+                        listPanel[i+x-decx][j+y-decy].setVide(false);
                     }
                 }
             }
@@ -65,18 +69,7 @@ public class VueNiveau {
 
     //Visualisation de la pièce(à rajouter la condition du estPosable)
     public void visualiser(int x, int y, int[][] grille, int decx, int decy ){
-        for(int i=0;i<5;i++){
-            for(int j=0; j<5; j++){
-                if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
-                    if(grille[i][j]==1){
-                        if(listPanel[i+x-decx][j+y-decy].getBackgroundImage()!=im.rouge){
-                            listPanel[i+x-decx][j+y-decy].changeBackground(im.grisRouge);
-                        }
-                        listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.red));
-                    }
-                }
-            }
-        }
+        anim.visualisation(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
     }
 
     //Supprime la visualisation
@@ -94,6 +87,10 @@ public class VueNiveau {
                 }
             }
         }
+        if(anim.hasTimer()){
+            anim.resetTimer();
+        }
+
     }
 
 

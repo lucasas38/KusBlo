@@ -23,4 +23,15 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton rotaHorraire(){
+        JButton button = new JButton("RotaHorraire");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.rotaHorraire();
+            }
+        });
+        return button;
+    }
 }

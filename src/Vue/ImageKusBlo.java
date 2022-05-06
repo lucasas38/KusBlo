@@ -12,6 +12,7 @@ public class ImageKusBlo {
     Image rouge;
     Image grisRouge;
     Image selRouge;
+    Image[] selAnimRouge;
 
     ImageKusBlo(){
         gris = getImage("Gris.png");
@@ -19,6 +20,11 @@ public class ImageKusBlo {
         rouge =getImage("Rouge.png");
         grisRouge=getImage("visRouge.png");
         selRouge= getImage("selRouge.png");
+        selAnimRouge = new Image[5];
+        selAnimRouge[0]=gris;
+        for(int k=1; k<5;k++){
+            selAnimRouge[k]= getImage("visRouge"+k+".png");
+        }
     }
 
     public Image getImage(String s){

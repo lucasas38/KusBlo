@@ -12,7 +12,6 @@ public class InterfaceKusBlo implements Runnable {
     PanneauJoueur j2;
     AdaptateurSouris adapt;
     Controleur c;
-    Bouton b;
 
     public InterfaceKusBlo(Controleur cont){
         c=cont;
@@ -25,9 +24,8 @@ public class InterfaceKusBlo implements Runnable {
     }
 
     public void run(){
+        m=new MenuPiece(c);
         graph = new VueNiveau();
-        b= new Bouton(c);
-        m=new MenuPiece(b);
         adapt =new AdaptateurSouris(graph,m,c);
         j1 = new PanneauJoueur();
         j2 = new PanneauJoueur();
@@ -108,5 +106,9 @@ public class InterfaceKusBlo implements Runnable {
         graph.panelJeu.addMouseListener(adapt);
         m.setMenuType2();
         m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
+    }
+
+    public MenuPiece getM() {
+        return m;
     }
 }
