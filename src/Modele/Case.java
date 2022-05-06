@@ -1,5 +1,6 @@
 package Modele;
 
+import java.util.LinkedList;
 import java.util.Objects;
 
 public class Case {
@@ -51,4 +52,5 @@ public class Case {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
 }
