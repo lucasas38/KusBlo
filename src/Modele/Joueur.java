@@ -10,6 +10,7 @@ public class Joueur {
     LinkedList<Piece> listesPiecesPosees;
     int score;
     HashSet<Case> listeCoins;
+    boolean peutJouer=true;
 
     Joueur(int id,ListePieces listePiecesDepart){
         this.id = id;
@@ -51,19 +52,18 @@ public class Joueur {
             if(this.score < 0){
                 this.score = 0;
             }
+        }else{
+            this.score += 15;
+            if(this.listesPiecesPosees.getLast().getId() == 1){
+                this.score += 5;
+            }
         }
     }
 
     void jouePiece(Piece p){
         this.score += p.taille;
         this.listePiecesDispo.supprimer(p);
-        this.listesPiecesPosees.add(p);
-        if(listePiecesDispo.estVide()){
-            this.score += 15;
-            if(p.id == 1){
-                this.score += 5;
-            }
-        }
+        this.listesPiecesPosees.addLast(p);
     }
 
     Piece getPieceDispo(int idPiece){

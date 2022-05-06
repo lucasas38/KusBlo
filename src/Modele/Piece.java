@@ -8,10 +8,7 @@ public class Piece {
     int taille;
     int[][] matrice; // /!\ doit être une matrice carrée
     Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice
-    LinkedList<Case> listeCases;
-
-    public Piece(){
-    }
+    LinkedList<Case> listeCases; //mis à jour quand la piece est posée (on sait qu'elle ne bougera plus)
 
     public Piece(int id,int taille){
         this.id = id;

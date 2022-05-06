@@ -1,6 +1,7 @@
 package Modele;
 
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Niveau {
@@ -27,25 +28,35 @@ public class Niveau {
         return res;
     }
 
-    public void ajouterPiece(Piece p,int x, int y,int idJoueur){
-        int [][] matrice = p.getMatrice();
+//    //mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
+//    public void ajouterPiece(Piece p,int x, int y,int idJoueur){
+//        int [][] matrice = p.getMatrice();
+//
+//        int debX = p.getDebMatrice().getX();
+//        int debY = p.getDebMatrice().getY();
+//        int finX = p.getFinMatrice().getX();
+//        int finY = p.getFinMatrice().getY();
+//
+//        p.listeCases = new LinkedList<>();
+//
+//        for (int i = debX;i< finX+1;i++){
+//            for (int j = debY;j< finY+1;j++){
+//                if(matrice[i][j] == 1){
+//                    grille[x+i-debX][y+j-debY] = idJoueur;
+//                    p.listeCases.add(new Case(x+i-debX,y+j-debY));
+//                }
+//            }
+//        }
+//    }
 
-        int debX = p.getDebMatrice().getX();
-        int debY = p.getDebMatrice().getY();
-        int finX = p.getFinMatrice().getX();
-        int finY = p.getFinMatrice().getY();
-
-        p.listeCases = new LinkedList<>();
-
-        for (int i = debX;i< finX+1;i++){
-            for (int j = debY;j< finY+1;j++){
-                if(matrice[i][j] == 1){
-                    grille[x+i-debX][y+j-debY] = idJoueur;
-                    p.listeCases.add(new Case(x+i-debX,y+j-debY));
-                }
-            }
+    //mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
+    public void ajouterPiece(Piece p, LinkedList<Case> listeCasesPiece,int idJoueur){
+        p.listeCases = listeCasesPiece;  // voir si clone() utile ?
+        Iterator<Case> it = p.listeCases.iterator();
+        while (it.hasNext()){
+            Case ca = it.next();
+            grille[ca.getX()][ca.getY()] = idJoueur;
         }
-
     }
 
     public boolean estPosable(Piece p, int x, int y){
@@ -71,7 +82,27 @@ public class Niveau {
         }else{
             return false;
         }
+    }
 
+
+    public LinkedList<Case> voisinsCase(Case ca) {
+        LinkedList<Case> liste = new LinkedList<>();
+        int x = ca.getX();
+        int y = ca.getY();
+        if(estDansGrille(x+1,y)){
+            liste.add(new Case(x+1,y));
+        }
+        if(estDansGrille(x-1,y)){
+            liste.add(new Case(x-1,y));
+        }
+        if(estDansGrille(x,y+1)){
+            liste.add(new Case(x,y+1));
+        }
+        if(estDansGrille(x,y-1)){
+            liste.add(new Case(x,y-1));
+        }
+
+        return liste;
     }
 
     boolean estDansGrille(int x, int y){
