@@ -5,16 +5,22 @@ import java.util.LinkedList;
 
 public class Jeu {
     Niveau n;
-    Joueur[] listeJoueurs;
-    int joueurCourant;
+    int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
+    Joueur[] listeJoueurs;  //tableau de 4 joueurs (couleurs)
+    int joueurCourant; // joueur(couleur) courant
+
 
     public Jeu(int nbJoueurs){
         this.n = new Niveau();
+
         if(!(nbJoueurs>1 && nbJoueurs<=4)){
-            nbJoueurs=4;
+            this.nbJoueurs = 4;
+        }else{
+            this.nbJoueurs = nbJoueurs;
         }
-        listeJoueurs = new Joueur[nbJoueurs];
-        for (int i=0;i<nbJoueurs;i++){
+
+        listeJoueurs = new Joueur[4];
+        for (int i=0;i<4;i++){
             listeJoueurs[i] = new Joueur(i+1,new ListePieces());
         }
         joueurCourant=1;
