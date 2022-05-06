@@ -11,6 +11,7 @@ public class Joueur {
     int score;
     HashSet<Case> listeCoins;
     boolean peutJouer=true;
+//    Couleur[] listeCouleur;  //à explorer pour 2, 3 joueurs : ? créer class couleur + deplaceent de méthodes de Jeu vers Couleur + changement Jeu (constructeur et attribut, et méthodes)
 
     Joueur(int id,ListePieces listePiecesDepart){
         this.id = id;
