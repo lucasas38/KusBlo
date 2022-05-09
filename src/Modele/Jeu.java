@@ -1,5 +1,6 @@
 package Modele;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -50,7 +51,7 @@ public class Jeu {
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     public void jouerPiece(int idJoueur,int idPiece, LinkedList<Case> listeCasesPiece){
         if(listeJoueurs[idJoueur-1].peutJouer){
-            System.out.println("joueur="+idJoueur + " idCouleur="+listeJoueurs[idJoueur-1].getCouleurCourante().id+" piece=" + idPiece + " listepiece="+listeCasesPiece.toString());
+//            System.out.println("joueur="+idJoueur + " idCouleur="+listeJoueurs[idJoueur-1].getCouleurCourante().id+" piece=" + idPiece + " listepiece="+listeCasesPiece.toString());
             Piece piece = listeJoueurs[idJoueur-1].getCouleurCourante().getPieceDispo(idPiece);
             if(piece != null) {
                 if (estPosableRegle(listeCasesPiece, idJoueur)) {
@@ -65,6 +66,9 @@ public class Jeu {
             }else{
                 System.out.println("Piece "+idPiece+" n'est plus disponible pour le joueur "+idJoueur);
             }
+
+            System.out.println(listeJoueurs[0].getCouleurCourante().getListeCoins().toString());
+
         }
 
 
@@ -79,30 +83,53 @@ public class Jeu {
     private void calculeCoinPiece(Piece piece, int idJoueur) {
         Iterator<Case> it = piece.listeCases.iterator();
 
+        //ajoute les nouveaux coins possibles
         while (it.hasNext()){
             Case ca = it.next();
 
             int x = ca.getX();
             int y = ca.getY();
 
-            if(getJoueur(idJoueur).getCouleurCourante().listeCoins.contains(ca)){
-                getJoueur(idJoueur).getCouleurCourante().listeCoins.remove(ca);
-            }
-
             estCoinValide(x+1,y-1,idJoueur);
             estCoinValide(x+1,y+1,idJoueur);
             estCoinValide(x-1,y-1,idJoueur);
             estCoinValide(x-1,y+1,idJoueur);
 
+
         }
+
+        //reparcourt les coins pour le joueur courant et enleve les coins qui ne sont plus valides (meme couleurs à coté)
+        it = getJoueur(idJoueur).getCouleurCourante().listeCoins.iterator();
+        while (it.hasNext()){
+            Case ca = it.next();
+            if(!estCoinValide(ca.getX(),ca.getY(),idJoueur)){
+                it.remove();
+            }
+        }
+
+        it = piece.listeCases.iterator();
+        while (it.hasNext()){
+            Case ca = it.next();
+            for (int i=0;i<nbJoueurs;i++){
+                for (int j=0;j<listeJoueurs[i].nbCouleurs;j++){
+                    HashSet listeCoinsCouleur = listeJoueurs[i].listeCouleur[j].getListeCoins();
+                    if(listeCoinsCouleur.contains(ca)){
+                        listeCoinsCouleur.remove(ca);
+                    }
+                }
+            }
+        }
+
     }
 
-    void estCoinValide(int x, int y, int idJoueur){
+    boolean estCoinValide(int x, int y, int idJoueur){
         if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
             if(n.aucunVoisin(x,y,idJoueur)){
                 listeJoueurs[idJoueur-1].ajouteCoin(new Case(x,y));
+                return true;
             }
         }
+        return false;
     }
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
