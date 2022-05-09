@@ -6,85 +6,85 @@ import java.util.LinkedList;
 
 public class Joueur {
     int id;
-    ListePieces listePiecesDispo;
-    LinkedList<Piece> listesPiecesPosees;
     int score;
-    HashSet<Case> listeCoins;
-    boolean peutJouer=true;
-//    Couleur[] listeCouleur;  //à explorer pour 2, 3 joueurs : ? créer class couleur + deplaceent de méthodes de Jeu vers Couleur + changement Jeu (constructeur et attribut, et méthodes)
+    boolean peutJouer;
+    Couleur[] listeCouleur;  //à explorer pour 2, 3 joueurs : ? créer class couleur + deplaceent de méthodes de Jeu vers Couleur + changement Jeu (constructeur et attribut, et méthodes)
+    int nbCouleurs;
+    int couleurCourant;
 
-    Joueur(int id,ListePieces listePiecesDepart){
+    Joueur(int id){
         this.id = id;
-        this.listePiecesDispo = listePiecesDepart;
-        this.listesPiecesPosees = new LinkedList<>();
         this.score = 0;
-        this.listeCoins = new HashSet<>();
-        switch (id){
-            case 1:
-                listeCoins.add(new Case(0,0));
-                break;
-            case 2:
-                listeCoins.add(new Case(19,19));
-                break;
-            case 3:
-                listeCoins.add(new Case(0,19));
-                break;
-            case 4:
-                listeCoins.add(new Case(19,0));
-                break;
-        }
+        this.peutJouer=true;
+        this.couleurCourant = 1;
+        nbCouleurs=0;
     }
 
     public int getId() {
         return id;
     }
 
-    public ListePieces getListePiecesDispo() {
-        return listePiecesDispo;
-    }
-
     public int getScore() {
         return score;
     }
 
+    public boolean isPeutJouer() {
+        return peutJouer;
+    }
+
+    public Couleur[] getListeCouleur() {
+        return listeCouleur;
+    }
+
+    public void addCouleur(Couleur c){
+        listeCouleur[nbCouleurs] = c;
+        nbCouleurs++;
+    }
+
     public void setScoreFinal(){
-        if(!this.listePiecesDispo.estVide()){
-            this.score -= listePiecesDispo.getTaille();
-            if(this.score < 0){
-                this.score = 0;
-            }
-        }else{
-            this.score += 15;
-            if(this.listesPiecesPosees.getLast().getId() == 1){
-                this.score += 5;
+        int nbCouleurs = listeCouleur.length;
+        for (int i = 0;i<nbCouleurs;i++){
+            if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
+                this.score -= this.listeCouleur[i].getListePiecesDispo().getTaille();
+                if(this.score < 0){
+                    this.score = 0;
+                }
+            }else{
+                this.score += 15;
+                if(this.listeCouleur[i].getListesPiecesPosees().getLast().getId() == 1){
+                    this.score += 5;
+                }
             }
         }
     }
 
     void jouePiece(Piece p){
         this.score += p.taille;
-        this.listePiecesDispo.supprimer(p);
-        this.listesPiecesPosees.addLast(p);
-    }
-
-    Piece getPieceDispo(int idPiece){
-        return listePiecesDispo.getPiece(idPiece);
+        this.listeCouleur[couleurCourant-1].jouePiece(p);
     }
 
     void ajouteCoin(Case ca){
-        this.listeCoins.add(ca);
+        this.listeCouleur[couleurCourant-1].ajouteCoin(ca);
     }
 
-    @Override
-    public String toString() {
-        String res = "Joueur{" +
-                "id=" + id +
-                "\n, listePiecesDispo=\n" + listePiecesDispo.toString() +
-                "\n, listesPiecesPosees=\n" + listesPiecesPosees.toString() +
-                "\n, score=" + score +
-                "\n, listeCoins=" + listeCoins.toString() +
-                '}';
+//    @Override
+//    public String toString() {
+//        String res = "Joueur{" +
+//                "id=" + id +
+//                "\n, listePiecesDispo=\n" + listePiecesDispo.toString() +
+//                "\n, listesPiecesPosees=\n" + listesPiecesPosees.toString() +
+//                "\n, score=" + score +
+//                "\n, listeCoins=" + listeCoins.toString() +
+//                '}';
+//
+//        return res;
+//    }
 
-        return res;
+    public Couleur getCouleurCourante(){
+        return listeCouleur[couleurCourant-1];
+    }
+
+    void setCouleurCourant(){
+        couleurCourant = (couleurCourant%nbCouleurs)+1;
     }
 }

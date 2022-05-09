@@ -37,7 +37,7 @@ public class Controleur {
     }
 
     public  Piece getPiece(int j, int p){
-        return  jeu.getJoueur(j).getListePiecesDispo().getPiece(p);
+        return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
 
     public void rotaHorraire(){
