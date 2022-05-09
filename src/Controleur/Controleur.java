@@ -48,13 +48,7 @@ public class Controleur {
         return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
 
-    public void rotaHorraire(){
-        MenuPiece m= inter.getM();
-        m.getPiece().rotationHoraire();
-        m.getPiece().refreshCaseSelec();
-        m.refreshPiece();
 
-    }
     public ListePieces getListPiece(int joueur){
         return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();
     }
@@ -97,5 +91,26 @@ public class Controleur {
 
     public boolean contientPiece(int id){
         return jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().contient(id);
+    }
+
+    public void antiHorraire(){
+        MenuPiece m= inter.getM();
+        m.getPiece().rotationAntiHoraire();
+        m.getPiece().refreshCaseSelec();
+        m.refreshPiece();
+    }
+    public void rotaHorraire(){
+        MenuPiece m= inter.getM();
+        m.getPiece().rotationHoraire();
+        m.getPiece().refreshCaseSelec();
+        m.refreshPiece();
+
+    }
+
+    public void flip(){
+        MenuPiece m= inter.getM();
+        m.getPiece().rotationSymetrique();
+        m.getPiece().refreshCaseSelec();
+        m.refreshPiece();
     }
 }

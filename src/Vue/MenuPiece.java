@@ -75,7 +75,9 @@ public class MenuPiece {
 
         //Rotation + Flip
         JPanel boutDroit=new JPanel(new GridLayout(2,2,15,5));
-        boutDroit.add(b.rotaHorraire());
+        boutDroit.add(b.rotaHoraire());
+        boutDroit.add(b.rotaAntiHoraire());
+        boutDroit.add(b.flip());
         menuType2.add(boutDroit);
 
 

@@ -24,12 +24,34 @@ public class Bouton {
         return button;
     }
 
-    public JButton rotaHorraire(){
-        JButton button = new JButton("RotaHorraire");
+    public JButton rotaHoraire(){
+        JButton button = new JButton("RotaHoraire");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.rotaHorraire();
+            }
+        });
+        return button;
+    }
+
+    public JButton rotaAntiHoraire(){
+        JButton button = new JButton("AntiHoraire");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.antiHorraire();
+            }
+        });
+        return button;
+    }
+
+    public JButton flip(){
+        JButton button = new JButton("Flip");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.flip();
             }
         });
         return button;
