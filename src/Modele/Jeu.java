@@ -66,10 +66,6 @@ public class Jeu {
                 System.out.println("Piece "+idPiece+" n'est plus disponible pour le joueur "+idJoueur);
             }
         }
-        if(idPiece == 5){
-            listeJoueurs[idJoueur-1].setScoreFinal();
-            System.out.println("score : "+listeJoueurs[idJoueur-1].getScore());
-        }
 
 
     }
