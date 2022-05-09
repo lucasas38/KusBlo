@@ -45,7 +45,9 @@ public class AdaptateurSelPiece implements MouseListener {
         if(pieceMultiple){
             int l = e.getY() / m.getHautMenu();
             int c = e.getX() / m.getLargMenu();
-            cont.setMenu2(l,c);
+            if(cont.contientPiece(l*7+c+1)){
+                cont.setMenu2(l,c);
+            }
         }
 
 

@@ -43,6 +43,8 @@ public class InterfaceKusBlo implements Runnable {
         setMenu1(c.getActJoueur(),c.getActCouleur());
         repartiteur.add(m.menu);
         panelCentral.add(repartiteur,BorderLayout.CENTER);
+        graph.panelJeu.addMouseMotionListener(adapt);
+        graph.panelJeu.addMouseListener(adapt);
 
         //Panel Droite
         JPanel panelDroite = new JPanel(new BorderLayout());
@@ -89,8 +91,8 @@ public class InterfaceKusBlo implements Runnable {
 
     //Supprime les listener du terrain de jeu
     public void delMouseClick(){
-        graph.panelJeu.removeMouseListener(adapt);
         graph.panelJeu.removeMouseMotionListener(adapt);
+        graph.panelJeu.removeMouseListener(adapt);
     }
 
     //Active le menu bas 1
@@ -102,8 +104,8 @@ public class InterfaceKusBlo implements Runnable {
 
     //Active le menu base 2
     public  void setMenu2(int numPiece){
-        graph.panelJeu.addMouseMotionListener(adapt);
-        graph.panelJeu.addMouseListener(adapt);
+        //graph.panelJeu.addMouseMotionListener(adapt);
+        //graph.panelJeu.addMouseListener(adapt);
         m.setMenuType2(numPiece);
         m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
     }

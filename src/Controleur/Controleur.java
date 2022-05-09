@@ -31,8 +31,8 @@ public class Controleur {
         inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), tradMatrice(piece, x-decx,y-decy ));
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
-        inter.delMouseClick();
-        inter.setMenu1(jeu.getIDJoueurCourant(),jeu.getNumCouleurCourante());
+        //inter.delMouseClick();
+        setMenu1();
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
@@ -93,5 +93,9 @@ public class Controleur {
     }
     public int getActJoueur(){
         return jeu.getIDJoueurCourant();
+    }
+
+    public boolean contientPiece(int id){
+        return jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().contient(id);
     }
 }
