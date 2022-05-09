@@ -53,12 +53,12 @@ public class VueNiveau {
     }
 
     //Pose la pièce (dans la mesure du possible)
-    public void poserPiece(int x, int y, int[][] grille, int decx, int decy){
+    public void poserPiece(int joueur,int x, int y, int[][] grille, int decx, int decy){
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
                 if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
-                    if(grille[i][j]==1){
-                        listPanel[i+x-decx][j+y-decy].changeBackground(im.rouge);
+                    if(grille[i][j]!=0){
+                        listPanel[i+x-decx][j+y-decy].changeBackground(im.coulJoueur(joueur));
                         listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
                         listPanel[i+x-decx][j+y-decy].setVide(false);
                     }
@@ -68,8 +68,23 @@ public class VueNiveau {
     }
 
     //Visualisation de la pièce(à rajouter la condition du estPosable)
-    public void visualiser(int x, int y, int[][] grille, int decx, int decy ){
-        anim.visualisation(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
+    public void visualiser(int joue,int x, int y, int[][] grille, int decx, int decy ){
+        if(joue==2){
+            anim.visualisation(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
+        } else {
+            for(int i=0;i<5;i++){
+                for(int j=0; j<5; j++){
+                    if(grille[i][j]==1){
+                        if(listPanel[i+x-decx][j+y-decy].estVide()){
+                            listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue));
+                            //listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.red));
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
 
     //Supprime la visualisation
@@ -77,8 +92,8 @@ public class VueNiveau {
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
                 if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
-                    if(grille[i][j]==1){
-                        if(listPanel[i+x-decx][j+y-decy].getBackgroundImage()!=im.rouge){
+                    if(grille[i][j]!=0){
+                        if(listPanel[i+x-decx][j+y-decy].estVide()){
                             listPanel[i+x-decx][j+y-decy].changeBackground(im.gris);
                         }
 

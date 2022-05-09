@@ -40,7 +40,7 @@ public class InterfaceKusBlo implements Runnable {
         JPanel repartiteur =new JPanel(); //réparti le jeu et le menu du bas
         repartiteur.setLayout((new BoxLayout(repartiteur,BoxLayout.PAGE_AXIS)));
         repartiteur.add(graph.panelJeu);
-        setMenu1();
+        setMenu1(c.getActJoueur());
         repartiteur.add(m.menu);
         panelCentral.add(repartiteur,BorderLayout.CENTER);
 
@@ -94,21 +94,25 @@ public class InterfaceKusBlo implements Runnable {
     }
 
     //Active le menu bas 1
-    public void setMenu1(){
+    public void setMenu1(int j){
         delMouseClick();
-        m.setMenuType1();
+        m.setMenuType1(j);
         m.menuType1.addMouseListener(new AdaptateurSelPiece(graph,m,c,true));
     }
 
     //Active le menu base 2
-    public  void setMenu2(){
+    public  void setMenu2(int numPiece){
         graph.panelJeu.addMouseMotionListener(adapt);
         graph.panelJeu.addMouseListener(adapt);
-        m.setMenuType2();
+        m.setMenuType2(numPiece);
         m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
     }
 
     public MenuPiece getM() {
         return m;
+    }
+
+    public VueNiveau getGraph() {
+        return graph;
     }
 }

@@ -9,7 +9,7 @@ public class Case {
     Case(){
     }
 
-    Case(int x,int y){
+    public Case(int x,int y){
         this.x = x;  //x = i : correspond à l'ordonée
         this.y = y;
     }

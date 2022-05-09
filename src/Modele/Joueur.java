@@ -24,10 +24,10 @@ public class Joueur {
                 listeCoins.add(new Case(0,0));
                 break;
             case 2:
-                listeCoins.add(new Case(19,19));
+                listeCoins.add(new Case(0,19));
                 break;
             case 3:
-                listeCoins.add(new Case(0,19));
+                listeCoins.add(new Case(19,19));
                 break;
             case 4:
                 listeCoins.add(new Case(19,0));

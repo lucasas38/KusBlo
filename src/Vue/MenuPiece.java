@@ -1,11 +1,13 @@
 package Vue;
 
 import Controleur.Controleur;
+import Modele.ListePieces;
 import Modele.Piece;
 import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
 
 public class MenuPiece {
     JPanel menu;
@@ -14,13 +16,14 @@ public class MenuPiece {
     Bouton b;
     Controleur c;
     Piece piece;
+    int numPiece;
     JPanel menuType1;
     JPanel menuType2;
     JPanel menuType3;
     JPanel affichagePiece;
+    int joueur;
     //int [][] grillePiece;
-    int x;
-    int y;
+
 
 
     public MenuPiece(Controleur cont){
@@ -35,33 +38,7 @@ public class MenuPiece {
         piece = c.getPiece(1,3);
     }
 
-    public void setMenuType1(/*int joueur*/){
-       menuType1.removeAll();
-        for(int k=0;k<9;k++){
-            JPanel affPiece = new JPanel(new GridLayout(5,5));
-            for(int i=0; i<5;i++){
-                for(int j=0; j<5;j++){
-                    BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
-                        if(piece.getMatrice()[i][j]==0){
-                            newPan.changeBackground(im.gris);
-                        }else{
-                            newPan.changeBackground(im.rouge);
-                        }
-                        //newPan.setBorder(BorderFactory.createLineBorder(Color.black));
-                        affPiece.add(newPan);
-                    }
 
-                }
-            affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
-            menuType1.add(affPiece);
-        }
-        for(int k=0;k<12;k++){
-            menuType1.add(new JPanel());
-        }
-        menu.removeAll();
-        menu.add(menuType1);
-        menu.updateUI();
-    }
 
     public void creerMenuType1(){
         menuType1 = new JPanel(new GridLayout(3,7,2,2));
@@ -108,8 +85,18 @@ public class MenuPiece {
         menuType3.add(new JLabel("Ce n'est pas a votre tour de jouer"));
     }
 
-    public void setMenuType2(/*int joueur, int piece*/){
+    public void setMenuType1(int joue){
+        joueur=joue;
 
+        refreshAffichageListePiece();
+
+        menu.removeAll();
+        menu.add(menuType1);
+        menu.updateUI();
+    }
+    public void setMenuType2(int p){
+        numPiece=p+1;
+        piece = c.getListPiece(joueur).getPiece(p+1);
         //Affichage de la piece
         refreshPiece();
 
@@ -129,9 +116,7 @@ public class MenuPiece {
     }
 
 
-    //public int[][] getGrillePiece(){
-  //      return grillePiece;
-   // }
+
 
     //Hauteur de la piece
     public int getHautAffPiece(){
@@ -143,38 +128,59 @@ public class MenuPiece {
     }
 
 
-    //Modifie le déclage en fonction de la case sélectionné
-    public void updateCaseSelec(int i, int j){
-        if(piece.getMatrice()[i][j]==1){
-            listePiece[x][y].changeBackground(im.rouge);
-            x=i;
-            y=j;
-            listePiece[x][y].changeBackground(im.selRouge);
+    public void refreshAffichageListePiece(){
+        menuType1.removeAll();
+        int numPiece=1;
+        ListePieces liste= c.getListPiece(joueur);
+        Iterator<Piece> ite = liste.iterateur();
+        Piece p= null;
+        if(ite.hasNext()){
+            p=ite.next();
         }
-    }
-
-
-    public void refreshCaseSelec(){
-        x=0;
-        y=0;
-        //On place le décalage à la première case
-        while(x<4 && piece.getMatrice()[x][y]==0){
-            while (y<4 && piece.getMatrice()[x][y]==0){
-                y++;
+        while(ite.hasNext()){
+            if(numPiece==p.getId()){
+                JPanel affPiece = new JPanel(new GridLayout(5,5));
+                for(int i=0; i<5;i++){
+                    for(int j=0; j<5;j++){
+                        BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
+                        if(p.getMatrice()[i][j]==0){
+                            newPan.changeBackground(im.gris);
+                        }else{
+                            newPan.changeBackground(im.coulJoueur(joueur));
+                        }
+                        //newPan.setBorder(BorderFactory.createLineBorder(Color.black));
+                        affPiece.add(newPan);
+                    }
+                }
+                p=ite.next();
+                affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+                menuType1.add(affPiece);
+            } else{
+                JPanel affPiece = new JPanel(new GridLayout(5,5));
+                for(int i=0; i<5;i++){
+                    for(int j=0; j<5;j++){
+                        BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
+                        newPan.changeBackground(im.gris);
+                        affPiece.add(newPan);
+                    }
+                }
+                affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+                menuType1.add(affPiece);
             }
-            if(piece.getMatrice()[x][y]==0){
-                y=0;
-                x++;
-            }
+            numPiece++;
+        }
+
+        for(int i = numPiece ; i<21; i++){
+            menuType1.add(new JPanel());
         }
     }
 
     //Affiche la pièce actuelle
     public void refreshPiece(){
-        refreshCaseSelec();
+        //refreshCaseSelec();
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
-                if(i==x & j==y){
+                if(i== piece.getDecx() & j==piece.getDecy()){
                     listePiece[i][j].changeBackground(im.selRouge);
                 }else {
                     if(piece.getMatrice()[i][j]==0){
@@ -191,15 +197,19 @@ public class MenuPiece {
 
     //Hauteur du menu complet
     public int getHautMenu(){
-        return menuType1.getHeight();
+        return menuType1.getHeight()/3;
     }
 
     //Largeur du menu complet
     public int getLargMenu(){
-        return menuType1.getWidth();
+        return menuType1.getWidth()/7;
     }
 
     public Piece getPiece() {
         return piece;
+    }
+
+    public int getNumPiece(){
+        return numPiece;
     }
 }

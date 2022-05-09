@@ -14,11 +14,11 @@ public class AnimationVisualisation {
     boolean asc;
 
     public AnimationVisualisation(){
-        asc= true;
+        asc= false;
     }
 
     public void visualisation(BasicBackgroundPanel[][] listPanel,int x, int y, int[][] grille, Image[] imgs){
-        numImage=0;
+        numImage=4;
         timer =new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,7 +34,7 @@ public class AnimationVisualisation {
                 if(grille[i][j]==1){
                     if(listPanel[i+x][j+y].estVide()){
                         listPanel[i+x][j+y].changeBackground(imgs[numImage]);
-                        listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.red));
+                        //listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.red));
                     }
 
                 }
@@ -55,8 +55,8 @@ public class AnimationVisualisation {
 
     public  void resetTimer(){
         timer.stop();
-        numImage=0;
-        asc=true;
+        numImage=4;
+        asc=false;
     }
 
     public  boolean hasTimer(){

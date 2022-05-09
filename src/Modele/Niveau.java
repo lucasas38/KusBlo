@@ -67,7 +67,7 @@ public void ajouterPiece(Piece p,int x, int y,int idJoueur){
             for(int j=0; j<5; j++){
                 if(matrice[i][j]==1){
                     if(x+i<20 && y+j<20 && x+i>=0 && y+j>=0){
-                        if(grille[i+x][j+y]==1){
+                        if(grille[i+x][j+y]!=0){
                             return false;
                         }
                     } else{

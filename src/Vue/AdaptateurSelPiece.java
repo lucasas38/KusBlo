@@ -42,14 +42,10 @@ public class AdaptateurSelPiece implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(!pieceMultiple){
-            int l = e.getY() / m.getHautAffPiece();
-            int c = e.getX() / m.getLargAffPiece();
-            m.updateCaseSelec(l,c);
-        } else {
+        if(pieceMultiple){
             int l = e.getY() / m.getHautMenu();
             int c = e.getX() / m.getLargMenu();
-            cont.setMenu2();
+            cont.setMenu2(l,c);
         }
 
 

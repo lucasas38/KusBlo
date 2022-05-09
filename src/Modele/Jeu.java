@@ -114,7 +114,7 @@ public class Jeu {
             LinkedList<Case> voisinsCaseCourante = n.voisinsCase(caCourante);
             Iterator<Case> it2 = voisinsCaseCourante.iterator();
             while(it2.hasNext()){
-                Case voisin = it.next();
+                Case voisin = it2.next();
                 if(!(n.grille[voisin.getX()][voisin.getY()] != idJoueur ||
                         listeCasesPiece.contains(voisin))){ // && grille[voisin.getX()][voisin.getY()] == idJoueur)
                     return false;
@@ -131,4 +131,7 @@ public class Jeu {
         return estSurUnCoinPossible;
     }
 
+    public int getJoueurCourant() {
+        return joueurCourant;
+    }
 }

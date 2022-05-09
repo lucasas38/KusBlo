@@ -26,7 +26,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {
-        n.supprimerVisualisation(x,y,m.piece.getMatrice(), m.x,m.y);
+        cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
     }
     public void mouseReleased(MouseEvent e) {}
 
@@ -39,9 +39,10 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         int l = e.getY() / n.hauteurCase();
         int c = e.getX() / n.largeurCase();
-        if(cont.estPosable(m.piece, l,c,m.x,m.y)){
-            n.poserPiece(l, c, m.piece.getMatrice(),m.x,m.y);
-            cont.click(m.piece, l,c,m.x,m.y);
+        if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
+            if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
+                cont.click(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy());
+            }
         }
     }
     @Override
@@ -51,9 +52,13 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
         int c = e.getX() / n.largeurCase();
         //On exécute la fonction que lorsqu'on change de case
         if(l!=x || c!=y){
-            n.supprimerVisualisation(x,y,m.piece.getMatrice(), m.x,m.y);
-            if(cont.estPosable(m.piece, l,c,m.x,m.y)){
-                n.visualiser(l,c,m.piece.getMatrice(), m.x,m.y);
+            cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
+            if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
+                if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
+                    cont.visualiser(l,c,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
+                }else{
+                    cont.visualiser(l,c,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
+                }
             }
             x=l;
             y=c;
