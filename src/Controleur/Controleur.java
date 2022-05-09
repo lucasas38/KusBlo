@@ -19,7 +19,7 @@ public class Controleur {
     }
 
     public void setMenu1(){
-        inter.setMenu1(jeu.getJoueurCourant());
+        inter.setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
     }
 
     public void setMenu2(int l, int c){
@@ -28,11 +28,11 @@ public class Controleur {
     }
 
     public void click(Piece piece,int x, int y, int decx, int decy){
-        inter.getGraph().poserPiece(jeu.getJoueurCourant(),x, y, piece.getMatrice(),decx,decy);
-        jeu.jouerPiece(jeu.getJoueurCourant(),inter.getM().getNumPiece(), tradMatrice(piece, x-decx,y-decy ));
+        inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), tradMatrice(piece, x-decx,y-decy ));
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
         inter.delMouseClick();
-        inter.setMenu1(jeu.getJoueurCourant());
+        inter.setMenu1(jeu.getIDJoueurCourant(),jeu.getNumCouleurCourante());
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
@@ -41,7 +41,7 @@ public class Controleur {
     }
 
     public  boolean estPosableRegle(Piece piece,int x, int y, int decx, int decy){
-        return  jeu.estPosableRegle(tradMatrice(piece,x-decx,y-decy),jeu.getJoueurCourant());
+        return  jeu.estPosableRegle(tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant());
     }
 
     public  Piece getPiece(int j, int p){
@@ -56,7 +56,7 @@ public class Controleur {
 
     }
     public ListePieces getListPiece(int joueur){
-        return jeu.getJoueur(joueur).getListePiecesDispo();
+        return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();
     }
 
     public LinkedList<Case> tradMatrice(Piece p, int x, int y){
@@ -79,7 +79,7 @@ public class Controleur {
         if(error){
             inter.getGraph().visualiser(5,x,y,grille,decx,decy);
         } else{
-            inter.getGraph().visualiser(jeu.getJoueurCourant(),x,y,grille,decx,decy);
+            inter.getGraph().visualiser(jeu.getNumCouleurCourante(),x,y,grille,decx,decy);
         }
 
     }
@@ -88,7 +88,10 @@ public class Controleur {
         inter.getGraph().supprimerVisualisation(x,y,grille,decx,decy);
     }
 
+    public int getActCouleur(){
+        return jeu.getNumCouleurCourante();
+    }
     public int getActJoueur(){
-        return jeu.getJoueurCourant();
+        return jeu.getIDJoueurCourant();
     }
 }

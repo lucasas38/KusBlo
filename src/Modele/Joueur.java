@@ -16,6 +16,7 @@ public class Joueur {
         this.id = id;
         this.score = 0;
         this.peutJouer=true;
+        listeCouleur =new Couleur[2];
         this.couleurCourant = 1;
         nbCouleurs=0;
     }

@@ -2,7 +2,6 @@ package Modele;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class Jeu {
     Niveau n;
@@ -35,8 +34,9 @@ public class Jeu {
             }
         }
 
-        Random r = new Random();
-        joueurCourant = r.nextInt(4)+1 ; //choisi joueur aleatoire
+        //Random r = new Random();
+        //joueurCourant = r.nextInt(nbJoueurs)+1 ; //choisi joueur aleatoire
+        joueurCourant = 1;
     }
 
     public Niveau getNiveau() {
@@ -56,7 +56,7 @@ public class Jeu {
                     n.ajouterPiece(piece,listeCasesPiece,idJoueur);
                     calculeCoinPiece(piece,idJoueur);
                     listeJoueurs[idJoueur-1].jouePiece(piece);
-                    joueurCourant = (joueurCourant%4)+1;  //mis à jour du joueur courant
+                    joueurCourant = (joueurCourant%nbJoueurs)+1;  //mis à jour du joueur courant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                 }else{
                     System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
@@ -129,7 +129,11 @@ public class Jeu {
         return estSurUnCoinPossible;
     }
 
-    public int getJoueurCourant() {
+    public int getIDJoueurCourant() {
         return joueurCourant;
+    }
+
+    public int getNumCouleurCourante(){
+        return listeJoueurs[joueurCourant-1].getCouleurCourante().id;
     }
 }
