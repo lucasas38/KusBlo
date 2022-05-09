@@ -71,4 +71,15 @@ public class ListePieces {
         return res;
     }
 
+    public boolean contient(int id){
+        Iterator<Piece> ite = iterateur();
+        while(ite.hasNext()){
+            Piece p = ite.next();
+            if(p.getId()==id){
+                return  true;
+            }
+        }
+        return false;
+    }
+
 }

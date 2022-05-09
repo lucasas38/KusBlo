@@ -135,28 +135,10 @@ public class MenuPiece {
         ListePieces liste = c.getListPiece(joueur);
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
-        if (ite.hasNext()) {
-            p = ite.next();
-        }
+
         while (ite.hasNext()) {
-            if (numPiece == p.getId()) {
-                JPanel affPiece = new JPanel(new GridLayout(5, 5));
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
-                        if (p.getMatrice()[i][j] == 0) {
-                            newPan.changeBackground(im.gris);
-                        } else {
-                            newPan.changeBackground(im.coulJoueur(couleur));
-                        }
-                        //newPan.setBorder(BorderFactory.createLineBorder(Color.black));
-                        affPiece.add(newPan);
-                    }
-                }
-                p = ite.next();
-                affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
-                menuType1.add(affPiece);
-            } else {
+            p = ite.next();
+            while(numPiece!=p.getId()){
                 JPanel affPiece = new JPanel(new GridLayout(5, 5));
                 for (int i = 0; i < 5; i++) {
                     for (int j = 0; j < 5; j++) {
@@ -167,40 +149,40 @@ public class MenuPiece {
                 }
                 affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
                 menuType1.add(affPiece);
+                numPiece++;
             }
+
+            JPanel affPiece = new JPanel(new GridLayout(5, 5));
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
+                    if (p.getMatrice()[i][j] == 0) {
+                        newPan.changeBackground(im.gris);
+                    } else {
+                        newPan.changeBackground(im.coulJoueur(couleur));
+                    }
+                    //newPan.setBorder(BorderFactory.createLineBorder(Color.black));
+                    affPiece.add(newPan);
+                }
+            }
+            affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+            menuType1.add(affPiece);
+
             numPiece++;
         }
 
-        for (int k = numPiece; k < 21; k++) {
-            if (k == p.getId()) {
-                JPanel affPiece = new JPanel(new GridLayout(5, 5));
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
-                        if (p.getMatrice()[i][j] == 0) {
-                            newPan.changeBackground(im.gris);
-                        } else {
-                            newPan.changeBackground(im.coulJoueur(couleur));
-                        }
-                        affPiece.add(newPan);
-                    }
+        for (int k = numPiece; k < 22; k++) {
+            JPanel affPiece = new JPanel(new GridLayout(5, 5));
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 5; j++) {
+                    BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
+                    newPan.changeBackground(im.gris);
+                    affPiece.add(newPan);
                 }
-                affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
-                menuType1.add(affPiece);
-                menuType1.add(new JPanel());
-            } else {
-                JPanel affPiece = new JPanel(new GridLayout(5, 5));
-                for (int i = 0; i < 5; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
-                        newPan.changeBackground(im.gris);
-                        affPiece.add(newPan);
-                    }
-                }
-                affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
-                menuType1.add(affPiece);
-            }
+                }affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+            menuType1.add(affPiece);
         }
+
     }
 
     //Affiche la pièce actuelle
