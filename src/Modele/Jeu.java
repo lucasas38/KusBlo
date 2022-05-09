@@ -50,6 +50,7 @@ public class Jeu {
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     public void jouerPiece(int idJoueur,int idPiece, LinkedList<Case> listeCasesPiece){
         if(listeJoueurs[idJoueur-1].peutJouer){
+            System.out.println("joueur="+idJoueur + " idCouleur="+listeJoueurs[idJoueur-1].getCouleurCourante().id+" piece=" + idPiece + " listepiece="+listeCasesPiece.toString());
             Piece piece = listeJoueurs[idJoueur-1].getCouleurCourante().getPieceDispo(idPiece);
             if(piece != null) {
                 if (estPosableRegle(listeCasesPiece, idJoueur)) {
@@ -62,9 +63,14 @@ public class Jeu {
                     System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
                 }
             }else{
-                System.out.println("Piece "+idPiece+" n'est plus disponible pour le joeuur "+idJoueur);
+                System.out.println("Piece "+idPiece+" n'est plus disponible pour le joueur "+idJoueur);
             }
         }
+        if(idPiece == 5){
+            listeJoueurs[idJoueur-1].setScoreFinal();
+            System.out.println("score : "+listeJoueurs[idJoueur-1].getScore());
+        }
+
 
     }
 

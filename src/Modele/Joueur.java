@@ -16,7 +16,7 @@ public class Joueur {
         this.id = id;
         this.score = 0;
         this.peutJouer=true;
-        listeCouleur =new Couleur[2];
+        listeCouleur = new Couleur[2];
         this.couleurCourant = 1;
         nbCouleurs=0;
     }
@@ -43,7 +43,6 @@ public class Joueur {
     }
 
     public void setScoreFinal(){
-        int nbCouleurs = listeCouleur.length;
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
                 this.score -= this.listeCouleur[i].getListePiecesDispo().getTaille();
