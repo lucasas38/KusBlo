@@ -2,28 +2,41 @@ package Modele;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Jeu {
     Niveau n;
     int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
-    Joueur[] listeJoueurs;  //tableau de 4 joueurs (couleurs)
-    int joueurCourant; // joueur(couleur) courant
+    Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs
+    int joueurCourant;
 
 
-    public Jeu(int nbJoueurs){
+    public Jeu(int nombreJoueurs){
         this.n = new Niveau();
 
-        if(!(nbJoueurs>1 && nbJoueurs<=4)){
+        if(!(nombreJoueurs>1 && nombreJoueurs<=4)){
             this.nbJoueurs = 4;
         }else{
-            this.nbJoueurs = nbJoueurs;
+            this.nbJoueurs = nombreJoueurs;
         }
 
-        listeJoueurs = new Joueur[4];
-        for (int i=0;i<4;i++){
-            listeJoueurs[i] = new Joueur(i+1,new ListePieces());
+        listeJoueurs = new Joueur[nombreJoueurs];
+
+        for (int i=0;i<this.nbJoueurs;i++){
+            listeJoueurs[i] = new Joueur(i+1);
+            if(this.nbJoueurs == 4){
+                listeJoueurs[i].addCouleur(new Couleur(i+1));
+            }else if(this.nbJoueurs == 2){
+                listeJoueurs[i].addCouleur(new Couleur(i+1));
+                listeJoueurs[i].addCouleur(new Couleur(i+3));
+            }else{
+                listeJoueurs[i].addCouleur(new Couleur(i+1));
+                //manque couleur 4 (meme reference) à ajouter à chacun
+            }
         }
-        joueurCourant=1;
+
+        Random r = new Random();
+        joueurCourant = r.nextInt(4)+1 ; //choisi joueur aleatoire
     }
 
     public Niveau getNiveau() {
@@ -34,32 +47,17 @@ public class Jeu {
         return listeJoueurs[idJoueur-1];
     }
 
-//    public void jouerPiece(int idJoueur,int idPiece, int x, int y){
-//        Piece piece = listeJoueurs[idJoueur-1].getPieceDispo(idPiece);
-//        if(piece != null){
-//            if(n.estPosable(piece,x,y)){
-//                n.ajouterPiece(piece,x,y,idJoueur);
-//                calculeCoinPiece(piece,idJoueur);
-//                listeJoueurs[idJoueur-1].jouePiece(piece);
-//            }else{
-//                System.out.println("Piece n'est pas posable (superpose autre piece ou en dehors grille)");
-//            }
-//        }else{
-//            System.out.println("Piece plus disponible pour le joueur");
-//        }
-//
-//    }
-
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     public void jouerPiece(int idJoueur,int idPiece, LinkedList<Case> listeCasesPiece){
         if(listeJoueurs[idJoueur-1].peutJouer){
-            Piece piece = listeJoueurs[idJoueur-1].getPieceDispo(idPiece);
+            Piece piece = listeJoueurs[idJoueur-1].getCouleurCourante().getPieceDispo(idPiece);
             if(piece != null) {
                 if (estPosableRegle(listeCasesPiece, idJoueur)) {
                     n.ajouterPiece(piece,listeCasesPiece,idJoueur);
                     calculeCoinPiece(piece,idJoueur);
                     listeJoueurs[idJoueur-1].jouePiece(piece);
                     joueurCourant = (joueurCourant%4)+1;  //mis à jour du joueur courant
+                    listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                 }else{
                     System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
                 }
@@ -85,8 +83,8 @@ public class Jeu {
             int x = ca.getX();
             int y = ca.getY();
 
-            if(getJoueur(idJoueur).listeCoins.contains(ca)){
-                getJoueur(idJoueur).listeCoins.remove(ca);
+            if(getJoueur(idJoueur).getCouleurCourante().listeCoins.contains(ca)){
+                getJoueur(idJoueur).getCouleurCourante().listeCoins.remove(ca);
             }
 
             estCoinValide(x+1,y-1,idJoueur);
@@ -121,7 +119,7 @@ public class Jeu {
                 }
             }
             if(!estSurUnCoinPossible){  //dès qu'on trouve UNE CASE qui est sur un coin possible du joueur, on ne teste plus les autres
-                estSurUnCoinPossible = listeJoueurs[idJoueur-1].listeCoins.contains(caCourante);  //on test si au moins une des est dans un coin possible pour le joueur
+                estSurUnCoinPossible = listeJoueurs[idJoueur-1].getCouleurCourante().listeCoins.contains(caCourante);  //on test si au moins une des est dans un coin possible pour le joueur
             }
 
         }
