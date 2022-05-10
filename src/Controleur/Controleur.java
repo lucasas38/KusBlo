@@ -32,7 +32,9 @@ public class Controleur {
         jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), tradMatrice(piece, x-decx,y-decy ));
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
         //inter.delMouseClick();
+        inter.getM().resetBorder();
         setMenu1();
+        inter.refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
@@ -132,6 +134,15 @@ public class Controleur {
             default:
                 System.out.println("Touche inconnue : " + touche);
         }
+    }
+    public int getNbJoueur(){
+        return  jeu.getNbJoueurs();
+    }
+
+    public void selPiece(int l, int c){
+        inter.getM().selPiece(l*7+c+1);
+        inter.delMouseClick();
+        setMenu2(l,c);
     }
 
     public void passerTour(){

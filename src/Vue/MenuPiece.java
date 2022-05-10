@@ -11,19 +11,25 @@ import java.util.Iterator;
 
 public class MenuPiece {
     JPanel menu;
-    BasicBackgroundPanel[][] listePiece;
     ImageKusBlo im;
     Bouton b;
     Controleur c;
-    Piece piece;
-    int numPiece;
+
     JPanel menuType1;
+    JPanel[] listePiece;
+
     JPanel menuType2;
-    JPanel menuType3;
+    Piece piece;
+    BasicBackgroundPanel[][] pieceUnique;
     JPanel affichagePiece;
+    int numPiece;
     int joueur;
     int couleur;
-    //int [][] grillePiece;
+
+    JPanel menuType3;
+
+
+
 
 
 
@@ -36,13 +42,14 @@ public class MenuPiece {
         creerMenuType2();
         creerMenuType3();
         //Création de la grille, à importer depuis la piece
-        piece = c.getPiece(1,3);
+        //piece = c.getPiece(1,3);
     }
 
 
 
     public void creerMenuType1(){
         menuType1 = new JPanel(new GridLayout(3,7,2,2));
+        listePiece=new JPanel[21];
     }
 
     public void creerMenuType2(){
@@ -51,12 +58,12 @@ public class MenuPiece {
         affichagePiece = new JPanel(new GridLayout(5,5));
 
         //On créer le carré central
-        listePiece=new BasicBackgroundPanel[5][5];
+        pieceUnique =new BasicBackgroundPanel[5][5];
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 BasicBackgroundPanel newPan= new BasicBackgroundPanel(im.blanc);
                 affichagePiece.add(newPan);
-                listePiece[i][j]=newPan;
+                pieceUnique[i][j]=newPan;
             }
         }
 
@@ -105,10 +112,12 @@ public class MenuPiece {
         refreshPiece(c.getActCouleur());
 
         //Affichage du menu
+
+    }
+    public void showMenuType2(){
         menu.removeAll();
         menu.add(menuType2);
         menu.updateUI();
-
     }
 
 
@@ -138,7 +147,7 @@ public class MenuPiece {
         ListePieces liste = c.getListPiece(joueur);
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
-
+        int indiceListe=0;
         while (ite.hasNext()) {
             p = ite.next();
             while(numPiece!=p.getId()){
@@ -150,9 +159,11 @@ public class MenuPiece {
                         affPiece.add(newPan);
                     }
                 }
-                affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+                affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
                 menuType1.add(affPiece);
+                listePiece[indiceListe]=affPiece;
                 numPiece++;
+                indiceListe++;
             }
 
             JPanel affPiece = new JPanel(new GridLayout(5, 5));
@@ -168,10 +179,11 @@ public class MenuPiece {
                     affPiece.add(newPan);
                 }
             }
-            affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+            affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
             menuType1.add(affPiece);
-
+            listePiece[indiceListe]=affPiece;
             numPiece++;
+            indiceListe++;
         }
 
         for (int k = numPiece; k < 22; k++) {
@@ -182,8 +194,9 @@ public class MenuPiece {
                     newPan.changeBackground(im.gris);
                     affPiece.add(newPan);
                 }
-                }affPiece.setBorder(BorderFactory.createLineBorder(Color.red));
+                }affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
             menuType1.add(affPiece);
+            listePiece[k-1]=affPiece;
         }
 
     }
@@ -194,12 +207,12 @@ public class MenuPiece {
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 if(i== piece.getDecx() & j==piece.getDecy()){
-                    listePiece[i][j].changeBackground(im.selCouleur(couleur));
+                    pieceUnique[i][j].changeBackground(im.selCouleur(couleur));
                 }else {
                     if(piece.getMatrice()[i][j]==0){
-                        listePiece[i][j].changeBackground(im.gris);
+                        pieceUnique[i][j].changeBackground(im.gris);
                     }else{
-                        listePiece[i][j].changeBackground(im.coulJoueur(couleur));
+                        pieceUnique[i][j].changeBackground(im.coulJoueur(couleur));
                     }
                 }
 
@@ -224,5 +237,16 @@ public class MenuPiece {
 
     public int getNumPiece(){
         return numPiece;
+    }
+
+    public void selPiece(int num){
+        resetBorder();
+        listePiece[num-1].setBorder(BorderFactory.createLineBorder(Color.red,3));
+    }
+
+    public void resetBorder(){
+        for(int i=0;i<21;i++){
+            listePiece[i].setBorder(BorderFactory.createLineBorder(Color.black));
+        }
     }
 }

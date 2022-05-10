@@ -165,4 +165,8 @@ public class Jeu {
     public int getNumCouleurCourante(){
         return listeJoueurs[joueurCourant-1].getCouleurCourante().id;
     }
+
+    public int getNbJoueurs() {
+        return nbJoueurs;
+    }
 }

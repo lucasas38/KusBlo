@@ -11,6 +11,8 @@ public class InterfaceKusBlo implements Runnable {
     MenuPiece m;
     PanneauJoueur j1;
     PanneauJoueur j2;
+    PanneauJoueur j3;
+    PanneauJoueur j4;
     AdaptateurSouris mouseAdapt;
     AdaptateurClavier keyAdapt;
     Controleur c;
@@ -31,13 +33,16 @@ public class InterfaceKusBlo implements Runnable {
         graph = new VueNiveau();
         mouseAdapt =new AdaptateurSouris(graph,m,c);
         keyAdapt= new AdaptateurClavier(c, mouseAdapt,m);
-        j1 = new PanneauJoueur();
-        j2 = new PanneauJoueur();
+        j1 = new PanneauJoueur(1,c);
+        j2 = new PanneauJoueur(2,c);
+        j3 = new PanneauJoueur(3,c);
+        j4 = new PanneauJoueur(4,c);
         frame = new JFrame("KusBlo");
 
         //Panel Gauche
-        JPanel panelGauche = new JPanel(new BorderLayout());
+        JPanel panelGauche = new JPanel(new GridLayout(3,1));
         panelGauche.add(j1.pan);
+        panelGauche.add(j4.pan);
 
         //Panel central
         JPanel panelCentral = new JPanel(new BorderLayout());
@@ -51,9 +56,11 @@ public class InterfaceKusBlo implements Runnable {
         m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
 
         //Panel Droite
-        JPanel panelDroite = new JPanel(new BorderLayout());
+        JPanel panelDroite = new JPanel();
+        panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
         panelDroite.add(j2.pan);
-
+        panelDroite.add(j3.pan);
+        panelDroite.add(new JPanel(new BorderLayout()));
 
         //Pannel principal
         JPanel panelMain= new JPanel(new BorderLayout());
@@ -115,7 +122,6 @@ public class InterfaceKusBlo implements Runnable {
         graph.panelJeu.addMouseWheelListener(mouseAdapt);
         frame.addKeyListener(keyAdapt);
         m.setMenuType2(numPiece);
-
     }
 
     public MenuPiece getM() {
@@ -124,5 +130,27 @@ public class InterfaceKusBlo implements Runnable {
 
     public VueNiveau getGraph() {
         return graph;
+    }
+
+    public void refreshPanJoueur(int couleur, int piece){
+        System.out.println(couleur);
+        switch (couleur){
+            case 1:
+                j4.refreshAffichage(piece);
+                j4.pan.updateUI();
+                break;
+            case 2:
+                j1.refreshAffichage(piece);
+                j1.pan.updateUI();
+                break;
+            case 3:
+                j2.refreshAffichage(piece);
+                break;
+            case 4:
+                j3.refreshAffichage(piece);
+                break;
+            default:
+                break;
+        }
     }
 }
