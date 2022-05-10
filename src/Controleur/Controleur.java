@@ -30,7 +30,9 @@ public class Controleur {
         jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
         //inter.delMouseClick();
+        inter.getM().resetBorder();
         setMenu1();
+        inter.refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
@@ -77,17 +79,51 @@ public class Controleur {
     public void antiHoraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationAntiHoraire();
-        m.refreshPiece();
+        m.refreshPiece(jeu.getNumCouleurCourante());
     }
     public void rotaHoraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationHoraire();
-        m.refreshPiece();
+        m.refreshPiece(jeu.getNumCouleurCourante());
+
     }
 
     public void flip(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationSymetrique();
-        m.refreshPiece();
+        m.refreshPiece(jeu.getNumCouleurCourante());
+    }
+
+    public void toucheClavier(String touche) {
+        switch (touche) {
+            case "Left":
+                rotaHorraire();
+                break;
+            case "Right":
+                antiHorraire();
+                break;
+            case "Up":
+            case "Down":
+                flip();
+                break;
+            case "Quit":
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Touche inconnue : " + touche);
+        }
+    }
+    public int getNbJoueur(){
+        return  jeu.getNbJoueurs();
+    }
+
+    public void selPiece(int l, int c){
+        inter.getM().selPiece(l*7+c+1);
+        inter.delMouseClick();
+        setMenu2(l,c);
+    }
+
+    public void passerTour(){
+
     }
 }

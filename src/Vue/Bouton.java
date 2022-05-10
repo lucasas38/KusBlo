@@ -56,4 +56,15 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton skipTour(){
+        JButton button = new JButton("Passer son tour");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.passerTour();
+            }
+        });
+        return button;
+    }
 }

@@ -2,6 +2,7 @@ package Vue;
 
 import Controleur.Controleur;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -27,6 +28,20 @@ public class AdaptateurSelPiece implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+        if (SwingUtilities.isMiddleMouseButton(e)) {
+            int l = e.getY() / m.getHautMenu();
+            int c = e.getX() / m.getLargMenu();
+            if(cont.contientPiece(l*7+c+1)){
+                cont.setMenu2(l,c);
+                m.showMenuType2();
+            }
+        }else{
+            int l = e.getY() / m.getHautMenu();
+            int c = e.getX() / m.getLargMenu();
+            if(cont.contientPiece(l*7+c+1)){
+                cont.selPiece(l,c);
+            }
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -42,13 +57,7 @@ public class AdaptateurSelPiece implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(pieceMultiple){
-            int l = e.getY() / m.getHautMenu();
-            int c = e.getX() / m.getLargMenu();
-            if(cont.contientPiece(l*7+c+1)){
-                cont.setMenu2(l,c);
-            }
-        }
+
 
 
 

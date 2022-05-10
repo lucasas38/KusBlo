@@ -2,9 +2,10 @@ package Vue;
 
 import Controleur.Controleur;
 
+import javax.swing.*;
 import java.awt.event.*;
 
-public class AdaptateurSouris implements MouseListener, MouseMotionListener {
+public class AdaptateurSouris implements MouseListener, MouseMotionListener, MouseWheelListener {
     VueNiveau n;
     MenuPiece m;
     Controleur cont;
@@ -23,10 +24,40 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
 
 
     public void mouseDragged(MouseEvent e) {}
-    public void mouseClicked(MouseEvent e) {}
+    public void mouseClicked(MouseEvent e) {
+        if(SwingUtilities.isRightMouseButton(e)){
+            cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
+            cont.flip();
+            if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy())){
+                if(cont.estPosableRegle(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
+                    cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
+                }else{
+                    cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
+                }
+            }
+        }
+
+
+    }
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {
         cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
+    }
+
+    public void mouseWheelMoved(MouseWheelEvent e){
+        cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
+        if(e.getWheelRotation()>0){
+            cont.rotaHorraire();
+        }else{
+            cont.antiHorraire();
+        }
+        if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy())){
+            if(cont.estPosableRegle(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
+                cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
+            }else{
+                cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
+            }
+        }
     }
     public void mouseReleased(MouseEvent e) {}
 

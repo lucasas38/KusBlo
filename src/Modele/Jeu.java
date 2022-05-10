@@ -229,4 +229,8 @@ public class Jeu {
 
 
     }
+
+    public int getNbJoueurs() {
+        return nbJoueurs;
+    }
 }
