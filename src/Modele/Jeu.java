@@ -1,6 +1,5 @@
 package Modele;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -165,58 +164,5 @@ public class Jeu {
 
     public int getNumCouleurCourante(){
         return listeJoueurs[joueurCourant-1].getCouleurCourante().id;
-    }
-
-    public LinkedList<Case> tradMatrice(Piece p, int x, int y){
-        int[][] matrice = p.getMatrice();
-        LinkedList<Case> liste= new LinkedList<>();
-//        System.out.println(x+" "+y);
-        for(int i=0;i<5;i++){
-            for(int j=0; j<5; j++){
-                if(matrice[i][j]!=0){
-                    int coordx=x+i;
-                    int coordy=y+j;
-                    Case c= new Case(coordx, coordy);
-                    liste.add(c);
-                }
-            }
-        }
-//        System.out.println(liste);
-        return liste;
-    }
-
-    public void positionPossible(int idJoueur){
-        Couleur couleur = getJoueur(idJoueur).getCouleurCourante();
-        Iterator<Piece> it = couleur.getListePiecesDispo().iterateur();
-
-        int decx,decy;
-
-        System.out.print("Joueur "+idJoueur+ " peut jouer [");
-
-        while (it.hasNext()){ //chaque piece
-            Piece p = it.next();
-            for (int i=0;i<8;i++){ //chaque config
-                if(i == 4){
-                    p.rotationSymetrique();
-                }else{
-                    p.rotationHoraire();
-                }
-                decx = p.getDebMatrice().getX();
-                decy = p.getDebMatrice().getY();
-
-                for (int x = 0;x<20;x++){
-                    for (int y=0;y<20;y++){
-                        if(n.estPosable(p,x-decx,y-decy)){
-                            if(estPosableRegle(tradMatrice(p,x-decx,y-decy),idJoueur)){
-                                System.out.print(p.id + " ");
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-        System.out.print("]\n");
-
     }
 }

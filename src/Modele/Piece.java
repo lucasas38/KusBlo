@@ -6,6 +6,8 @@ import java.util.LinkedList;
 public class Piece {
     int id;
     int taille;
+    int decx;
+    int decy;
     int[][] matrice; // /!\ doit être une matrice carrée
     Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice
     LinkedList<Case> listeCases; //mis à jour quand la piece est posée (on sait qu'elle ne bougera plus)
@@ -17,6 +19,21 @@ public class Piece {
         this.debMatrice = null;
         this.finMatrice = null;
         this.listeCases = null; //liste des cases d'une piece avec les vraies coordonnées dans la grille du niveau
+    }
+
+    public void refreshCaseSelec(){
+        decx=0;
+        decy=0;
+        //On place le décalage à la première case
+        while(decx<4 && getMatrice()[decx][decy]==0){
+            while (decy<4 && getMatrice()[decx][decy]==0){
+                decy++;
+            }
+            if(getMatrice()[decx][decy]==0){
+                decy=0;
+                decx++;
+            }
+        }
     }
 
     public int getId() {
@@ -141,6 +158,14 @@ public class Piece {
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
         return id == piece.id;
+    }
+
+    public int getDecx() {
+        return decx;
+    }
+
+    public int getDecy() {
+        return decy;
     }
 
 

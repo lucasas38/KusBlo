@@ -4,6 +4,8 @@ import Modele.*;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
+import java.util.LinkedList;
+
 public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
@@ -25,25 +27,21 @@ public class Controleur {
         inter.setMenu2(numPiece);
     }
 
-    public void click(Piece piece,int x, int y){
-        int decx = piece.getDebMatrice().getX();
-        int decy = piece.getDebMatrice().getY();
+    public void click(Piece piece,int x, int y, int decx, int decy){
         inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
-        int idJoueur = jeu.getIDJoueurCourant();
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy));
-//        jeu.positionPossible(idJoueur);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), tradMatrice(piece, x-decx,y-decy ));
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
         //inter.delMouseClick();
         setMenu1();
     }
 
-    public  boolean estPosable(Piece piece,int x, int y){
+    public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
         Niveau n=jeu.getNiveau();
-        return  n.estPosable(piece,x-piece.getDebMatrice().getX(),y-piece.getDebMatrice().getY());
+        return  n.estPosable(piece,x-decx,y-decy);
     }
 
-    public  boolean estPosableRegle(Piece piece,int x, int y){
-        return  jeu.estPosableRegle(jeu.tradMatrice(piece,x-piece.getDebMatrice().getX(),y-piece.getDebMatrice().getY()),jeu.getIDJoueurCourant());
+    public  boolean estPosableRegle(Piece piece,int x, int y, int decx, int decy){
+        return  jeu.estPosableRegle(tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant());
     }
 
     public  Piece getPiece(int j, int p){
@@ -53,6 +51,22 @@ public class Controleur {
 
     public ListePieces getListPiece(int joueur){
         return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();
+    }
+
+    public LinkedList<Case> tradMatrice(Piece p, int x, int y){
+        int[][] matrice = p.getMatrice();
+        LinkedList<Case> liste= new LinkedList<>();
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(matrice[i][j]!=0){
+                    int coordx=x+i;
+                    int coordy=y+j;
+                    Case c= new Case(coordx, coordy);
+                    liste.add(c);
+                }
+            }
+        }
+        return liste;
     }
 
     public void visualiser(int x, int y,int[][] grille, int decx,int decy,boolean error){
@@ -79,21 +93,24 @@ public class Controleur {
         return jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().contient(id);
     }
 
-    public void antiHoraire(){
+    public void antiHorraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationAntiHoraire();
+        m.getPiece().refreshCaseSelec();
         m.refreshPiece();
     }
-
-    public void rotaHoraire(){
+    public void rotaHorraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationHoraire();
+        m.getPiece().refreshCaseSelec();
         m.refreshPiece();
+
     }
 
     public void flip(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationSymetrique();
+        m.getPiece().refreshCaseSelec();
         m.refreshPiece();
     }
 }
