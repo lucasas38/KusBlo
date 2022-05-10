@@ -8,9 +8,6 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
 
-    //suppr
-    int i=0;
-
     public Controleur(Jeu j){
         jeu=j;
     }
@@ -32,7 +29,9 @@ public class Controleur {
         int decx = piece.getDebMatrice().getX();
         int decy = piece.getDebMatrice().getY();
         inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
+        int idJoueur = jeu.getIDJoueurCourant();
         jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy));
+//        jeu.positionPossible(idJoueur);
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
         //inter.delMouseClick();
         setMenu1();
@@ -83,25 +82,18 @@ public class Controleur {
     public void antiHoraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationAntiHoraire();
-//        m.getPiece().refreshCaseSelec();
         m.refreshPiece();
     }
+
     public void rotaHoraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationHoraire();
-//        m.getPiece().refreshCaseSelec();
         m.refreshPiece();
-        if(i==0){
-            jeu.positionPossible(1,6);
-            i++;
-        }
-
     }
 
     public void flip(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationSymetrique();
-//        m.getPiece().refreshCaseSelec();
         m.refreshPiece();
     }
 }

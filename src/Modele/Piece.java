@@ -123,6 +123,17 @@ public class Piece {
 
         return res;
     }
+    public String toStringMatrice() {
+        String res = "";
+        for (int i = 0;i< matrice.length;i++){
+            for (int j = 0;j< matrice.length;j++){
+                res += matrice[i][j];
+            }
+            res +="\n";
+        }
+
+        return res;
+    }
 
     @Override
     public boolean equals(Object o) {

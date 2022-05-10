@@ -1,5 +1,6 @@
 package Modele;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -184,26 +185,38 @@ public class Jeu {
         return liste;
     }
 
-    public void positionPossible(int idJoueur, int idPiece){
+    public void positionPossible(int idJoueur){
         Couleur couleur = getJoueur(idJoueur).getCouleurCourante();
-        Piece p = couleur.getPieceDispo(idPiece);
-        if(p != null){
-            Iterator<Case> it = couleur.getListeCoins().iterator();
-            while (it.hasNext()){
-                Case coin = it.next();
+        Iterator<Piece> it = couleur.getListePiecesDispo().iterateur();
 
-                LinkedList<Case> liste;
-                for (int i = 0;i<4;i++){
+        int decx,decy;
 
-                    liste = tradMatrice(p, coin.getX()-p.debMatrice.getX(), coin.getY()-p.debMatrice.getY());
-                    System.out.println(liste.toString());
+        System.out.print("Joueur "+idJoueur+ " peut jouer [");
+
+        while (it.hasNext()){ //chaque piece
+            Piece p = it.next();
+            for (int i=0;i<8;i++){ //chaque config
+                if(i == 4){
+                    p.rotationSymetrique();
+                }else{
                     p.rotationHoraire();
                 }
-                System.out.println();
+                decx = p.getDebMatrice().getX();
+                decy = p.getDebMatrice().getY();
 
+                for (int x = 0;x<20;x++){
+                    for (int y=0;y<20;y++){
+                        if(n.estPosable(p,x-decx,y-decy)){
+                            if(estPosableRegle(tradMatrice(p,x-decx,y-decy),idJoueur)){
+                                System.out.print(p.id + " ");
+                            }
+                        }
+                    }
+                }
             }
-        }else{
-            System.out.println("Piece indisponible");
+
         }
+        System.out.print("]\n");
+
     }
 }
