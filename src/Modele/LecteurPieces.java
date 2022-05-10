@@ -34,7 +34,7 @@ public class LecteurPieces {
                 listePieces.add(p);
                 idPiece++;
                 taillePiece=0;
-                p.refreshCaseSelec();
+//                p.refreshCaseSelec();
                 matrice = new int[5][5];
                 i=0;
                 continue;

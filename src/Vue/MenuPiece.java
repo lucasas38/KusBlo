@@ -190,9 +190,11 @@ public class MenuPiece {
     //Affiche la pièce actuelle
     public void refreshPiece(){
         //refreshCaseSelec();
+        int decx = piece.getDebMatrice().getX();
+        int decy = piece.getDebMatrice().getY();
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
-                if(i== piece.getDecx() & j==piece.getDecy()){
+                if(i== decx & j==decy){
                     listePiece[i][j].changeBackground(im.selRouge);
                 }else {
                     if(piece.getMatrice()[i][j]==0){

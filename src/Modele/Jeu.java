@@ -165,4 +165,45 @@ public class Jeu {
     public int getNumCouleurCourante(){
         return listeJoueurs[joueurCourant-1].getCouleurCourante().id;
     }
+
+    public LinkedList<Case> tradMatrice(Piece p, int x, int y){
+        int[][] matrice = p.getMatrice();
+        LinkedList<Case> liste= new LinkedList<>();
+//        System.out.println(x+" "+y);
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(matrice[i][j]!=0){
+                    int coordx=x+i;
+                    int coordy=y+j;
+                    Case c= new Case(coordx, coordy);
+                    liste.add(c);
+                }
+            }
+        }
+//        System.out.println(liste);
+        return liste;
+    }
+
+    public void positionPossible(int idJoueur, int idPiece){
+        Couleur couleur = getJoueur(idJoueur).getCouleurCourante();
+        Piece p = couleur.getPieceDispo(idPiece);
+        if(p != null){
+            Iterator<Case> it = couleur.getListeCoins().iterator();
+            while (it.hasNext()){
+                Case coin = it.next();
+
+                LinkedList<Case> liste;
+                for (int i = 0;i<4;i++){
+
+                    liste = tradMatrice(p, coin.getX()-p.debMatrice.getX(), coin.getY()-p.debMatrice.getY());
+                    System.out.println(liste.toString());
+                    p.rotationHoraire();
+                }
+                System.out.println();
+
+            }
+        }else{
+            System.out.println("Piece indisponible");
+        }
+    }
 }
