@@ -97,10 +97,10 @@ public class Controleur {
     public void toucheClavier(String touche) {
         switch (touche) {
             case "Left":
-                rotaHorraire();
+                rotaHoraire();
                 break;
             case "Right":
-                antiHorraire();
+                antiHoraire();
                 break;
             case "Up":
             case "Down":

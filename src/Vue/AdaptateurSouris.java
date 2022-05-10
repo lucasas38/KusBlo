@@ -47,9 +47,9 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
     public void mouseWheelMoved(MouseWheelEvent e){
         cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
         if(e.getWheelRotation()>0){
-            cont.rotaHorraire();
+            cont.rotaHoraire();
         }else{
-            cont.antiHorraire();
+            cont.antiHoraire();
         }
         if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy())){
             if(cont.estPosableRegle(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
