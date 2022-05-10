@@ -6,12 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class InterfaceKusBlo implements Runnable {
+    JFrame frame;
     VueNiveau graph;
     MenuPiece m;
     PanneauJoueur j1;
     PanneauJoueur j2;
-    AdaptateurSouris adapt;
+    AdaptateurSouris mouseAdapt;
+    AdaptateurClavier keyAdapt;
     Controleur c;
+
 
     public InterfaceKusBlo(Controleur cont){
         c=cont;
@@ -26,10 +29,11 @@ public class InterfaceKusBlo implements Runnable {
     public void run(){
         m=new MenuPiece(c);
         graph = new VueNiveau();
-        adapt =new AdaptateurSouris(graph,m,c);
+        mouseAdapt =new AdaptateurSouris(graph,m,c);
+        keyAdapt= new AdaptateurClavier(c, mouseAdapt,m);
         j1 = new PanneauJoueur();
         j2 = new PanneauJoueur();
-        JFrame frame = new JFrame("KusBlo");
+        frame = new JFrame("KusBlo");
 
         //Panel Gauche
         JPanel panelGauche = new JPanel(new BorderLayout());
@@ -91,8 +95,10 @@ public class InterfaceKusBlo implements Runnable {
 
     //Supprime les listener du terrain de jeu
     public void delMouseClick(){
-        graph.panelJeu.removeMouseMotionListener(adapt);
-        graph.panelJeu.removeMouseListener(adapt);
+        graph.panelJeu.removeMouseMotionListener(mouseAdapt);
+        graph.panelJeu.removeMouseListener(mouseAdapt);
+        graph.panelJeu.removeMouseWheelListener(mouseAdapt);
+        frame.removeKeyListener(keyAdapt);
     }
 
     //Active le menu bas 1
@@ -104,8 +110,10 @@ public class InterfaceKusBlo implements Runnable {
 
     //Active le menu base 2
     public  void setMenu2(int numPiece){
-        graph.panelJeu.addMouseMotionListener(adapt);
-        graph.panelJeu.addMouseListener(adapt);
+        graph.panelJeu.addMouseMotionListener(mouseAdapt);
+        graph.panelJeu.addMouseListener(mouseAdapt);
+        graph.panelJeu.addMouseWheelListener(mouseAdapt);
+        frame.addKeyListener(keyAdapt);
         m.setMenuType2(numPiece);
 
     }

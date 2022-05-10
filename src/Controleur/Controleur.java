@@ -97,13 +97,13 @@ public class Controleur {
         MenuPiece m= inter.getM();
         m.getPiece().rotationAntiHoraire();
         m.getPiece().refreshCaseSelec();
-        m.refreshPiece();
+        m.refreshPiece(jeu.getNumCouleurCourante());
     }
     public void rotaHorraire(){
         MenuPiece m= inter.getM();
         m.getPiece().rotationHoraire();
         m.getPiece().refreshCaseSelec();
-        m.refreshPiece();
+        m.refreshPiece(jeu.getNumCouleurCourante());
 
     }
 
@@ -111,6 +111,30 @@ public class Controleur {
         MenuPiece m= inter.getM();
         m.getPiece().rotationSymetrique();
         m.getPiece().refreshCaseSelec();
-        m.refreshPiece();
+        m.refreshPiece(jeu.getNumCouleurCourante());
+    }
+
+    public void toucheClavier(String touche) {
+        switch (touche) {
+            case "Left":
+                rotaHorraire();
+                break;
+            case "Right":
+                antiHorraire();
+                break;
+            case "Up":
+            case "Down":
+                flip();
+                break;
+            case "Quit":
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Touche inconnue : " + touche);
+        }
+    }
+
+    public void passerTour(){
+
     }
 }

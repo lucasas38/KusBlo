@@ -64,6 +64,7 @@ public class MenuPiece {
         //Retour a la liste des pièces
         JPanel boutGauche=new JPanel(new GridLayout(2,1,15,5));
         boutGauche.add(b.retourListePiece());
+        boutGauche.add(b.skipTour());
         boutGauche.add(new JPanel());
         menuType2.add(boutGauche);
 
@@ -101,7 +102,7 @@ public class MenuPiece {
         numPiece=p+1;
         piece = c.getListPiece(joueur).getPiece(p+1);
         //Affichage de la piece
-        refreshPiece();
+        refreshPiece(c.getActCouleur());
 
         //Affichage du menu
         menu.removeAll();
@@ -188,17 +189,17 @@ public class MenuPiece {
     }
 
     //Affiche la pièce actuelle
-    public void refreshPiece(){
+    public void refreshPiece(int couleur){
         //refreshCaseSelec();
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 if(i== piece.getDecx() & j==piece.getDecy()){
-                    listePiece[i][j].changeBackground(im.selRouge);
+                    listePiece[i][j].changeBackground(im.selCouleur(couleur));
                 }else {
                     if(piece.getMatrice()[i][j]==0){
                         listePiece[i][j].changeBackground(im.gris);
                     }else{
-                        listePiece[i][j].changeBackground(im.rouge);
+                        listePiece[i][j].changeBackground(im.coulJoueur(couleur));
                     }
                 }
 

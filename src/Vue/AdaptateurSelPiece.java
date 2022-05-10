@@ -27,6 +27,10 @@ public class AdaptateurSelPiece implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2 && !e.isConsumed()) {
+            e.consume();
+            //handle double click event.
+        }
     }
 
     public void mouseEntered(MouseEvent e) {

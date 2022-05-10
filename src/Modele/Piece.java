@@ -25,7 +25,7 @@ public class Piece {
         decx=0;
         decy=0;
         //On place le décalage à la première case
-        while(decx<4 && getMatrice()[decx][decy]==0){
+        while(decx<5 && getMatrice()[decx][decy]==0){
             while (decy<4 && getMatrice()[decx][decy]==0){
                 decy++;
             }
