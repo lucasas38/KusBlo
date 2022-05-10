@@ -91,14 +91,4 @@ public class ListePieces {
         }
         return false;
     }
-
-    @Override
-    public ListePieces clone() {
-        ListePieces clone = new ListePieces();
-//        System.err.println("1");
-//            clone = (ListePieces) super.clone();
-//        System.err.println("2");
-        clone.liste = (LinkedList<Piece>) liste.clone();
-        return clone;
-    }
 }

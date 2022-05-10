@@ -1,5 +1,6 @@
 package Modele;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -57,7 +58,7 @@ public class Jeu {
                     n.ajouterPiece(piece,listeCasesPiece,idJoueur);
                     calculeCoinPiece(piece,idJoueur);
                     listeJoueurs[idJoueur-1].jouePiece(piece);
-                    joueurCourant = (joueurCourant%nbJoueurs)+1;  //mis à jour du joueur courant
+                    setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                     positionPossible(idJoueur);
                 }else{
@@ -69,7 +70,10 @@ public class Jeu {
 
         }
 
+    }
 
+    private void setJoueurCourant() {
+        joueurCourant = (joueurCourant%nbJoueurs)+1;
     }
 
     void finJoueur(int idJoueur){
@@ -180,39 +184,43 @@ public class Jeu {
         return liste;
     }
 
-    public void positionPossible(int idJoueur){
+    public boolean positionPossible(int idJoueur){
         Couleur couleur = getJoueur(idJoueur).getCouleurCourante();
-        System.out.println();
-//        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo().clone();
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
 
         int decx,decy;
 
-        System.out.print("Joueur "+idJoueur+ " peut jouer [");
+//        System.out.print("Joueur "+idJoueur+ " peut jouer [");
 
+        HashMap<LinkedList<Case>,Boolean> configPiecePossible;
 
-        int nb = 0;
-        while (it.hasNext() && nb ==0){ //chaque piece
+        while (it.hasNext()){ //chaque piece
             Piece p = it.next();
+            configPiecePossible = new HashMap<>();
             for (int i=0;i<8;i++){ //chaque config
-                decx = p.getDebMatrice().getX();
-                decy = p.getDebMatrice().getY();
 
-//                for (int x = 0;x<20;x++){
-//                    for (int y=0;y<20;y++){
-//                        if(n.estPosable(p,x-decx,y-decy)){
-//                            if(estPosableRegle(tradMatrice(p,x-decx,y-decy),idJoueur)){
-//                                System.out.print(p.id + " ");
-//                            }
-//                        }
-//                    }
-//                }
-                if(p.id == 20){
-                    nb++;
-                    System.out.println("calcul "+i);
-                    System.out.println(p.toStringMatrice());
+                decx = p.getDecx();
+                decy = p.getDecy();
+
+                LinkedList<Case> config = tradMatrice(p,0-decx,0-decy);
+
+                if(!configPiecePossible.containsKey(config)){
+                    boolean possible = false;
+                    for (int x = 0;x<20;x++){
+                        for (int y=0;y<20;y++){
+                            if(n.estPosable(p,x-decx,y-decy)){
+                                if(estPosableRegle(tradMatrice(p,x-decx,y-decy),idJoueur)){
+//                                    System.out.print(p.id + " ");
+                                    possible=true;
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                    configPiecePossible.put(config,possible);
                 }
+
 
                 if(i == 4){
                     p.rotationSymetrique();
@@ -221,16 +229,25 @@ public class Jeu {
                 }
             }
 
-
             p.rotationSymetrique();
             p.rotationAntiHoraire();
         }
-        System.out.print("]\n");
-
+//        System.out.print("]\n");
+        return false;
 
     }
 
     public int getNbJoueurs() {
         return nbJoueurs;
+    }
+
+    public void passerTour() {
+        Joueur joueur = listeJoueurs[joueurCourant-1];
+        joueur.peutJouer = joueur.finCouleur();
+        if(!joueur.peutJouer){
+            joueur.setScoreFinal();
+        }
+        setJoueurCourant();
+        joueur.setCouleurCourant();
     }
 }

@@ -5,12 +5,14 @@ import java.util.LinkedList;
 
 public class Couleur {
     int id;
+    boolean peutJouer;
     ListePieces listePiecesDispo;
     LinkedList<Piece> listesPiecesPosees;
     HashSet<Case> listeCoins;
 
     Couleur(int idCouleur){
         this.id = idCouleur;
+        this.peutJouer=true;
         this.listePiecesDispo = new ListePieces();
         this.listesPiecesPosees = new LinkedList<>();
         this.listeCoins = new HashSet<>();

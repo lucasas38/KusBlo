@@ -124,6 +124,8 @@ public class Controleur {
     }
 
     public void passerTour(){
-
+        System.out.println("Passe tour");
+        jeu.passerTour();
+        setMenu1();
     }
 }

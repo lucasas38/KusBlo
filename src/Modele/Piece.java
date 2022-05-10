@@ -143,6 +143,7 @@ public class Piece {
 
         return res;
     }
+
     public String toStringMatrice() {
         String res = "";
         for (int i = 0;i< matrice.length;i++){
@@ -167,22 +168,6 @@ public class Piece {
 
     public int getDecy() {
         return decy;
-    }
-
-    @Override
-    public Piece clone() {
-        Piece clone = null;
-        try {
-            clone = (Piece) super.clone();
-            clone.matrice = matrice.clone();
-            clone.debMatrice = debMatrice.clone();
-            clone.finMatrice = finMatrice.clone();
-            clone.listeCases = (LinkedList<Case>) listeCases.clone();
-        } catch (CloneNotSupportedException e) {
-            System.err.println("Bug interne serieux avec le clone : Piece");
-            System.exit(1);
-        }
-        return clone;
     }
 
 }

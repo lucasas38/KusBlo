@@ -14,8 +14,8 @@ public class Joueur {
 
     Joueur(int id){
         this.id = id;
-        this.score = 0;
         this.peutJouer=true;
+        this.score = 0;
         listeCouleur = new Couleur[2];
         this.couleurCourant = 1;
         nbCouleurs=0;
@@ -27,10 +27,6 @@ public class Joueur {
 
     public int getScore() {
         return score;
-    }
-
-    public boolean isPeutJouer() {
-        return peutJouer;
     }
 
     public Couleur[] getListeCouleur() {
@@ -86,5 +82,16 @@ public class Joueur {
 
     void setCouleurCourant(){
         couleurCourant = (couleurCourant%nbCouleurs)+1;
+    }
+
+    public boolean finCouleur() {
+        Couleur couleur = getCouleurCourante();
+        couleur.peutJouer=false;
+        for (int i=0;i<nbCouleurs;i++){
+            if(listeCouleur[i].peutJouer){
+                return true;
+            }
+        }
+        return false;
     }
 }
