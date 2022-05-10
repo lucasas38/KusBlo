@@ -51,7 +51,6 @@ public class Jeu {
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     public void jouerPiece(int idJoueur,int idPiece, LinkedList<Case> listeCasesPiece){
         if(listeJoueurs[idJoueur-1].peutJouer){
-//            System.out.println("joueur="+idJoueur + " idCouleur="+listeJoueurs[idJoueur-1].getCouleurCourante().id+" piece=" + idPiece + " listepiece="+listeCasesPiece.toString());
             Piece piece = listeJoueurs[idJoueur-1].getCouleurCourante().getPieceDispo(idPiece);
             if(piece != null) {
                 if (estPosableRegle(listeCasesPiece, idJoueur)) {
@@ -60,14 +59,13 @@ public class Jeu {
                     listeJoueurs[idJoueur-1].jouePiece(piece);
                     joueurCourant = (joueurCourant%nbJoueurs)+1;  //mis à jour du joueur courant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
+                    positionPossible(idJoueur);
                 }else{
                     System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
                 }
             }else{
                 System.out.println("Piece "+idPiece+" n'est plus disponible pour le joueur "+idJoueur);
             }
-
-            System.out.println(listeJoueurs[0].getCouleurCourante().getListeCoins().toString());
 
         }
 
@@ -164,5 +162,71 @@ public class Jeu {
 
     public int getNumCouleurCourante(){
         return listeJoueurs[joueurCourant-1].getCouleurCourante().id;
+    }
+
+    public LinkedList<Case> tradMatrice(Piece p, int x, int y){
+        int[][] matrice = p.getMatrice();
+        LinkedList<Case> liste= new LinkedList<>();
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(matrice[i][j]!=0){
+                    int coordx=x+i;
+                    int coordy=y+j;
+                    Case c= new Case(coordx, coordy);
+                    liste.add(c);
+                }
+            }
+        }
+        return liste;
+    }
+
+    public void positionPossible(int idJoueur){
+        Couleur couleur = getJoueur(idJoueur).getCouleurCourante();
+        System.out.println();
+//        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo().clone();
+        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
+        Iterator<Piece> it = listePiecesDispoClone.iterateur();
+
+        int decx,decy;
+
+        System.out.print("Joueur "+idJoueur+ " peut jouer [");
+
+
+        int nb = 0;
+        while (it.hasNext() && nb ==0){ //chaque piece
+            Piece p = it.next();
+            for (int i=0;i<8;i++){ //chaque config
+                decx = p.getDebMatrice().getX();
+                decy = p.getDebMatrice().getY();
+
+//                for (int x = 0;x<20;x++){
+//                    for (int y=0;y<20;y++){
+//                        if(n.estPosable(p,x-decx,y-decy)){
+//                            if(estPosableRegle(tradMatrice(p,x-decx,y-decy),idJoueur)){
+//                                System.out.print(p.id + " ");
+//                            }
+//                        }
+//                    }
+//                }
+                if(p.id == 20){
+                    nb++;
+                    System.out.println("calcul "+i);
+                    System.out.println(p.toStringMatrice());
+                }
+
+                if(i == 4){
+                    p.rotationSymetrique();
+                }else{
+                    p.rotationHoraire();
+                }
+            }
+
+
+            p.rotationSymetrique();
+            p.rotationAntiHoraire();
+        }
+        System.out.print("]\n");
+
+
     }
 }

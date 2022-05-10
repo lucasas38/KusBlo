@@ -53,4 +53,15 @@ public class Case {
         return Objects.hash(x, y);
     }
 
+    @Override
+    public Case clone() {
+        Case clone = null;
+        try {
+            clone = (Case) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.err.println("Bug interne serieux avec le clone : Case");
+            System.exit(1);
+        }
+        return clone;
+    }
 }

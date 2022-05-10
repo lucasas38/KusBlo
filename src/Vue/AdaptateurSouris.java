@@ -39,7 +39,6 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         int l = e.getY() / n.hauteurCase();
         int c = e.getX() / n.largeurCase();
-        System.out.println("clic : ["+l+","+c+"]");
         if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
             if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
                 cont.click(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy());

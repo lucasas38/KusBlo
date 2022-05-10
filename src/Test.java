@@ -1,7 +1,4 @@
-import Modele.Jeu;
-import Modele.Joueur;
-import Modele.Niveau;
-import Modele.Piece;
+import Modele.*;
 
 public class Test {
 
@@ -11,6 +8,10 @@ public class Test {
 
         Jeu j = new Jeu(2);
 
+        ListePieces l = new ListePieces();
+        //Utilise equals
+        //l.supprimer(l.liste.getFirst());
+        l.supprimer(l.getListe().getLast().getId());
 
 
 

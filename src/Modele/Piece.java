@@ -25,11 +25,11 @@ public class Piece {
         decx=0;
         decy=0;
         //On place le décalage à la première case
-        while(decx<4 && getMatrice()[decx][decy]==0){
-            while (decy<4 && getMatrice()[decx][decy]==0){
+        while(decx<5 && getMatrice()[decx][decy]==0){
+            while (decy<5 && getMatrice()[decx][decy]==0){
                 decy++;
             }
-            if(getMatrice()[decx][decy]==0){
+            if(decy>4 || getMatrice()[decx][decy]==0){
                 decy=0;
                 decx++;
             }
@@ -86,7 +86,8 @@ public class Piece {
             }
         }
 
-        this.setMatrice(newMatrice);
+        setMatrice(newMatrice);
+        refreshCaseSelec();
     }
 
     public void rotationAntiHoraire(){
@@ -99,7 +100,8 @@ public class Piece {
             }
         }
 
-        this.setMatrice(newMatrice);
+        setMatrice(newMatrice);
+        refreshCaseSelec();
     }
 
     public void rotationSymetrique(){
@@ -112,7 +114,8 @@ public class Piece {
             }
         }
 
-        this.setMatrice(newMatrice);
+        setMatrice(newMatrice);
+        refreshCaseSelec();
     }
 
     @Override
@@ -154,10 +157,8 @@ public class Piece {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Piece piece = (Piece) o;
-        return id == piece.id;
+        System.out.println("equals piece appellé");
+        return true;
     }
 
     public int getDecx() {
@@ -168,5 +169,20 @@ public class Piece {
         return decy;
     }
 
+    @Override
+    public Piece clone() {
+        Piece clone = null;
+        try {
+            clone = (Piece) super.clone();
+            clone.matrice = matrice.clone();
+            clone.debMatrice = debMatrice.clone();
+            clone.finMatrice = finMatrice.clone();
+            clone.listeCases = (LinkedList<Case>) listeCases.clone();
+        } catch (CloneNotSupportedException e) {
+            System.err.println("Bug interne serieux avec le clone : Piece");
+            System.exit(1);
+        }
+        return clone;
+    }
 
 }

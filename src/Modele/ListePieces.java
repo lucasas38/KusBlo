@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public class ListePieces {
     LinkedList<Piece> liste;
 
-    ListePieces(){
+   public ListePieces(){
         this.lirePieces();
     }
 
@@ -27,9 +27,15 @@ public class ListePieces {
         }
     }
 
-    public void supprimer(Piece p) {
+    public void supprimer(int idPiece) {
         if(!estVide()){
-            this.liste.remove(p);
+            Iterator<Piece> it = liste.iterator();
+            while (it.hasNext()){
+                Piece p = it.next();
+                if(p.getId() == idPiece){
+                    it.remove();
+                }
+            }
         }
     }
 
@@ -43,6 +49,10 @@ public class ListePieces {
 
     public int getTaille(){
         return this.liste.size();
+    }
+
+    public LinkedList<Piece> getListe() {
+        return liste;
     }
 
     public Piece getPiece(int idPiece) {
@@ -82,4 +92,13 @@ public class ListePieces {
         return false;
     }
 
+    @Override
+    public ListePieces clone() {
+        ListePieces clone = new ListePieces();
+//        System.err.println("1");
+//            clone = (ListePieces) super.clone();
+//        System.err.println("2");
+        clone.liste = (LinkedList<Piece>) liste.clone();
+        return clone;
+    }
 }

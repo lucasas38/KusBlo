@@ -51,11 +51,12 @@ public class Couleur {
     }
 
     public void jouePiece(Piece p) {
-        this.listePiecesDispo.supprimer(p);
+        this.listePiecesDispo.supprimer(p.id);
         this.listesPiecesPosees.addLast(p);
     }
 
     public void ajouteCoin(Case ca) {
         listeCoins.add(ca);
     }
+
 }
