@@ -4,6 +4,7 @@ import Controleur.Controleur;
 import Modele.ListePieces;
 import Modele.Piece;
 import Structures.BasicBackgroundPanel;
+import Structures.PanelPiece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,8 @@ public class MenuPiece {
     ImageKusBlo im;
     Bouton b;
     Controleur c;
-
     JPanel menuType1;
     JPanel[] listePiece;
-
     JPanel menuType2;
     Piece piece;
     BasicBackgroundPanel[][] pieceUnique;
@@ -25,6 +24,7 @@ public class MenuPiece {
     int numPiece;
     int joueur;
     int couleur;
+    boolean pieceSelected;
 
     JPanel menuType3;
 
@@ -41,8 +41,7 @@ public class MenuPiece {
         creerMenuType1();
         creerMenuType2();
         creerMenuType3();
-        //Création de la grille, à importer depuis la piece
-        //piece = c.getPiece(1,3);
+        resize(c.getFrameW(),c.getFrameH());
     }
 
 
@@ -50,23 +49,23 @@ public class MenuPiece {
     public void creerMenuType1(){
         menuType1 = new JPanel(new GridLayout(3,7,2,2));
         listePiece=new JPanel[21];
+
     }
 
     public void creerMenuType2(){
         menuType2= new JPanel(new GridLayout(1,3));
         JPanel centre =new JPanel(new BorderLayout());
-        affichagePiece = new JPanel(new GridLayout(5,5));
+        pieceUnique = new BasicBackgroundPanel[5][5];
 
         //On créer le carré central
-        pieceUnique =new BasicBackgroundPanel[5][5];
-        for(int i=0; i<5;i++){
-            for(int j=0; j<5;j++){
-                BasicBackgroundPanel newPan= new BasicBackgroundPanel(im.blanc);
+        affichagePiece=new JPanel(new GridLayout(5, 5));
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.coulJoueur(5));
                 affichagePiece.add(newPan);
                 pieceUnique[i][j]=newPan;
             }
         }
-
         //On ajoute les boutons latéraux
         //Retour a la liste des pièces
         JPanel boutGauche=new JPanel(new GridLayout(2,1,15,5));
@@ -96,11 +95,30 @@ public class MenuPiece {
         menuType3.add(new JLabel("Ce n'est pas a votre tour de jouer"));
     }
 
+    //Hauteur du menu complet
+    public int getHautMenu(){
+        return menuType1.getHeight()/3;
+    }
+
+    //Largeur du menu complet
+    public int getLargMenu(){
+        return menuType1.getWidth()/7;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public int getNumPiece(){
+        return numPiece;
+    }
+
+
     public void setMenuType1(int joue, int c){
         joueur=joue;
         couleur= c;
         refreshAffichageListePiece();
-
+        pieceSelected=false;
         menu.removeAll();
         menu.add(menuType1);
         menu.updateUI();
@@ -114,11 +132,7 @@ public class MenuPiece {
         //Affichage du menu
 
     }
-    public void showMenuType2(){
-        menu.removeAll();
-        menu.add(menuType2);
-        menu.updateUI();
-    }
+
 
 
     //Utilisé contre l'ia
@@ -128,6 +142,12 @@ public class MenuPiece {
         menu.updateUI();
     }
 
+
+    public void showMenuType2(){
+        menu.removeAll();
+        menu.add(menuType2);
+        menu.updateUI();
+    }
 
 
 
@@ -221,32 +241,26 @@ public class MenuPiece {
 
     }
 
-    //Hauteur du menu complet
-    public int getHautMenu(){
-        return menuType1.getHeight()/3;
-    }
-
-    //Largeur du menu complet
-    public int getLargMenu(){
-        return menuType1.getWidth()/7;
-    }
-
-    public Piece getPiece() {
-        return piece;
-    }
-
-    public int getNumPiece(){
-        return numPiece;
-    }
 
     public void selPiece(int num){
         resetBorder();
-        listePiece[num-1].setBorder(BorderFactory.createLineBorder(Color.red,3));
+        pieceSelected=true;
+        listePiece[num-1].setBorder(BorderFactory.createLineBorder(Color.red,2));
     }
 
     public void resetBorder(){
         for(int i=0;i<21;i++){
             listePiece[i].setBorder(BorderFactory.createLineBorder(Color.black));
         }
+    }
+
+    public void resize(int w, int h){
+        menuType1.setPreferredSize(new Dimension(w/2,h/4));
+        menuType2.setPreferredSize(new Dimension(w/2,h/4));
+        menuType3.setPreferredSize(new Dimension(w/2,h/4));
+    }
+
+    public boolean isPieceSelected(){
+        return  pieceSelected;
     }
 }

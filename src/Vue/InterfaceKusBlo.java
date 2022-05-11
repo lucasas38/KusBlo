@@ -4,17 +4,16 @@ import Controleur.Controleur;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
 public class InterfaceKusBlo implements Runnable {
-    JFrame frame;
-    VueNiveau graph;
-    MenuPiece m;
-    PanneauJoueur j1;
-    PanneauJoueur j2;
-    PanneauJoueur j3;
-    PanneauJoueur j4;
-    AdaptateurSouris mouseAdapt;
-    AdaptateurClavier keyAdapt;
+    JFrame frameMenu;
+    JFrame frameJeu;
+    InterfaceJeu interJ;
+    MenuPrincipal menu;
     Controleur c;
 
 
@@ -29,128 +28,36 @@ public class InterfaceKusBlo implements Runnable {
     }
 
     public void run(){
-        m=new MenuPiece(c);
-        graph = new VueNiveau();
-        mouseAdapt =new AdaptateurSouris(graph,m,c);
-        keyAdapt= new AdaptateurClavier(c, mouseAdapt,m);
-        j1 = new PanneauJoueur(1,c);
-        j2 = new PanneauJoueur(2,c);
-        j3 = new PanneauJoueur(3,c);
-        j4 = new PanneauJoueur(4,c);
-        frame = new JFrame("KusBlo");
-
-        //Panel Gauche
-        JPanel panelGauche = new JPanel(new GridLayout(3,1));
-        panelGauche.add(j1.pan);
-        panelGauche.add(j4.pan);
-
-        //Panel central
-        JPanel panelCentral = new JPanel(new BorderLayout());
-        JPanel repartiteur =new JPanel(); //réparti le jeu et le menu du bas
-        repartiteur.setLayout((new BoxLayout(repartiteur,BoxLayout.PAGE_AXIS)));
-        repartiteur.add(graph.panelJeu);
-        setMenu1(c.getActJoueur(),c.getActCouleur());
-        repartiteur.add(m.menu);
-        panelCentral.add(repartiteur,BorderLayout.CENTER);
-        m.menuType1.addMouseListener(new AdaptateurSelPiece(graph,m,c,true));
-        m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
-
-        //Panel Droite
-        JPanel panelDroite = new JPanel();
-        panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
-        panelDroite.add(j2.pan);
-        panelDroite.add(j3.pan);
-        panelDroite.add(new JPanel(new BorderLayout()));
-
-        //Pannel principal
-        JPanel panelMain= new JPanel(new BorderLayout());
-        panelMain.add(panelGauche,BorderLayout.WEST);
-        panelMain.add(panelCentral,BorderLayout.CENTER);
-        panelMain.add(panelDroite,BorderLayout.EAST);
-
-
-        //Ajout à la fenêtre + affichage
-        frame.add(panelMain);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-
-        frame.setVisible(true);
-
-    }
-    //Pas utilisé
-    GridBagConstraints constraints(int x, int y,int w, int h,double wx,double wy,int type){
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx=x;
-        c.gridy=y;
-        c.gridwidth=w;
-        c.gridheight=h;
-        c.weightx=wx;
-        c.weighty=wy;
-        c.fill =GridBagConstraints.NONE;
-        switch (type){
-            case 0:
-
-                c.anchor= GridBagConstraints.NORTH;
-                break;
-            case 1:
-                c.anchor= GridBagConstraints.SOUTH;
-                break;
-        }
-        return  c;
-    }
-
-
-    //Supprime les listener du terrain de jeu
-    public void delMouseClick(){
-        graph.panelJeu.removeMouseMotionListener(mouseAdapt);
-        graph.panelJeu.removeMouseListener(mouseAdapt);
-        graph.panelJeu.removeMouseWheelListener(mouseAdapt);
-        frame.removeKeyListener(keyAdapt);
-    }
-
-    //Active le menu bas 1
-    public void setMenu1(int j, int coul){
-        delMouseClick();
-        m.setMenuType1(j,coul);
+        frameMenu = new JFrame("KusBlo");
+        frameMenu.setSize(800, 600);
+        frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        menu=new MenuPrincipal(c);
+        frameMenu=menu.getFrame();
+        frameMenu.setVisible(true);
 
     }
 
-    //Active le menu base 2
-    public  void setMenu2(int numPiece){
-        graph.panelJeu.addMouseMotionListener(mouseAdapt);
-        graph.panelJeu.addMouseListener(mouseAdapt);
-        graph.panelJeu.addMouseWheelListener(mouseAdapt);
-        frame.addKeyListener(keyAdapt);
-        m.setMenuType2(numPiece);
+    public void setMenu(){
+        frameJeu.setVisible(false);
+        frameMenu.setVisible(true);
     }
 
-    public MenuPiece getM() {
-        return m;
+    public void setInterJeu(){
+        interJ= new InterfaceJeu(c ,frameMenu.getWidth(), frameMenu.getHeight());
+        frameJeu=interJ.getFrame();
+        frameMenu.setVisible(false);
+        frameJeu.setVisible(true);
     }
 
-    public VueNiveau getGraph() {
-        return graph;
+    public InterfaceJeu getInterJ(){
+        return interJ;
     }
 
-    public void refreshPanJoueur(int couleur, int piece){
-        System.out.println(couleur);
-        switch (couleur){
-            case 1:
-                j4.refreshAffichage(piece);
-                j4.pan.updateUI();
-                break;
-            case 2:
-                j1.refreshAffichage(piece);
-                j1.pan.updateUI();
-                break;
-            case 3:
-                j2.refreshAffichage(piece);
-                break;
-            case 4:
-                j3.refreshAffichage(piece);
-                break;
-            default:
-                break;
-        }
+    public int getW(){
+        return frameMenu.getWidth();
     }
+    public int getH(){
+        return frameMenu.getHeight();
+    }
+
 }

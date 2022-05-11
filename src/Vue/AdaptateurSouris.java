@@ -23,7 +23,6 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
     }
 
 
-    public void mouseDragged(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {
         if(SwingUtilities.isRightMouseButton(e)){
             cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
@@ -36,10 +35,8 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
                 }
             }
         }
-
-
     }
-    public void mouseEntered(MouseEvent e) {}
+
     public void mouseExited(MouseEvent e) {
         cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
     }
@@ -59,12 +56,6 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
             }
         }
     }
-    public void mouseReleased(MouseEvent e) {}
-
-
-
-
-
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -76,9 +67,9 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
             }
         }
     }
+
     @Override
     public void mouseMoved(MouseEvent e){
-
         int l = e.getY() / n.hauteurCase();
         int c = e.getX() / n.largeurCase();
         //On exécute la fonction que lorsqu'on change de case
@@ -93,11 +84,12 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
             }
             x=l;
             y=c;
-
         }
-
-
     }
+
+    public void mouseReleased(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {}
+    public void mouseDragged(MouseEvent e) {}
 
 }
 

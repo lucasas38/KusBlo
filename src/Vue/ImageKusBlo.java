@@ -24,6 +24,7 @@ public class ImageKusBlo {
     Image selJ3;
     Image selJ4;
     Image noPos;
+    Image logo;
     Image[] selAnimRouge;
 
     ImageKusBlo(){
@@ -44,6 +45,7 @@ public class ImageKusBlo {
         selJ3=getImage(("visJaune4.png"));
         selJ4=getImage(("visVert4.png"));
         noPos=getImage("cantPos.png");
+        logo=getImage("logo.png");
         selAnimRouge = new Image[5];
         selAnimRouge[0]=gris;
 
@@ -106,5 +108,9 @@ public class ImageKusBlo {
             default:
                 return noPos;
         }
+    }
+
+    public Image getLogo() {
+        return logo;
     }
 }

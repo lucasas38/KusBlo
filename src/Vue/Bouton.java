@@ -67,4 +67,37 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton menu(){
+        JButton button = new JButton("Menu");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.menu();
+            }
+        });
+        return button;
+    }
+
+    public JButton newGame(){
+        JButton button = new JButton("Nouvelle Partie");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame();
+            }
+        });
+        return button;
+    }
+
+    public JButton exit(){
+        JButton button = new JButton("Quitter");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        return button;
+    }
 }

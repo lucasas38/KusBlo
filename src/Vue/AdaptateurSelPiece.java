@@ -24,9 +24,6 @@ public class AdaptateurSelPiece implements MouseListener {
         cont=c;
     }
 
-    public void mouseDragged(MouseEvent e) {
-    }
-
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isMiddleMouseButton(e)) {
             int l = e.getY() / m.getHautMenu();
@@ -53,14 +50,7 @@ public class AdaptateurSelPiece implements MouseListener {
     public void mouseReleased(MouseEvent e) {
     }
 
-
-
-    @Override
     public void mousePressed(MouseEvent e) {
-
-
-
-
     }
 
 }

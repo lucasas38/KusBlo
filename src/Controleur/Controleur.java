@@ -31,22 +31,22 @@ public class Controleur {
     }
 
     public void setMenu1(){
-        inter.setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
+        inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
     }
 
     public void setMenu2(int l, int c){
         int numPiece= l*7+c;
-        inter.setMenu2(numPiece);
+        inter.getInterJ().setMenu2(numPiece);
     }
 
     public void click(Piece piece,int x, int y, int decx, int decy){
-        inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
+        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
         //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
         //inter.delMouseClick();
-        inter.getM().resetBorder();
+        inter.getInterJ().getM().resetBorder();
         setMenu1();
-        inter.refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
         if(ia_active && jeu.getIDJoueurCourant() == 2){
             ia.joue();
         }
@@ -79,14 +79,14 @@ public class Controleur {
 
     public void visualiser(int x, int y,int[][] grille, int decx,int decy,boolean error){
         if(error){
-            inter.getGraph().visualiser(5,x,y,grille,decx,decy);
+            inter.getInterJ().getGraph().visualiser(5,x,y,grille,decx,decy);
         } else{
-            inter.getGraph().visualiser(jeu.getNumCouleurCourante(),x,y,grille,decx,decy);
+            inter.getInterJ().getGraph().visualiser(jeu.getNumCouleurCourante(),x,y,grille,decx,decy);
         }
     }
 
     public void delVisu(int x, int y,int[][] grille, int decx,int decy){
-        inter.getGraph().supprimerVisualisation(x,y,grille,decx,decy);
+        inter.getInterJ().getGraph().supprimerVisualisation(x,y,grille,decx,decy);
     }
 
     public int getActCouleur(){
@@ -101,19 +101,19 @@ public class Controleur {
     }
 
     public void antiHoraire(){
-        MenuPiece m= inter.getM();
+        MenuPiece m= inter.getInterJ().getM();
         m.getPiece().rotationAntiHoraire();
         m.refreshPiece(jeu.getNumCouleurCourante());
     }
     public void rotaHoraire(){
-        MenuPiece m= inter.getM();
+        MenuPiece m= inter.getInterJ().getM();
         m.getPiece().rotationHoraire();
         m.refreshPiece(jeu.getNumCouleurCourante());
 
     }
 
     public void flip(){
-        MenuPiece m= inter.getM();
+        MenuPiece m= inter.getInterJ().getM();
         m.getPiece().rotationSymetrique();
         m.refreshPiece(jeu.getNumCouleurCourante());
     }
@@ -142,14 +142,30 @@ public class Controleur {
     }
 
     public void selPiece(int l, int c){
-        inter.getM().selPiece(l*7+c+1);
-        inter.delMouseClick();
         setMenu2(l,c);
+        inter.getInterJ().getM().selPiece(l*7+c+1);
     }
 
     public void passerTour(){
         System.out.println("Passe tour");
         jeu.passerTour();
         setMenu1();
+    }
+
+    public int getFrameH(){
+        return inter.getH();
+    }
+
+    public int getFrameW(){
+        return inter.getW();
+    }
+
+    public void newGame(){
+        jeu= new Jeu(4);
+        inter.setInterJeu();
+    }
+
+    public void menu(){
+        inter.setMenu();
     }
 }
