@@ -73,7 +73,7 @@ public class Controleur {
         return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
 
-    public ListePieces getListPiece(int joueur){
+    public ListeChaine getListPiece(int joueur){
         return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();
     }
 

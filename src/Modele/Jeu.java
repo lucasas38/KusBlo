@@ -3,7 +3,6 @@ package Modele;
 import Structures.Case;
 import Structures.CoupleListeValeur;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -193,12 +192,10 @@ public class Jeu {
 
         LinkedList<CoupleListeValeur<Case,Integer>> listeEmplacementPossible = new LinkedList<>();
 
-        HashMap<LinkedList<Case>,Boolean> configPiecePossible = new HashMap<>();
+        HashSet<LinkedList<Case>> configPiecePossible = new HashSet<>();
         int decx,decy;
 
         LinkedList<Case> config;
-
-        System.out.println("Hashcode pour piece :"+p.id + " ");
 
         for (int i=0;i<8;i++){ //chaque config
 
@@ -206,9 +203,8 @@ public class Jeu {
             decy = p.getDecy();
 
             config = tradMatrice(p,0,0);
-            System.out.print(config.hashCode()+ " ");
 
-            if(!configPiecePossible.containsKey(config)){
+            if(!configPiecePossible.contains(config)){
 
                 for (int x = 0;x<20;x++){
                     for (int y=0;y<20;y++){
@@ -220,7 +216,7 @@ public class Jeu {
                         }
                     }
                 }
-                configPiecePossible.put(config,true);
+                configPiecePossible.add(config);
             }
 
             if(i == 4){
@@ -229,6 +225,10 @@ public class Jeu {
                 p.rotationHoraire();
             }
         }
+        System.out.println("nb config piece "+p.id+ " = "+configPiecePossible.size());
+        System.out.println("liste config");
+        System.out.println(configPiecePossible.toString());
+        System.out.println();
 
         p.rotationSymetrique();
         p.rotationAntiHoraire();
@@ -239,7 +239,7 @@ public class Jeu {
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
         Couleur couleur = getJoueur(this.joueurCourant).getCouleurCourante();
-        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
+        ListeChaine listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
 
         while (it.hasNext()){ //chaque piece

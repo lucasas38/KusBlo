@@ -4,7 +4,6 @@ import Modele.*;
 import Structures.Case;
 import Structures.CoupleListeValeur;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -22,7 +21,7 @@ public class IAAleatoire extends IA {
 
     @Override
     public void joue() {
-        ListePieces listePiecesDispo = copiePiecesDispo();
+        ListeChaine listePiecesDispo = copiePiecesDispo();
 
         int indexPiecesDispo;
         Piece p;
@@ -61,8 +60,8 @@ public class IAAleatoire extends IA {
 
     }
 
-    public ListePieces copiePiecesDispo(){
-        ListePieces listePieces = new ListePieces();
+    public ListeChaine copiePiecesDispo(){
+        ListeChaine listePieces = new ListeChaine();
 
         LinkedList<Piece> liste = new LinkedList<>();
         Iterator<Piece> it = cont.jeu.getJoueur(cont.jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().iterateur();

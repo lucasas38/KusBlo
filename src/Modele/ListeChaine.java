@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
-public class ListePieces {
-    LinkedList<Piece> liste;
+public class ListeChaine<E> {
+    LinkedList<E> liste;
 
-   public ListePieces(){
-        this.lirePieces();
+   public ListeChaine(){
+       liste = new LinkedList<>();
     }
 
     public void lirePieces(){
@@ -30,9 +29,9 @@ public class ListePieces {
 
     public void supprimer(int idPiece) {
         if(!estVide()){
-            Iterator<Piece> it = liste.iterator();
+            Iterator<E> it = liste.iterator();
             while (it.hasNext()){
-                Piece p = it.next();
+                E p = it.next();
                 if(p.getId() == idPiece){
                     it.remove();
                 }
@@ -94,10 +93,10 @@ public class ListePieces {
     }
 
     @Override
-    public ListePieces clone() throws CloneNotSupportedException {
-        ListePieces clone = null;
+    public ListeChaine clone() throws CloneNotSupportedException {
+        ListeChaine clone = null;
         try {
-            clone = (ListePieces) super.clone();
+            clone = (ListeChaine) super.clone();
             clone.liste = (LinkedList<Piece>) liste.clone();
         } catch (CloneNotSupportedException e) {
             System.err.println("Bug interne serieux avec le clone : ListePieces");

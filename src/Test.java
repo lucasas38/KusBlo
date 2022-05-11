@@ -8,7 +8,7 @@ public class Test {
 
         Jeu j = new Jeu(2);
 
-        ListePieces l = new ListePieces();
+        ListeChaine l = new ListeChaine();
         //Utilise equals
         //l.supprimer(l.liste.getFirst());
         l.supprimer(l.getListe().getLast().getId());
