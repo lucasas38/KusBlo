@@ -1,8 +1,6 @@
 package Modele;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
+import Structures.Case;
 
 public class Joueur {
     int id;
@@ -62,19 +60,6 @@ public class Joueur {
     void ajouteCoin(Case ca){
         this.listeCouleur[couleurCourant-1].ajouteCoin(ca);
     }
-
-//    @Override
-//    public String toString() {
-//        String res = "Joueur{" +
-//                "id=" + id +
-//                "\n, listePiecesDispo=\n" + listePiecesDispo.toString() +
-//                "\n, listesPiecesPosees=\n" + listesPiecesPosees.toString() +
-//                "\n, score=" + score +
-//                "\n, listeCoins=" + listeCoins.toString() +
-//                '}';
-//
-//        return res;
-//    }
 
     public Couleur getCouleurCourante(){
         return listeCouleur[couleurCourant-1];

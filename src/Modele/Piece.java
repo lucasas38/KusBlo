@@ -1,5 +1,7 @@
 package Modele;
 
+import Structures.Case;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 

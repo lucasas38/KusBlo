@@ -1,10 +1,13 @@
 package Vue;
 
 import Controleur.AnimationVisualisation;
+import Structures.Case;
 import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public class VueNiveau {
     JPanel panelJeu;
@@ -66,6 +69,21 @@ public class VueNiveau {
             }
         }
     }
+
+    public void poserPiece(int joueur,LinkedList<Case> listeCases){
+        Iterator<Case> it = listeCases.iterator();
+        Case ca;
+        int x,y;
+        while(it.hasNext()){
+            ca = it.next();
+            x = ca.getX();
+            y=ca.getY();
+            listPanel[x][y].changeBackground(im.coulJoueur(joueur));
+            listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.black));
+            listPanel[x][y].setVide(false);
+        }
+    }
+
 
     //Visualisation de la pièce(à rajouter la condition du estPosable)
     public void visualiser(int joue,int x, int y, int[][] grille, int decx, int decy ){

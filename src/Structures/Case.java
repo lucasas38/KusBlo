@@ -1,13 +1,9 @@
-package Modele;
+package Structures;
 
-import java.util.LinkedList;
 import java.util.Objects;
 
 public class Case {
     private int x,y;
-
-    Case(){
-    }
 
     public Case(int x,int y){
         this.x = x;  //x = i : correspond à l'ordonée
@@ -50,7 +46,8 @@ public class Case {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return x+y;
+//        return (int) (Math.pow(2,(double) x) + Math.pow(3,(double)y));
     }
 
 }

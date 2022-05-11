@@ -1,7 +1,7 @@
 package Modele;
 
-import javax.swing.*;
-import java.awt.*;
+import Structures.Case;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 

@@ -1,15 +1,29 @@
 package Controleur;
 
 import Modele.*;
+import Structures.Case;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
+
+import java.util.LinkedList;
 
 public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
+    IA ia;
+    boolean ia_active;
 
     public Controleur(Jeu j){
         jeu=j;
+        ia_active= false;
+    }
+
+    public void addIA(int type_ia){
+        ia_active=true;
+        if(type_ia==1){
+            ia = new IAAleatoire(this);
+        }
+
     }
 
     public void ajouteInterfaceUtilisateur(InterfaceKusBlo v) {
@@ -33,6 +47,17 @@ public class Controleur {
         inter.getM().resetBorder();
         setMenu1();
         inter.refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        if(ia_active && jeu.getIDJoueurCourant() == 2){
+            ia.joue();
+        }
+    }
+
+    public void joueIA(Piece piece,LinkedList<Case> listeCases){
+        inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
+        inter.getM().resetBorder();
+        setMenu1();
+        inter.refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
@@ -47,7 +72,6 @@ public class Controleur {
     public  Piece getPiece(int j, int p){
         return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
-
 
     public ListePieces getListPiece(int joueur){
         return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();

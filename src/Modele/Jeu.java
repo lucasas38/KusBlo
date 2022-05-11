@@ -1,5 +1,8 @@
 package Modele;
 
+import Structures.Case;
+import Structures.CoupleListeValeur;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +24,7 @@ public class Jeu {
             this.nbJoueurs = nombreJoueurs;
         }
 
-        listeJoueurs = new Joueur[nombreJoueurs];
+        listeJoueurs = new Joueur[this.nbJoueurs];
 
         for (int i=0;i<this.nbJoueurs;i++){
             listeJoueurs[i] = new Joueur(i+1);
@@ -60,7 +63,6 @@ public class Jeu {
                     listeJoueurs[idJoueur-1].jouePiece(piece);
                     setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
-                    positionPossible(idJoueur);
                 }else{
                     System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
                 }
@@ -184,55 +186,69 @@ public class Jeu {
         return liste;
     }
 
-    public boolean positionPossible(int idJoueur){
-        Couleur couleur = getJoueur(idJoueur).getCouleurCourante();
-        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
-        Iterator<Piece> it = listePiecesDispoClone.iterateur();
+    //si liste en retour à une taille de 0 alors aucune possiblités
+    public LinkedList<CoupleListeValeur<Case,Integer>> positionPossibleConfig(Piece p){
 
+        System.out.println("positionPossibleConfig");
+
+        LinkedList<CoupleListeValeur<Case,Integer>> listeEmplacementPossible = new LinkedList<>();
+
+        HashMap<LinkedList<Case>,Boolean> configPiecePossible = new HashMap<>();
         int decx,decy;
 
-//        System.out.print("Joueur "+idJoueur+ " peut jouer [");
+        LinkedList<Case> config;
 
-        HashMap<LinkedList<Case>,Boolean> configPiecePossible;
+        System.out.println("Hashcode pour piece :"+p.id + " ");
 
-        while (it.hasNext()){ //chaque piece
-            Piece p = it.next();
-            configPiecePossible = new HashMap<>();
-            for (int i=0;i<8;i++){ //chaque config
+        for (int i=0;i<8;i++){ //chaque config
 
-                decx = p.getDecx();
-                decy = p.getDecy();
+            decx = p.getDecx();
+            decy = p.getDecy();
 
-                LinkedList<Case> config = tradMatrice(p,0-decx,0-decy);
+            config = tradMatrice(p,0,0);
+            System.out.print(config.hashCode()+ " ");
 
-                if(!configPiecePossible.containsKey(config)){
-                    boolean possible = false;
-                    for (int x = 0;x<20;x++){
-                        for (int y=0;y<20;y++){
-                            if(n.estPosable(p,x-decx,y-decy)){
-                                if(estPosableRegle(tradMatrice(p,x-decx,y-decy),idJoueur)){
-//                                    System.out.print(p.id + " ");
-                                    possible=true;
-                                    return true;
-                                }
+            if(!configPiecePossible.containsKey(config)){
+
+                for (int x = 0;x<20;x++){
+                    for (int y=0;y<20;y++){
+                        if(n.estPosable(p,x-decx,y-decy)){
+                            LinkedList<Case> configSelonEmplacement = tradMatrice(p,x-decx,y-decy);
+                            if(estPosableRegle(configSelonEmplacement,this.joueurCourant)){
+                                listeEmplacementPossible.add(new CoupleListeValeur(configSelonEmplacement,i));
                             }
                         }
                     }
-                    configPiecePossible.put(config,possible);
                 }
-
-
-                if(i == 4){
-                    p.rotationSymetrique();
-                }else{
-                    p.rotationHoraire();
-                }
+                configPiecePossible.put(config,true);
             }
 
-            p.rotationSymetrique();
-            p.rotationAntiHoraire();
+            if(i == 4){
+                p.rotationSymetrique();
+            }else{
+                p.rotationHoraire();
+            }
         }
-//        System.out.print("]\n");
+
+        p.rotationSymetrique();
+        p.rotationAntiHoraire();
+
+       return listeEmplacementPossible;
+    }
+
+    //return true si au moins une piece peut encore être joué , false sinon
+    public boolean restePieceJouable(){
+        Couleur couleur = getJoueur(this.joueurCourant).getCouleurCourante();
+        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
+        Iterator<Piece> it = listePiecesDispoClone.iterateur();
+
+        while (it.hasNext()){ //chaque piece
+            Piece p = it.next();
+            LinkedList<CoupleListeValeur<Case,Integer>> liste = positionPossibleConfig(p);
+            if(liste.size()>0){
+                return true;
+            }
+        }
         return false;
 
     }

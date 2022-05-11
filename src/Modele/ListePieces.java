@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ListePieces {
     LinkedList<Piece> liste;
@@ -76,7 +77,7 @@ public class ListePieces {
         Iterator<Piece> it = iterateur();
         while (it.hasNext()){
             Piece p = it.next();
-            res += p.toString() + " ";
+            res += p.id + " ";
         }
         return res;
     }
@@ -90,5 +91,21 @@ public class ListePieces {
             }
         }
         return false;
+    }
+
+    @Override
+    public ListePieces clone() throws CloneNotSupportedException {
+        ListePieces clone = null;
+        try {
+            clone = (ListePieces) super.clone();
+            clone.liste = (LinkedList<Piece>) liste.clone();
+        } catch (CloneNotSupportedException e) {
+            System.err.println("Bug interne serieux avec le clone : ListePieces");
+        }
+        return clone;
+    }
+
+    public void setListe(LinkedList<Piece> liste) {
+       this.liste = liste;
     }
 }
