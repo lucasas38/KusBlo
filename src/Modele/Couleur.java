@@ -8,14 +8,14 @@ import java.util.LinkedList;
 public class Couleur {
     int id;
     boolean peutJouer;
-    ListeChaine listePiecesDispo;
+    ListePieces listePiecesDispo;
     LinkedList<Piece> listesPiecesPosees;
     HashSet<Case> listeCoins;
 
     Couleur(int idCouleur){
         this.id = idCouleur;
         this.peutJouer=true;
-        this.listePiecesDispo = new ListeChaine();
+        this.listePiecesDispo = new ListePieces();
         this.listesPiecesPosees = new LinkedList<>();
         this.listeCoins = new HashSet<>();
         switch (idCouleur){
@@ -38,7 +38,7 @@ public class Couleur {
         return id;
     }
 
-    public ListeChaine getListePiecesDispo() {
+    public ListePieces getListePiecesDispo() {
         return listePiecesDispo;
     }
 

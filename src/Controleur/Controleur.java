@@ -13,6 +13,10 @@ public class Controleur {
     IA ia;
     boolean ia_active;
 
+    public Controleur(){
+
+    }
+
     public Controleur(Jeu j){
         jeu=j;
         ia_active= false;
@@ -23,7 +27,6 @@ public class Controleur {
         if(type_ia==1){
             ia = new IAAleatoire(this);
         }
-
     }
 
     public void ajouteInterfaceUtilisateur(InterfaceKusBlo v) {
@@ -73,7 +76,7 @@ public class Controleur {
         return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
 
-    public ListeChaine getListPiece(int joueur){
+    public ListePieces getListPiece(int joueur){
         return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();
     }
 
@@ -162,6 +165,7 @@ public class Controleur {
 
     public void newGame(){
         jeu= new Jeu(4);
+        addIA(1);
         inter.setInterJeu();
     }
 

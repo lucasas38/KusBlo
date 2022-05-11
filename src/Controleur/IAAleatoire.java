@@ -13,7 +13,7 @@ public class IAAleatoire extends IA {
     Random r;
     Controleur cont;
 
-    IAAleatoire(Controleur c){
+    public IAAleatoire(Controleur c){
         r = new Random();
         cont = c;
     }
@@ -21,14 +21,12 @@ public class IAAleatoire extends IA {
 
     @Override
     public void joue() {
-        ListeChaine listePiecesDispo = copiePiecesDispo();
+        ListePieces listePiecesDispo = copiePiecesDispo();
 
         int indexPiecesDispo;
         Piece p;
 
-        int compteur=0;
         while(listePiecesDispo.getTaille()>0){
-            System.out.println("compteur "+(++compteur));
             indexPiecesDispo = r.nextInt(listePiecesDispo.getTaille());
             p = listePiecesDispo.getListe().get(indexPiecesDispo);
 
@@ -55,13 +53,13 @@ public class IAAleatoire extends IA {
                 listePiecesDispo.supprimer(p.getId());
             }
         }
-        System.out.println("Ia ne pas plus jouer, elle passe sont tour");
+        System.out.println("Ia ne peut plus jouer, elle passe son tour");
         cont.passerTour();
 
     }
 
-    public ListeChaine copiePiecesDispo(){
-        ListeChaine listePieces = new ListeChaine();
+    public ListePieces copiePiecesDispo(){
+        ListePieces listePieces = new ListePieces();
 
         LinkedList<Piece> liste = new LinkedList<>();
         Iterator<Piece> it = cont.jeu.getJoueur(cont.jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().iterateur();

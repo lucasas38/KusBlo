@@ -17,10 +17,10 @@ public class Jeu {
     public Jeu(int nombreJoueurs){
         this.n = new Niveau();
 
-        if(!(nombreJoueurs>1 && nombreJoueurs<=4)){
-            this.nbJoueurs = 4;
-        }else{
+        if(nombreJoueurs>1 && nombreJoueurs<=4){
             this.nbJoueurs = nombreJoueurs;
+        }else{
+            this.nbJoueurs = 4;
         }
 
         listeJoueurs = new Joueur[this.nbJoueurs];
@@ -74,6 +74,7 @@ public class Jeu {
     }
 
     private void setJoueurCourant() {
+
         joueurCourant = (joueurCourant%nbJoueurs)+1;
     }
 
@@ -188,8 +189,6 @@ public class Jeu {
     //si liste en retour à une taille de 0 alors aucune possiblités
     public LinkedList<CoupleListeValeur<Case,Integer>> positionPossibleConfig(Piece p){
 
-        System.out.println("positionPossibleConfig");
-
         LinkedList<CoupleListeValeur<Case,Integer>> listeEmplacementPossible = new LinkedList<>();
 
         HashSet<LinkedList<Case>> configPiecePossible = new HashSet<>();
@@ -225,10 +224,6 @@ public class Jeu {
                 p.rotationHoraire();
             }
         }
-        System.out.println("nb config piece "+p.id+ " = "+configPiecePossible.size());
-        System.out.println("liste config");
-        System.out.println(configPiecePossible.toString());
-        System.out.println();
 
         p.rotationSymetrique();
         p.rotationAntiHoraire();
@@ -239,7 +234,7 @@ public class Jeu {
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
         Couleur couleur = getJoueur(this.joueurCourant).getCouleurCourante();
-        ListeChaine listePiecesDispoClone = couleur.getListePiecesDispo();
+        ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
 
         while (it.hasNext()){ //chaque piece

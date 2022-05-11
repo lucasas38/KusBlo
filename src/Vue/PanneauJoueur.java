@@ -1,7 +1,7 @@
 package Vue;
 
 import Controleur.Controleur;
-import Modele.ListeChaine;
+import Modele.ListePieces;
 import Modele.Piece;
 import Structures.PanelPiece;
 
@@ -34,7 +34,7 @@ public class PanneauJoueur {
     public void refreshListPiece(){
         affichageListe.removeAll();
         int numPiece = 1;
-        ListeChaine liste = cont.getListPiece(couleur);
+        ListePieces liste = cont.getListPiece(couleur);
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
         int indiceListe=0;

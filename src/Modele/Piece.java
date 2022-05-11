@@ -158,12 +158,6 @@ public class Piece {
         return res;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        System.out.println("equals piece appellé");
-        return true;
-    }
-
     public int getDecx() {
         return decx;
     }
