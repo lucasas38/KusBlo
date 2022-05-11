@@ -4,6 +4,10 @@ import Controleur.Controleur;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 
 public class InterfaceKusBlo implements Runnable {
     JFrame frame;
@@ -29,20 +33,31 @@ public class InterfaceKusBlo implements Runnable {
     }
 
     public void run(){
+        frame = new JFrame("KusBlo");
+        frame.setSize(800, 600);
+        setResize();
+
         m=new MenuPiece(c);
-        graph = new VueNiveau();
+        graph = new VueNiveau(c);
         mouseAdapt =new AdaptateurSouris(graph,m,c);
-        keyAdapt= new AdaptateurClavier(c, mouseAdapt,m);
+        keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
+
         j1 = new PanneauJoueur(1,c);
         j2 = new PanneauJoueur(2,c);
         j3 = new PanneauJoueur(3,c);
         j4 = new PanneauJoueur(4,c);
-        frame = new JFrame("KusBlo");
+
 
         //Panel Gauche
-        JPanel panelGauche = new JPanel(new GridLayout(3,1));
+        JPanel panelGauche = new JPanel();
+        panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
         panelGauche.add(j1.pan);
         panelGauche.add(j4.pan);
+        JPanel menu= new JPanel(new BorderLayout());
+
+
+        menu.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
+        panelGauche.add(menu);
 
         //Panel central
         JPanel panelCentral = new JPanel(new BorderLayout());
@@ -60,7 +75,11 @@ public class InterfaceKusBlo implements Runnable {
         panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
         panelDroite.add(j2.pan);
         panelDroite.add(j3.pan);
-        panelDroite.add(new JPanel(new BorderLayout()));
+        JPanel histo=new JPanel(new BorderLayout());
+
+
+        histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
+        panelDroite.add(histo);
 
         //Pannel principal
         JPanel panelMain= new JPanel(new BorderLayout());
@@ -72,33 +91,27 @@ public class InterfaceKusBlo implements Runnable {
         //Ajout à la fenêtre + affichage
         frame.add(panelMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
+
 
         frame.setVisible(true);
 
     }
-    //Pas utilisé
-    GridBagConstraints constraints(int x, int y,int w, int h,double wx,double wy,int type){
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx=x;
-        c.gridy=y;
-        c.gridwidth=w;
-        c.gridheight=h;
-        c.weightx=wx;
-        c.weighty=wy;
-        c.fill =GridBagConstraints.NONE;
-        switch (type){
-            case 0:
 
-                c.anchor= GridBagConstraints.NORTH;
-                break;
-            case 1:
-                c.anchor= GridBagConstraints.SOUTH;
-                break;
-        }
-        return  c;
+    public int getFrameH(){
+        return frame.getHeight();
     }
 
+    public int getFrameW(){
+        return frame.getWidth();
+    }
+
+    public MenuPiece getM() {
+        return m;
+    }
+
+    public VueNiveau getGraph() {
+        return graph;
+    }
 
     //Supprime les listener du terrain de jeu
     public void delMouseClick(){
@@ -112,28 +125,21 @@ public class InterfaceKusBlo implements Runnable {
     public void setMenu1(int j, int coul){
         delMouseClick();
         m.setMenuType1(j,coul);
-
     }
 
     //Active le menu base 2
     public  void setMenu2(int numPiece){
-        graph.panelJeu.addMouseMotionListener(mouseAdapt);
-        graph.panelJeu.addMouseListener(mouseAdapt);
-        graph.panelJeu.addMouseWheelListener(mouseAdapt);
-        frame.addKeyListener(keyAdapt);
+        if(!getM().isPieceSelected()){
+            graph.panelJeu.addMouseMotionListener(mouseAdapt);
+            graph.panelJeu.addMouseListener(mouseAdapt);
+            graph.panelJeu.addMouseWheelListener(mouseAdapt);
+            frame.addKeyListener(keyAdapt);
+        }
         m.setMenuType2(numPiece);
     }
 
-    public MenuPiece getM() {
-        return m;
-    }
-
-    public VueNiveau getGraph() {
-        return graph;
-    }
-
+    //Met à jour uniquement le panneau du joueur qui a joué
     public void refreshPanJoueur(int couleur, int piece){
-        System.out.println(couleur);
         switch (couleur){
             case 1:
                 j4.refreshAffichage(piece);
@@ -152,5 +158,37 @@ public class InterfaceKusBlo implements Runnable {
             default:
                 break;
         }
+    }
+
+
+    public void setResize(){
+
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                resizeAllPanel();
+            }
+        });
+
+        frame.addWindowStateListener(new WindowStateListener() {
+            public void windowStateChanged(WindowEvent event) {
+                boolean isMaximized = (event.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
+                boolean wasMaximized =(event.getOldState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
+
+                if (isMaximized && !wasMaximized) {
+                    resizeAllPanel();
+                } else if (wasMaximized && !isMaximized) {
+                    resizeAllPanel();
+                }
+            }
+        });
+    }
+
+    public void resizeAllPanel(){
+        graph.resize(getFrameW(),getFrameH());
+        m.resize(getFrameW(),getFrameH());
+        j1.resize(getFrameW(),getFrameH());
+        j2.resize(getFrameW(),getFrameH());
+        j3.resize(getFrameW(),getFrameH());
+        j4.resize(getFrameW(),getFrameH());
     }
 }

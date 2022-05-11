@@ -118,14 +118,21 @@ public class Controleur {
     }
 
     public void selPiece(int l, int c){
-        inter.getM().selPiece(l*7+c+1);
-        inter.delMouseClick();
         setMenu2(l,c);
+        inter.getM().selPiece(l*7+c+1);
     }
 
     public void passerTour(){
         System.out.println("Passe tour");
         jeu.passerTour();
         setMenu1();
+    }
+
+    public int getFrameH(){
+        return inter.getFrameH();
+    }
+
+    public int getFrameW(){
+        return inter.getFrameW();
     }
 }

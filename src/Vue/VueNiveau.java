@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.AnimationVisualisation;
+import Controleur.Controleur;
 import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ public class VueNiveau {
     BasicBackgroundPanel [][] listPanel;
     ImageKusBlo im;
     AnimationVisualisation anim;
+    Controleur c;
 
     public JPanel getPanelJeu() {
         return panelJeu;
@@ -20,10 +22,12 @@ public class VueNiveau {
         return listPanel;
     }
 
-    VueNiveau() {
+    VueNiveau(Controleur cont) {
+        c= cont;
         panelJeu = new JPanel();
         im = new ImageKusBlo();
         panelJeu.setLayout(new GridLayout(20, 20));
+
         anim= new AnimationVisualisation();
         //Création de la grille
         listPanel = new BasicBackgroundPanel[20][20];
@@ -37,6 +41,8 @@ public class VueNiveau {
                 panelJeu.add(newPan);
             }
         }panelJeu.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        resize(c.getFrameW(),c.getFrameH());
+
     }
     //Renvoi la hauteur d'une case de façon dynamique
     public int hauteurCase(){
@@ -77,14 +83,11 @@ public class VueNiveau {
                     if(grille[i][j]==1){
                         if(listPanel[i+x-decx][j+y-decy].estVide()){
                             listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue));
-                            //listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.red));
                         }
-
                     }
                 }
             }
         }
-
     }
 
     //Supprime la visualisation
@@ -96,7 +99,6 @@ public class VueNiveau {
                         if(listPanel[i+x-decx][j+y-decy].estVide()){
                             listPanel[i+x-decx][j+y-decy].changeBackground(im.gris);
                         }
-
                         listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
                     }
                 }
@@ -105,7 +107,11 @@ public class VueNiveau {
         if(anim.hasTimer()){
             anim.resetTimer();
         }
+    }
 
+    public void resize(int w, int h){
+        int minDim = Math.min(w/2,3*h/4);
+        panelJeu.setPreferredSize(new Dimension(minDim,minDim));
     }
 
 
