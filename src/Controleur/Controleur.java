@@ -53,11 +53,11 @@ public class Controleur {
     }
 
     public void joueIA(Piece piece,LinkedList<Case> listeCases){
-        inter.getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
-        inter.getM().resetBorder();
+        inter.getInterJ().getM().resetBorder();
         setMenu1();
-        inter.refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
