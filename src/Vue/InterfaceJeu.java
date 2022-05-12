@@ -33,6 +33,7 @@ public class InterfaceJeu {
             mouseAdapt =new AdaptateurSouris(graph,m,c);
             keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
 
+
             j1 = new PanneauJoueur(1,c);
             j2 = new PanneauJoueur(2,c);
             j3 = new PanneauJoueur(3,c);

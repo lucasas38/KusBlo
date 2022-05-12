@@ -60,6 +60,9 @@ public class Jeu {
                     n.ajouterPiece(piece,listeCasesPiece,idJoueur);
                     calculeCoinPiece(piece,idJoueur);
                     listeJoueurs[idJoueur-1].jouePiece(piece);
+                    if(!restePieceJouable()){
+                        finJeu();
+                    }
                     setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                 }else{
@@ -73,7 +76,8 @@ public class Jeu {
 
     }
 
-    private void setJoueurCourant() {
+
+    public void setJoueurCourant() {
 
         joueurCourant = (joueurCourant%nbJoueurs)+1;
     }
@@ -233,7 +237,7 @@ public class Jeu {
 
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
-        Couleur couleur = getJoueur(this.joueurCourant).getCouleurCourante();
+        Couleur couleur = getJoueur(getIDJoueurCourant()).getCouleurCourante();
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
 
@@ -252,13 +256,19 @@ public class Jeu {
         return nbJoueurs;
     }
 
-    public void passerTour() {
+    public void finJeu() {
         Joueur joueur = listeJoueurs[joueurCourant-1];
         joueur.peutJouer = joueur.finCouleur();
         if(!joueur.peutJouer){
             joueur.setScoreFinal();
         }
+    }
+
+    public void passerTour() {
+        if(getJoueur(getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
+            finJeu();
+        }
         setJoueurCourant();
-        joueur.setCouleurCourant();
+        getJoueur(getIDJoueurCourant()).setCouleurCourant();
     }
 }
