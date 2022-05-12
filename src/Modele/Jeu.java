@@ -149,6 +149,7 @@ public class Jeu {
                 Case voisin = it2.next();
                 if(!(n.grille[voisin.getX()][voisin.getY()] != couleurCourante.getId() ||
                         listeCasesPiece.contains(voisin))){ // && grille[voisin.getX()][voisin.getY()] == idJoueur)
+                    System.out.println(false);
                     return false;
                 }
             }
@@ -160,6 +161,7 @@ public class Jeu {
         //si on arrive ici : la piece n'est pas collée à une pièce de même couleur sur ses cotés "+"
         //il suffit de retourner ok pour savoir si au moins une des cases de la piece est sur un coin possible pour le joueur
 
+        System.out.println(estSurUnCoinPossible);
         return estSurUnCoinPossible;
     }
 
