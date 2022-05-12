@@ -72,8 +72,16 @@ public class Controleur {
     }
 
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
-        Niveau n=jeu.getNiveau();
-        return  n.estPosable(piece,x-decx,y-decy);
+        for(int i=0;i<5;i++){
+            for(int j=0; j<5; j++){
+                if(x+i-decx>19 || x+i-decx<0 || y+j-decy>19 || y+j-decy<0 ){
+                    if(piece.getMatrice()[i][j]!=0){
+                        return  false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public  boolean estPosableRegle(Piece piece,int x, int y, int decx, int decy){
