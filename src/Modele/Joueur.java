@@ -79,4 +79,8 @@ public class Joueur {
         }
         return false;
     }
+
+    public boolean peutJouer() {
+        return peutJouer;
+    }
 }

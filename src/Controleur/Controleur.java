@@ -34,7 +34,15 @@ public class Controleur {
     }
 
     public void setMenu1(){
-        inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
+        if(finJeu()){
+            inter.getInterJ().getM().setMenuType3();
+        }else {
+            if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().peutJouer()) {
+                inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
+            } else {
+                passerTour();
+            }
+        }
     }
 
     public void setMenu2(int l, int c){
@@ -171,5 +179,14 @@ public class Controleur {
 
     public void menu(){
         inter.setMenu();
+    }
+
+    public boolean finJeu(){
+        for(int i=1; i<jeu.getNbJoueurs()+1;i++){
+            if(jeu.getJoueur(i).peutJouer()){
+                return false;
+            }
+        }
+        return true;
     }
 }
