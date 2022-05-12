@@ -149,7 +149,6 @@ public class Jeu {
                 Case voisin = it2.next();
                 if(!(n.grille[voisin.getX()][voisin.getY()] != couleurCourante.getId() ||
                         listeCasesPiece.contains(voisin))){ // && grille[voisin.getX()][voisin.getY()] == idJoueur)
-                    System.out.println(false);
                     return false;
                 }
             }
@@ -161,7 +160,6 @@ public class Jeu {
         //si on arrive ici : la piece n'est pas collée à une pièce de même couleur sur ses cotés "+"
         //il suffit de retourner ok pour savoir si au moins une des cases de la piece est sur un coin possible pour le joueur
 
-        System.out.println(estSurUnCoinPossible);
         return estSurUnCoinPossible;
     }
 
@@ -237,6 +235,7 @@ public class Jeu {
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
         Couleur couleur = getJoueur(getIDJoueurCourant()).getCouleurCourante();
+        System.out.println("restePieceJouable "+couleur.id);
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
 
@@ -244,10 +243,11 @@ public class Jeu {
             Piece p = it.next();
             LinkedList<CoupleListeValeur<Case,Integer>> liste = positionPossibleConfig(p);
             if(liste.size()>0){
-                System.out.println(liste.getFirst().getListe());
+                System.out.println(" "+true);
                 return true;
             }
         }
+        System.out.println(" "+false);
         return false;
 
     }

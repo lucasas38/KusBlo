@@ -56,8 +56,7 @@ public class IAAleatoire extends IA {
         }
         System.out.println("Ia ne peut plus jouer");
 
-
-//        cont.jeu.passerTour();
+        cont.jeu.finCouleur();
         cont.setMenu1();
 
     }
