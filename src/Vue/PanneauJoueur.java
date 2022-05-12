@@ -25,7 +25,13 @@ public class PanneauJoueur {
         listePiece= new JPanel[21];
         pan = new JPanel(new BorderLayout());
         pan.setBackground(Color.pink);
-        pan.add(new JLabel("Joueur "+c%(cont.getNbJoueur()+1)), BorderLayout.PAGE_START);
+        int numJoueur=0;
+        if(cont.getNbJoueur()==2 && c>2){
+            numJoueur=c-2;
+        }else{
+            numJoueur=c;
+        }
+        pan.add(new JLabel("Joueur "+numJoueur), BorderLayout.PAGE_START);
         refreshListPiece();
         resize(cont.getFrameW(),cont.getFrameH());
         pan.add(affichageListe, BorderLayout.CENTER);

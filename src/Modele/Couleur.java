@@ -67,4 +67,7 @@ public class Couleur {
         listeCoins.add(ca);
     }
 
+    public boolean peutJouer() {
+        return peutJouer;
+    }
 }
