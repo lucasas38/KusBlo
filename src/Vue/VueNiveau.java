@@ -31,7 +31,7 @@ public class VueNiveau {
         im = new ImageKusBlo();
         panelJeu.setLayout(new GridLayout(20, 20));
 
-        anim= new AnimationVisualisation();
+        anim= new AnimationVisualisation(c);
         //Création de la grille
         listPanel = new BasicBackgroundPanel[20][20];
         for (int i = 0; i < 20; i++) {
@@ -125,13 +125,23 @@ public class VueNiveau {
             }
         }
         if(anim.hasTimer()){
-            anim.resetTimer();
+            anim.resetTimerAnimation();
         }
     }
 
     public void resize(int w, int h){
         int minDim = Math.min(w/2,3*h/4);
         panelJeu.setPreferredSize(new Dimension(minDim,minDim));
+    }
+
+    public void poserPieceIA(LinkedList<Case> listeCase, int couleur){
+        anim.visualisationIa(listeCase, listPanel,couleur);
+    }
+
+    public void stopTimer(){
+        if(anim.hasTimerIA()){
+            anim.resetTimerIa();
+        }
     }
 
 

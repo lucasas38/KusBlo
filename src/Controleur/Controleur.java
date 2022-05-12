@@ -34,11 +34,13 @@ public class Controleur {
     }
 
     public void setMenu1(){
+        inter.getInterJ().getGraph().stopTimer();
         if(isFinJeu()){
             inter.getInterJ().getM().setMenuType3();
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
                     if(ia_active && jeu.getIDJoueurCourant() == 2){
+                        inter.getInterJ().delMouseClick();
                         ia.joue();
                     }else{
                         inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
@@ -70,10 +72,11 @@ public class Controleur {
     }
 
     public void joueIA(Piece piece,LinkedList<Case> listeCases){
-        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+        inter.getInterJ().getGraph().poserPieceIA(listeCases,jeu.getNumCouleurCourante());
+        //inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
         inter.getInterJ().getM().resetBorder();
-        setMenu1();
+        //setMenu1();
         inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
     }
 
@@ -216,5 +219,9 @@ public class Controleur {
             }
         }
         return true;
+    }
+
+    public  void setMenu4(){
+        inter.getInterJ().getM().setMenuType4();
     }
 }

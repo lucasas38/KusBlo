@@ -30,7 +30,7 @@ public class ImageKusBlo {
     Image logo;
     Image[] selAnimRouge;
 
-    ImageKusBlo(){
+     public ImageKusBlo(){
         gris = getImage("Gris.png");
         rouge =getImage("Rouge.png");
         grisRouge=getImage("visRouge.png");
