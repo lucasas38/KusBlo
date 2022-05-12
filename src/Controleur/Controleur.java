@@ -77,6 +77,11 @@ public class Controleur {
         inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
     }
 
+    public boolean estPosable2(Piece piece,int x, int y, int decx, int decy){
+        Niveau n= jeu.getNiveau();
+        return n.estPosable(piece, x-decx, y-decy);
+    }
+
     public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){

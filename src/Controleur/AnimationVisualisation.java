@@ -1,7 +1,6 @@
 package Controleur;
 
 import Structures.BasicBackgroundPanel;
-import Vue.ImageKusBlo;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AnimationVisualisation {
-    Timer timer;
+    Timer timerAnimation;
     int numImage;
     boolean asc;
 
@@ -19,13 +18,13 @@ public class AnimationVisualisation {
 
     public void visualisation(BasicBackgroundPanel[][] listPanel,int x, int y, int[][] grille, Image[] imgs){
         numImage=4;
-        timer =new Timer(150, new ActionListener() {
+        timerAnimation =new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visu(listPanel,x,y,grille,imgs);
             }
         });
-        timer.start();
+        timerAnimation.start();
     }
 
     public void visu(BasicBackgroundPanel[][] listPanel,int x, int y, int[][] grille, Image[] imgs){
@@ -54,12 +53,12 @@ public class AnimationVisualisation {
     }
 
     public  void resetTimer(){
-        timer.stop();
+        timerAnimation.stop();
         numImage=4;
         asc=false;
     }
 
     public  boolean hasTimer(){
-        return timer!=null;
+        return timerAnimation !=null;
     }
 }
