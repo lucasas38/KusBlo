@@ -63,8 +63,8 @@ public class Controleur {
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            setMenu1();
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+            setMenu1();
         }
 
     }
