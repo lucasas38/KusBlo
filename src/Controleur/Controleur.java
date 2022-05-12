@@ -191,6 +191,10 @@ public class Controleur {
         setMenu1();
     }
 
+    public void finCouleur() {
+        jeu.finCouleur();
+    }
+
     public int getFrameH(){
         return inter.getH();
     }
@@ -217,4 +221,6 @@ public class Controleur {
         }
         return true;
     }
+
+
 }
