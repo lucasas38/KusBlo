@@ -65,7 +65,7 @@ public class Joueur {
         return listeCouleur[couleurCourant-1];
     }
 
-    void setCouleurCourant(){
+    public void setCouleurCourant(){
         couleurCourant = (couleurCourant%nbCouleurs)+1;
     }
 

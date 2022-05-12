@@ -38,6 +38,10 @@ public class Couleur {
         return id;
     }
 
+    public boolean isPeutJouer() {
+        return peutJouer;
+    }
+
     public ListePieces getListePiecesDispo() {
         return listePiecesDispo;
     }

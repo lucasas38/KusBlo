@@ -43,17 +43,25 @@ public class Controleur {
     }
 
     public void click(Piece piece,int x, int y, int decx, int decy){
-        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
-        //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
-        //inter.delMouseClick();
-        inter.getInterJ().getM().resetBorder();
-        setMenu1();
-        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
-        if(ia_active && jeu.getIDJoueurCourant() == 2){
-            ia.joue();
+        if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
+                jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
+                //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
+                //inter.delMouseClick();
+                inter.getInterJ().getM().resetBorder();
+                setMenu1();
+                inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+                if(ia_active && jeu.getIDJoueurCourant() == 2){
+                    ia.joue();
+                }
+        }else{
+            jeu.setJoueurCourant(); //mise à jour joueurCourant
+            jeu.getJoueur(jeu.getIDJoueurCourant()).setCouleurCourant();  //mise à jour couleurCourante pour le joueur
+            setMenu1();
         }
+
     }
+
 
     public void joueIA(Piece piece,LinkedList<Case> listeCases){
         inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
@@ -149,8 +157,13 @@ public class Controleur {
         inter.getInterJ().getM().selPiece(l*7+c+1);
     }
 
+    public void finJeuCouleur(){
+        System.out.println("Fin jeu joueur courant");
+        jeu.finJeu();
+    }
+
     public void passerTour(){
-        System.out.println("Passe tour");
+        System.out.println("Passe tour joueur courant");
         jeu.passerTour();
         setMenu1();
     }
