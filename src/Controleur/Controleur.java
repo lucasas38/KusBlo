@@ -10,22 +10,36 @@ import java.util.LinkedList;
 public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
-    IA ia;
-    boolean ia_active;
+    IA[] ia;
+//    boolean ia_active;
 
     public Controleur(){
-
+        ia = new IA[3];
+        for (int i=0;i<3;i++){
+            switch (i){
+                case 0:
+                    ia[i] = new IAAleatoire(this);
+                    break;
+                default:
+                    ia[i] = new IAAleatoire(this);
+                    break;
+            }
+        }
     }
 
-    public Controleur(Jeu j){
-        jeu=j;
-        ia_active= false;
-    }
+//    public Controleur(Jeu j){
+//        jeu=j;
+////        ia_active= false;
+//
+//    }
 
-    public void addIA(int type_ia){
-        ia_active=true;
-        if(type_ia==1){
-            ia = new IAAleatoire(this);
+    public void addIA(int type_ia,int idJoueur){
+//        ia_active=true;
+        if(type_ia>=1 && type_ia<4){
+//            ia = new IAAleatoire(this);
+            jeu.getJoueur(idJoueur).setType_ia(type_ia);
+        }else{
+            jeu.getJoueur(idJoueur).setType_ia(1); //par défault
         }
     }
 
@@ -39,9 +53,19 @@ public class Controleur {
             inter.getInterJ().getM().setMenuType3();
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
-                    if(ia_active && jeu.getIDJoueurCourant() == 2){
+//                    if(ia_active && (jeu.getIDJoueurCourant() == 1)){
+                    int type_ia = jeu.getJoueur(jeu.getIDJoueurCourant()).getType_ia();
+                    if(type_ia !=0){
                         inter.getInterJ().delMouseClick();
-                        ia.joue();
+                        switch (type_ia){
+                            case 1:
+                                ia[0].joue();
+                                break;
+                            default:
+                                ia[0].joue();
+                                break;
+                        }
+//                        ia.joue();
                     }else{
                         inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
                     }
@@ -73,7 +97,7 @@ public class Controleur {
 
     public void joueIA(Piece piece,LinkedList<Case> listeCases){
         inter.getInterJ().getGraph().poserPieceIA(listeCases,jeu.getNumCouleurCourante());
-        //inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+//        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
         inter.getInterJ().getM().resetBorder();
         //setMenu1();
@@ -207,9 +231,29 @@ public class Controleur {
     }
 
     public void newGame(){
+//        jeu= new Jeu(4);
+//        addIA(1,1);
+//        addIA(1,2);
+//        addIA(1,3);
+//        addIA(1,4);
+
         jeu= new Jeu(2);
-        addIA(1);
+//        addIA(1,1);
+//        addIA(1,2);
+
         inter.setInterJeu();
+
+        int type_ia = jeu.getJoueur(jeu.getIDJoueurCourant()).getType_ia();
+        if(type_ia !=0) {
+            switch (type_ia) {
+                case 1:
+                    ia[0].joue();
+                    break;
+                default:
+                    ia[0].joue();
+                    break;
+            }
+        }
     }
 
     public void menu(){

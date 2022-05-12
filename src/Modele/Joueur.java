@@ -9,6 +9,7 @@ public class Joueur {
     Couleur[] listeCouleur;  //à explorer pour 2, 3 joueurs : ? créer class couleur + deplaceent de méthodes de Jeu vers Couleur + changement Jeu (constructeur et attribut, et méthodes)
     int nbCouleurs;
     int couleurCourant;
+    int type_ia;
 
     Joueur(int id){
         this.id = id;
@@ -17,6 +18,7 @@ public class Joueur {
         listeCouleur = new Couleur[2];
         this.couleurCourant = 1;
         nbCouleurs=0;
+        type_ia=0;
     }
 
     public int getId() {
@@ -82,5 +84,13 @@ public class Joueur {
 
     public boolean isPeutJouer() {
         return peutJouer;
+    }
+
+    public void setType_ia(int type_ia){
+        this.type_ia=type_ia;
+    }
+
+    public int getType_ia() {
+        return type_ia;
     }
 }
