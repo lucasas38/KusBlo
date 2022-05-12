@@ -84,8 +84,18 @@ public class Controleur {
         return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
 
-    public ListePieces getListPiece(int joueur){
-        return jeu.getJoueur(joueur).getCouleurCourante().getListePiecesDispo();
+    public ListePieces getListPiece(int couleur){
+        if(getNbJoueur()==2){
+            if(couleur>2){
+                return jeu.getJoueur(couleur-2).getListeCouleur()[1].getListePiecesDispo();
+            } else {
+                return jeu.getJoueur(couleur).getListeCouleur()[0].getListePiecesDispo();
+            }
+
+        } else{
+            return jeu.getJoueur(couleur).getCouleurCourante().getListePiecesDispo();
+        }
+
     }
 
     public void visualiser(int x, int y,int[][] grille, int decx,int decy,boolean error){
@@ -172,7 +182,7 @@ public class Controleur {
     }
 
     public void newGame(){
-        jeu= new Jeu(4);
+        jeu= new Jeu(2);
         addIA(1);
         inter.setInterJeu();
     }
