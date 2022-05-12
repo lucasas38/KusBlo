@@ -8,7 +8,6 @@ import static javax.imageio.ImageIO.read;
 
 public class ImageKusBlo {
     Image gris;
-    Image blanc;
     Image rouge;
     Image grisRouge;
     Image selRouge;
@@ -24,12 +23,15 @@ public class ImageKusBlo {
     Image selJ3;
     Image selJ4;
     Image noPos;
+    Image noPosB;
+    Image noPosR;
+    Image noPosV;
+    Image noPosJ;
     Image logo;
     Image[] selAnimRouge;
 
     ImageKusBlo(){
         gris = getImage("Gris.png");
-        blanc=getImage("Blanc.png");
         rouge =getImage("Rouge.png");
         grisRouge=getImage("visRouge.png");
         selBleu= getImage("selBleu.png");
@@ -45,6 +47,10 @@ public class ImageKusBlo {
         selJ3=getImage(("visJaune4.png"));
         selJ4=getImage(("visVert4.png"));
         noPos=getImage("cantPos.png");
+        noPosB=getImage("cantPosB.png");
+        noPosR=getImage("cantPosR.png");
+        noPosV=getImage("cantPosV.png");
+        noPosJ=getImage("cantPosJ.png");
         logo=getImage("logo.png");
         selAnimRouge = new Image[5];
         selAnimRouge[0]=gris;
@@ -95,7 +101,7 @@ public class ImageKusBlo {
         }
     }
 
-    public Image animJoueur(int j){
+    public Image animJoueur(int j, int cFond){
         switch (j){
             case 1:
                 return selJ1;
@@ -106,11 +112,40 @@ public class ImageKusBlo {
             case 4:
                 return selJ4;
             default:
-                return noPos;
+                return noPosi(cFond);
         }
     }
 
     public Image getLogo() {
         return logo;
+    }
+
+    public Image noPosi(int couleur){
+        switch (couleur){
+            case 1 :
+                return noPosB;
+            case 2 :
+                return noPosR;
+            case 3 :
+                return noPosJ;
+            case 4 :
+                return noPosV;
+            default:
+                return noPos;
+        }
+    }
+
+    public int imToInt(Image couleur){
+        if(couleur==noPosB || couleur==couleurJ1) {
+            return 1;
+        } else if(couleur==noPosR || couleur==couleurJ2){
+            return 2;
+        }else  if(couleur==noPosJ || couleur==couleurJ3){
+            return 3;
+        }else if(couleur==noPosV || couleur==couleurJ4){
+            return 4;
+        }else{
+            return 0;
+        }
     }
 }

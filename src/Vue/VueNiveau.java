@@ -99,9 +99,10 @@ public class VueNiveau {
             for(int i=0;i<5;i++){
                 for(int j=0; j<5; j++){
                     if(grille[i][j]==1){
-                        if(listPanel[i+x-decx][j+y-decy].estVide()){
-                            listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue));
-                        }
+                        //if(listPanel[i+x-decx][j+y-decy].estVide()){
+                        int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
+                        listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue, cFond));
+                       // }
                     }
                 }
             }
@@ -114,9 +115,10 @@ public class VueNiveau {
             for(int j=0; j<5; j++){
                 if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
                     if(grille[i][j]!=0){
-                        if(listPanel[i+x-decx][j+y-decy].estVide()){
-                            listPanel[i+x-decx][j+y-decy].changeBackground(im.gris);
-                        }
+                        //if(listPanel[i+x-decx][j+y-decy].estVide()){
+                        int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
+                        listPanel[i+x-decx][j+y-decy].changeBackground(im.coulJoueur(cFond));
+                        //}
                         listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
                     }
                 }
