@@ -145,6 +145,7 @@ public class MenuPiece {
         menu.add(menuType3);
         menu.updateUI();
     }
+
     public void setMenuType4(){
         menu.removeAll();
         menu.add(menuType4);
