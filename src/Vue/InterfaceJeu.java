@@ -61,7 +61,10 @@ public class InterfaceJeu {
             panelCentral.add(repartiteur,BorderLayout.CENTER);
             m.menuType1.addMouseListener(new AdaptateurSelPiece(graph,m,c,true));
             m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
-
+            graph.panelJeu.addMouseMotionListener(mouseAdapt);
+            graph.panelJeu.addMouseListener(mouseAdapt);
+            graph.panelJeu.addMouseWheelListener(mouseAdapt);
+            frame.addKeyListener(keyAdapt);
             //Panel Droite
             JPanel panelDroite = new JPanel();
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
@@ -107,10 +110,8 @@ public class InterfaceJeu {
 
         //Supprime les listener du terrain de jeu
         public void delMouseClick(){
-            graph.panelJeu.removeMouseMotionListener(mouseAdapt);
-            graph.panelJeu.removeMouseListener(mouseAdapt);
-            graph.panelJeu.removeMouseWheelListener(mouseAdapt);
-            frame.removeKeyListener(keyAdapt);
+            mouseAdapt.setActiv(false);
+            keyAdapt.setActiv(false);
         }
 
         //Active le menu bas 1
@@ -122,10 +123,8 @@ public class InterfaceJeu {
         //Active le menu base 2
         public  void setMenu2(int numPiece){
             if(!getM().isPieceSelected()){
-                graph.panelJeu.addMouseMotionListener(mouseAdapt);
-                graph.panelJeu.addMouseListener(mouseAdapt);
-                graph.panelJeu.addMouseWheelListener(mouseAdapt);
-                frame.addKeyListener(keyAdapt);
+                mouseAdapt.setActiv(true);
+                keyAdapt.setActiv(true);
             }
             m.setMenuType2(numPiece);
         }

@@ -26,7 +26,7 @@ public class MenuPiece {
     boolean pieceSelected;
 
     JPanel menuType3;
-
+    JPanel menuType4;
 
 
 
@@ -40,6 +40,7 @@ public class MenuPiece {
         creerMenuType1();
         creerMenuType2();
         creerMenuType3();
+        creerMenuType4();
         resize(c.getFrameW(),c.getFrameH());
     }
 
@@ -93,6 +94,10 @@ public class MenuPiece {
         menuType3 =new JPanel(new BorderLayout());
         menuType3.add(new JLabel("Fin de la partie"));
     }
+    public void creerMenuType4(){
+        menuType3 =new JPanel(new BorderLayout());
+        menuType3.add(new JLabel("Ce n'est pas a votre tour de jouer"));
+    }
 
     //Hauteur du menu complet
     public int getHautMenu(){
@@ -126,7 +131,7 @@ public class MenuPiece {
         numPiece=p+1;
         piece = c.getListPiece(couleur).getPiece(p+1);
         //Affichage de la piece
-        refreshPiece(c.getActCouleur());
+
 
         //Affichage du menu
 
@@ -140,9 +145,15 @@ public class MenuPiece {
         menu.add(menuType3);
         menu.updateUI();
     }
+    public void setMenuType4(){
+        menu.removeAll();
+        menu.add(menuType4);
+        menu.updateUI();
+    }
 
 
     public void showMenuType2(){
+        refreshPiece(c.getActCouleur());
         menu.removeAll();
         menu.add(menuType2);
         menu.updateUI();

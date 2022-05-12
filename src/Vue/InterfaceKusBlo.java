@@ -15,6 +15,7 @@ public class InterfaceKusBlo implements Runnable {
     InterfaceJeu interJ;
     MenuPrincipal menu;
     Controleur c;
+    AdaptateurClavier keyAdapt;
 
 
     public InterfaceKusBlo(Controleur cont){
@@ -34,7 +35,6 @@ public class InterfaceKusBlo implements Runnable {
         menu=new MenuPrincipal(c);
         frameMenu=menu.getFrame();
         frameMenu.setVisible(true);
-
     }
 
     public void setMenu(){
