@@ -131,6 +131,7 @@ public class InterfaceJeu {
 
         //Met à jour uniquement le panneau du joueur qui a joué
         public void refreshPanJoueur(int couleur, int piece){
+            System.out.println("couleur pan : " +couleur);
             switch (couleur){
                 case 1:
                     j4.refreshAffichage(piece);

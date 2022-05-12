@@ -36,6 +36,14 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
                         cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
                     }
                 }
+            } else{
+                int l = e.getY() / n.hauteurCase();
+                int c = e.getX() / n.largeurCase();
+                if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
+                    if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
+                        cont.click(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy());
+                    }
+                }
             }
         }
     }
@@ -54,7 +62,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
             }else{
                 cont.antiHoraire();
             }
-            if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
+            if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy())){
                 if(cont.estPosableRegle(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
                     cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
                 }else{
@@ -66,15 +74,6 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(activ){
-            int l = e.getY() / n.hauteurCase();
-            int c = e.getX() / n.largeurCase();
-            if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
-                if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
-                    cont.click(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy());
-                }
-            }
-        }
     }
 
     @Override

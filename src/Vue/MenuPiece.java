@@ -95,8 +95,8 @@ public class MenuPiece {
         menuType3.add(new JLabel("Fin de la partie"));
     }
     public void creerMenuType4(){
-        menuType3 =new JPanel(new BorderLayout());
-        menuType3.add(new JLabel("Ce n'est pas a votre tour de jouer"));
+        menuType4 =new JPanel(new BorderLayout());
+        menuType4.add(new JLabel("Ce n'est pas a votre tour de jouer"));
     }
 
     //Hauteur du menu complet

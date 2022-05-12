@@ -37,7 +37,6 @@ public class Controleur {
         if(isFinJeu()){
             inter.getInterJ().getM().setMenuType3();
         }else {
-
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
                     if(ia_active && jeu.getIDJoueurCourant() == 2){
                         ia.joue();
@@ -67,9 +66,10 @@ public class Controleur {
                 //inter.delMouseClick();
                 inter.getInterJ().getM().resetBorder();
             System.out.println("2 joueur courant : "+jeu.getIDJoueurCourant() + " "+jeu.getNumCouleurCourante());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),inter.getInterJ().getM().getPiece().getId());
                 setMenu1();
             System.out.println("3 joueur courant : "+jeu.getIDJoueurCourant() + " "+jeu.getNumCouleurCourante());
-                inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+
 //            if(ia_active && jeu.getIDJoueurCourant() == 2) {
 //                ia.joue();
 //            }
