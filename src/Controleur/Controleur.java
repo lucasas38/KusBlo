@@ -48,8 +48,6 @@ public class Controleur {
                     passerTour();
                 }
             }
-
-
     }
 
     public void setMenu2(int l, int c){
@@ -58,23 +56,15 @@ public class Controleur {
     }
 
     public void click(Piece piece,int x, int y, int decx, int decy){
-        System.out.println("1 joueur courant : "+jeu.getIDJoueurCourant() + " "+jeu.getNumCouleurCourante());
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
-                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
-                jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
-                //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
-                //inter.delMouseClick();
-                inter.getInterJ().getM().resetBorder();
-            System.out.println("2 joueur courant : "+jeu.getIDJoueurCourant() + " "+jeu.getNumCouleurCourante());
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),inter.getInterJ().getM().getPiece().getId());
-                setMenu1();
-            System.out.println("3 joueur courant : "+jeu.getIDJoueurCourant() + " "+jeu.getNumCouleurCourante());
-
-//            if(ia_active && jeu.getIDJoueurCourant() == 2) {
-//                ia.joue();
-//            }
-            System.out.println("4 joueur courant : "+jeu.getIDJoueurCourant() + " "+jeu.getNumCouleurCourante());
-            System.out.println("5");
+            inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
+            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
+            System.out.println(jeu.getNiveau());
+            //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
+            //inter.delMouseClick();
+            inter.getInterJ().getM().resetBorder();
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+            setMenu1();
         }
 
     }
