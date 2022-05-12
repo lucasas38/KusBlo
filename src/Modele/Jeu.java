@@ -53,15 +53,14 @@ public class Jeu {
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     public void jouerPiece(int idJoueur,int idPiece, LinkedList<Case> listeCasesPiece){
-        if(listeJoueurs[idJoueur-1].peutJouer){
             Piece piece = listeJoueurs[idJoueur-1].getCouleurCourante().getPieceDispo(idPiece);
             if(piece != null) {
                 if (estPosableRegle(listeCasesPiece, idJoueur)) {
-                    n.ajouterPiece(piece,listeCasesPiece,idJoueur);
+                    n.ajouterPiece(piece,listeCasesPiece,getNumCouleurCourante());
                     calculeCoinPiece(piece,idJoueur);
                     listeJoueurs[idJoueur-1].jouePiece(piece);
                     if(!restePieceJouable()){
-                        finJeu();
+                        finCouleur();
                     }
                     setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
@@ -72,13 +71,10 @@ public class Jeu {
                 System.out.println("Piece "+idPiece+" n'est plus disponible pour le joueur "+idJoueur);
             }
 
-        }
-
     }
 
 
     public void setJoueurCourant() {
-
         joueurCourant = (joueurCourant%nbJoueurs)+1;
     }
 
@@ -132,7 +128,7 @@ public class Jeu {
 
     boolean estCoinValide(int x, int y, int idJoueur){
         if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
-            if(n.aucunVoisin(x,y,idJoueur)){
+            if(n.aucunVoisin(x,y,getJoueur(idJoueur).getCouleurCourante().getId())){
                 listeJoueurs[idJoueur-1].ajouteCoin(new Case(x,y));
                 return true;
             }
@@ -142,6 +138,7 @@ public class Jeu {
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     public boolean estPosableRegle(LinkedList<Case> listeCasesPiece, int idJoueur){
+        Couleur couleurCourante = getJoueur(idJoueur).getCouleurCourante();
         boolean estSurUnCoinPossible = false;
         Iterator<Case> it = listeCasesPiece.iterator();
         while (it.hasNext()){
@@ -150,13 +147,13 @@ public class Jeu {
             Iterator<Case> it2 = voisinsCaseCourante.iterator();
             while(it2.hasNext()){
                 Case voisin = it2.next();
-                if(!(n.grille[voisin.getX()][voisin.getY()] != idJoueur ||
+                if(!(n.grille[voisin.getX()][voisin.getY()] != couleurCourante.getId() ||
                         listeCasesPiece.contains(voisin))){ // && grille[voisin.getX()][voisin.getY()] == idJoueur)
                     return false;
                 }
             }
             if(!estSurUnCoinPossible){  //dès qu'on trouve UNE CASE qui est sur un coin possible du joueur, on ne teste plus les autres
-                estSurUnCoinPossible = listeJoueurs[idJoueur-1].getCouleurCourante().listeCoins.contains(caCourante);  //on test si au moins une des est dans un coin possible pour le joueur
+                estSurUnCoinPossible = couleurCourante.listeCoins.contains(caCourante);  //on test si au moins une des est dans un coin possible pour le joueur
             }
 
         }
@@ -245,6 +242,7 @@ public class Jeu {
             Piece p = it.next();
             LinkedList<CoupleListeValeur<Case,Integer>> liste = positionPossibleConfig(p);
             if(liste.size()>0){
+                System.out.println(liste.getFirst().getListe());
                 return true;
             }
         }
@@ -256,7 +254,8 @@ public class Jeu {
         return nbJoueurs;
     }
 
-    public void finJeu() {
+    public void finCouleur() {
+        System.out.println("Fin jeu pour couleur "+getJoueur(getIDJoueurCourant()).getCouleurCourante().id);
         Joueur joueur = listeJoueurs[joueurCourant-1];
         joueur.peutJouer = joueur.finCouleur();
         if(!joueur.peutJouer){
@@ -265,10 +264,9 @@ public class Jeu {
     }
 
     public void passerTour() {
-        if(getJoueur(getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
-            finJeu();
-        }
+        System.out.println("Couleur "+getJoueur(getIDJoueurCourant()).getCouleurCourante().id +" passe son tour");
+        int idJoueur = getIDJoueurCourant();
         setJoueurCourant();
-        getJoueur(getIDJoueurCourant()).setCouleurCourant();
+        getJoueur(idJoueur).setCouleurCourant();
     }
 }

@@ -80,7 +80,7 @@ public class Joueur {
         return false;
     }
 
-    public boolean peutJouer() {
+    public boolean isPeutJouer() {
         return peutJouer;
     }
 }

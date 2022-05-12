@@ -21,6 +21,7 @@ public class IAAleatoire extends IA {
 
     @Override
     public void joue() {
+
         ListePieces listePiecesDispo = copiePiecesDispo();
 
         int indexPiecesDispo;
@@ -53,8 +54,11 @@ public class IAAleatoire extends IA {
                 listePiecesDispo.supprimer(p.getId());
             }
         }
-        System.out.println("Ia ne peut plus jouer, elle passe son tour");
-        cont.passerTour();
+        System.out.println("Ia ne peut plus jouer");
+
+
+//        cont.jeu.passerTour();
+        cont.setMenu1();
 
     }
 

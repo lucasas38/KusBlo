@@ -124,7 +124,7 @@ public class MenuPiece {
     }
     public void setMenuType2(int p){
         numPiece=p+1;
-        piece = c.getListPiece(joueur).getPiece(p+1);
+        piece = c.getListPiece(couleur).getPiece(p+1);
         //Affichage de la piece
         refreshPiece(c.getActCouleur());
 

@@ -52,12 +52,12 @@ public void ajouterPiece(Piece p,int x, int y,int idJoueur){
 }
 
     //mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
-    public void ajouterPiece(Piece p, LinkedList<Case> listeCasesPiece,int idJoueur){
-        p.listeCases = listeCasesPiece;  // voir si clone() utile ?
+    public void ajouterPiece(Piece p, LinkedList<Case> listeCasesPiece,int idCouleur){
+        p.listeCases = listeCasesPiece;
         Iterator<Case> it = p.listeCases.iterator();
         while (it.hasNext()){
             Case ca = it.next();
-            grille[ca.getX()][ca.getY()] = idJoueur;
+            grille[ca.getX()][ca.getY()] = idCouleur;
         }
     }
 
@@ -105,17 +105,17 @@ public void ajouterPiece(Piece p,int x, int y,int idJoueur){
         return (x < grille.length && x >= 0) && (y < grille.length && y >= 0);
     }
 
-    public boolean aucunVoisin(int x, int y, int idJoueur) {
-        return testVoisin(x-1,y,idJoueur)
-        && testVoisin(x+1,y,idJoueur)
-        && testVoisin(x,y-1,idJoueur)
-        && testVoisin(x,y+1,idJoueur);
+    public boolean aucunVoisin(int x, int y, int idCouleur) {
+        return testVoisin(x-1,y,idCouleur)
+        && testVoisin(x+1,y,idCouleur)
+        && testVoisin(x,y-1,idCouleur)
+        && testVoisin(x,y+1,idCouleur);
 
     }
 
-    private boolean testVoisin(int x, int y, int idJoueur) {
+    private boolean testVoisin(int x, int y, int idCouleur) {
         if(estDansGrille(x,y)){
-            if(grille[x][y] != idJoueur){
+            if(grille[x][y] != idCouleur){
                 return true;
             }else{
                 return false;
