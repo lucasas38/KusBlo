@@ -2,6 +2,8 @@ package Modele;
 
 import Structures.Case;
 
+import java.util.Iterator;
+
 public class Joueur {
     int id;  //identifiant unique d'un joueur entre (1 et 2) ou (1 et 3) ou (1 et 4)
     int score;  //score d'un joueur
@@ -42,7 +44,15 @@ public class Joueur {
     public void setScoreFinal(){
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
-                this.score -= this.listeCouleur[i].getListePiecesDispo().getTaille();
+                //enlever pour chaque piece restante sa taille
+                Iterator<Piece> it = this.listeCouleur[i].getListePiecesDispo().iterateur();
+                Piece p;
+                while(it.hasNext()){
+                    p = it.next();
+                    this.score -= p.taille;
+                }
+//                this.score -= this.listeCouleur[i].getListePiecesDispo().getTaille();
+
                 if(this.score < 0){
                     this.score = 0;
                 }
