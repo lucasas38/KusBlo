@@ -18,10 +18,10 @@ public class PanneauJoueur {
     JPanel[] listePiece;
 
     //Panneau pour la couleur c
-    PanneauJoueur(int c, Controleur control){
+    PanneauJoueur(int c, Controleur control, ImageKusBlo ima){
         couleur=c;
         cont=control;
-        im=new ImageKusBlo();
+        im=ima;
         affichageListe= new JPanel(new GridLayout(3,7));
         listePiece= new JPanel[21];
         pan = new JPanel(new BorderLayout());

@@ -22,22 +22,22 @@ public class InterfaceJeu {
         Controleur c;
 
 
-        public InterfaceJeu(Controleur cont, int w, int h){
+        public InterfaceJeu(Controleur cont, int w, int h, ImageKusBlo im){
             c=cont;
             frame = new JFrame("KusBlo");
             frame.setSize(w, h);
             setResize();
 
             m=new MenuPiece(c);
-            graph = new VueNiveau(c);
+            graph = new VueNiveau(c,im);
             mouseAdapt =new AdaptateurSouris(graph,m,c);
             keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
 
             //Création des panneau joueur
-            j1 = new PanneauJoueur(1,c);
-            j2 = new PanneauJoueur(2,c);
-            j3 = new PanneauJoueur(3,c);
-            j4 = new PanneauJoueur(4,c);
+            j1 = new PanneauJoueur(1,c,im);
+            j2 = new PanneauJoueur(2,c,im);
+            j3 = new PanneauJoueur(3,c,im);
+            j4 = new PanneauJoueur(4,c,im);
 
 
             //Panel Gauche
@@ -131,7 +131,6 @@ public class InterfaceJeu {
 
         //Met à jour uniquement le panneau du joueur qui a joué (qui est donc le joueur précedent
         public void refreshPanJoueur(int couleur, int piece){
-            System.out.println("couleur pan : " +couleur);
             switch (couleur){
                 case 1:
                     j4.refreshAffichage(piece);

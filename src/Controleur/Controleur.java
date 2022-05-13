@@ -11,7 +11,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv = false;
 
     public Controleur(){
         ia = new IA[3];
@@ -46,12 +46,12 @@ public class Controleur {
             inter.getInterJ().delMouseClick();
             int maxScore=jeu.getJoueur(1).getScore();
             int bestPlayer=1;
+            //affichage temporaire
             for (int i=1;i<jeu.getNbJoueurs()+1;i++){
                 if(jeu.getJoueur(i).getScore()>maxScore){
                     maxScore=jeu.getJoueur(i).getScore();
                     bestPlayer=i;
                 }
-                //affichage temporaire
                 System.out.println("Joueur "+i+" a obtenu un score de "+jeu.getJoueur(i).getScore());
             }
             inter.getInterJ().getM().setMenuType3(bestPlayer);
@@ -244,14 +244,14 @@ public class Controleur {
 
     public void newGame(){
        jeu= new Jeu(4);
-        addIA(1,1);
-//        addIA(1,2);
-        addIA(1,3);
-        addIA(1,4);
+        //addIA(1,1);
+        //addIA(1,2);
+       // addIA(1,3);
+        //addIA(1,4);
 
-       // jeu= new Jeu(2);
-       // addIA(1,1);
-      //  addIA(1,2);
+        jeu= new Jeu(2);
+        addIA(1,1);
+         addIA(1,2);
 
         inter.setInterJeu();
 

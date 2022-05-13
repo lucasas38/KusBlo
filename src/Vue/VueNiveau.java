@@ -26,10 +26,10 @@ public class VueNiveau {
         return listPanel;
     }
 
-    VueNiveau(Controleur cont) {
+    VueNiveau(Controleur cont, ImageKusBlo ima) {
         c= cont;
         panelJeu = new JPanel();
-        im = new ImageKusBlo();
+        im = ima;
         panelJeu.setLayout(new GridLayout(20, 20));
 
         anim= new AnimationVisualisation(c);
