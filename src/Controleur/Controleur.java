@@ -91,13 +91,19 @@ public class Controleur {
 
     }
 
-    public void joueIA(Piece piece,LinkedList<Case> listeCases){
-        //inter.getInterJ().getGraph().poserPieceIA(listeCases,jeu.getNumCouleurCourante());
-        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+    public void joueIA2(Piece piece,LinkedList<Case> listeCases){
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
         inter.getInterJ().getM().resetBorder();
         inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        System.out.println("test");
         setMenu1();
+    }
+
+
+    public void joueIA(Piece piece,LinkedList<Case> listeCases){
+        inter.getInterJ().getGraph().poserPieceIA(piece,listeCases,jeu.getNumCouleurCourante());
+        //inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+
 
     }
 
@@ -269,5 +275,13 @@ public class Controleur {
 
     public  void setMenu4(){
         inter.getInterJ().getM().setMenuType4();
+    }
+
+    public void visuIA(LinkedList<Case> listeCase, int couleur){
+        inter.getInterJ().getGraph().visualiser(couleur,listeCase);
+    }
+
+    public void poserPiece(LinkedList<Case> listeCase, int couleur){
+        inter.getInterJ().getGraph().poserPiece(couleur,listeCase);
     }
 }
