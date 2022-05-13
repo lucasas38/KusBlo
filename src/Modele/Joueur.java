@@ -3,13 +3,13 @@ package Modele;
 import Structures.Case;
 
 public class Joueur {
-    int id;
-    int score;
-    boolean peutJouer;
-    Couleur[] listeCouleur;  //à explorer pour 2, 3 joueurs : ? créer class couleur + deplaceent de méthodes de Jeu vers Couleur + changement Jeu (constructeur et attribut, et méthodes)
-    int nbCouleurs;
-    int couleurCourant;
-    int type_ia;
+    int id;  //identifiant unique d'un joueur entre (1 et 2) ou (1 et 3) ou (1 et 4)
+    int score;  //score d'un joueur
+    boolean peutJouer; //true si joueur à encore une couleur qu'il peut jouer
+    Couleur[] listeCouleur;  // Liste des couleurs du joueur entre (1 et 2)
+    int nbCouleurs;  //nombre de couleurs que joue un joueur
+    int couleurCourant;  //identifiant de la couleur courante que le joueur joue/va jouer
+    int type_ia; //0 = pas une ia | 1=Ia aleatoire | 2 = IA intermediaire | 3 = IA difficile
 
     Joueur(int id){
         this.id = id;
@@ -38,6 +38,7 @@ public class Joueur {
         nbCouleurs++;
     }
 
+    //definit le score final d'un joueur : ajoute les bonus et les malus concernant les pieces qu'il a posé
     public void setScoreFinal(){
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
@@ -54,11 +55,13 @@ public class Joueur {
         }
     }
 
+    //met à jour le score d'un joueur et joue une piece pour sa couleur courante
     void jouePiece(Piece p){
         this.score += p.taille;
         this.listeCouleur[couleurCourant-1].jouePiece(p);
     }
 
+    //ajoute un coin à la couleur courante du joueur
     void ajouteCoin(Case ca){
         this.listeCouleur[couleurCourant-1].ajouteCoin(ca);
     }
@@ -67,10 +70,13 @@ public class Joueur {
         return listeCouleur[couleurCourant-1];
     }
 
+    //change la couleur courante d'un joueur, passe à la suivante
     public void setCouleurCourant(){
         couleurCourant = (couleurCourant%nbCouleurs)+1;
     }
 
+    //met l'attribut peutJouer de sa couleur courante à faux, signifie que cette couleur ne peut plus jouer
+    //parcourt ses couleur et si plus aucune ne peut jouer, passe son attribut peutJouer à faux, le joueur ne peut plus jouer
     public boolean finCouleur() {
         Couleur couleur = getCouleurCourante();
         couleur.peutJouer=false;

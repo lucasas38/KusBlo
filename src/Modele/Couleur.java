@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Couleur {
-    int id;
-    boolean peutJouer;
-    ListePieces listePiecesDispo;
-    LinkedList<Piece> listesPiecesPosees;
-    HashSet<Case> listeCoins;
+    int id;  //identifiant unique d'une piece (entre 1 et 4)
+    boolean peutJouer; //true si une couleur peut encore jouer
+    ListePieces listePiecesDispo; //liste des pieces disponibles pour une couleur
+    LinkedList<Piece> listesPiecesPosees;  //liste des pieces posées par une couleur
+    HashSet<Case> listeCoins;  //liste des coins possible pour une couleur
 
     Couleur(int idCouleur){
         this.id = idCouleur;
@@ -18,6 +18,8 @@ public class Couleur {
         this.listePiecesDispo = new ListePieces();
         this.listesPiecesPosees = new LinkedList<>();
         this.listeCoins = new HashSet<>();
+        //determine les coins de départ pour une couleur
+        //exemple : couleur 1 commence en  haut à gauche
         switch (idCouleur){
             case 1:
                 listeCoins.add(new Case(0,0));
@@ -58,6 +60,7 @@ public class Couleur {
         return listePiecesDispo.getPiece(idPiece);
     }
 
+    //met à jour les listes de piece d'une couleur
     public void jouePiece(Piece p) {
         this.listePiecesDispo.supprimer(p.id);
         this.listesPiecesPosees.addLast(p);

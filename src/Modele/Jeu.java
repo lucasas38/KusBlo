@@ -8,15 +8,16 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Jeu {
-    Niveau n;
+    Niveau n;  //le plateau de jeu
     int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
-    Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs
-    int joueurCourant;
+    Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs chacun contenant une/des couleurs
+    int joueurCourant; //identifiant unique du joueur courant qui joue/doit jouer
 
 
     public Jeu(int nombreJoueurs){
         this.n = new Niveau();
 
+        //nombre de joueurs doit etre compris entre 1 et 4
         if(nombreJoueurs>1 && nombreJoueurs<=4){
             this.nbJoueurs = nombreJoueurs;
         }else{
@@ -25,6 +26,9 @@ public class Jeu {
 
         listeJoueurs = new Joueur[this.nbJoueurs];
 
+        //si 4 joueurs, chaque joueur a une couleur
+        //si 2 joeurs, chque joueur a 2 couleurs différentes
+        //si 3 joueurs, chque joueur a une couleur et se partagent la derniere
         for (int i=0;i<this.nbJoueurs;i++){
             listeJoueurs[i] = new Joueur(i+1);
             if(this.nbJoueurs == 4){
@@ -34,7 +38,7 @@ public class Jeu {
                 listeJoueurs[i].addCouleur(new Couleur(i+3));
             }else{
                 listeJoueurs[i].addCouleur(new Couleur(i+1));
-                //manque couleur 4 (meme reference) à ajouter à chacun
+                //manque couleur 4 (meme reference) à ajouter à chacun (sans compter le score pour celle ci)
             }
         }
 
@@ -52,6 +56,7 @@ public class Jeu {
     }
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
+
     public void jouerPiece(int idJoueur,int idPiece, LinkedList<Case> listeCasesPiece){
             Piece piece = listeJoueurs[idJoueur-1].getCouleurCourante().getPieceDispo(idPiece);
             if(piece != null) {
@@ -235,7 +240,6 @@ public class Jeu {
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
         Couleur couleur = getJoueur(getIDJoueurCourant()).getCouleurCourante();
-        System.out.println("restePieceJouable "+couleur.id);
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
 
@@ -243,11 +247,9 @@ public class Jeu {
             Piece p = it.next();
             LinkedList<CoupleListeValeur<Case,Integer>> liste = positionPossibleConfig(p);
             if(liste.size()>0){
-                System.out.println(" "+true);
                 return true;
             }
         }
-        System.out.println(" "+false);
         return false;
 
     }

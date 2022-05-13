@@ -29,29 +29,31 @@ public class Niveau {
         return res;
     }
 
-//    //mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
-public void ajouterPiece(Piece p,int x, int y,int idJoueur){
-    int [][] matrice = p.getMatrice();
+    //   mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
+    //place la piece sur la grille du niveau
+    public void ajouterPiece(Piece p,int x, int y,int idCouleur){
+        int [][] matrice = p.getMatrice();
 
-    int debX = p.getDebMatrice().getX();
-    int debY = p.getDebMatrice().getY();
-    int finX = p.getFinMatrice().getX();
-    int finY = p.getFinMatrice().getY();
+        int debX = p.getDebMatrice().getX();
+        int debY = p.getDebMatrice().getY();
+        int finX = p.getFinMatrice().getX();
+        int finY = p.getFinMatrice().getY();
 
-    p.listeCases = new LinkedList<>();
+        p.listeCases = new LinkedList<>();
 
-    for (int i = debX;i< finX+1;i++){
-        for (int j = debY;j< finY+1;j++){
-            if(matrice[i][j] == 1){
-                grille[x+i-debX][y+j-debY] = idJoueur;
-                p.listeCases.add(new Case(x+i-debX,y+j-debY));
+        for (int i = debX;i< finX+1;i++){
+            for (int j = debY;j< finY+1;j++){
+                if(matrice[i][j] == 1){
+                    grille[x+i-debX][y+j-debY] = idCouleur;
+                    p.listeCases.add(new Case(x+i-debX,y+j-debY));
+                }
             }
         }
+
     }
 
-}
-
     //mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
+    //place la couleur correspondante dans la grille du niveau
     public void ajouterPiece(Piece p, LinkedList<Case> listeCasesPiece,int idCouleur){
         p.listeCases = listeCasesPiece;
         Iterator<Case> it = p.listeCases.iterator();
@@ -61,6 +63,7 @@ public void ajouterPiece(Piece p,int x, int y,int idJoueur){
         }
     }
 
+    //verifie si une piece ne superpose aucune autre piece, n'ecrase rien et ne depasse pas de la grille du niveau
     public boolean estPosable(Piece p, int x, int y){
         int[][] matrice = p.getMatrice();
         for(int i=0;i<5;i++){
@@ -81,6 +84,7 @@ public void ajouterPiece(Piece p,int x, int y,int idJoueur){
 
 
 
+    //retourne les voisins d'une case
     public LinkedList<Case> voisinsCase(Case ca) {
         LinkedList<Case> liste = new LinkedList<>();
         int x = ca.getX();
@@ -101,10 +105,12 @@ public void ajouterPiece(Piece p,int x, int y,int idJoueur){
         return liste;
     }
 
+    //return true si le point x et y est dans la grille
     boolean estDansGrille(int x, int y){
         return (x < grille.length && x >= 0) && (y < grille.length && y >= 0);
     }
 
+    //return true si le point x et y n'a aucun voisin de meme couleur que lui
     public boolean aucunVoisin(int x, int y, int idCouleur) {
         return testVoisin(x-1,y,idCouleur)
         && testVoisin(x+1,y,idCouleur)

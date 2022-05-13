@@ -11,7 +11,6 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-//    boolean ia_active;
 
     public Controleur(){
         ia = new IA[3];
@@ -27,16 +26,9 @@ public class Controleur {
         }
     }
 
-//    public Controleur(Jeu j){
-//        jeu=j;
-////        ia_active= false;
-//
-//    }
 
     public void addIA(int type_ia,int idJoueur){
-//        ia_active=true;
         if(type_ia>=1 && type_ia<4){
-//            ia = new IAAleatoire(this);
             jeu.getJoueur(idJoueur).setType_ia(type_ia);
         }else{
             jeu.getJoueur(idJoueur).setType_ia(1); //par défault
@@ -51,9 +43,14 @@ public class Controleur {
         inter.getInterJ().getGraph().stopTimer();
         if(isFinJeu()){
             inter.getInterJ().getM().setMenuType3();
+
+            //affichage temporaire
+            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+                System.out.println("Joueur "+i+" a obtenu un score de "+jeu.getJoueur(i).getScore());
+            }
+
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
-//                    if(ia_active && (jeu.getIDJoueurCourant() == 1)){
                     int type_ia = jeu.getJoueur(jeu.getIDJoueurCourant()).getType_ia();
                     if(type_ia !=0){
                         inter.getInterJ().delMouseClick();
@@ -65,7 +62,6 @@ public class Controleur {
                                 ia[0].joue();
                                 break;
                         }
-//                        ia.joue();
                     }else{
                         inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
                     }
@@ -232,15 +228,15 @@ public class Controleur {
     }
 
     public void newGame(){
-        jeu= new Jeu(4);
-        addIA(1,1);
-        addIA(1,2);
-        addIA(1,3);
-        addIA(1,4);
-
-//        jeu= new Jeu(2);
+//        jeu= new Jeu(4);
 //        addIA(1,1);
 //        addIA(1,2);
+//        addIA(1,3);
+//        addIA(1,4);
+
+        jeu= new Jeu(2);
+        addIA(1,1);
+        addIA(1,2);
 
         inter.setInterJeu();
 

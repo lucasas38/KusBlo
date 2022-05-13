@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Piece {
-    int id;
-    int taille;
-    int decx;
-    int decy;
-    int[][] matrice; // /!\ doit être une matrice carrée
-    Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice
-    LinkedList<Case> listeCases; //mis à jour quand la piece est posée (on sait qu'elle ne bougera plus)
+    int id;  //identifiant unique d'une piece
+    int taille;  //nombre de petits carré qui composent la piece
+    int decx;  //correspondent à l'ordonée du premier carré rempli dans la matrice
+    int decy;  //correspond à l'abscisse
+    int[][] matrice; // /!\ doit être une matrice carrée : représente la piece sur une matrice carré (5*5) : 1 = contient un carré et 0 = vide
+    Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice : permet de connaitre la sous matrice dans la matrice (5*5)
+    LinkedList<Case> listeCases; //mis à jour quand la piece est posée (on sait qu'elle ne bougera plus) : liste de cases de la piece avec les "vraies" coordonnées sur le plateau
 
     public Piece(int id,int taille){
         this.id = id;
@@ -23,6 +23,7 @@ public class Piece {
         this.listeCases = null; //liste des cases d'une piece avec les vraies coordonnées dans la grille du niveau
     }
 
+    //met à jour decx et decy
     public void refreshCaseSelec(){
         decx=0;
         decy=0;
@@ -62,6 +63,7 @@ public class Piece {
         return listeCases;
     }
 
+    //met à jour la matrice d'une piece ainsi que debMatrice et finMatrice
     public void setMatrice(int[][] matrice) {
         this.matrice = matrice;
 
@@ -78,6 +80,7 @@ public class Piece {
         }
     }
 
+    //tourne une piece dans le sens horaire
     public void rotationHoraire(){
         int[][] newMatrice = new int[5][5];
         for (int i = 0;i< matrice.length;i++){
@@ -92,6 +95,7 @@ public class Piece {
         refreshCaseSelec();
     }
 
+    //tourne une piece dans le sens anti-horaire
     public void rotationAntiHoraire(){
         int[][] newMatrice = new int[5][5];
         for (int i = 0;i< matrice.length;i++){
@@ -106,6 +110,7 @@ public class Piece {
         refreshCaseSelec();
     }
 
+    ////tourne une piece de façon symetrique
     public void rotationSymetrique(){
         int[][] newMatrice = new int[5][5];
         for (int i = 0;i< matrice.length;i++){
