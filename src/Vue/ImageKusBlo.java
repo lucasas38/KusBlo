@@ -30,6 +30,7 @@ public class ImageKusBlo {
     Image logo;
     Image[] selAnimRouge;
 
+    //Récupère toutes les images
      public ImageKusBlo(){
         gris = getImage("Gris.png");
         rouge =getImage("Rouge.png");
@@ -61,6 +62,7 @@ public class ImageKusBlo {
         }
     }
 
+    //récupère l'image demandée
     public Image getImage(String s){
         try{
             ImageIcon icon = new ImageIcon(read(new File("./res/img/"+s)));
@@ -71,6 +73,7 @@ public class ImageKusBlo {
         return null;
     }
 
+    //Renvoie l'image correspondante au jouer
     public Image coulJoueur(int j){
         switch (j){
             case 1:
@@ -86,6 +89,7 @@ public class ImageKusBlo {
         }
     }
 
+    //Renvoie l'image de sélection correspondante au joueur A SUPPRIMER
     public Image selCouleur(int j){
         switch (j){
             case 1:
@@ -101,6 +105,8 @@ public class ImageKusBlo {
         }
     }
 
+
+    //Renvoie l'image de sélection correspondante au joueur
     public Image animJoueur(int j, int cFond){
         switch (j){
             case 1:
@@ -116,10 +122,13 @@ public class ImageKusBlo {
         }
     }
 
+    //Renvoie le logo
     public Image getLogo() {
         return logo;
     }
 
+
+    //Renvoie l'image hachuré en fonction du fond
     public Image noPosi(int couleur){
         switch (couleur){
             case 1 :
@@ -135,6 +144,7 @@ public class ImageKusBlo {
         }
     }
 
+    //Renvoie la valeur correspondant à l'image du fond
     public int imToInt(Image couleur){
         if(couleur==noPosB || couleur==couleurJ1) {
             return 1;

@@ -24,6 +24,7 @@ public class AdaptateurSelPiece implements MouseListener {
         cont=c;
     }
 
+    //Sélectionne la pièce ou affiche la pièce toute seule avec un click molette;
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isMiddleMouseButton(e)) {
             int l = e.getY() / m.getHautMenu();

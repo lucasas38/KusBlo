@@ -38,14 +38,13 @@ public class VueNiveau {
         for (int i = 0; i < 20; i++) {
             for (int j = 0; j < 20; j++) {
                 BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.gris);
-
                 newPan.setBorder(BorderFactory.createLineBorder(Color.black));
                 newPan.setBackground(Color.lightGray);
                 listPanel[i][j] = newPan;
                 panelJeu.add(newPan);
             }
         }panelJeu.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-        resize(c.getFrameW(),c.getFrameH());
+        resize(c.getFrameW(),c.getFrameH()); //Formate l'affichage de la grille
 
     }
     //Renvoi la hauteur d'une case de façon dynamique
@@ -57,12 +56,8 @@ public class VueNiveau {
         return  panelJeu.getWidth()/20;
     }
 
-    //Pas utilisé
-    public void updatePan(int i, int j){
-        listPanel[i][j].changeBackground(im.rouge);
-    }
 
-    //Pose la pièce (dans la mesure du possible)
+    //Pose la pièce dans la grille avec la couleur correspondante
     public void poserPiece(int joueur,int x, int y, int[][] grille, int decx, int decy){
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
@@ -77,6 +72,7 @@ public class VueNiveau {
         }
     }
 
+    //Pose la pièce dans la grille à partir du liste de case
     public void poserPiece(int joueur,LinkedList<Case> listeCases){
         Iterator<Case> it = listeCases.iterator();
         Case ca;
@@ -92,24 +88,24 @@ public class VueNiveau {
     }
 
 
-    //Visualisation de la pièce(à rajouter la condition du estPosable)
+    //Visualisation de la pièce en fonction de la couleur du fond
     public void visualiser(int joue,int x, int y, int[][] grille, int decx, int decy ){
         if(joue==2){
-            anim.visualisation(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
+            anim.visualisationClignotement(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
         } else {
             for(int i=0;i<5;i++){
                 for(int j=0; j<5; j++){
                     if(grille[i][j]!=0){
-                        //if(listPanel[i+x-decx][j+y-decy].estVide()){
+                        //On récupère la couleur du fond pour ne pas le supprimer
                         int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue, cFond));
-                       // }
                     }
                 }
             }
         }
     }
 
+    //Visualisation à partir d'une liste de case
     public void visualiser(int couleur,LinkedList<Case> listeCase){
         Iterator<Case>ite = listeCase.iterator();
         while(ite.hasNext()){
@@ -124,29 +120,35 @@ public class VueNiveau {
             for(int j=0; j<5; j++){
                 if(x+i-decx<20 && y+j-decy<20 && x+i-decx>=0 && y+j-decy>=0){
                     if(grille[i][j]!=0){
-                        //if(listPanel[i+x-decx][j+y-decy].estVide()){
+                        //On récupère le fond de visualisation pour remettre la bonne couleur
                         int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.coulJoueur(cFond));
-                        //}
                         listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
                     }
                 }
             }
         }
+
+        //On supprime le time d'animation pour la visualisation rouge
         if(anim.hasTimer()){
             anim.resetTimerAnimation();
         }
     }
 
+    //redimensionne la taille de la grille
     public void resize(int w, int h){
         int minDim = Math.min(w/2,3*h/4);
         panelJeu.setPreferredSize(new Dimension(minDim,minDim));
     }
 
+
+    //Fonction de visualisation pour l'animation de l'IA
     public void poserPieceIA(Piece piece, LinkedList<Case> listeCase, int couleur){
         anim.visualisationIa(piece,listeCase,couleur);
     }
 
+
+    //Arrête de le timer pour la visualisation de l'IA
     public void stopTimer(){
         if(anim.hasTimerIA()){
             anim.resetTimerIa();
