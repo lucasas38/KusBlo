@@ -1,3 +1,5 @@
+import Controleur.IA;
+import Controleur.IAAleatoire;
 import Modele.*;
 
 public class Test {
@@ -6,10 +8,9 @@ public class Test {
 
         Jeu j = new Jeu(2);
 
-        ListePieces l = new ListePieces();
-        //Utilise equals
-        //l.supprimer(l.liste.getFirst());
-        l.supprimer(l.getListe().getLast().getId());
+        IA ia = new IAAleatoire(j);
+
+        ia.joue();
 
 
 

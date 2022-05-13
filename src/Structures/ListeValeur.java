@@ -2,11 +2,11 @@ package Structures;
 
 import java.util.LinkedList;
 
-public class CoupleListeValeur<E,A> {
+public class ListeValeur<E,A> {
     LinkedList<E> liste;
     A valeur;
 
-    public CoupleListeValeur(LinkedList<E> l ,A v){
+    public ListeValeur(LinkedList<E> l , A v){
         liste = l;
         valeur = v;
     }

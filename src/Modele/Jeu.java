@@ -1,7 +1,7 @@
 package Modele;
 
 import Structures.Case;
-import Structures.CoupleListeValeur;
+import Structures.ListeValeur;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -208,9 +208,9 @@ public class Jeu {
     //CoupleListeValeur contient une LinkedList<E> et une valeur
     //retourne la liste de toute les position possible pour une piece selon toutes ses configurations (rotation, miroir)
     //si la taille de la liste retourné est == 0 alors il n'y a aucune position possible pour cette piece (elle ne peut pas etre placé
-    public LinkedList<CoupleListeValeur<Case,Integer>> positionPossibleConfig(Piece p){
+    public LinkedList<ListeValeur<Case,Integer>> positionPossibleConfig(Piece p){
 
-        LinkedList<CoupleListeValeur<Case,Integer>> listeEmplacementPossible = new LinkedList<>();
+        LinkedList<ListeValeur<Case,Integer>> listeEmplacementPossible = new LinkedList<>();
 
         //hashset pour stocker les configurations possibles pour une piece (differentes rotation/miroir peuvent obtenir la meme piece)
         HashSet<LinkedList<Case>> configPiecePossible = new HashSet<>();
@@ -236,7 +236,7 @@ public class Jeu {
                         if(n.estPosable(p,x-decx,y-decy)){
                             LinkedList<Case> configSelonEmplacement = tradMatrice(p,x-decx,y-decy);
                             if(estPosableRegle(configSelonEmplacement,this.joueurCourant)){
-                                listeEmplacementPossible.add(new CoupleListeValeur(configSelonEmplacement,i));
+                                listeEmplacementPossible.add(new ListeValeur(configSelonEmplacement,i));
                             }
                         }
                     }
@@ -265,7 +265,7 @@ public class Jeu {
 
         while (it.hasNext()){ //chaque piece
             Piece p = it.next();
-            LinkedList<CoupleListeValeur<Case,Integer>> liste = positionPossibleConfig(p);
+            LinkedList<ListeValeur<Case,Integer>> liste = positionPossibleConfig(p);
             if(liste.size()>0){
                 return true;
             }
