@@ -244,14 +244,14 @@ public class Controleur {
 
     public void newGame(){
        jeu= new Jeu(4);
-        addIA(1,1);
-        addIA(1,2);
-        addIA(1,3);
-        addIA(1,4);
+        //addIA(1,1);
+        //addIA(1,2);
+       // addIA(1,3);
+        //addIA(1,4);
 
-       // jeu= new Jeu(2);
-       // addIA(1,1);
-      //  addIA(1,2);
+        jeu= new Jeu(2);
+        addIA(1,1);
+         addIA(1,2);
 
         inter.setInterJeu();
 

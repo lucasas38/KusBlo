@@ -15,7 +15,9 @@ public class InterfaceKusBlo implements Runnable {
     InterfaceJeu interJ;
     MenuPrincipal menu;
     Controleur c;
+    ImageKusBlo im;
     AdaptateurClavier keyAdapt;
+    int test=0;
 
 
     public InterfaceKusBlo(Controleur cont){
@@ -29,6 +31,7 @@ public class InterfaceKusBlo implements Runnable {
     }
 
     public void run(){
+        im= new ImageKusBlo();
         frameMenu = new JFrame("KusBlo");
         frameMenu.setSize(800, 600);
         frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +49,9 @@ public class InterfaceKusBlo implements Runnable {
 
     //Affiche un nouveau jeu
     public void setInterJeu(){
-        interJ= new InterfaceJeu(c ,frameMenu.getWidth(), frameMenu.getHeight());
+        interJ= new InterfaceJeu(c ,frameMenu.getWidth(), frameMenu.getHeight(),im);
+        test++;
+        System.out.println("lancement n°"+test);
         frameJeu=interJ.getFrame();
         frameMenu.setVisible(false);
         frameJeu.setVisible(true);
