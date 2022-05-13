@@ -5,6 +5,7 @@ import Controleur.Controleur;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+//NON FONCTIONNEL
 public class AdaptateurClavier extends KeyAdapter {
     Controleur control;
     AdaptateurSouris adapt;

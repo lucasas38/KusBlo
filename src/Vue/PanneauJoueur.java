@@ -17,6 +17,7 @@ public class PanneauJoueur {
     JPanel affichageListe;
     JPanel[] listePiece;
 
+    //Panneau pour la couleur c
     PanneauJoueur(int c, Controleur control){
         couleur=c;
         cont=control;
@@ -37,6 +38,7 @@ public class PanneauJoueur {
         pan.add(affichageListe, BorderLayout.CENTER);
     }
 
+    //Créer la liste des pièces pour la couleur, en fonction des pièces disponible
     public void refreshListPiece(){
         affichageListe.removeAll();
         int numPiece = 1;
@@ -44,6 +46,7 @@ public class PanneauJoueur {
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
         int indiceListe=0;
+        //Si des pièces on déjà été joués on affiche une case vide à la place
         while (ite.hasNext()) {
             p = ite.next();
             while(numPiece!=p.getId()){
@@ -62,7 +65,8 @@ public class PanneauJoueur {
             indiceListe++;
             numPiece++;
         }
-
+        //On finit de remplir avec des cases
+        // vides
         for (int k = numPiece; k < 22; k++) {
             JPanel affPiece = new PanelPiece().newPanelPieceVide(im);
             affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -71,11 +75,13 @@ public class PanneauJoueur {
         }
     }
 
+
+    //Vide la case de la pièce jouée
     public void refreshAffichage(int piece){
         new PanelPiece().videPanel(listePiece[piece-1],im);
     }
 
-
+    //Proportionne la fenêtre
     public void resize(int w, int h){
         affichageListe.setPreferredSize(new Dimension(w/4, h/4));
     }

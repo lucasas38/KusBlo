@@ -139,13 +139,15 @@ public class MenuPiece {
 
 
 
-    //Utilisé contre l'ia
-    public void setMenuType3(){
+    //Menu de fin de partie, Ver.1
+    public void setMenuType3(int joue){
+        menuType3.add(new JLabel("Victoire du joueur "+joue));
         menu.removeAll();
         menu.add(menuType3);
         menu.updateUI();
     }
 
+    //Menu pour indiquer que le joueur ne peut plus jouer
     public void setMenuType4(){
         menu.removeAll();
         menu.add(menuType4);
@@ -153,6 +155,7 @@ public class MenuPiece {
     }
 
 
+    //Affiche le menu avec pièce unique
     public void showMenuType2(){
         refreshPiece(c.getActCouleur());
         menu.removeAll();
@@ -161,26 +164,18 @@ public class MenuPiece {
     }
 
 
-
-    //Hauteur de la piece
-    public int getHautAffPiece(){
-        return  affichagePiece.getHeight()/5;
-    }
-    //Largeur de la piece
-    public int getLargAffPiece(){
-        return  affichagePiece.getWidth()/5;
-    }
-
-
+    //Utilisé par le menu 1, affiche la liste des pièces pour
     public void refreshAffichageListePiece() {
         menuType1.removeAll();
         int numPiece = 1;
-        ListePieces liste = c.getListPiece(couleur);
+        ListePieces liste = c.getListPiece(couleur); //On récupère la liste de la couleur actuelle
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
         int indiceListe=0;
+        //On parcours la liste pour afficher les différentes pièces
         while (ite.hasNext()) {
             p = ite.next();
+            //Si des pièces on déjà été joués on affiche une case vide à la place
             while(numPiece!=p.getId()){
                 JPanel affPiece = new JPanel(new GridLayout(5, 5));
                 for (int i = 0; i < 5; i++) {
@@ -197,6 +192,7 @@ public class MenuPiece {
                 indiceListe++;
             }
 
+            //On affiche la pièce
             JPanel affPiece = new JPanel(new GridLayout(5, 5));
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
@@ -206,7 +202,6 @@ public class MenuPiece {
                     } else {
                         newPan.changeBackground(im.coulJoueur(couleur));
                     }
-                    //newPan.setBorder(BorderFactory.createLineBorder(Color.black));
                     affPiece.add(newPan);
                 }
             }
@@ -217,6 +212,7 @@ public class MenuPiece {
             indiceListe++;
         }
 
+        //On finit de remplir avec des cases vides
         for (int k = numPiece; k < 22; k++) {
             JPanel affPiece = new JPanel(new GridLayout(5, 5));
             for (int i = 0; i < 5; i++) {
@@ -232,9 +228,8 @@ public class MenuPiece {
 
     }
 
-    //Affiche la pièce actuelle
+    //Affiche la pièce actuelle pour le menu 2
     public void refreshPiece(int couleur){
-        //refreshCaseSelec();
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
                 if(i== piece.getDecx() & j==piece.getDecy()){
@@ -253,18 +248,21 @@ public class MenuPiece {
     }
 
 
+    //Sélectionne une pièce du menu 1
     public void selPiece(int num){
         resetBorder();
         pieceSelected=true;
         listePiece[num-1].setBorder(BorderFactory.createLineBorder(Color.red,2));
     }
 
+    //Enlève l'affichage de sélection pour la pièce précedente
     public void resetBorder(){
         for(int i=0;i<21;i++){
             listePiece[i].setBorder(BorderFactory.createLineBorder(Color.black));
         }
     }
 
+    //Change la taille des différents menu
     public void resize(int w, int h){
         menuType1.setPreferredSize(new Dimension(w/2,h/4));
         menuType2.setPreferredSize(new Dimension(w/2,h/4));

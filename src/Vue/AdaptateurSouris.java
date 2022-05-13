@@ -26,21 +26,23 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
 
     public void mouseClicked(MouseEvent e) {
         if(activ){
+            //Fonction de flip de la pièce
             if(SwingUtilities.isRightMouseButton(e)){
                 cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
                 cont.flip();
                 if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy())){
-                    if(cont.estPosableRegle(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
+                    if(estPosableSelonRegle(x,y)){
                         cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
                     }else{
                         cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
                     }
                 }
             } else{
+                //Fonction pour poser la pièce
                 int l = e.getY() / n.hauteurCase();
                 int c = e.getX() / n.largeurCase();
                 if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
-                    if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
+                    if(estPosableSelonRegle(l,c)){
                         cont.click(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy());
                     }
                 }
@@ -55,6 +57,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
     }
 
     public void mouseWheelMoved(MouseWheelEvent e){
+        //Fonction de rotation de la pièce
         if(activ){
             cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
             if(e.getWheelRotation()>0){
@@ -63,7 +66,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
                 cont.antiHoraire();
             }
             if(cont.estPosable(m.piece, x,y,m.piece.getDecx(),m.piece.getDecy())){
-                if(cont.estPosableRegle(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,x,y,m.piece.getDecx(),m.piece.getDecy())){
+                if(estPosableSelonRegle(x,y)){
                     cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
                 }else{
                     cont.visualiser(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
@@ -78,6 +81,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
 
     @Override
     public void mouseMoved(MouseEvent e){
+        //Fonction de visualisation de la pièce
         if(activ){
             int l = e.getY() / n.hauteurCase();
             int c = e.getX() / n.largeurCase();
@@ -85,7 +89,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
             if(l!=x || c!=y){
                 cont.delVisu(x,y,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy());
                 if(cont.estPosable(m.piece, l,c,m.piece.getDecx(),m.piece.getDecy())){
-                    if(cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy())){
+                    if(estPosableSelonRegle(l,c)){
                         cont.visualiser(l,c,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), false);
                     }else{
                         cont.visualiser(l,c,m.piece.getMatrice(), m.piece.getDecx(),m.piece.getDecy(), true);
@@ -104,6 +108,9 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
 
     public void setActiv(boolean activ) {
         this.activ = activ;
+    }
+    public boolean estPosableSelonRegle(int l, int c){
+        return cont.estPosableRegle(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy()) && cont.estPosable2(m.piece,l,c,m.piece.getDecx(),m.piece.getDecy());
     }
 }
 

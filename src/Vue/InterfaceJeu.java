@@ -33,7 +33,7 @@ public class InterfaceJeu {
             mouseAdapt =new AdaptateurSouris(graph,m,c);
             keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
 
-
+            //Création des panneau joueur
             j1 = new PanneauJoueur(1,c);
             j2 = new PanneauJoueur(2,c);
             j3 = new PanneauJoueur(3,c);
@@ -47,9 +47,9 @@ public class InterfaceJeu {
             panelGauche.add(j4.pan);
             JPanel menu= new JPanel(new BorderLayout());
             menu.add(new Bouton(c).menu(),BorderLayout.CENTER);
-
             menu.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
             panelGauche.add(menu);
+
 
             //Panel central
             JPanel panelCentral = new JPanel(new BorderLayout());
@@ -65,16 +65,18 @@ public class InterfaceJeu {
             graph.panelJeu.addMouseListener(mouseAdapt);
             graph.panelJeu.addMouseWheelListener(mouseAdapt);
             frame.addKeyListener(keyAdapt);
+
+
             //Panel Droite
             JPanel panelDroite = new JPanel();
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
             panelDroite.add(j2.pan);
             panelDroite.add(j3.pan);
             JPanel histo=new JPanel(new BorderLayout());
-
-
             histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
             panelDroite.add(histo);
+
+
 
             //Pannel principal
             JPanel panelMain= new JPanel(new BorderLayout());
@@ -86,9 +88,7 @@ public class InterfaceJeu {
             //Ajout à la fenêtre + affichage
             frame.add(panelMain);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-            frame.setVisible(true);
+            //frame.setVisible(true);
 
         }
 
@@ -114,13 +114,13 @@ public class InterfaceJeu {
             keyAdapt.setActiv(false);
         }
 
-        //Active le menu bas 1
+        //Active le menu avec la liste
         public void setMenu1(int j, int coul){
             delMouseClick();
             m.setMenuType1(j,coul);
         }
 
-        //Active le menu base 2
+        //Active le menu avec les adaptateurs
         public  void setMenu2(int numPiece){
             if(!getM().isPieceSelected()){
                 mouseAdapt.setActiv(true);
@@ -129,7 +129,7 @@ public class InterfaceJeu {
             m.setMenuType2(numPiece);
         }
 
-        //Met à jour uniquement le panneau du joueur qui a joué
+        //Met à jour uniquement le panneau du joueur qui a joué (qui est donc le joueur précedent
         public void refreshPanJoueur(int couleur, int piece){
             System.out.println("couleur pan : " +couleur);
             switch (couleur){
@@ -153,8 +153,8 @@ public class InterfaceJeu {
         }
 
 
+        //Gère le redimensionnement, bug à régler avec le plein écran
         public void setResize(){
-
             frame.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent componentEvent) {
                     resizeAllPanel();
@@ -175,6 +175,7 @@ public class InterfaceJeu {
             });
         }
 
+        //redimensionne tous les pannel
         public void resizeAllPanel(){
             graph.resize(getFrameW(),getFrameH());
             m.resize(getFrameW(),getFrameH());
