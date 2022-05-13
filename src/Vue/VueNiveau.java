@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.AnimationVisualisation;
+import Modele.Piece;
 import Structures.Case;
 import Controleur.Controleur;
 import Structures.BasicBackgroundPanel;
@@ -98,7 +99,7 @@ public class VueNiveau {
         } else {
             for(int i=0;i<5;i++){
                 for(int j=0; j<5; j++){
-                    if(grille[i][j]==1){
+                    if(grille[i][j]!=0){
                         //if(listPanel[i+x-decx][j+y-decy].estVide()){
                         int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue, cFond));
@@ -106,6 +107,14 @@ public class VueNiveau {
                     }
                 }
             }
+        }
+    }
+
+    public void visualiser(int couleur,LinkedList<Case> listeCase){
+        Iterator<Case>ite = listeCase.iterator();
+        while(ite.hasNext()){
+            Case ca= ite.next();
+            listPanel[ca.getX()][ca.getY()].changeBackground(new ImageKusBlo().animJoueur(couleur, 0));
         }
     }
 
@@ -134,8 +143,8 @@ public class VueNiveau {
         panelJeu.setPreferredSize(new Dimension(minDim,minDim));
     }
 
-    public void poserPieceIA(LinkedList<Case> listeCase, int couleur){
-        anim.visualisationIa(listeCase, listPanel,couleur);
+    public void poserPieceIA(Piece piece, LinkedList<Case> listeCase, int couleur){
+        anim.visualisationIa(piece,listeCase,couleur);
     }
 
     public void stopTimer(){

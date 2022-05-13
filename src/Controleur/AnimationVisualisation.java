@@ -1,5 +1,6 @@
 package Controleur;
 
+import Modele.Piece;
 import Structures.BasicBackgroundPanel;
 import Structures.Case;
 import Vue.ImageKusBlo;
@@ -76,23 +77,21 @@ public class AnimationVisualisation {
         return timeAnimeIa !=null;
     }
 
-    public void visualisationIa(LinkedList<Case> listeCase,BasicBackgroundPanel[][] listPanel, int couleur){
-        timeAnimeIa = new Timer(1000, new ActionListener() {
+    public void visualisationIa(Piece piece, LinkedList<Case> listeCase, int couleur){
+        timeAnimeIa = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Iterator<Case>ite = listeCase.iterator();
                 while(ite.hasNext()){
                     Case ca= ite.next();
-                    listPanel[ca.getX()][ca.getY()].changeBackground(new ImageKusBlo().coulJoueur(couleur));
-                    c.setMenu1();
+                    System.out.println(ca.getX()+" "+ca.getY());
+                    c.poserPiece(listeCase,couleur);
+
                 }
+                c.joueIA2(piece,listeCase);
             }
         });
-        Iterator<Case>ite = listeCase.iterator();
-        while(ite.hasNext()){
-            Case c= ite.next();
-            listPanel[c.getX()][c.getY()].changeBackground(new ImageKusBlo().animJoueur(couleur, 0));
-        }
+        c.visuIA(listeCase,couleur);
         timeAnimeIa.start();
         c.setMenu4();
     }

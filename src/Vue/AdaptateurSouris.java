@@ -45,6 +45,10 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
                     }
                 }
             }
+        }else{
+            int l = e.getY() / n.hauteurCase();
+            int c = e.getX() / n.largeurCase();
+            System.out.println(m.im.imToInt(n.listPanel[l][c].getBackgroundImage()));
         }
     }
 
