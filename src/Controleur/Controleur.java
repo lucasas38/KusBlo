@@ -96,12 +96,13 @@ public class Controleur {
     }
 
     public void joueIA(Piece piece,LinkedList<Case> listeCases){
-        inter.getInterJ().getGraph().poserPieceIA(listeCases,jeu.getNumCouleurCourante());
-//        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
+        //inter.getInterJ().getGraph().poserPieceIA(listeCases,jeu.getNumCouleurCourante());
+        inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
         inter.getInterJ().getM().resetBorder();
-        //setMenu1();
         inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        setMenu1();
+
     }
 
     public boolean estPosable2(Piece piece,int x, int y, int decx, int decy){
@@ -231,18 +232,19 @@ public class Controleur {
     }
 
     public void newGame(){
-//        jeu= new Jeu(4);
-//        addIA(1,1);
-//        addIA(1,2);
-//        addIA(1,3);
-//        addIA(1,4);
+        jeu= new Jeu(4);
+        addIA(1,1);
+        addIA(1,2);
+        addIA(1,3);
+        addIA(1,4);
 
-        jeu= new Jeu(2);
+//        jeu= new Jeu(2);
 //        addIA(1,1);
 //        addIA(1,2);
 
         inter.setInterJeu();
 
+        //si joueur qui commence est une ia , elle joue son premier coup
         int type_ia = jeu.getJoueur(jeu.getIDJoueurCourant()).getType_ia();
         if(type_ia !=0) {
             switch (type_ia) {
