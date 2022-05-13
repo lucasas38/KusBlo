@@ -5,9 +5,9 @@ import Modele.Piece;
 import Structures.Case;
 import Structures.ListeValeur;
 
-public class IAIntermediaire extends IA{
+public class IADifficile extends IA{
 
-    IAIntermediaire(Jeu j){
+    IADifficile(Jeu j){
         super(j);
     }
 

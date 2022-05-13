@@ -17,7 +17,6 @@ public class Controleur {
     public Controleur(){
     }
 
-
     public void addIA(int type_ia,int idJoueur){
         if(!(type_ia>=1 && type_ia<4)){
             type_ia=1; //par défault
@@ -27,10 +26,10 @@ public class Controleur {
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAAleatoire(this.jeu);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu);
                 break;
             case 3:
-                ia[idJoueur-1] = new IAAleatoire(this.jeu);
+                ia[idJoueur-1] = new IADifficile(this.jeu);
                 break;
             default:
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
@@ -54,8 +53,6 @@ public class Controleur {
                     maxScore=jeu.getJoueur(i).getScore();
                     bestPlayer=i;
                 }
-                //affichage temporaire
-                System.out.println("Joueur "+i+" a obtenu un score de "+jeu.getJoueur(i).getScore());
             }
             inter.getInterJ().getM().setMenuType3(bestPlayer);
 
@@ -255,13 +252,13 @@ public class Controleur {
     }
 
     public void newGame(){
-       jeu = new Jeu(2);
+       jeu = new Jeu(4);
        ia = new IA[jeu.getNbJoueurs()];
 
         addIA(1,1);
-//        addIA(1,2);
-//        addIA(1,3);
-//        addIA(1,4);
+        addIA(1,2);
+        addIA(1,3);
+        addIA(1,4);
 
         inter.setInterJeu();
         setMenu1();
