@@ -85,6 +85,8 @@ public class InterfaceJeu {
             panelMain.add(panelDroite,BorderLayout.EAST);
 
 
+
+            j1.setTour();
             //Ajout à la fenêtre + affichage
             frame.add(panelMain);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,6 +120,7 @@ public class InterfaceJeu {
         public void setMenu1(int j, int coul){
             delMouseClick();
             m.setMenuType1(j,coul);
+
         }
 
         //Active le menu avec les adaptateurs
@@ -133,22 +136,74 @@ public class InterfaceJeu {
         public void refreshPanJoueur(int couleur, int piece){
             switch (couleur){
                 case 1:
+
                     j4.refreshAffichage(piece);
-                    j4.pan.updateUI();
+                    //j4.pan.updateUI();
                     break;
                 case 2:
+                    cleanTour();
+                    j2.setTour();
                     j1.refreshAffichage(piece);
-                    j1.pan.updateUI();
+                    //j1.pan.updateUI();
                     break;
                 case 3:
+                    cleanTour();
+                    j3.setTour();
                     j2.refreshAffichage(piece);
                     break;
                 case 4:
+                    cleanTour();
+                    j4.setTour();
                     j3.refreshAffichage(piece);
                     break;
                 default:
                     break;
             }
+        }
+
+        public void setTour(int coul){
+            cleanTour();
+            switch (coul){
+                case 1:
+                    j1.setTour();
+                    break;
+                case 2:
+                    j2.setTour();
+                    break;
+                case 3:
+                    j3.setTour();
+                    break;
+                case 4:
+                    j4.setTour();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void setScore(int coul, int score){
+            switch (coul){
+                case 1:
+                    j1.setScore(score);
+                    break;
+                case 2:
+                    j2.setScore(score);
+                    break;
+                case 3:
+                    j3.setScore(score);
+                    break;
+                case 4:
+                    j4.setScore(score);
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void cleanTour(){
+            j1.delTour();
+            j2.delTour();
+            j3.delTour();
+            j4.delTour();
         }
 
 

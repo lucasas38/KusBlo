@@ -15,6 +15,9 @@ public class PanneauJoueur {
     ImageKusBlo im;
     Controleur cont;
     JPanel affichageListe;
+    JPanel infoBas;
+    JPanel votreTour;
+    JLabel score;
     JPanel[] listePiece;
 
     //Panneau pour la couleur c
@@ -26,6 +29,7 @@ public class PanneauJoueur {
         listePiece= new JPanel[21];
         pan = new JPanel(new BorderLayout());
         pan.setBackground(Color.pink);
+        pan.setBorder(BorderFactory.createLineBorder(Color.black,2));
         int numJoueur=0;
         if(cont.getNbJoueur()==2 && c>2){
             numJoueur=c-2;
@@ -33,9 +37,21 @@ public class PanneauJoueur {
             numJoueur=c;
         }
         pan.add(new JLabel("Joueur "+numJoueur), BorderLayout.PAGE_START);
+
+        pan.add(affichageListe, BorderLayout.CENTER);
+        infoBas= new JPanel(new GridLayout(1,2));
+        votreTour= new JPanel();
+        votreTour.add(new JLabel(""));
+        score=new JLabel("Score : 0");
+        JPanel tabScore=new JPanel();
+        tabScore.add(score);
+        tabScore.setBorder(BorderFactory.createLineBorder(Color.black));
+        infoBas.add(votreTour);
+        infoBas.add(tabScore);
+
+        pan.add(infoBas,BorderLayout.SOUTH);
         refreshListPiece();
         resize(cont.getFrameW(),cont.getFrameH());
-        pan.add(affichageListe, BorderLayout.CENTER);
     }
 
     //Créer la liste des pièces pour la couleur, en fonction des pièces disponible
@@ -81,9 +97,37 @@ public class PanneauJoueur {
         new PanelPiece().videPanel(listePiece[piece-1],im);
     }
 
+    public void setTour(){
+        votreTour.add(new JLabel("A votre tour"));
+        switch (couleur){
+            case 1:
+                pan.setBorder(BorderFactory.createLineBorder(Color.blue,2));
+                break;
+            case 2:
+                pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
+                break;
+            case 3:
+                pan.setBorder(BorderFactory.createLineBorder(Color.yellow,2));
+                break;
+            case 4:
+                pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
+                break;
+        }
+    }
+
+    public void delTour(){
+        votreTour.removeAll();
+        pan.setBorder(BorderFactory.createLineBorder(Color.black,2));
+    }
+
+    public  void setScore(int val){
+        score.setText("Score : "+val);
+    }
+
     //Proportionne la fenêtre
     public void resize(int w, int h){
         affichageListe.setPreferredSize(new Dimension(w/4, h/4));
+        infoBas.setPreferredSize(new Dimension(w/4, h/12));
     }
 
 

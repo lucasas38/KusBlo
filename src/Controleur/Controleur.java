@@ -45,6 +45,7 @@ public class Controleur {
     public void setMenu1(){
         inter.getInterJ().getGraph().stopTimer();
         if(isFinJeu()){
+            inter.getInterJ().cleanTour();
             inter.getInterJ().delMouseClick();
             int maxScore=jeu.getJoueur(1).getScore();
             int bestPlayer=1;
@@ -60,7 +61,9 @@ public class Controleur {
 
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
+                    inter.getInterJ().setTour(jeu.getNumCouleurCourante());
                     if(ia[jeu.getIDJoueurCourant()-1] != null){
+                        inter.getInterJ().delMouseClick();
                         joueIA();
                     }else{
                         inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
@@ -85,6 +88,12 @@ public class Controleur {
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
+            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+                inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
+                if(jeu.getNbJoueurs()==2){
+                    inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
+                }
+            }
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
             setMenu1();
         }
@@ -94,6 +103,12 @@ public class Controleur {
     public void joueIA2(Piece piece,LinkedList<Case> listeCases){
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
         inter.getInterJ().getM().resetBorder();
+        for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+            inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
+            if(jeu.getNbJoueurs()==2){
+                inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
+            }
+        }
         inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
         setMenu1();
     }

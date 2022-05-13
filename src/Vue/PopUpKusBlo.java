@@ -1,4 +1,4 @@
 package Vue;
 
-public class PopUpKusBlo {
+public class PopUpKusBlo    {
 }
