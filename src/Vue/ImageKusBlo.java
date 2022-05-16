@@ -27,6 +27,9 @@ public class ImageKusBlo {
     Image noPosR;
     Image noPosV;
     Image noPosJ;
+    Image fondG;
+    Image fondD;
+    Image fondC;
     Image logo;
     Image[] selAnimRouge;
 
@@ -53,6 +56,9 @@ public class ImageKusBlo {
         noPosV=getImage("cantPosV.png");
         noPosJ=getImage("cantPosJ.png");
         logo=getImage("logo.png");
+        fondG =getImage("fondG.png");
+        fondD =getImage("fondD.png");
+        fondC =getImage("fondC.png");
         selAnimRouge = new Image[5];
         selAnimRouge[0]=gris;
 

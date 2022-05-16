@@ -254,27 +254,35 @@ public class Controleur {
         return inter.getW();
     }
 
-    public void newGame(){
+    public void newGame(int nbJoueur, int j1,int j2,int j3, int j4, boolean rejouer){
         if(inter.getInterJ() != null){
             inter.getInterJ().getGraph().stopTimer();
         }
+        int[] joueur = new int[4];
+        if(rejouer){
+            nbJoueur=jeu.getNbJoueurs();
+            for(int i=0; i<nbJoueur; i++){
+                if(ia[i]!=null){
+                    joueur[i]=1;
+                }else{
+                    joueur[i]=0;
+                }
+            }
 
-        //exemple sauvegarde
-//            Sauvegarde sauvegarde = new Sauvegarde();
-//            sauvegarde.ecrire(jeu,ia);
-//            Chargement chargement = new Chargement();
-//
-//            chargement.lire();
-//            //chargement.getJeu(); : recupere Jeu jeu;
-//            //chargement.getIA(); : recupere IA[] ia;
+        }else{
+            joueur[0]=j1;
+            joueur[1]=j2;
+            joueur[2]=j3;
+            joueur[3]=j4;
+        }
 
-       jeu = new Jeu(4);
+       jeu = new Jeu(nbJoueur);
        ia = new IA[jeu.getNbJoueurs()];
-
-        addIA(1,1);
-        addIA(1,2);
-       addIA(1,3);
-        addIA(1,4);
+        for(int i=0; i<nbJoueur; i++){
+            if(joueur[i]!=0){
+                addIA(joueur[i],i+1);
+            }
+        }
 
         inter.setInterJeu();
         setMenu1();
@@ -315,5 +323,46 @@ public class Controleur {
             inter.getInterJ().getGraph().startTimer();
         }
         inter.getInterJ().reprendre();
+    }
+
+    public void save(){
+        Sauvegarde sauvegarde = new Sauvegarde();
+        sauvegarde.ecrire(jeu,ia);
+    }
+
+    public void load(){
+        Chargement chargement = new Chargement();
+        chargement.lire();
+        jeu=chargement.getJeu(); //: recupere Jeu jeu;
+        ia=chargement.getIa();// : recupere IA[] ia;
+        inter.setInterJeu();
+        inter.charger();
+        for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+            inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
+            if(jeu.getNbJoueurs()==2){
+                inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
+            }
+        }
+        setMenu1();
+    }
+
+    public void setMenuSolo(){
+        inter.setMenuSolo();
+    }
+
+    public void setMenuMulti(){
+        inter.setMenuMulti();
+    }
+
+
+    public int getCouleur(int i, int j){
+        return jeu.getNiveau().getGrille()[i][j];
+    }
+
+    public void annuler(){
+
+    }
+    public void refaire(){
+
     }
 }
