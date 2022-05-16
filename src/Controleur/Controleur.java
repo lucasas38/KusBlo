@@ -308,7 +308,6 @@ public class Controleur {
     }
 
     public void reprendre(){
-        System.out.println(ia[jeu.getIDJoueurCourant()-1]!=null);
         if(ia[jeu.getIDJoueurCourant()-1]!=null){
             inter.getInterJ().getGraph().startTimer();
         }
