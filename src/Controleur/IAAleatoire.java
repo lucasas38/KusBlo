@@ -68,4 +68,10 @@ public class IAAleatoire extends IA {
     }
 
 
+    @Override
+    public void setR(){
+        r = new Random();
+    }
+
+
 }

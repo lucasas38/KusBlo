@@ -5,6 +5,8 @@ import Modele.Piece;
 import Structures.Case;
 import Structures.ListeValeur;
 
+import java.util.Random;
+
 public class IAIntermediaire extends IA{
 
     IAIntermediaire(Jeu j){
@@ -19,5 +21,10 @@ public class IAIntermediaire extends IA{
     @Override
     public String toString(){
         return "IAIntermediaire";
+    }
+
+
+    @Override
+    public void setR(){
     }
 }

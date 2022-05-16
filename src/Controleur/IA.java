@@ -19,6 +19,7 @@ public abstract class IA implements Serializable {
 
     public abstract ListeValeur<Case,Piece> joue();
     public abstract String toString();
+    public abstract void setR();
 
     public ListePieces copiePiecesDispo(){
         ListePieces listePieces = new ListePieces();
@@ -34,5 +35,6 @@ public abstract class IA implements Serializable {
 
         return listePieces;
     }
+
 }
 

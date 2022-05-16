@@ -5,6 +5,8 @@ import Modele.Piece;
 import Structures.Case;
 import Structures.ListeValeur;
 
+import java.util.Random;
+
 public class IADifficile extends IA{
 
     IADifficile(Jeu j){
@@ -19,5 +21,10 @@ public class IADifficile extends IA{
     @Override
     public String toString(){
         return "IADifficile";
+    }
+
+
+    @Override
+    public void setR(){
     }
 }

@@ -24,6 +24,12 @@ public class Chargement {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
             jeu = (Jeu) in.readObject();
             ia = (IA[]) in.readObject();
+
+            //changement seed random IAAleatoire
+            for (int i=0;i<jeu.getNbJoueurs();i++){
+                    ia[i].setR();
+            }
+
             in.close();
             System.out.println("Jeu chargé !!!");
         } catch (IOException ex) {
