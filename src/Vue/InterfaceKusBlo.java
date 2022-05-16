@@ -10,8 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
 public class InterfaceKusBlo implements Runnable {
-    JFrame frameMenu;
-    JFrame frameJeu;
+    JFrame frame;
     InterfaceJeu interJ;
     MenuPrincipal menu;
     Controleur c;
@@ -32,29 +31,35 @@ public class InterfaceKusBlo implements Runnable {
 
     public void run(){
         im= new ImageKusBlo();
-        frameMenu = new JFrame("KusBlo");
-        frameMenu.setSize(800, 600);
-        frameMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame = new JFrame("KusBlo");
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //On génère et affiche le menu principal
-        menu=new MenuPrincipal(c);
-        frameMenu=menu.getFrame();
-        frameMenu.setVisible(true);
+        menu=new MenuPrincipal(c, frame.getWidth(),frame.getHeight());
+        frame.setContentPane(menu.getFrame());
+        frame.setVisible(true);
     }
 
     //Affiche le menu
     public void setMenu(){
-        frameJeu.setVisible(false);
-        frameMenu.setVisible(true);
+        //frameJeu.setVisible(false);
+       // frameMenu.setVisible(true);
+        frame.setContentPane(menu.getFrame());
+        frame.revalidate();
+       // frame.repaint();
     }
 
     //Affiche un nouveau jeu
     public void setInterJeu(){
-        interJ= new InterfaceJeu(c ,frameMenu.getWidth(), frameMenu.getHeight(),im);
+        interJ= new InterfaceJeu(c ,frame.getWidth(), frame.getHeight(),im);
         test++;
         System.out.println("lancement n°"+test);
-        frameJeu=interJ.getFrame();
-        frameMenu.setVisible(false);
-        frameJeu.setVisible(true);
+        frame.setContentPane(interJ.getFrame());
+        interJ.resizeAllPanel();
+        frame.revalidate();
+       // frame.repaint();
+        //frameMenu.setVisible(false);
+        //frameJeu.setVisible(true);
     }
 
     public InterfaceJeu getInterJ(){
@@ -62,10 +67,10 @@ public class InterfaceKusBlo implements Runnable {
     }
 
     public int getW(){
-        return frameMenu.getWidth();
+        return frame.getWidth();
     }
     public int getH(){
-        return frameMenu.getHeight();
+        return frame.getHeight();
     }
 
 }

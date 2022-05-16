@@ -71,6 +71,9 @@ public class AnimationVisualisation {
     public  void resetTimerIa(){
         timeAnimeIa.stop();
     }
+    public  void startTimeIA(){
+        timeAnimeIa.start();
+    }
 
     public  boolean hasTimer(){
         return timerAnimation !=null;

@@ -264,7 +264,7 @@ public class Controleur {
         //addIA(1,4);
 
         jeu= new Jeu(2);
-        addIA(1,1);
+        //addIA(1,1);
          addIA(1,2);
 
         inter.setInterJeu();
@@ -306,5 +306,18 @@ public class Controleur {
 
     public void poserPiece(LinkedList<Case> listeCase, int couleur){
         inter.getInterJ().getGraph().poserPiece(couleur,listeCase);
+    }
+
+    public void showMenuOpt(){
+        inter.getInterJ().getGraph().stopTimer();
+        inter.getInterJ().setMenuOpt();
+    }
+
+    public void reprendre(){
+        System.out.println(ia[jeu.getIDJoueurCourant()-1]!=null);
+        if(ia[jeu.getIDJoueurCourant()-1]!=null){
+            inter.getInterJ().getGraph().startTimer();
+        }
+        inter.getInterJ().reprendre();
     }
 }
