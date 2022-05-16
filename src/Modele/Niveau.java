@@ -107,7 +107,7 @@ public class Niveau implements Serializable {
     }
 
     //return true si le point x et y est dans la grille
-    boolean estDansGrille(int x, int y){
+    public boolean estDansGrille(int x, int y){
         return (x < grille.length && x >= 0) && (y < grille.length && y >= 0);
     }
 

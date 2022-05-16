@@ -100,4 +100,7 @@ public class Joueur implements Serializable {
         return peutJouer;
     }
 
+    public int getNbCouleurs() {
+        return nbCouleurs;
+    }
 }
