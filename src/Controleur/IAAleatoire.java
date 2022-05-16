@@ -2,7 +2,7 @@ package Controleur;
 
 import Modele.*;
 import Structures.Case;
-import Structures.CoupleListeValeur;
+import Structures.ListeValeur;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,16 +11,15 @@ import java.util.Random;
 public class IAAleatoire extends IA {
 
     Random r;
-    Controleur cont;
 
-    public IAAleatoire(Controleur c){
+    public IAAleatoire(Jeu j){
+        super(j);
         r = new Random();
-        cont = c;
     }
 
 
     @Override
-    public void joue() {
+    public ListeValeur<Case,Piece> joue() {
 
         ListePieces listePiecesDispo = copiePiecesDispo();
 
@@ -31,7 +30,7 @@ public class IAAleatoire extends IA {
             indexPiecesDispo = r.nextInt(listePiecesDispo.getTaille());
             p = listePiecesDispo.getListe().get(indexPiecesDispo);
 
-            LinkedList<CoupleListeValeur<Case,Integer>> listeEmplacementPossible = cont.jeu.positionPossibleConfig(p);
+            LinkedList<ListeValeur<Case,Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p);
 
             if(listeEmplacementPossible.size()>0){
                 int indexEmplacementPossible = r.nextInt(listeEmplacementPossible.size());
@@ -48,31 +47,25 @@ public class IAAleatoire extends IA {
                     i++;
                 }
 
-                cont.joueIA(p,listeCases);
-                return;
+                ListeValeur<Case,Piece> res = new ListeValeur<>(listeCases,p);
+                return res;
+
             }else{
                 listePiecesDispo.supprimer(p.getId());
             }
         }
         System.out.println("Ia ne peut plus jouer");
 
-        cont.jeu.finCouleur();
-        cont.setMenu1();
+        jeu.finCouleur();
+
+        return null;
 
     }
 
-    public ListePieces copiePiecesDispo(){
-        ListePieces listePieces = new ListePieces();
-
-        LinkedList<Piece> liste = new LinkedList<>();
-        Iterator<Piece> it = cont.jeu.getJoueur(cont.jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().iterateur();
-        Piece p;
-        while (it.hasNext()){
-            p = it.next();
-            liste.addLast(p);
-        }
-        listePieces.setListe(liste);
-
-        return listePieces;
+    @Override
+    public String toString(){
+        return "IAAleatoire";
     }
+
+
 }

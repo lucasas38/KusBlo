@@ -58,7 +58,7 @@ public class Bouton {
     }
 
     public JButton skipTour(){
-        JButton button = new JButton("Passer son tour");
+        JButton button = new JButton("Abandon");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

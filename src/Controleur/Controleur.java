@@ -2,6 +2,7 @@ package Controleur;
 
 import Modele.*;
 import Structures.Case;
+import Structures.ListeValeur;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
@@ -14,25 +15,25 @@ public class Controleur {
     boolean animActiv = true;
 
     public Controleur(){
-        ia = new IA[3];
-        for (int i=0;i<3;i++){
-            switch (i){
-                case 0:
-                    ia[i] = new IAAleatoire(this);
-                    break;
-                default:
-                    ia[i] = new IAAleatoire(this);
-                    break;
-            }
-        }
     }
 
-
     public void addIA(int type_ia,int idJoueur){
-        if(type_ia>=1 && type_ia<4){
-            jeu.getJoueur(idJoueur).setType_ia(type_ia);
-        }else{
-            jeu.getJoueur(idJoueur).setType_ia(1); //par défault
+        if(!(type_ia>=1 && type_ia<4)){
+            type_ia=1; //par défault
+        }
+        switch (type_ia){
+            case 1:
+                ia[idJoueur-1] = new IAAleatoire(this.jeu);
+                break;
+            case 2:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu);
+                break;
+            case 3:
+                ia[idJoueur-1] = new IADifficile(this.jeu);
+                break;
+            default:
+                ia[idJoueur-1] = new IAAleatoire(this.jeu);
+                break;
         }
     }
 
@@ -47,34 +48,32 @@ public class Controleur {
             inter.getInterJ().delMouseClick();
             int maxScore=jeu.getJoueur(1).getScore();
             int bestPlayer=1;
-            //affichage temporaire
             for (int i=1;i<jeu.getNbJoueurs()+1;i++){
                 if(jeu.getJoueur(i).getScore()>maxScore){
                     maxScore=jeu.getJoueur(i).getScore();
                     bestPlayer=i;
                 }
-                System.out.println("Joueur "+i+" a obtenu un score de "+jeu.getJoueur(i).getScore());
             }
             inter.getInterJ().getM().setMenuType3(bestPlayer);
+
+            //exemple sauvegarde
+            Sauvegarde sauvegarde = new Sauvegarde();
+            sauvegarde.ecrire(jeu,ia);
+            Chargement chargement = new Chargement();
+
+            chargement.lire();
+            //chargement.getJeu(); : recupere Jeu jeu;
+            //chargement.getIA(); : recupere IA[] ia;
 
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
                     inter.getInterJ().setTour(jeu.getNumCouleurCourante());
-                    int type_ia = jeu.getJoueur(jeu.getIDJoueurCourant()).getType_ia();
-                    if(type_ia !=0){
+                    if(ia[jeu.getIDJoueurCourant()-1] != null){
                         inter.getInterJ().delMouseClick();
-                        switch (type_ia){
-                            case 1:
-                                ia[0].joue();
-                                break;
-                            default:
-                                ia[0].joue();
-                                break;
-                        }
+                        joueIA();
                     }else{
                         inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
                     }
-
                 } else {
                     passerTour();
                 }
@@ -87,6 +86,7 @@ public class Controleur {
     }
 
     public void click(Piece piece,int x, int y, int decx, int decy){
+        inter.getInterJ().delMouseClick();
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
             jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
@@ -120,14 +120,18 @@ public class Controleur {
     }
 
 
-    public void joueIA(Piece piece,LinkedList<Case> listeCases){
-        if(animActiv){
-            inter.getInterJ().getGraph().poserPieceIA(piece,listeCases,jeu.getNumCouleurCourante());
+    public void joueIA(){
+        ListeValeur<Case,Piece> coup = ia[jeu.getIDJoueurCourant()-1].joue();
+        if(coup != null){
+            if(animActiv){
+                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
+            }else{
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), coup.getListe());
+                joueIA2(coup.getValeur(),coup.getListe());
+            }
         }else{
-            inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), listeCases);
-            joueIA2(piece,listeCases);
+            setMenu1();
         }
-
     }
 
     public boolean estPosable2(Piece piece,int x, int y, int decx, int decy){
@@ -257,30 +261,20 @@ public class Controleur {
     }
 
     public void newGame(){
-       jeu= new Jeu(4);
-        //addIA(1,1);
-        //addIA(1,2);
-       // addIA(1,3);
-        //addIA(1,4);
+        if(inter.getInterJ() != null){
+            inter.getInterJ().getGraph().stopTimer();
+        }
 
-        jeu= new Jeu(2);
-        //addIA(1,1);
-         addIA(1,2);
+       jeu = new Jeu(4);
+       ia = new IA[jeu.getNbJoueurs()];
+
+        addIA(1,1);
+        addIA(1,2);
+//        addIA(1,3);
+        addIA(1,4);
 
         inter.setInterJeu();
-
-        //si joueur qui commence est une ia , elle joue son premier coup
-        int type_ia = jeu.getJoueur(jeu.getIDJoueurCourant()).getType_ia();
-        if(type_ia !=0) {
-            switch (type_ia) {
-                case 1:
-                    ia[0].joue();
-                    break;
-                default:
-                    ia[0].joue();
-                    break;
-            }
-        }
+        setMenu1();
     }
 
     public void menu(){

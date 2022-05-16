@@ -1,8 +1,9 @@
 package Structures;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Case {
+public class Case implements Serializable {
     private int x,y;
 
     public Case(int x,int y){

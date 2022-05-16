@@ -2,16 +2,16 @@ package Modele;
 
 import Structures.Case;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class Joueur {
+public class Joueur implements Serializable {
     int id;  //identifiant unique d'un joueur entre (1 et 2) ou (1 et 3) ou (1 et 4)
     int score;  //score d'un joueur
     boolean peutJouer; //true si joueur à encore une couleur qu'il peut jouer
     Couleur[] listeCouleur;  // Liste des couleurs du joueur entre (1 et 2)
     int nbCouleurs;  //nombre de couleurs que joue un joueur
     int couleurCourant;  //identifiant de la couleur courante que le joueur joue/va jouer
-    int type_ia; //0 = pas une ia | 1=Ia aleatoire | 2 = IA intermediaire | 3 = IA difficile
 
     Joueur(int id){
         this.id = id;
@@ -20,7 +20,6 @@ public class Joueur {
         listeCouleur = new Couleur[2];
         this.couleurCourant = 1;
         nbCouleurs=0;
-        type_ia=0;
     }
 
     public int getId() {
@@ -51,7 +50,6 @@ public class Joueur {
                     p = it.next();
                     this.score -= p.taille;
                 }
-//                this.score -= this.listeCouleur[i].getListePiecesDispo().getTaille();
 
                 if(this.score < 0){
                     this.score = 0;
@@ -102,11 +100,5 @@ public class Joueur {
         return peutJouer;
     }
 
-    public void setType_ia(int type_ia){
-        this.type_ia=type_ia;
-    }
 
-    public int getType_ia() {
-        return type_ia;
-    }
 }
