@@ -6,10 +6,11 @@ import Modele.Piece;
 import Structures.Case;
 import Structures.ListeValeur;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public abstract class IA {
+public abstract class IA implements Serializable {
     Jeu jeu;
 
     IA(Jeu j){
@@ -17,6 +18,7 @@ public abstract class IA {
     }
 
     public abstract ListeValeur<Case,Piece> joue();
+    public abstract String toString();
 
     public ListePieces copiePiecesDispo(){
         ListePieces listePieces = new ListePieces();

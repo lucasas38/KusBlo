@@ -2,9 +2,10 @@ package Modele;
 
 import Structures.Case;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class Joueur {
+public class Joueur implements Serializable {
     int id;  //identifiant unique d'un joueur entre (1 et 2) ou (1 et 3) ou (1 et 4)
     int score;  //score d'un joueur
     boolean peutJouer; //true si joueur à encore une couleur qu'il peut jouer

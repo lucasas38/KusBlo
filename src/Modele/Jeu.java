@@ -3,11 +3,12 @@ package Modele;
 import Structures.Case;
 import Structures.ListeValeur;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Jeu {
+public class Jeu implements Serializable {
     Niveau n;  //le plateau de jeu
     int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
     Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs chacun contenant une/des couleurs

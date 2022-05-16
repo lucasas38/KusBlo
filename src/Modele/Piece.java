@@ -2,10 +2,11 @@ package Modele;
 
 import Structures.Case;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Piece {
+public class Piece implements Serializable {
     int id;  //identifiant unique d'une piece
     int taille;  //nombre de petits carré qui composent la piece
     int decx;  //correspondent à l'ordonée du premier carré rempli dans la matrice

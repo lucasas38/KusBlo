@@ -2,10 +2,11 @@ package Modele;
 
 import Structures.Case;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Niveau {
+public class Niveau implements Serializable {
     int[][] grille;  // (0,0) en haut à gauche
 
     public Niveau() {

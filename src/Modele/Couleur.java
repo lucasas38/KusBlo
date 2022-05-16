@@ -2,10 +2,11 @@ package Modele;
 
 import Structures.Case;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class Couleur {
+public class Couleur implements Serializable {
     int id;  //identifiant unique d'une piece (entre 1 et 4)
     boolean peutJouer; //true si une couleur peut encore jouer
     ListePieces listePiecesDispo; //liste des pieces disponibles pour une couleur

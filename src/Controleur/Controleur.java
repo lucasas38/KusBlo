@@ -12,7 +12,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv = false;
 
     public Controleur(){
     }
@@ -55,6 +55,15 @@ public class Controleur {
                 }
             }
             inter.getInterJ().getM().setMenuType3(bestPlayer);
+
+            //exemple sauvegarde
+            Sauvegarde sauvegarde = new Sauvegarde();
+            sauvegarde.ecrire(jeu,ia);
+            Chargement chargement = new Chargement();
+            
+            chargement.lire();
+            //chargement.getJeu(); : recupere Jeu jeu;
+            //chargement.getIA(); : recupere IA[] ia;
 
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
@@ -252,12 +261,16 @@ public class Controleur {
     }
 
     public void newGame(){
+        if(inter.getInterJ() != null){
+            inter.getInterJ().getGraph().stopTimer();
+        }
+
        jeu = new Jeu(4);
        ia = new IA[jeu.getNbJoueurs()];
 
         addIA(1,1);
         addIA(1,2);
-        addIA(1,3);
+//        addIA(1,3);
         addIA(1,4);
 
         inter.setInterJeu();

@@ -15,4 +15,9 @@ public class IADifficile extends IA{
     public ListeValeur<Case, Piece> joue() {
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "IADifficile";
+    }
 }

@@ -62,5 +62,10 @@ public class IAAleatoire extends IA {
 
     }
 
+    @Override
+    public String toString(){
+        return "IAAleatoire";
+    }
+
 
 }
