@@ -69,8 +69,30 @@ public class Bouton {
         return button;
     }
 
-    public JButton menu(){
+    public JButton menuJeu(){
         JButton button = new JButton("Menu");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.showMenuOpt();
+            }
+        });
+        return button;
+    }
+
+    public JButton reprendre(){
+        JButton button = new JButton("Reprendre");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.reprendre();
+            }
+        });
+        return button;
+    }
+
+    public JButton menuPrincpal(){
+        JButton button = new JButton("Menu Principal");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

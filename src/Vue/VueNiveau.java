@@ -155,5 +155,11 @@ public class VueNiveau {
         }
     }
 
+    public void startTimer(){
+        if(anim.hasTimerIA()){
+            anim.startTimeIA();
+        }
+    }
+
 
 }

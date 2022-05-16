@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 
 public class InterfaceJeu {
-        JFrame frame;
+        JPanel frame;
         VueNiveau graph;
         MenuPiece m;
         PanneauJoueur j1;
@@ -18,21 +18,32 @@ public class InterfaceJeu {
         PanneauJoueur j3;
         PanneauJoueur j4;
         AdaptateurSouris mouseAdapt;
+        AdaptateurSelPiece selAdapt;
         AdaptateurClavier keyAdapt;
         Controleur c;
+        JButton boutonMenu;
+        JPanel panelOpt;
+        JPanel limGauche;
+        JPanel limDroite;
+        boolean adaptAct=false;
+        int w;
+        int h;
 
 
-        public InterfaceJeu(Controleur cont, int w, int h, ImageKusBlo im){
+        public InterfaceJeu(Controleur cont, int width, int height, ImageKusBlo im){
             c=cont;
-            frame = new JFrame("KusBlo");
-            frame.setSize(w, h);
+            frame= new JPanel(new BorderLayout());
+            //frame.setSize(w, h);
+            w=width;
+            h=height;
             setResize();
+            boutonMenu= new Bouton(c).menuJeu();
 
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
             mouseAdapt =new AdaptateurSouris(graph,m,c);
             keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
-
+            selAdapt= new AdaptateurSelPiece(graph,m,c,true);
             //Création des panneau joueur
             j1 = new PanneauJoueur(1,c,im);
             j2 = new PanneauJoueur(2,c,im);
@@ -46,7 +57,7 @@ public class InterfaceJeu {
             panelGauche.add(j1.pan);
             panelGauche.add(j4.pan);
             JPanel menu= new JPanel(new BorderLayout());
-            menu.add(new Bouton(c).menu(),BorderLayout.CENTER);
+            menu.add(boutonMenu,BorderLayout.CENTER);
             menu.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
             panelGauche.add(menu);
 
@@ -59,7 +70,7 @@ public class InterfaceJeu {
             setMenu1(c.getActJoueur(),c.getActCouleur());
             repartiteur.add(m.menu);
             panelCentral.add(repartiteur,BorderLayout.CENTER);
-            m.menuType1.addMouseListener(new AdaptateurSelPiece(graph,m,c,true));
+            m.menuType1.addMouseListener(selAdapt);
             m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
             graph.panelJeu.addMouseMotionListener(mouseAdapt);
             graph.panelJeu.addMouseListener(mouseAdapt);
@@ -79,27 +90,28 @@ public class InterfaceJeu {
 
 
             //Pannel principal
-            JPanel panelMain= new JPanel(new BorderLayout());
-            panelMain.add(panelGauche,BorderLayout.WEST);
-            panelMain.add(panelCentral,BorderLayout.CENTER);
-            panelMain.add(panelDroite,BorderLayout.EAST);
+
+            frame.add(panelGauche,BorderLayout.WEST);
+            frame.add(panelCentral,BorderLayout.CENTER);
+            frame.add(panelDroite,BorderLayout.EAST);
 
 
 
             j1.setTour();
+            frame.updateUI();
             //Ajout à la fenêtre + affichage
-            frame.add(panelMain);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            //frame.add(frame);
+            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             //frame.setVisible(true);
 
         }
 
         public int getFrameH(){
-            return frame.getHeight();
+            return c.getFrameH();
         }
 
         public int getFrameW(){
-            return frame.getWidth();
+            return c.getFrameW();
         }
 
         public MenuPiece getM() {
@@ -112,8 +124,17 @@ public class InterfaceJeu {
 
         //Supprime les listener du terrain de jeu
         public void delMouseClick(){
+            if(mouseAdapt.activ){
+                adaptAct=true;
+            }else{
+                adaptAct=false;
+            }
             mouseAdapt.setActiv(false);
             keyAdapt.setActiv(false);
+        }
+        public void actMouseClick(){
+            mouseAdapt.setActiv(true);
+            keyAdapt.setActiv(true);
         }
 
         //Active le menu avec la liste
@@ -215,7 +236,7 @@ public class InterfaceJeu {
                 }
             });
 
-            frame.addWindowStateListener(new WindowStateListener() {
+          /*  frame.addWindowStateListener(new WindowStateListener() {
                 public void windowStateChanged(WindowEvent event) {
                     boolean isMaximized = (event.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
                     boolean wasMaximized =(event.getOldState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
@@ -226,7 +247,7 @@ public class InterfaceJeu {
                         resizeAllPanel();
                     }
                 }
-            });
+            });*/
         }
 
         //redimensionne tous les pannel
@@ -239,8 +260,60 @@ public class InterfaceJeu {
             j4.resize(getFrameW(),getFrameH());
         }
 
-        public JFrame getFrame(){
+        public JPanel getFrame(){
             return frame;
+        }
+
+
+        public void setMenuOpt(){
+            delMouseClick();
+            selAdapt.setActiv(false);
+            boutonMenu.setEnabled(false);
+            panelOpt= new JPanel(new BorderLayout());
+            limGauche=new JPanel();
+            limGauche.setBackground(new Color(0,0,0,75));
+            limGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
+            limDroite= new JPanel();
+            limDroite.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
+            limDroite.setBackground(new Color(0,0,0,75));
+            JPanel panTest = new JPanel();
+            panTest.setLayout(new GridLayout(6,1,5,5));
+            panTest.add(new Bouton(c).reprendre());
+            panTest.add(new Bouton(c).newGame());
+            panTest.add(new Bouton(c).menuPrincpal());
+            panTest.add(Box.createHorizontalGlue());
+            panelOpt.setPreferredSize(new Dimension(getFrameW()/2,getFrameH()));
+            panTest.setBackground(new Color(0,0,0,75));
+            panelOpt.add(limGauche,BorderLayout.WEST);
+            panelOpt.add(panTest,BorderLayout.CENTER);
+            panelOpt.add(limDroite,BorderLayout.EAST);
+            JPanel panGrey=new JPanel(new BorderLayout());
+            JPanel panGrey2=new JPanel(new BorderLayout());
+            panGrey.setBackground(new Color(0,0,0,75));
+            panGrey2.setBackground(new Color(2,0,0,75));
+            panelOpt.setBackground(new Color(0,0,0,75));
+            frame.add(panGrey,BorderLayout.WEST);
+            frame.add(panelOpt,BorderLayout.CENTER);
+            frame.add(panGrey2,BorderLayout.EAST);
+
+            frame.setComponentZOrder(panGrey, 0);
+            frame.setComponentZOrder(panGrey2, 0);
+            frame.setComponentZOrder(panelOpt, 0);
+            frame.updateUI();
+
+        }
+
+        public void reprendre(){
+            frame.remove(panelOpt);
+            frame.remove((limGauche));
+            frame.remove(limDroite);
+            boutonMenu.setEnabled(true);
+            frame.updateUI();
+            if(adaptAct){
+                actMouseClick();
+
+            }
+            selAdapt.setActiv(true);
         }
     }
 
