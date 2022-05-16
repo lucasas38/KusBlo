@@ -107,7 +107,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame();
+                c.newGame(4,1,1,1,1, true);
             }
         });
         return button;
@@ -119,6 +119,138 @@ public class Bouton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+        return button;
+    }
+
+    public JButton save(){
+        JButton button = new JButton("Sauvegarder");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.save();
+            }
+        });
+        return button;
+    }
+
+    public JButton load(){
+        JButton button = new JButton("Charger");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.load();
+            }
+        });
+        return button;
+    }
+
+    public JButton solo(){
+        JButton button = new JButton("Solo");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.setMenuSolo();
+            }
+        });
+        return button;
+    }
+
+    public JButton multi(){
+        JButton button = new JButton("Multijoueur");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.setMenuMulti();
+            }
+        });
+        return button;
+    }
+
+
+    public JButton vsUneIAf(){
+        JButton button = new JButton("Contre une IA (facile)");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(2,0,1,0,0,false);
+            }
+        });
+        return button;
+    }
+
+    public JButton vsUneIAi(){
+        JButton button = new JButton("Contre une IA (intermédiaire)");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(2,0,1,0,0,false);
+            }
+        });
+        return button;
+    }
+
+    public JButton vsUneIAd(){
+        JButton button = new JButton("Contre une IA (difficile)");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(2,0,1,0,0,false);
+            }
+        });
+        return button;
+    }
+
+    public JButton vsMultIa(){
+        JButton button = new JButton("Contre plusieurs IA");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(4,0,1,1,1,false);
+            }
+        });
+        return button;
+    }
+    public JButton deuxJoueurs(){
+        JButton button = new JButton("2 Joueurs");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(2,0,0,0,0,false);
+            }
+        });
+        return button;
+    }
+    public JButton quatreJoueur(){
+        JButton button = new JButton("4 Joueurs");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(4,0,0,0,0,false);
+            }
+        });
+        return button;
+    }
+
+
+    public JButton deuxJdeuxIA(){
+        JButton button = new JButton("2 Joueurs et 2 IA");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(4,0,0,1,1,false);
+            }
+        });
+        return button;
+    }
+
+    public JButton partiePerso(){
+        JButton button = new JButton("Partie personnalisée");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.newGame(4,0,0,1,1,false);
             }
         });
         return button;

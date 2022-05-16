@@ -26,18 +26,20 @@ public class InterfaceJeu {
         JPanel limGauche;
         JPanel limDroite;
         boolean adaptAct=false;
+        Bouton b;
         int w;
         int h;
 
 
-        public InterfaceJeu(Controleur cont, int width, int height, ImageKusBlo im){
+        public InterfaceJeu(Controleur cont, Bouton bout,int width, int height, ImageKusBlo im){
             c=cont;
             frame= new JPanel(new BorderLayout());
             //frame.setSize(w, h);
             w=width;
             h=height;
             setResize();
-            boutonMenu= new Bouton(c).menuJeu();
+            b=bout;
+            boutonMenu= b.menuJeu();
 
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
@@ -157,7 +159,6 @@ public class InterfaceJeu {
         public void refreshPanJoueur(int couleur, int piece){
             switch (couleur){
                 case 1:
-
                     j4.refreshAffichage(piece);
                     //j4.pan.updateUI();
                     break;
@@ -236,18 +237,6 @@ public class InterfaceJeu {
                 }
             });
 
-          /*  frame.addWindowStateListener(new WindowStateListener() {
-                public void windowStateChanged(WindowEvent event) {
-                    boolean isMaximized = (event.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
-                    boolean wasMaximized =(event.getOldState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH;
-
-                    if (isMaximized && !wasMaximized) {
-                        resizeAllPanel();
-                    } else if (wasMaximized && !isMaximized) {
-                        resizeAllPanel();
-                    }
-                }
-            });*/
         }
 
         //redimensionne tous les pannel
@@ -276,16 +265,18 @@ public class InterfaceJeu {
             limDroite= new JPanel();
             limDroite.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
             limDroite.setBackground(new Color(0,0,0,75));
-            JPanel panTest = new JPanel();
-            panTest.setLayout(new GridLayout(6,1,5,5));
-            panTest.add(new Bouton(c).reprendre());
-            panTest.add(new Bouton(c).newGame());
-            panTest.add(new Bouton(c).menuPrincpal());
-            panTest.add(Box.createHorizontalGlue());
+            JPanel listeBoutons = new JPanel();
+            listeBoutons.setLayout(new GridLayout(6,1,5,5));
+            listeBoutons.add(b.reprendre());
+            listeBoutons.add(b.newGame());
+            listeBoutons.add(b.save());
+            listeBoutons.add(b.load());
+            listeBoutons.add(b.menuPrincpal());
+            listeBoutons.add(Box.createHorizontalGlue());
             panelOpt.setPreferredSize(new Dimension(getFrameW()/2,getFrameH()));
-            panTest.setBackground(new Color(0,0,0,75));
+            listeBoutons.setBackground(new Color(0,0,0,75));
             panelOpt.add(limGauche,BorderLayout.WEST);
-            panelOpt.add(panTest,BorderLayout.CENTER);
+            panelOpt.add(listeBoutons,BorderLayout.CENTER);
             panelOpt.add(limDroite,BorderLayout.EAST);
             JPanel panGrey=new JPanel(new BorderLayout());
             JPanel panGrey2=new JPanel(new BorderLayout());
@@ -314,6 +305,10 @@ public class InterfaceJeu {
 
             }
             selAdapt.setActiv(true);
+        }
+
+        public void charger(){
+            graph.charger();
         }
     }
 

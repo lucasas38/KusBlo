@@ -27,7 +27,9 @@ public class Chargement {
 
             //changement seed random IAAleatoire
             for (int i=0;i<jeu.getNbJoueurs();i++){
+                if(ia[i]!=null){
                     ia[i].setR();
+                }
             }
 
             in.close();

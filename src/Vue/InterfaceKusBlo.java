@@ -13,8 +13,11 @@ public class InterfaceKusBlo implements Runnable {
     JFrame frame;
     InterfaceJeu interJ;
     MenuPrincipal menu;
+    MenuSolo menuSol;
+    MenuMulti menuMult;
     Controleur c;
     ImageKusBlo im;
+    Bouton b;
     AdaptateurClavier keyAdapt;
     int test=0;
 
@@ -31,27 +34,37 @@ public class InterfaceKusBlo implements Runnable {
 
     public void run(){
         im= new ImageKusBlo();
+        b=new Bouton(c);
         frame = new JFrame("KusBlo");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //On génère et affiche le menu principal
-        menu=new MenuPrincipal(c, frame.getWidth(),frame.getHeight());
+        menu=new MenuPrincipal(c,b, frame.getWidth(),frame.getHeight());
+        menuSol=new MenuSolo(c,b, frame.getWidth(),frame.getHeight());
+        menuMult=new MenuMulti(c,b, frame.getWidth(),frame.getHeight());
         frame.setContentPane(menu.getFrame());
         frame.setVisible(true);
     }
 
     //Affiche le menu
     public void setMenu(){
-        //frameJeu.setVisible(false);
-       // frameMenu.setVisible(true);
         frame.setContentPane(menu.getFrame());
         frame.revalidate();
-       // frame.repaint();
+    }
+
+    public void setMenuSolo(){
+        frame.setContentPane(menuSol.getFrame());
+        frame.revalidate();
+    }
+
+    public void setMenuMulti(){
+        frame.setContentPane(menuMult.getFrame());
+        frame.revalidate();
     }
 
     //Affiche un nouveau jeu
     public void setInterJeu(){
-        interJ= new InterfaceJeu(c ,frame.getWidth(), frame.getHeight(),im);
+        interJ= new InterfaceJeu(c ,b,frame.getWidth(), frame.getHeight(),im);
         test++;
         System.out.println("lancement n°"+test);
         frame.setContentPane(interJ.getFrame());
@@ -73,4 +86,7 @@ public class InterfaceKusBlo implements Runnable {
         return frame.getHeight();
     }
 
+    public void charger(){
+        interJ.charger();
+    }
 }

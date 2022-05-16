@@ -161,5 +161,12 @@ public class VueNiveau {
         }
     }
 
+    public void charger(){
+        for(int i=0;i<20;i++){
+            for(int j=0; j<20;j++){
+                listPanel[i][j].changeBackground(im.coulJoueur(c.getCouleur(i,j)));
+            }
+        }
+    }
 
 }

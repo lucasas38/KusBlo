@@ -6,14 +6,14 @@ import Structures.BasicBackgroundPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuPrincipal {
+public class MenuSolo {
     JPanel frame;
     Controleur cont;
-    Bouton b;
     int w;
     int h ;
+    Bouton b;
 
-    public MenuPrincipal(Controleur c,Bouton bout,int width, int height){
+    public MenuSolo(Controleur c,Bouton bout,int width, int height){
         cont=c;
         w=width;
         h=height;
@@ -32,11 +32,13 @@ public class MenuPrincipal {
         logo.setPreferredSize(new Dimension(w/2,h/4));
 
         //création de la liste de boutons
-        JPanel listeBoutons = new JPanel(new GridLayout(4,1));
-        listeBoutons.add(b.solo());
-        listeBoutons.add(b.multi());
-        listeBoutons.add(b.load());
-        listeBoutons.add(b.exit());
+        JPanel listeBoutons = new JPanel(new GridLayout(6,1));
+        listeBoutons.add(new Bouton(cont).vsUneIAf());
+        listeBoutons.add(new Bouton(cont).vsUneIAi());
+        listeBoutons.add(new Bouton(cont).vsUneIAd());
+        listeBoutons.add(new Bouton(cont).vsMultIa());
+        listeBoutons.add(new Bouton(c).load());
+        listeBoutons.add(b.menuPrincpal());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 
         panelCentral.add(logo,BorderLayout.NORTH);
