@@ -1,6 +1,7 @@
 package Modele;
 
 import Structures.Case;
+import Structures.Trio;
 import Structures.ListeValeur;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ public class Jeu implements Serializable {
     int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
     Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs chacun contenant une/des couleurs
     int joueurCourant; //identifiant unique du joueur courant qui joue/doit jouer
-
+    Historique historique;
 
     public Jeu(int nombreJoueurs){
         this.n = new Niveau();
@@ -46,6 +47,7 @@ public class Jeu implements Serializable {
         //Random r = new Random();
         //joueurCourant = r.nextInt(nbJoueurs)+1 ; //choisi joueur aleatoire
         joueurCourant = 1;
+        historique=new Historique();
     }
 
     public Niveau getNiveau() {
@@ -54,6 +56,10 @@ public class Jeu implements Serializable {
 
     public Joueur getJoueur(int idJoueur){
         return listeJoueurs[idJoueur-1];
+    }
+
+    public Historique getHistorique() {
+        return historique;
     }
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
@@ -70,6 +76,8 @@ public class Jeu implements Serializable {
                     calculeCoinPiece(piece,idJoueur);
                     //on joue la piece pour le joueur (et sa couleur courante)
                     listeJoueurs[idJoueur-1].jouePiece(piece);
+                    //met à jour historique
+                    historique.nouveau(new Trio(piece,joueurCourant,getJoueurCourant().couleurCourant));
                     //si la couleur courante du joueur n'a plus de pieces a jouer
                     //alors on passe la couleur courante en fin de jeu (peut plus jouer et score final mis à jour)
                     if(!restePieceJouable()){
@@ -93,6 +101,19 @@ public class Jeu implements Serializable {
 
     //calcule les coins possible pour une piece pour la couleur courante d'un joueur
     private void calculeCoinPiece(Piece piece, int idJoueur) {
+
+        ajouteCoinsValides(piece,idJoueur);
+
+        //reparcourt les coins de la couleur courante et enleve ceux qui ne sont plus valides
+        supprimerCoinsInvalides(idJoueur);
+
+        //parcourt la liste des coins des autres couleurs et si notre piece ecrase un des coins de l'autre couleur on l'enleve
+        miseAJourCoinsAutreJoueurs(piece);
+
+
+    }
+
+    private void ajouteCoinsValides(Piece piece, int idJoueur) {
         Iterator<Case> it = piece.listeCases.iterator();
 
         //parcourt chaque case de la piece
@@ -108,20 +129,21 @@ public class Jeu implements Serializable {
             estCoinValide(x-1,y-1,idJoueur);
             estCoinValide(x-1,y+1,idJoueur);
 
-
         }
+    }
 
-        //reparcourt les coins de la couleur courante et enleve ceux qui nesont plus valides
-        it = getJoueur(idJoueur).getCouleurCourante().listeCoins.iterator();
+    private void supprimerCoinsInvalides(int idJoueur) {
+        Iterator<Case> it = getJoueur(idJoueur).getCouleurCourante().listeCoins.iterator();
         while (it.hasNext()){
             Case ca = it.next();
             if(!estCoinValide(ca.getX(),ca.getY(),idJoueur)){
                 it.remove();
             }
         }
+    }
 
-        //parcourt la liste des coins des autres couleurs et si notre piece ecrase un des coins de l'autre couleur on l'enleve
-        it = piece.listeCases.iterator();
+    private void miseAJourCoinsAutreJoueurs(Piece piece) {
+        Iterator<Case> it = piece.listeCases.iterator();
         while (it.hasNext()){
             Case ca = it.next();
             for (int i=0;i<nbJoueurs;i++){
@@ -133,7 +155,6 @@ public class Jeu implements Serializable {
                 }
             }
         }
-
     }
 
     //true si un coin est valide (point dans la grille du niveau et n'as pas une meme couleur ajacente)
@@ -294,4 +315,59 @@ public class Jeu implements Serializable {
         setJoueurCourant();
         getJoueur(idJoueur).setCouleurCourant();
     }
+
+    public Joueur getJoueurCourant(){
+        return listeJoueurs[joueurCourant-1];
+    }
+
+    //HISTORIQUE
+
+    public void annuler(){
+        //recup dernier coup joué et change futur et passe
+        Trio<Piece,Integer,Integer> dernier = historique.annuler();
+//        s'il y a un dernierCoup joué
+        if(dernier != null){
+
+            Piece piecePrec = dernier.getE1();
+            Integer idJoueurPrec = dernier.getE2();
+            Integer idCouleurJoueurPrec = dernier.getE3();
+
+            //parcourt la liste des cases de la piece (coordonées réelles sur la grille)
+            //et met à zero (vide) les cases de la grille
+            Iterator<Case> it = dernier.getE1().listeCases.iterator();
+            while (it.hasNext()){
+                Case ca = it.next();
+                n.grille[ca.getX()][ca.getY()] = 0;
+            }
+
+            //met à jour pieces disponibles et pieces posées
+            getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListePiecesDispo().ajoute(piecePrec);
+            getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListesPiecesPosees().remove(piecePrec);
+
+            //on recalcule les coins pour joueur courant et autre joueur
+            annulerCoins(idJoueurPrec);
+
+
+        }
+    }
+
+    void annulerCoins(int idJoueur){
+
+
+        supprimerCoinsInvalides(idJoueur);
+
+        Iterator<Piece> it;
+        for (int i=0;i<getNbJoueurs();i++){
+            Joueur joueur = getJoueur(i+1);
+            for (int j=0;j<joueur.getListeCouleur().length;j++){
+                Couleur couleur = joueur.listeCouleur[j];
+                it = couleur.listesPiecesPosees.iterator();
+                while (it.hasNext()){
+                    Piece p = it.next();
+                    ajouteCoinsValides(p,joueur.id);
+                }
+            }
+        }
+    }
+
 }

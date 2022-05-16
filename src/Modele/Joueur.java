@@ -100,5 +100,4 @@ public class Joueur implements Serializable {
         return peutJouer;
     }
 
-
 }

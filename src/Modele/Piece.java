@@ -128,7 +128,9 @@ public class Piece implements Serializable {
 
     @Override
     public String toString() {
-        String res = "id=" + id +", taille=" + taille + "\n";
+        return ""+id;
+        /*
+        String res = "id=" + id + ", taille=" + taille + "\n";
         for (int i = 0;i< matrice.length;i++){
             for (int j = 0;j< matrice.length;j++){
                 res += matrice[i][j];
@@ -150,6 +152,9 @@ public class Piece implements Serializable {
         res +="\n";
 
         return res;
+
+         */
+
     }
 
     public String toStringMatrice() {
@@ -172,4 +177,9 @@ public class Piece implements Serializable {
         return decy;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Piece p = (Piece) obj;
+        return id == p.id;
+    }
 }

@@ -56,6 +56,9 @@ public class Controleur {
             }
             inter.getInterJ().getM().setMenuType3(bestPlayer);
 
+            //test
+            System.out.println(jeu.getHistorique());
+
         }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
                     inter.getInterJ().setTour(jeu.getNumCouleurCourante());
@@ -270,7 +273,7 @@ public class Controleur {
 
         addIA(1,1);
         addIA(1,2);
-//        addIA(1,3);
+       addIA(1,3);
         addIA(1,4);
 
         inter.setInterJeu();
