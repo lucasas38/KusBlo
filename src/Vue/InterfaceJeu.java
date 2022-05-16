@@ -22,6 +22,8 @@ public class InterfaceJeu {
         AdaptateurClavier keyAdapt;
         Controleur c;
         JButton boutonMenu;
+        JButton annuler;
+        JButton refaire;
         JPanel panelOpt;
         JPanel limGauche;
         JPanel limDroite;
@@ -85,7 +87,11 @@ public class InterfaceJeu {
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
             panelDroite.add(j2.pan);
             panelDroite.add(j3.pan);
-            JPanel histo=new JPanel(new BorderLayout());
+            annuler=b.annuler();
+            refaire=b.refaire();
+            JPanel histo=new JPanel(new GridLayout(2,1));
+            histo.add(annuler);
+            histo.add(refaire);
             histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
             panelDroite.add(histo);
 
@@ -257,6 +263,8 @@ public class InterfaceJeu {
         public void setMenuOpt(){
             delMouseClick();
             selAdapt.setActiv(false);
+            refaire.setEnabled(false);
+            annuler.setEnabled(false);
             boutonMenu.setEnabled(false);
             panelOpt= new JPanel(new BorderLayout());
             limGauche=new JPanel();
@@ -281,7 +289,7 @@ public class InterfaceJeu {
             JPanel panGrey=new JPanel(new BorderLayout());
             JPanel panGrey2=new JPanel(new BorderLayout());
             panGrey.setBackground(new Color(0,0,0,75));
-            panGrey2.setBackground(new Color(2,0,0,75));
+            panGrey2.setBackground(new Color(0,0,0,75));
             panelOpt.setBackground(new Color(0,0,0,75));
             frame.add(panGrey,BorderLayout.WEST);
             frame.add(panelOpt,BorderLayout.CENTER);
@@ -299,6 +307,8 @@ public class InterfaceJeu {
             frame.remove((limGauche));
             frame.remove(limDroite);
             boutonMenu.setEnabled(true);
+            annuler.setEnabled(true);
+            refaire.setEnabled(true);
             frame.updateUI();
             if(adaptAct){
                 actMouseClick();

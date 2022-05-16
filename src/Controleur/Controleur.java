@@ -355,4 +355,11 @@ public class Controleur {
     public int getCouleur(int i, int j){
         return jeu.getNiveau().getGrille()[i][j];
     }
+
+    public void annuler(){
+
+    }
+    public void refaire(){
+
+    }
 }

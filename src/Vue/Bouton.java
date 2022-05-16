@@ -255,4 +255,26 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton annuler(){
+        JButton button = new JButton("Annuler");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.annuler();
+            }
+        });
+        return button;
+    }
+
+    public JButton refaire(){
+        JButton button = new JButton("Refaire");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.refaire();
+            }
+        });
+        return button;
+    }
 }
