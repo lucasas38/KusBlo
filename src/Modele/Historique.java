@@ -26,7 +26,7 @@ public class Historique implements Serializable {
     public void nouveau(Trio<Piece,Integer,Integer> element){
         passe.addFirst(element);
         while (!futur.isEmpty()){
-            futur.getFirst().getE1().listeCases=null; //voir si nécessaire
+//            futur.getFirst().getE1().listeCases=null; //voir si nécessaire
             futur.removeFirst();
         }
     }

@@ -105,16 +105,13 @@ public class VueNiveau {
 
     //Visualisation de la pièce en fonction de la couleur du fond
     public void visualiser(int joue,int x, int y, int[][] grille, int decx, int decy ){
-        if(joue==2){
-            anim.visualisationClignotement(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
-        } else {
             for(int i=0;i<5;i++){
                 for(int j=0; j<5; j++){
                     if(grille[i][j]!=0){
                         //On récupère la couleur du fond pour ne pas le supprimer
                         int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue, cFond));
-                    }
+
                 }
             }
         }

@@ -53,7 +53,12 @@ public class ListePieces implements Serializable {
             pCourante = it.next();
             i++;
         }
-        liste.add(i,p);
+        if(liste.getLast().id < p.id){
+            liste.addLast(p);
+        }else{
+            liste.add(i,p);
+        }
+
     }
 
     public boolean estVide(){
