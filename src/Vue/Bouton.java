@@ -196,7 +196,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,2,1,2,2,false);
+                c.newGame(4,2,0,2,2,false);
             }
         });
         return button;
@@ -239,7 +239,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,0,0,1,1,false);
+                c.newGame(4,2,0,2,0,false);
             }
         });
         return button;
