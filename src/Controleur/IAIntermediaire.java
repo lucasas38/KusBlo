@@ -7,13 +7,18 @@ import Modele.Piece;
 import Structures.Case;
 import Structures.ListeValeur;
 
+import java.sql.SQLOutput;
 import java.util.*;
 
 public class IAIntermediaire extends IA {
 
+    int mode; // entier permettant de modifier le mode
+    Random r;
 
-    IAIntermediaire(Jeu j) {
+    IAIntermediaire(Jeu j, int m) {
         super(j);
+        mode = m;
+        r = new Random();
     }
 
     @Override
@@ -41,9 +46,30 @@ public class IAIntermediaire extends IA {
                 listeCases = listeEmplacementPossible.get(i).getListe();
                 int rotation = listeEmplacementPossible.get(i).getValeur();
                 int valeur = 0;
-                valeur =  4*p.getTaille()+ 2*nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases) + 2*nb_possibilite_bloquees(jeu.getIDJoueurCourant(), listeCases) -nb_case_bloquees(listeCases);
-                if(valeur<0) valeur=0;
-                if (valeur >= valeur_max) {
+                int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases);
+                int taille = p.getTaille();
+                int poss_bloq = nb_possibilite_bloquees(jeu.getIDJoueurCourant(), listeCases);
+                int case_bloq = nb_case_bloquees(listeCases);
+                switch(mode){
+                    case 0 : // IA méchante
+                        valeur = taille + poss_ouv + 2*poss_bloq - case_bloq;
+                        //valeur = 4*taille + 2*poss_ouv + 2*poss_bloq - case_bloq;
+                        break;
+                    case 1 : // IA gentille
+                        valeur = taille + 2*poss_ouv + poss_bloq - case_bloq;
+                        break;
+                    case 2 : // IA privilégiant les grandes pièces
+                        valeur = 2*taille + poss_ouv + poss_bloq - case_bloq;
+                        break ;
+                    case 3 : // IA pattern
+                        valeur = taille + poss_ouv + poss_bloq - 2*case_bloq;
+                }
+                if(valeur<0) {valeur=0;}
+                int ra = 0;
+                if (valeur == valeur_max){
+                    ra = r.nextInt(2);
+                }
+                if (valeur > valeur_max || ra == 1) {
                     valeur_max = valeur;
                     p_max = p;
                     listeCasesMax=listeCases;
@@ -54,9 +80,9 @@ public class IAIntermediaire extends IA {
             int i=0;
             while(i<rotation_max){
                 if(i == 4){
-                    p.rotationSymetrique();
+                    p_max.rotationSymetrique();
                 }else{
-                    p.rotationHoraire();
+                    p_max.rotationHoraire();
                 }
                 i++;
             }
@@ -65,8 +91,9 @@ public class IAIntermediaire extends IA {
             listePiecesDispo.supprimer(p.getId());
         }
 
-
-        if(res!=null){
+        // res peut ne pas être null mais contenir des choses null
+        // a réfléchir pour savoir si c'est la bonne solution
+        if(res!=null && res.getListe()!=null && res.getValeur()!=null){
             return res;
         }
 
@@ -85,7 +112,7 @@ public class IAIntermediaire extends IA {
 
     @Override
     public void setR() {
-
+        r = new Random();
     }
 
 

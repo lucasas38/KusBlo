@@ -17,7 +17,7 @@ public class Controleur {
     public Controleur(){
     }
 
-    public void addIA(int type_ia,int idJoueur){
+    public void addIA(int type_ia,int idJoueur, int mode_ia){
         if(!(type_ia>=1 && type_ia<4)){
             type_ia=1; //par défault
         }
@@ -26,7 +26,7 @@ public class Controleur {
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, mode_ia);
                 break;
             case 3:
                 ia[idJoueur-1] = new IADifficile(this.jeu);
@@ -84,7 +84,7 @@ public class Controleur {
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
             jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
-            System.out.println(jeu.getNiveau());
+            //System.out.println(jeu.getNiveau());
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
@@ -263,7 +263,7 @@ public class Controleur {
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=1;
+                    joueur[i]=2;    // codé en dur donc à changer
                 }else{
                     joueur[i]=0;
                 }
@@ -280,7 +280,7 @@ public class Controleur {
        ia = new IA[jeu.getNbJoueurs()];
         for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1);
+                addIA(joueur[i],i+1, 3-i); // "i" pour le mode de l'IA est temporaire
             }
         }
 
