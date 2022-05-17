@@ -97,6 +97,9 @@ public class Joueur implements Serializable {
         return peutJouer;
     }
 
+    public int getNbCouleurs() {
+        return nbCouleurs;
+    }
     public boolean reprendreCouleur(){
         Couleur couleur = getCouleurCourante();
         couleur.peutJouer=true;
