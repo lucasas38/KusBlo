@@ -44,6 +44,7 @@ public class Controleur {
 
     public void setMenu1(){
         inter.getInterJ().getGraph().stopTimer();
+        setScoreToutLesJoueurs();
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
             inter.getInterJ().delMouseClick();
@@ -338,12 +339,7 @@ public class Controleur {
         ia=chargement.getIa();// : recupere IA[] ia;
         inter.setInterJeu();
         inter.charger();
-        for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-            inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
-            if(jeu.getNbJoueurs()==2){
-                inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
-            }
-        }
+        setScoreToutLesJoueurs();
         setMenu1();
     }
 
@@ -369,12 +365,7 @@ public class Controleur {
             inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
             jeu.annuler();
             inter.getInterJ().getM().resetBorder();
-            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-                inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
-                if(jeu.getNbJoueurs()==2){
-                    inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
-                }
-            }
+            setScoreToutLesJoueurs();
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
             setMenu1();
         }else{
@@ -404,5 +395,14 @@ public class Controleur {
             setMenu1();
         }
 
+    }
+
+    private void setScoreToutLesJoueurs() {
+        for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+            inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
+            if(jeu.getNbJoueurs()==2){
+                inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
+            }
+        }
     }
 }

@@ -3,9 +3,10 @@ package Modele;
 import Structures.Case;
 import Structures.Trio;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Historique {
+public class Historique implements Serializable {
     LinkedList<Trio<Piece,Integer,Integer>> passe;
     LinkedList<Trio<Piece,Integer,Integer>> futur;
 

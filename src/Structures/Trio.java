@@ -1,6 +1,8 @@
 package Structures;
 
-public class Trio<E1, E2, E3>{
+import java.io.Serializable;
+
+public class Trio<E1, E2, E3> implements Serializable {
     E1 e1;
     E2 e2;
     E3 e3;
