@@ -18,7 +18,7 @@ public class Controleur {
     public Controleur(){
     }
 
-    public void addIA(int type_ia,int idJoueur){
+    public void addIA(int type_ia,int idJoueur, int mode_ia){
         if(!(type_ia>=1 && type_ia<4)){
             type_ia=1; //par défault
         }
@@ -27,7 +27,7 @@ public class Controleur {
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, mode_ia);
                 break;
             case 3:
                 ia[idJoueur-1] = new IADifficile(this.jeu);
@@ -253,7 +253,7 @@ public class Controleur {
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=1;
+                    joueur[i]=2;
                 }else{
                     joueur[i]=0;
                 }
@@ -270,7 +270,7 @@ public class Controleur {
        ia = new IA[jeu.getNbJoueurs()];
         for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1);
+                addIA(joueur[i],i+1, 3-i);
             }
         }
 
@@ -351,9 +351,9 @@ public class Controleur {
 
             inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
             jeu.annuler();
+            System.out.println("joueur courant = "+jeu.getIDJoueurCourant());
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur((jeu.getNumCouleurCourante()%4)+1,pPrec.getId());
-            System.out.println(jeu.getIDJoueurCourant());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
             setMenu1();
 
         }else{
@@ -371,10 +371,11 @@ public class Controleur {
 
             inter.getInterJ().delMouseClick();
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(),pProchain.getListeCases());
-            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), pProchain.getListeCases(),true);
+            jeu.jouerPiece(jeu.getIDJoueurCourant(),pProchain.getId(), pProchain.getListeCases(),true);
+            System.out.println("joueur courant = "+jeu.getIDJoueurCourant());
             inter.getInterJ().getM().resetBorder();
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
-            System.out.println(jeu.getIDJoueurCourant());
+            System.out.println("joueur courant = "+jeu.getIDJoueurCourant());
             setMenu1();
 
         }

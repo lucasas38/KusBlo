@@ -45,6 +45,17 @@ public class ListePieces implements Serializable {
         this.liste.add(p);
     }
 
+    public void ajoutePieceOrdre(Piece p){
+        Iterator<Piece> it = iterateur();
+        int i = 0;
+        Piece pCourante = it.next();
+        while (it.hasNext() && pCourante.id < p.id){
+            pCourante = it.next();
+            i++;
+        }
+        liste.add(i,p);
+    }
+
     public boolean estVide(){
         return this.liste.isEmpty();
     }

@@ -86,7 +86,7 @@ public class AnimationVisualisation {
     //Fonction de visualisation du time IA
     public void visualisationIa(Piece piece, LinkedList<Case> listeCase, int couleur){
         //Timer qui pose la pièce après un delai
-        timeAnimeIa = new Timer(500, new ActionListener() {
+        timeAnimeIa = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.poserPiece(listeCase,couleur);

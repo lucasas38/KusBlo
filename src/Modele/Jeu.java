@@ -85,6 +85,7 @@ public class Jeu implements Serializable {
                     if(!restePieceJouable()){
                         finCouleur();
                     }
+                    System.out.println("refaire on modifie");
                     setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                 }else{
@@ -354,7 +355,10 @@ public class Jeu implements Serializable {
             getJoueur(idJoueurPrec).score -= piecePrec.taille;
 
             //met à jour pieces disponibles et pieces posées
-            getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListePiecesDispo().ajoute(piecePrec);
+
+            getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListePiecesDispo().ajoutePieceOrdre(piecePrec);
+            System.out.println(getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListePiecesDispo());
+
             getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListesPiecesPosees().remove(piecePrec);
 
             //on recalcule les coins pour joueur courant et autre joueur
