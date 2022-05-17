@@ -90,12 +90,6 @@ public class Controleur {
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-                inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
-                if(jeu.getNbJoueurs()==2){
-                    inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
-                }
-            }
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
             setMenu1();
         }
@@ -105,12 +99,6 @@ public class Controleur {
     public void joueIA2(Piece piece,LinkedList<Case> listeCases){
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases,false);
         inter.getInterJ().getM().resetBorder();
-        for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-            inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
-            if(jeu.getNbJoueurs()==2){
-                inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
-            }
-        }
         inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
         setMenu1();
     }
@@ -339,7 +327,6 @@ public class Controleur {
         ia=chargement.getIa();// : recupere IA[] ia;
         inter.setInterJeu();
         inter.charger();
-        setScoreToutLesJoueurs();
         setMenu1();
     }
 
@@ -365,7 +352,6 @@ public class Controleur {
             inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
             jeu.annuler();
             inter.getInterJ().getM().resetBorder();
-            setScoreToutLesJoueurs();
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
             setMenu1();
         }else{
@@ -385,12 +371,6 @@ public class Controleur {
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(),pProchain.getListeCases());
             jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), pProchain.getListeCases(),true);
             inter.getInterJ().getM().resetBorder();
-            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-                inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
-                if(jeu.getNbJoueurs()==2){
-                    inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
-                }
-            }
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
             setMenu1();
         }
