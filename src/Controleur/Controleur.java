@@ -352,8 +352,10 @@ public class Controleur {
             inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
             jeu.annuler();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
+            inter.getInterJ().refreshPanJoueur((jeu.getNumCouleurCourante()%4)+1,pPrec.getId());
+            System.out.println(jeu.getIDJoueurCourant());
             setMenu1();
+
         }else{
             System.out.println("Pas de coup antérieur");
         }
@@ -372,7 +374,9 @@ public class Controleur {
             jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), pProchain.getListeCases(),true);
             inter.getInterJ().getM().resetBorder();
             inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
+            System.out.println(jeu.getIDJoueurCourant());
             setMenu1();
+
         }
 
     }
