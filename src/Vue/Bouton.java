@@ -108,7 +108,7 @@ public class Bouton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.newGame(4,1,1,1,1, true);
-            }
+            } // les paramètres ne sont pas utilisés dans ce cas
         });
         return button;
     }
@@ -203,11 +203,11 @@ public class Bouton {
     }
 
     public JButton vsMultIa(){
-        JButton button = new JButton("Contre plusieurs IA");
+        JButton button = new JButton("Contre plusieurs IA (inter)"); // actuellement utilisé pour faire s'affronter des IA
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,0,1,1,1,false);
+                c.newGame(4,2,2,2,2,false);
             }
         });
         return button;

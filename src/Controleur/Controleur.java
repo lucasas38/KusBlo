@@ -13,12 +13,12 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv = false;
 
     public Controleur(){
     }
 
-    public void addIA(int type_ia,int idJoueur){
+    public void addIA(int type_ia,int idJoueur, int mode_ia){
         if(!(type_ia>=1 && type_ia<4)){
             type_ia=1; //par défault
         }
@@ -27,7 +27,7 @@ public class Controleur {
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, mode_ia);
                 break;
             case 3:
                 ia[idJoueur-1] = new IADifficile(this.jeu);
@@ -253,7 +253,7 @@ public class Controleur {
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=1;
+                    joueur[i]=2;
                 }else{
                     joueur[i]=0;
                 }
@@ -270,7 +270,7 @@ public class Controleur {
        ia = new IA[jeu.getNbJoueurs()];
         for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1);
+                addIA(joueur[i],i+1, 3-i);
             }
         }
 
