@@ -13,7 +13,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = false;
+    boolean animActiv = true;
 
     public Controleur(){
     }
@@ -93,7 +93,7 @@ public class Controleur {
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
             setMenu1();
         }
 
@@ -102,7 +102,7 @@ public class Controleur {
     public void joueIA2(Piece piece,LinkedList<Case> listeCases){
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases,false);
         inter.getInterJ().getM().resetBorder();
-        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
         setMenu1();
     }
 
@@ -355,8 +355,9 @@ public class Controleur {
             inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
             jeu.annuler();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()%4+1,pPrec.getId(),true, pPrec);
             setMenu1();
+
         }else{
             System.out.println("Pas de coup antérieur");
         }
@@ -374,8 +375,9 @@ public class Controleur {
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(),pProchain.getListeCases());
             jeu.jouerPiece(jeu.getIDJoueurCourant(),pProchain.getId(), pProchain.getListeCases(),true);
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId(),false, null);
             setMenu1();
+
         }
 
     }

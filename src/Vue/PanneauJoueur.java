@@ -93,8 +93,12 @@ public class PanneauJoueur {
 
 
     //Vide la case de la pièce jouée
-    public void refreshAffichage(int piece){
-        new PanelPiece().videPanel(listePiece[piece-1],im);
+    public void refreshAffichage(int piece, boolean undo, Piece p){
+        if(undo){
+            new PanelPiece().redoPanel(listePiece[piece-1],im,p,couleur);
+        }else{
+            new PanelPiece().videPanel(listePiece[piece-1],im);
+        }
     }
 
     public void setTour(){

@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.Controleur;
+import Modele.Piece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -162,27 +163,27 @@ public class InterfaceJeu {
         }
 
         //Met à jour uniquement le panneau du joueur qui a joué (qui est donc le joueur précedent
-        public void refreshPanJoueur(int couleur, int piece){
+        public void refreshPanJoueur(int couleur, int piece, boolean undo, Piece p){
             switch (couleur){
                 case 1:
-                    j4.refreshAffichage(piece);
-                    //j4.pan.updateUI();
+                    cleanTour();
+                    j1.setTour();
+                    j4.refreshAffichage(piece,undo,p);
                     break;
                 case 2:
                     cleanTour();
                     j2.setTour();
-                    j1.refreshAffichage(piece);
-                    //j1.pan.updateUI();
+                    j1.refreshAffichage(piece,undo,p);
                     break;
                 case 3:
                     cleanTour();
                     j3.setTour();
-                    j2.refreshAffichage(piece);
+                    j2.refreshAffichage(piece,undo,p);
                     break;
                 case 4:
                     cleanTour();
                     j4.setTour();
-                    j3.refreshAffichage(piece);
+                    j3.refreshAffichage(piece,undo,p);
                     break;
                 default:
                     break;
