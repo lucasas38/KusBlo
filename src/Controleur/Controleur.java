@@ -90,7 +90,7 @@ public class Controleur {
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
             setMenu1();
         }
 
@@ -99,7 +99,7 @@ public class Controleur {
     public void joueIA2(Piece piece,LinkedList<Case> listeCases){
         jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases,false);
         inter.getInterJ().getM().resetBorder();
-        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
         setMenu1();
     }
 
@@ -353,7 +353,7 @@ public class Controleur {
             jeu.annuler();
             System.out.println("joueur courant = "+jeu.getIDJoueurCourant());
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()%4+1,pPrec.getId(),true, pPrec);
             setMenu1();
 
         }else{
@@ -374,7 +374,7 @@ public class Controleur {
             jeu.jouerPiece(jeu.getIDJoueurCourant(),pProchain.getId(), pProchain.getListeCases(),true);
             System.out.println("joueur courant = "+jeu.getIDJoueurCourant());
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId(),false, null);
             System.out.println("joueur courant = "+jeu.getIDJoueurCourant());
             setMenu1();
 

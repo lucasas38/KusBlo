@@ -50,4 +50,19 @@ public class PanelPiece {
         }
         pan.updateUI();
     }
+
+    public void redoPanel(JPanel pan, ImageKusBlo im, Piece p, int couleur){
+        pan.removeAll();
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.coulJoueur(5));
+                if (p.getMatrice()[i][j] == 0) {
+                    newPan.changeBackground(im.coulJoueur(5));
+                } else {
+                    newPan.changeBackground(im.coulJoueur(couleur));
+                }
+                pan.add(newPan);
+            }
+        }
+    }
 }
