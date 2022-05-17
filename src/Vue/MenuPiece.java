@@ -168,6 +168,7 @@ public class MenuPiece {
     public void refreshAffichageListePiece() {
         menuType1.removeAll();
         int numPiece = 1;
+        System.out.println("couleur actuelle="+couleur);
         ListePieces liste = c.getListPiece(couleur); //On récupère la liste de la couleur actuelle
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
@@ -187,6 +188,7 @@ public class MenuPiece {
                 }
                 affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
                 menuType1.add(affPiece);
+                System.out.println("indiceListe="+indiceListe);
                 listePiece[indiceListe]=affPiece;
                 numPiece++;
                 indiceListe++;

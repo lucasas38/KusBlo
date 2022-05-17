@@ -87,6 +87,21 @@ public class VueNiveau {
         }
     }
 
+    //Retire la pièce dans la grille à partir du liste de case
+    public void retirerPiece(LinkedList<Case> listeCases){
+        Iterator<Case> it = listeCases.iterator();
+        Case ca;
+        int x,y;
+        while(it.hasNext()){
+            ca = it.next();
+            x = ca.getX();
+            y=ca.getY();
+            listPanel[x][y].changeBackground(im.coulJoueur(0));
+            listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.black));
+            listPanel[x][y].setVide(false);
+        }
+    }
+
 
     //Visualisation de la pièce en fonction de la couleur du fond
     public void visualiser(int joue,int x, int y, int[][] grille, int decx, int decy ){
