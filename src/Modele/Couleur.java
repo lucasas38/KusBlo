@@ -21,7 +21,11 @@ public class Couleur implements Serializable {
         this.listeCoins = new HashSet<>();
         //determine les coins de départ pour une couleur
         //exemple : couleur 1 commence en  haut à gauche
-        switch (idCouleur){
+        ajoutePremierCoinCouleur();
+    }
+
+    public void ajoutePremierCoinCouleur() {
+        switch (id){
             case 1:
                 listeCoins.add(new Case(0,0));
                 break;

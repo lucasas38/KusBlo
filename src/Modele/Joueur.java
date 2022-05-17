@@ -51,9 +51,6 @@ public class Joueur implements Serializable {
                     this.score -= p.taille;
                 }
 
-                if(this.score < 0){
-                    this.score = 0;
-                }
             }else{
                 this.score += 15;
                 if(this.listeCouleur[i].getListesPiecesPosees().getLast().getId() == 1){
@@ -98,6 +95,32 @@ public class Joueur implements Serializable {
 
     public boolean isPeutJouer() {
         return peutJouer;
+    }
+
+    public boolean reprendreCouleur(){
+        Couleur couleur = getCouleurCourante();
+        couleur.peutJouer=true;
+        return true;
+    }
+
+    public void annulerScoreFinal(){
+        for (int i = 0;i<nbCouleurs;i++){
+            if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
+                //enlever pour chaque piece restante sa taille
+                Iterator<Piece> it = this.listeCouleur[i].getListePiecesDispo().iterateur();
+                Piece p;
+                while(it.hasNext()){
+                    p = it.next();
+                    this.score += p.taille;
+                }
+
+            }else{
+                this.score -= 15;
+                if(this.listeCouleur[i].getListesPiecesPosees().getLast().getId() == 1){
+                    this.score -= 5;
+                }
+            }
+        }
     }
 
 }

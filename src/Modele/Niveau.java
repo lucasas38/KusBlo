@@ -120,6 +120,13 @@ public class Niveau implements Serializable {
 
     }
 
+    public boolean auMoinsUnCoin(int x,int y,int idCouleur){
+        return !testVoisin(x+1,y-1,idCouleur)
+                || !testVoisin(x+1,y+1,idCouleur)
+                || !testVoisin(x-1,y-1,idCouleur)
+                || !testVoisin(x-1,y+1,idCouleur);
+    }
+
     private boolean testVoisin(int x, int y, int idCouleur) {
         if(estDansGrille(x,y)){
             if(grille[x][y] != idCouleur){

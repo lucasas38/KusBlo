@@ -3,6 +3,7 @@ package Controleur;
 import Modele.*;
 import Structures.Case;
 import Structures.ListeValeur;
+import Structures.Trio;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
@@ -12,7 +13,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = false;
+    boolean animActiv = true;
 
     public Controleur(){
     }
@@ -83,7 +84,7 @@ public class Controleur {
         inter.getInterJ().delMouseClick();
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
-            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ));
+            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
             System.out.println(jeu.getNiveau());
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
@@ -101,7 +102,7 @@ public class Controleur {
     }
 
     public void joueIA2(Piece piece,LinkedList<Case> listeCases){
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases,false);
         inter.getInterJ().getM().resetBorder();
         for (int i=1;i<jeu.getNbJoueurs()+1;i++){
             inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
@@ -360,9 +361,48 @@ public class Controleur {
     }
 
     public void annuler(){
+        if(jeu.getHistorique().peutAnnuler()){
+            inter.getInterJ().delMouseClick();
+
+            Piece pPrec = jeu.getHistorique().getPasse().getFirst().getE1();
+
+            inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
+            jeu.annuler();
+            inter.getInterJ().getM().resetBorder();
+            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+                inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
+                if(jeu.getNbJoueurs()==2){
+                    inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
+                }
+            }
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
+            setMenu1();
+        }else{
+            System.out.println("Pas de coup antérieur");
+        }
 
     }
+
     public void refaire(){
+        Trio<Piece,Integer,Integer> prochain = jeu.getHistorique().refaire();
+        if(prochain!=null){
+            Piece pProchain = prochain.getE1();
+//            Integer idJoueurProc = prochain.getE2();
+//            Integer idCouleurJoueurProc = prochain.getE3();
+
+            inter.getInterJ().delMouseClick();
+            inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(),pProchain.getListeCases());
+            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), pProchain.getListeCases(),true);
+            inter.getInterJ().getM().resetBorder();
+            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+                inter.getInterJ().setScore(i,jeu.getJoueur(i).getScore());
+                if(jeu.getNbJoueurs()==2){
+                    inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
+                }
+            }
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
+            setMenu1();
+        }
 
     }
 }
