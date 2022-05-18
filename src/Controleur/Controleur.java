@@ -432,13 +432,13 @@ public class Controleur {
                 break;
         }
 
-        ListeValeur<Case,Piece> coup = aide.joue();
-        if(coup != null){
+        lastCoupIA = aide.joue();
+        if(lastCoupIA != null){
 //            if(animActiv){
 //                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
 //            }else{
-                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), coup.getListe());
-                joueIA2(coup.getValeur(),coup.getListe());
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
+                joueIA2();
 //            }
         }else{
             setMenu1();
