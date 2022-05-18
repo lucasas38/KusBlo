@@ -15,6 +15,7 @@ public class InterfaceKusBlo implements Runnable {
     MenuPrincipal menu;
     MenuSolo menuSol;
     MenuMulti menuMult;
+    MenuPartiePerso menuPerso;
     Controleur c;
     ImageKusBlo im;
     Bouton b;
@@ -42,6 +43,7 @@ public class InterfaceKusBlo implements Runnable {
         menu=new MenuPrincipal(c,b,im, frame.getWidth(),frame.getHeight());
         menuSol=new MenuSolo(c,b, frame.getWidth(),frame.getHeight());
         menuMult=new MenuMulti(c,b, frame.getWidth(),frame.getHeight());
+        menuPerso=new MenuPartiePerso(c,b, frame.getWidth(),frame.getHeight());
         frame.setContentPane(menu.getFrame());
         frame.setVisible(true);
     }
@@ -59,6 +61,11 @@ public class InterfaceKusBlo implements Runnable {
 
     public void setMenuMulti(){
         frame.setContentPane(menuMult.getFrame());
+        frame.revalidate();
+    }
+
+    public void setMenuPerso(){
+        frame.setContentPane(menuPerso.getFrame());
         frame.revalidate();
     }
 
@@ -88,5 +95,9 @@ public class InterfaceKusBlo implements Runnable {
 
     public void charger(){
         interJ.charger();
+    }
+
+    public int[] getListDiff(){
+       return menuPerso.getListeDiff();
     }
 }

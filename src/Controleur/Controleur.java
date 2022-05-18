@@ -355,6 +355,10 @@ public class Controleur {
         inter.setMenuMulti();
     }
 
+    public void setMenuPerso(){
+        inter.setMenuPerso();
+    }
+
 
     public int getCouleur(int i, int j){
         return jeu.getNiveau().getGrille()[i][j];
@@ -425,5 +429,9 @@ public class Controleur {
 
     public void updateBoutPause(boolean mettrePause){
         inter.getInterJ().changePauseMenu(mettrePause);
+    }
+
+    public int[] getListDiff(){
+        return inter.getListDiff();
     }
 }

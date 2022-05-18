@@ -318,7 +318,6 @@ public class InterfaceJeu {
             frame.updateUI();
             if(adaptAct){
                 actMouseClick();
-
             }
             selAdapt.setActiv(true);
         }
