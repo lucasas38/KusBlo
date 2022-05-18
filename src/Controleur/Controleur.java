@@ -13,7 +13,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv = false;
 
     public Controleur(){
     }
@@ -391,6 +391,36 @@ public class Controleur {
             if(jeu.getNbJoueurs()==2){
                 inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
             }
+        }
+    }
+
+    public void aide(int type){
+        IA aide;
+        switch (type){
+            case 1:
+                aide = new IAAleatoire(jeu);
+                break;
+            case 2:
+                aide = new IAIntermediaire(jeu,1);
+                break;
+            case 3:
+                aide = new IADifficile(jeu);
+                break;
+            default:
+                aide = new IAAleatoire(jeu);
+                break;
+        }
+
+        ListeValeur<Case,Piece> coup = aide.joue();
+        if(coup != null){
+//            if(animActiv){
+//                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
+//            }else{
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), coup.getListe());
+                joueIA2(coup.getValeur(),coup.getListe());
+//            }
+        }else{
+            setMenu1();
         }
     }
 }

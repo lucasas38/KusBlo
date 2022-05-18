@@ -29,7 +29,8 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.rotaHoraire();
+//                c.rotaHoraire();
+                c.aide(1);
             }
         });
         return button;
@@ -250,7 +251,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,0,0,1,1,false);
+                c.newGame(2,1,0,1,1,false);
             }
         });
         return button;

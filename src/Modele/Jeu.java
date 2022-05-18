@@ -129,6 +129,27 @@ public class Jeu implements Serializable {
         }
     }
 
+    private void ajouteCoinsValides(Piece piece, Couleur couleur) {
+        Iterator<Case> it = piece.listeCases.iterator();
+
+        //parcourt chaque case de la piece
+        while (it.hasNext()){
+            Case ca = it.next();
+
+            int x = ca.getX();
+            int y = ca.getY();
+
+            //pour les 4 coins potentiel, si il est valide, on l'ajoute à la liste des coins de la couleur
+            estCoinValideAnnuler(x+1,y-1,couleur);
+            estCoinValideAnnuler(x+1,y+1,couleur);
+            estCoinValideAnnuler(x-1,y-1,couleur);
+            estCoinValideAnnuler(x-1,y+1,couleur);
+
+        }
+    }
+
+
+
     private void supprimerCoinsInvalides(int idJoueur) {
         Iterator<Case> it = getJoueur(idJoueur).getCouleurCourante().listeCoins.iterator();
         while (it.hasNext()){
@@ -179,6 +200,16 @@ public class Jeu implements Serializable {
         if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
             if(n.aucunVoisin(x,y,getJoueur(idJoueur).getCouleurCourante().getId()) && n.auMoinsUnCoin(x,y,getJoueur(idJoueur).getCouleurCourante().getId())){
                 listeJoueurs[idJoueur-1].ajouteCoin(new Case(x,y));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean estCoinValideAnnuler(int x, int y, Couleur couleur){
+        if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
+            if(n.aucunVoisin(x,y,couleur.getId())){
+                couleur.ajouteCoin(new Case(x,y));
                 return true;
             }
         }
@@ -299,6 +330,7 @@ public class Jeu implements Serializable {
 
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
+        System.out.println("restePieceJouable");
         Couleur couleur = getJoueur(getIDJoueurCourant()).getCouleurCourante();
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
@@ -396,7 +428,7 @@ public class Jeu implements Serializable {
                 it = couleur.listesPiecesPosees.iterator();
                 while (it.hasNext()){
                     Piece p = it.next();
-                    ajouteCoinsValides(p,joueur.id);
+                    ajouteCoinsValides(p,couleur);
                 }
             }
         }
