@@ -250,7 +250,7 @@ public class Jeu implements Serializable {
 
             config = tradMatrice(p,0,0);
 
-            //si cette configuration a déjà était testé/parcourut, on ne le refait pas
+            //si cette configuration a déjà été testé/parcouru, on ne la refait pas
             if(!configPiecePossible.contains(config)){
 
                 //parcourt toute la grille du niveau

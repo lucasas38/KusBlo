@@ -13,7 +13,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = false;
+    boolean animActiv = true;
 
     public Controleur(){
     }
@@ -266,13 +266,18 @@ public class Controleur {
             joueur[3]=j4;
         }
 
-       jeu = new Jeu(nbJoueur);
-       ia = new IA[jeu.getNbJoueurs()];
-        for(int i=0; i<nbJoueur; i++){
+        jeu = new Jeu(nbJoueur);
+        ia = new IA[jeu.getNbJoueurs()];
+        /*for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1, 3-i);
+                addIA(joueur[i],i+1, 0);
             }
-        }
+        }*/
+        //utilisé pour les test, merci de ne pas l'enlever !!
+        /*addIA(2,1, 0);
+        addIA(1,2, 2);
+        addIA(2,3, 2);
+        addIA(1,4, 0);*/
 
         inter.setInterJeu();
         setMenu1();
