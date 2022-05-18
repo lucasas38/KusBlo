@@ -192,7 +192,7 @@ public class Bouton {
     }
 
     public JButton vsUneIAd(){
-        JButton button = new JButton("Contre une IA (difficile)");
+        JButton button = new JButton("Contre une IA (difficile)"); // actuellement IA vs IA
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

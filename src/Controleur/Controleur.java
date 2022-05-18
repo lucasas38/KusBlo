@@ -279,13 +279,18 @@ public class Controleur {
             joueur[3]=j4;
         }
 
-       jeu = new Jeu(nbJoueur);
-       ia = new IA[jeu.getNbJoueurs()];
+        jeu = new Jeu(nbJoueur);
+        ia = new IA[jeu.getNbJoueurs()];
         for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1, 3-i);
+                addIA(joueur[i],i+1, i);
             }
         }
+        //utilisé pour les test, merci de ne pas l'enlever !!
+        /*addIA(2,1, 0);
+        addIA(1,2, 2);
+        addIA(2,3, 2);
+        addIA(1,4, 0);*/
 
         inter.setInterJeu();
         setMenu1();
@@ -416,6 +421,36 @@ public class Controleur {
             if(jeu.getNbJoueurs()==2){
                 inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
             }
+        }
+    }
+
+    public void aide(int type){
+        IA aide;
+        switch (type){
+            case 1:
+                aide = new IAAleatoire(jeu);
+                break;
+            case 2:
+                aide = new IAIntermediaire(jeu,1);
+                break;
+            case 3:
+                aide = new IADifficile(jeu);
+                break;
+            default:
+                aide = new IAAleatoire(jeu);
+                break;
+        }
+
+        lastCoupIA = aide.joue();
+        if(lastCoupIA != null){
+//            if(animActiv){
+//                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
+//            }else{
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
+                joueIA2();
+//            }
+        }else{
+            setMenu1();
         }
     }
 

@@ -30,63 +30,97 @@ public class IAIntermediaire extends IA {
         Case emplacement_max = null;
         ListeValeur<Case, Piece> res =null;
 
+        // détermine les ouvertures pour chaque type d'IA
+        int ouverture = 0;
+        switch (mode){
+            case 0:
+                ouverture = 1;
+                break;
+            case 1:
+                ouverture = 0;
+                break;
+            case 2:
+                ouverture = 0;
+                break;
+            case 3:
+                ouverture = 1;
+                break;
+            default : break;
+        }
+
         LinkedList<Case> listeCasesMax = null;
 
-        while (listePiecesDispo.getTaille() > 0) {
-
-            p = listePiecesDispo.getListe().get(0);
-            LinkedList<Case> listeCases = null;
-
-            LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p);
-
-            for (int i = 0; i < listeEmplacementPossible.size(); i++) { //tous les emplacment et les rotations pour une piece
-
-                listeCases = listeEmplacementPossible.get(i).getListe();
-                int rotation = listeEmplacementPossible.get(i).getValeur();
-                int valeur = 0;
-                int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases);
-                int taille = p.getTaille();
-                int poss_bloq = nb_possibilite_bloquees(jeu.getIDJoueurCourant(), listeCases);
-                int case_bloq = nb_case_bloquees(listeCases);
-                switch(mode){
-                    case 0 : // IA méchante
-                        valeur = taille + poss_ouv + 2*poss_bloq - case_bloq;
-                        //valeur = 4*taille + 2*poss_ouv + 2*poss_bloq - case_bloq;
-                        break;
-                    case 1 : // IA gentille
-                        valeur = taille + 2*poss_ouv + poss_bloq - case_bloq;
-                        break;
-                    case 2 : // IA privilégiant les grandes pièces
-                        valeur = 2*taille + poss_ouv + poss_bloq - case_bloq;
-                        break ;
-                    case 3 : // IA pattern
-                        valeur = taille + poss_ouv + poss_bloq - 2*case_bloq;
-                }
-                if(valeur<0) {valeur=0;}
-                int ra = 0;
-                if (valeur == valeur_max){
-                    ra = r.nextInt(2);
-                }
-                if (valeur > valeur_max || ra == 1) {
-                    valeur_max = valeur;
-                    p_max = p;
-                    listeCasesMax=listeCases;
-                    rotation_max = rotation;
-                }
-
+        if (listePiecesDispo.getTaille() > 18){     // ouvertures
+            switch(ouverture){
+                case 0:
+                    res = ouvertures(listePiecesDispo,0);
+                    break;
+                case 1:
+                    res = ouvertures(listePiecesDispo,1);
+                    break;
+                default : break;
             }
-            int i=0;
-            while(i<rotation_max){
-                if(i == 4){
-                    p_max.rotationSymetrique();
-                }else{
-                    p_max.rotationHoraire();
-                }
-                i++;
-            }
-            res = new ListeValeur<>(listeCasesMax, p_max);
+        } else {
+            while (listePiecesDispo.getTaille() > 0) {
 
-            listePiecesDispo.supprimer(p.getId());
+                p = listePiecesDispo.getListe().get(0);
+                LinkedList<Case> listeCases = null;
+
+                LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p);
+
+                for (int i = 0; i < listeEmplacementPossible.size(); i++) { //tous les emplacment et les rotations pour une piece
+
+                    listeCases = listeEmplacementPossible.get(i).getListe();
+                    int rotation = listeEmplacementPossible.get(i).getValeur();
+                    int valeur = 0; // calcul heuristique
+                    int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases);
+                    int taille = p.getTaille();
+                    int poss_bloq = nb_possibilite_bloquees(jeu.getIDJoueurCourant(), listeCases);
+                    int case_bloq = nb_case_bloquees(listeCases);
+                    switch (mode) {
+                        case 0: // IA bloquante
+                            valeur = 2 * taille + poss_ouv + 2 * poss_bloq - case_bloq;
+                            //valeur = 4*taille + 2*poss_ouv + 2*poss_bloq - case_bloq; premier test
+                            break;
+                        case 1: // IA ouvrante
+                            valeur = 2 * taille + 2 * poss_ouv + poss_bloq - case_bloq;
+                            break;
+                        case 2: // IA privilégiant les grandes pièces
+                            valeur = 3 * taille + poss_ouv + poss_bloq - case_bloq;
+                            break;
+                        case 3: // IA pattern
+                            valeur = 2 * taille + poss_ouv + poss_bloq - 2 * case_bloq;
+                        default:
+                            break;
+                    }
+                    if (valeur < 0) {
+                        valeur = 0;
+                    }
+                    int ra = 0;
+                    if (valeur == valeur_max) {
+                        ra = r.nextInt(2);
+                    }
+                    if (valeur > valeur_max || ra == 1) {
+                        valeur_max = valeur;
+                        p_max = p;
+                        listeCasesMax = listeCases;
+                        rotation_max = rotation;
+                    }
+
+                }
+                int i = 0;
+                while (i < rotation_max) {
+                    if (i == 4) {
+                        p_max.rotationSymetrique();
+                    } else {
+                        p_max.rotationHoraire();
+                    }
+                    i++;
+                }
+                res = new ListeValeur<>(listeCasesMax, p_max);
+
+                listePiecesDispo.supprimer(p.getId());
+            }
         }
 
         // res peut ne pas être null mais contenir des choses null
@@ -101,6 +135,194 @@ public class IAIntermediaire extends IA {
 
         return null;
 
+    }
+
+    public ListeValeur<Case, Piece> ouvertures(ListePieces l_p, int mode){
+        int taille = l_p.getTaille();
+        Piece p = null;
+        ListeValeur<Case,Piece> res = null;
+        Case pos = null;
+        LinkedList<Case> l_case = null;
+        int couleur = jeu.getJoueurCourant().getCouleurCourante().getId();
+        int decx,decy;
+        switch(taille){
+            case 21 :   // première pièce
+                if (mode == 0) { // ouverture classique
+                    p = l_p.getPiece(17);
+                    pos = determ_pos(couleur, 0, 0);
+                }
+                else { // ouverture de barasona
+                    p = l_p.getPiece(20);
+                    pos = determ_pos(couleur, 0, 1);
+                }
+                break;
+            case 20 :   // seconde pièce
+                if (mode == 0) {
+                    p = l_p.getPiece(18);
+                    pos = determ_pos(couleur, 1, 0);
+                } else {
+                    p = l_p.getPiece(21);
+                    pos = determ_pos(couleur, 1, 1);
+                }
+                break;
+            case 19 :   // troisième pièce
+                if (mode == 0) {
+                    p = l_p.getPiece(19);
+                    pos = determ_pos(couleur, 2, 0);
+                } else {
+                    p = l_p.getPiece(18);
+                    pos = determ_pos(couleur, 2, 1);
+                    p.rotationAntiHoraire();
+                }
+                break;
+            default : break;
+        }
+        for (int i=0; i<couleur-1; i++){ // pour mettre la pièce dans le bon sens en fonction du joueur
+            p.rotationHoraire();
+        }
+        l_case = jeu.tradMatrice(p, pos.getX() - 2*p.getDebMatrice().getX(),pos.getY() - 2*p.getDebMatrice().getY());
+        res = new ListeValeur<>(l_case, p);
+        return res;
+    }
+
+    Case determ_pos(int num_joueur,int nb_coup, int ouverture ){ // permet de déterminer la position où on va jouer les ouvertures
+        Case c = null;
+        switch(ouverture) {
+            case 0 : //ouverture classique
+                switch (num_joueur) {
+                    case 1: // joueur 1
+                        switch (nb_coup) {
+                            case 0: // coup 1
+                                c = new Case(0, 0);
+                                break;
+                            case 1: // coup 2
+                                c = new Case(3, 3);
+                                break;
+                            case 2: // coup 3
+                                c = new Case(6, 6);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 2: // joueur 2
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(0, 19);
+                                break;
+                            case 1:
+                                c = new Case(3, 16);
+                                break;
+                            case 2:
+                                c = new Case(6, 13);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 3: // joueur 3
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(19, 19);
+                                break;
+                            case 1:
+                                c = new Case(16, 16);
+                                break;
+                            case 2:
+                                c = new Case(13, 13);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 4: // joueur 4
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(19, 0);
+                                break;
+                            case 1:
+                                c = new Case(16, 3);
+                                break;
+                            case 2:
+                                c = new Case(13, 6);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default: // default switch joueur
+                        break;
+                }
+                break;
+            case 1: // ouverture barasona
+                switch (num_joueur) {
+                    case 1: // joueur 1
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(0, 0);
+                                break;
+                            case 1:
+                                c = new Case(2, 2);
+                                break;
+                            case 2:
+                                c = new Case(6, 4);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 2: // joueur 2
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(0, 19);
+                                break;
+                            case 1:
+                                c = new Case(2, 17);
+                                break;
+                            case 2:
+                                c = new Case(4, 13);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 3: //joueur 3
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(19, 19);
+                                break;
+                            case 1:
+                                c = new Case(17, 17); // pas sur
+                                break;
+                            case 2:
+                                c = new Case(13, 15);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 4: // joueur 4
+                        switch (nb_coup) {
+                            case 0:
+                                c = new Case(19, 0);
+                                break;
+                            case 1:
+                                c = new Case(17, 2); // pas sur
+                                break;
+                            case 2:
+                                c = new Case(15, 6);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default: // default switch joueur
+                        break;
+                }
+                break;
+            default : break; // default switch ouverture
+        }
+        return c;
     }
 
     @Override
