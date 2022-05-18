@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 
 public class InterfaceJeu {
         JPanel frame;
@@ -25,6 +23,9 @@ public class InterfaceJeu {
         JButton boutonMenu;
         JButton annuler;
         JButton refaire;
+        JButton pause;
+        JButton resume;
+        JPanel menuGauche;
         JPanel panelOpt;
         JPanel limGauche;
         JPanel limDroite;
@@ -36,6 +37,7 @@ public class InterfaceJeu {
 
         public InterfaceJeu(Controleur cont, Bouton bout,int width, int height, ImageKusBlo im){
             c=cont;
+            c.setPause(false);
             frame= new JPanel(new BorderLayout());
             //frame.setSize(w, h);
             w=width;
@@ -43,6 +45,8 @@ public class InterfaceJeu {
             setResize();
             b=bout;
             boutonMenu= b.menuJeu();
+            pause= b.pause();
+            resume =b.resume();
 
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
@@ -61,10 +65,11 @@ public class InterfaceJeu {
             panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
             panelGauche.add(j1.pan);
             panelGauche.add(j4.pan);
-            JPanel menu= new JPanel(new BorderLayout());
-            menu.add(boutonMenu,BorderLayout.CENTER);
-            menu.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
-            panelGauche.add(menu);
+            menuGauche= new JPanel(new GridLayout(2,1));
+            menuGauche.add(boutonMenu);
+            menuGauche.add(pause);
+            menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
+            panelGauche.add(menuGauche);
 
 
             //Panel central
@@ -320,6 +325,17 @@ public class InterfaceJeu {
 
         public void charger(){
             graph.charger();
+        }
+
+        public void changePauseMenu(boolean mettrePause){
+            if(mettrePause){
+                menuGauche.remove(resume);
+                menuGauche.add(pause);
+            }else{
+                menuGauche.remove(pause);
+                menuGauche.add(resume);
+            }
+            menuGauche.updateUI();
         }
     }
 

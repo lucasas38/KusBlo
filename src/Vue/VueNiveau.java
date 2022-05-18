@@ -140,11 +140,19 @@ public class VueNiveau {
                 }
             }
         }
+    }
 
-        //On supprime le time d'animation pour la visualisation rouge
-        if(anim.hasTimer()){
-            anim.resetTimerAnimation();
+    public void supprimerVisualisation(LinkedList<Case> listeCase){
+        Iterator<Case> ite = listeCase.iterator();
+        while(ite.hasNext()){
+            Case ca=ite.next();
+            int caX=ca.getX();
+            int caY=ca.getY();
+            int cFond = im.imToInt(listPanel[caX][caY].getBackgroundImage());
+            listPanel[caX][caY].changeBackground(im.coulJoueur(cFond));
+            listPanel[caX][caY].setBorder(BorderFactory.createLineBorder(Color.black));
         }
+
     }
 
     //redimensionne la taille de la grille
