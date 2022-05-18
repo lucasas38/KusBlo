@@ -21,9 +21,6 @@ public class Controleur {
     }
 
     public void addIA(int type_ia,int idJoueur, int mode_ia){
-        if(!(type_ia>=1 && type_ia<4)){
-            type_ia=1; //par défault
-        }
         switch (type_ia){
             case 1:
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
@@ -45,30 +42,36 @@ public class Controleur {
     }
 
     public void setMenu1(){
+        System.out.println("setMenu1");
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
             setMenu5();
         }else{
             setScoreToutLesJoueurs();
 
-            if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
-                if(!jeu.restePieceJouable()){
-                    finCouleur();
+        if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
+            //si la couleur courante du joueur n'a plus de pieces a jouer
+            //alors on passe la couleur courante en fin de jeu (peut plus jouer et score final mis à jour)
+            if(!jeu.restePieceJouable()){
+                finCouleur();
+            }
+        }
+
+        System.out.println("score = "+jeu.getJoueur(jeu.getIDJoueurCourant()).getScore());
+
+        if(isFinJeu()){
+            inter.getInterJ().cleanTour();
+            inter.getInterJ().delMouseClick();
+            int maxScore=jeu.getJoueur(1).getScore();
+            int bestPlayer=1;
+            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+                if(jeu.getJoueur(i).getScore()>maxScore){
+                    maxScore=jeu.getJoueur(i).getScore();
+                    bestPlayer=i;
                 }
             }
-
-            if(isFinJeu()){
-                inter.getInterJ().cleanTour();
-                inter.getInterJ().delMouseClick();
-                int maxScore=jeu.getJoueur(1).getScore();
-                int bestPlayer=1;
-                for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-                    if(jeu.getJoueur(i).getScore()>maxScore){
-                        maxScore=jeu.getJoueur(i).getScore();
-                        bestPlayer=i;
-                    }
-                }
-                inter.getInterJ().getM().setMenuType3(bestPlayer);
+            inter.getInterJ().getM().setMenuType3(bestPlayer);
+            setScoreToutLesJoueurs();
 
             }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {

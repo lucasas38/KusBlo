@@ -9,17 +9,21 @@ import Structures.ListeValeur;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public abstract class IA implements Serializable {
     Jeu jeu;
+    Random r;
 
     IA(Jeu j){
         jeu=j;
+        r=new Random();
     }
 
     public abstract ListeValeur<Case,Piece> joue();
     public abstract String toString();
-    public abstract void setR();
+    public void setR(){r=new Random();};
+    public abstract int getType();
 
     public ListePieces copiePiecesDispo(){
         ListePieces listePieces = new ListePieces();

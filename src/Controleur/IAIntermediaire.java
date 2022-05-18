@@ -13,12 +13,10 @@ import java.util.*;
 public class IAIntermediaire extends IA {
 
     int mode; // entier permettant de modifier le mode
-    Random r;
 
     IAIntermediaire(Jeu j, int m) {
         super(j);
         mode = m;
-        r = new Random();
     }
 
     @Override
@@ -111,8 +109,8 @@ public class IAIntermediaire extends IA {
     }
 
     @Override
-    public void setR() {
-        r = new Random();
+    public int getType(){
+        return 2;
     }
 
 

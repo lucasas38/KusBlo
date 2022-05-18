@@ -80,10 +80,6 @@ public class Jeu implements Serializable {
                     if(!refaire){
                         historique.nouveau(new Trio(piece,joueurCourant,getJoueurCourant().couleurCourant));
                     }
-                    //si la couleur courante du joueur n'a plus de pieces a jouer
-                    //alors on passe la couleur courante en fin de jeu (peut plus jouer et score final mis à jour)
-                    System.out.println("joueur "+idJoueur+ " peut jouer? "+restePieceJouable());
-
                     setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                 }else{
@@ -327,6 +323,7 @@ public class Jeu implements Serializable {
         Joueur joueur = listeJoueurs[joueurCourant-1];
         joueur.peutJouer = joueur.finCouleur();
         if(!joueur.peutJouer){
+            System.out.println("setScore");
             joueur.setScoreFinal();
         }
     }
