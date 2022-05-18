@@ -86,7 +86,7 @@ public class AnimationVisualisation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.poserPiece(listeCase,couleur);
-                c.joueIA2(piece,listeCase);
+                c.joueIA2();
             }
         });
         //On affiche la visualisation
