@@ -39,11 +39,7 @@ public class AnimationVisualisation {
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
                 if(grille[i][j]==1){
-                    if(listPanel[i+x][j+y].estVide()){
-                        listPanel[i+x][j+y].changeBackground(imgs[numImage]);
-                        //listPanel[i+x][j+y].setBorder(BorderFactory.createLineBorder(Color.red));
-                    }
-
+                    listPanel[i+x][j+y].changeBackground(imgs[numImage]);
                 }
             }
         }
@@ -90,7 +86,7 @@ public class AnimationVisualisation {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.poserPiece(listeCase,couleur);
-                c.joueIA2(piece,listeCase);
+                c.joueIA2();
             }
         });
         //On affiche la visualisation

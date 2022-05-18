@@ -80,11 +80,6 @@ public class Jeu implements Serializable {
                     if(!refaire){
                         historique.nouveau(new Trio(piece,joueurCourant,getJoueurCourant().couleurCourant));
                     }
-                    //si la couleur courante du joueur n'a plus de pieces a jouer
-                    //alors on passe la couleur courante en fin de jeu (peut plus jouer et score final mis à jour)
-                    if(!restePieceJouable()){
-                        finCouleur();
-                    }
                     setJoueurCourant(); //mise à jour joueurCourant
                     listeJoueurs[idJoueur-1].setCouleurCourant();  //mise à jour couleurCourante pour le joueur
                 }else{
@@ -134,11 +129,42 @@ public class Jeu implements Serializable {
         }
     }
 
+    private void ajouteCoinsValides(Piece piece, Couleur couleur) {
+        Iterator<Case> it = piece.listeCases.iterator();
+
+        //parcourt chaque case de la piece
+        while (it.hasNext()){
+            Case ca = it.next();
+
+            int x = ca.getX();
+            int y = ca.getY();
+
+            //pour les 4 coins potentiel, si il est valide, on l'ajoute à la liste des coins de la couleur
+            estCoinValideAnnuler(x+1,y-1,couleur);
+            estCoinValideAnnuler(x+1,y+1,couleur);
+            estCoinValideAnnuler(x-1,y-1,couleur);
+            estCoinValideAnnuler(x-1,y+1,couleur);
+
+        }
+    }
+
+
+
     private void supprimerCoinsInvalides(int idJoueur) {
         Iterator<Case> it = getJoueur(idJoueur).getCouleurCourante().listeCoins.iterator();
         while (it.hasNext()){
             Case ca = it.next();
             if(!estCoinValide(ca.getX(),ca.getY(),idJoueur)){
+                it.remove();
+            }
+        }
+    }
+
+    private void supprimerCoinsInvalidesAnnuler(int idJoueur) {
+        Iterator<Case> it = getJoueur(idJoueur).getCouleurCourante().listeCoins.iterator();
+        while (it.hasNext()){
+            Case ca = it.next();
+            if(!estCoinValideAnnuler(ca.getX(),ca.getY(),idJoueur)){
                 it.remove();
             }
         }
@@ -162,6 +188,16 @@ public class Jeu implements Serializable {
     //true si un coin est valide (point dans la grille du niveau et n'as pas une meme couleur ajacente)
     boolean estCoinValide(int x, int y, int idJoueur){
         if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
+            if(n.aucunVoisin(x,y,getJoueur(idJoueur).getCouleurCourante().getId())){
+                listeJoueurs[idJoueur-1].ajouteCoin(new Case(x,y));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean estCoinValideAnnuler(int x, int y, int idJoueur){
+        if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
             if(n.aucunVoisin(x,y,getJoueur(idJoueur).getCouleurCourante().getId()) && n.auMoinsUnCoin(x,y,getJoueur(idJoueur).getCouleurCourante().getId())){
                 listeJoueurs[idJoueur-1].ajouteCoin(new Case(x,y));
                 return true;
@@ -169,6 +205,17 @@ public class Jeu implements Serializable {
         }
         return false;
     }
+
+    boolean estCoinValideAnnuler(int x, int y, Couleur couleur){
+        if(n.estDansGrille(x,y) && n.grille[x][y] == 0){
+            if(n.aucunVoisin(x,y,couleur.getId())){
+                couleur.ajouteCoin(new Case(x,y));
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
     //verifie si une piece est posable selon les regles du jeu
@@ -283,6 +330,7 @@ public class Jeu implements Serializable {
 
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
+        System.out.println("restePieceJouable");
         Couleur couleur = getJoueur(getIDJoueurCourant()).getCouleurCourante();
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
@@ -307,6 +355,7 @@ public class Jeu implements Serializable {
         Joueur joueur = listeJoueurs[joueurCourant-1];
         joueur.peutJouer = joueur.finCouleur();
         if(!joueur.peutJouer){
+            System.out.println("setScore");
             joueur.setScoreFinal();
         }
     }
@@ -354,13 +403,14 @@ public class Jeu implements Serializable {
             getJoueur(idJoueurPrec).score -= piecePrec.taille;
 
             //met à jour pieces disponibles et pieces posées
-            getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListePiecesDispo().ajoute(piecePrec);
+
+            getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListePiecesDispo().ajoutePieceOrdre(piecePrec);
+
             getJoueur(idJoueurPrec).getListeCouleur()[idCouleurJoueurPrec-1].getListesPiecesPosees().remove(piecePrec);
 
             //on recalcule les coins pour joueur courant et autre joueur
             annulerCoins(idJoueurPrec);
 
-            System.out.println(getJoueur(idJoueurPrec).getCouleurCourante().listeCoins);
 
 
         }
@@ -368,7 +418,7 @@ public class Jeu implements Serializable {
 
     void annulerCoins(int idJoueur){
 
-        supprimerCoinsInvalides(idJoueur);
+        supprimerCoinsInvalidesAnnuler(idJoueur);
 
         Iterator<Piece> it;
         for (int i=0;i<getNbJoueurs();i++){
@@ -378,7 +428,7 @@ public class Jeu implements Serializable {
                 it = couleur.listesPiecesPosees.iterator();
                 while (it.hasNext()){
                     Piece p = it.next();
-                    ajouteCoinsValides(p,joueur.id);
+                    ajouteCoinsValides(p,couleur);
                 }
             }
         }

@@ -196,7 +196,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,2,1,2,2,false);
+                c.newGame(4,2,0,2,2,false);
             }
         });
         return button;
@@ -250,7 +250,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,0,0,1,1,false);
+                c.newGame(2,2,2,0,0,false);
             }
         });
         return button;
@@ -261,6 +261,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                c.updateBoutPause(false);
                 c.annuler();
             }
         });
@@ -273,6 +274,31 @@ public class Bouton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.refaire();
+            }
+        });
+        return button;
+    }
+
+    public JButton pause(){
+        JButton button = new JButton("Pause");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                c.updateBoutPause(false);
+                c.annuler();
+            }
+        });
+        return button;
+    }
+
+    public JButton resume(){
+        JButton button = new JButton("Reprendre");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.updateBoutPause(true);
+                c.setPause(false);
+                c.setMenu1();
             }
         });
         return button;

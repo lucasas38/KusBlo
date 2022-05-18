@@ -27,6 +27,7 @@ public class MenuPiece {
 
     JPanel menuType3;
     JPanel menuType4;
+    JPanel menuType5;
 
 
 
@@ -41,6 +42,7 @@ public class MenuPiece {
         creerMenuType2();
         creerMenuType3();
         creerMenuType4();
+        creerMenuType5();
         resize(c.getFrameW(),c.getFrameH());
     }
 
@@ -98,6 +100,11 @@ public class MenuPiece {
         menuType4 =new JPanel(new BorderLayout());
         menuType4.add(new JLabel("Ce n'est pas a votre tour de jouer"));
     }
+    public void creerMenuType5(){
+        menuType5 =new JPanel(new BorderLayout());
+        menuType5.add(new JLabel("Vous êtes en train de parcourir l'historique"));
+        menuType5.add(new JLabel("Vous êtes au tour du joueur : "+c.getActCouleur()));
+    }
 
     //Hauteur du menu complet
     public int getHautMenu(){
@@ -153,6 +160,11 @@ public class MenuPiece {
         menu.add(menuType4);
         menu.updateUI();
     }
+    public void setMenuType5(){
+        menu.removeAll();
+        menu.add(menuType5);
+        menu.updateUI();
+    }
 
 
     //Affiche le menu avec pièce unique
@@ -168,7 +180,6 @@ public class MenuPiece {
     public void refreshAffichageListePiece() {
         menuType1.removeAll();
         int numPiece = 1;
-        System.out.println("couleur actuelle="+couleur);
         ListePieces liste = c.getListPiece(couleur); //On récupère la liste de la couleur actuelle
         Iterator<Piece> ite = liste.iterateur();
         Piece p = null;
@@ -188,7 +199,6 @@ public class MenuPiece {
                 }
                 affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
                 menuType1.add(affPiece);
-                System.out.println("indiceListe="+indiceListe);
                 listePiece[indiceListe]=affPiece;
                 numPiece++;
                 indiceListe++;

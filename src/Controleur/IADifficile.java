@@ -23,8 +23,8 @@ public class IADifficile extends IA{
         return "IADifficile";
     }
 
-
     @Override
-    public void setR(){
+    public int getType(){
+        return 3;
     }
 }

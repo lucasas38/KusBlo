@@ -14,14 +14,13 @@ public class Controleur {
     InterfaceKusBlo inter;
     IA[] ia;
     boolean animActiv = true;
+    boolean pause;
+    ListeValeur<Case,Piece> lastCoupIA;
 
     public Controleur(){
     }
 
     public void addIA(int type_ia,int idJoueur, int mode_ia){
-        if(!(type_ia>=1 && type_ia<4)){
-            type_ia=1; //par défault
-        }
         switch (type_ia){
             case 1:
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
@@ -43,8 +42,23 @@ public class Controleur {
     }
 
     public void setMenu1(){
+        System.out.println("setMenu1");
         inter.getInterJ().getGraph().stopTimer();
-        setScoreToutLesJoueurs();
+        if(pause){
+            setMenu5();
+        }else{
+            setScoreToutLesJoueurs();
+
+        if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
+            //si la couleur courante du joueur n'a plus de pieces a jouer
+            //alors on passe la couleur courante en fin de jeu (peut plus jouer et score final mis à jour)
+            if(!jeu.restePieceJouable()){
+                finCouleur();
+            }
+        }
+
+        System.out.println("score = "+jeu.getJoueur(jeu.getIDJoueurCourant()).getScore());
+
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
             inter.getInterJ().delMouseClick();
@@ -57,11 +71,9 @@ public class Controleur {
                 }
             }
             inter.getInterJ().getM().setMenuType3(bestPlayer);
+            setScoreToutLesJoueurs();
 
-            //test
-            System.out.println(jeu.getHistorique());
-
-        }else {
+            }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()) {
                     inter.getInterJ().setTour(jeu.getNumCouleurCourante());
                     if(ia[jeu.getIDJoueurCourant()-1] != null){
@@ -74,6 +86,8 @@ public class Controleur {
                     passerTour();
                 }
             }
+        }
+
     }
 
     public void setMenu2(int l, int c){
@@ -86,32 +100,31 @@ public class Controleur {
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
             jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
-            System.out.println(jeu.getNiveau());
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
             setMenu1();
         }
 
     }
 
-    public void joueIA2(Piece piece,LinkedList<Case> listeCases){
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),piece.getId(), listeCases,false);
+    public void joueIA2(){
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),lastCoupIA.getValeur().getId(), lastCoupIA.getListe(),false);
         inter.getInterJ().getM().resetBorder();
-        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId());
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),lastCoupIA.getValeur().getId(),false,null);
         setMenu1();
     }
 
 
     public void joueIA(){
-        ListeValeur<Case,Piece> coup = ia[jeu.getIDJoueurCourant()-1].joue();
-        if(coup != null){
+        lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
+        if(lastCoupIA != null){
             if(animActiv){
-                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
+                inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getValeur(),lastCoupIA.getListe(),jeu.getNumCouleurCourante());
             }else{
-                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), coup.getListe());
-                joueIA2(coup.getValeur(),coup.getListe());
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
+                joueIA2();
             }
         }else{
             setMenu1();
@@ -268,11 +281,11 @@ public class Controleur {
 
         jeu = new Jeu(nbJoueur);
         ia = new IA[jeu.getNbJoueurs()];
-        /*for(int i=0; i<nbJoueur; i++){
+        for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1, 0);
+                addIA(joueur[i],i+1, i);
             }
-        }*/
+        }
         //utilisé pour les test, merci de ne pas l'enlever !!
         /*addIA(2,1, 0);
         addIA(1,2, 2);
@@ -298,6 +311,10 @@ public class Controleur {
 
     public  void setMenu4(){
         inter.getInterJ().getM().setMenuType4();
+    }
+
+    public  void setMenu5(){
+        inter.getInterJ().getM().setMenuType5();
     }
 
     public void visuIA(LinkedList<Case> listeCase, int couleur){
@@ -349,18 +366,29 @@ public class Controleur {
     }
 
     public void annuler(){
-        if(jeu.getHistorique().peutAnnuler()){
-            inter.getInterJ().delMouseClick();
-
-            Piece pPrec = jeu.getHistorique().getPasse().getFirst().getE1();
-
-            inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
-            jeu.annuler();
-            inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pPrec.getId());
-            setMenu1();
+        if(ia[getActJoueur()-1]!=null && !pause){
+            stopTimer();
+            setPause(true);
+            inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
+            inter.getInterJ().setTour(getActCouleur());
+            setMenu5();
         }else{
-            System.out.println("Pas de coup antérieur");
+            if(jeu.getHistorique().peutAnnuler()){
+                inter.getInterJ().delMouseClick();
+
+                Piece pPrec = jeu.getHistorique().getPasse().getFirst().getE1();
+
+                inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
+                jeu.annuler();
+                inter.getInterJ().getM().resetBorder();
+                inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()%4+1,pPrec.getId(),true, pPrec);
+                inter.getInterJ().setTour(getActCouleur());
+                setMenu5();
+
+            }else{
+                System.out.println("Pas de coup antérieur");
+            }
+
         }
 
     }
@@ -374,10 +402,11 @@ public class Controleur {
 
             inter.getInterJ().delMouseClick();
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(),pProchain.getListeCases());
-            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), pProchain.getListeCases(),true);
+            jeu.jouerPiece(jeu.getIDJoueurCourant(),pProchain.getId(), pProchain.getListeCases(),true);
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId());
-            setMenu1();
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId(),false, null);
+            setMenu5();
+
         }
 
     }
@@ -389,5 +418,47 @@ public class Controleur {
                 inter.getInterJ().setScore(i+2,jeu.getJoueur(i).getScore());
             }
         }
+    }
+
+    public void aide(int type){
+        IA aide;
+        switch (type){
+            case 1:
+                aide = new IAAleatoire(jeu);
+                break;
+            case 2:
+                aide = new IAIntermediaire(jeu,1);
+                break;
+            case 3:
+                aide = new IADifficile(jeu);
+                break;
+            default:
+                aide = new IAAleatoire(jeu);
+                break;
+        }
+
+        lastCoupIA = aide.joue();
+        if(lastCoupIA != null){
+//            if(animActiv){
+//                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
+//            }else{
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
+                joueIA2();
+//            }
+        }else{
+            setMenu1();
+        }
+    }
+
+    public void stopTimer(){
+        inter.getInterJ().getGraph().stopTimer();
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    public void updateBoutPause(boolean mettrePause){
+        inter.getInterJ().changePauseMenu(mettrePause);
     }
 }

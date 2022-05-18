@@ -105,16 +105,13 @@ public class VueNiveau {
 
     //Visualisation de la pièce en fonction de la couleur du fond
     public void visualiser(int joue,int x, int y, int[][] grille, int decx, int decy ){
-        if(joue==2){
-            anim.visualisationClignotement(listPanel,x-decx,y-decy,grille, im.selAnimRouge);
-        } else {
             for(int i=0;i<5;i++){
                 for(int j=0; j<5; j++){
                     if(grille[i][j]!=0){
                         //On récupère la couleur du fond pour ne pas le supprimer
                         int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.animJoueur(joue, cFond));
-                    }
+
                 }
             }
         }
@@ -143,11 +140,19 @@ public class VueNiveau {
                 }
             }
         }
+    }
 
-        //On supprime le time d'animation pour la visualisation rouge
-        if(anim.hasTimer()){
-            anim.resetTimerAnimation();
+    public void supprimerVisualisation(LinkedList<Case> listeCase){
+        Iterator<Case> ite = listeCase.iterator();
+        while(ite.hasNext()){
+            Case ca=ite.next();
+            int caX=ca.getX();
+            int caY=ca.getY();
+            int cFond = im.imToInt(listPanel[caX][caY].getBackgroundImage());
+            listPanel[caX][caY].changeBackground(im.coulJoueur(cFond));
+            listPanel[caX][caY].setBorder(BorderFactory.createLineBorder(Color.black));
         }
+
     }
 
     //redimensionne la taille de la grille
