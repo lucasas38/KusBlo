@@ -10,11 +10,8 @@ import java.util.Random;
 
 public class IAAleatoire extends IA {
 
-    Random r;
-
     public IAAleatoire(Jeu j){
         super(j);
-        r = new Random();
     }
 
 
@@ -67,11 +64,9 @@ public class IAAleatoire extends IA {
         return "IAAleatoire";
     }
 
-
     @Override
-    public void setR(){
-        r = new Random();
+    public int getType(){
+        return 1;
     }
-
 
 }
