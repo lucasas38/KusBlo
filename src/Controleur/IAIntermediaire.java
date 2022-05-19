@@ -179,10 +179,11 @@ public class IAIntermediaire extends IA {
                 break;
             default : break;
         }
-        for (int i=0; i<couleur-1; i++){ // pour mettre la pièce dans le bon sens en fonction du joueur
+        for (int i = 0; i < couleur - 1; i++) { // pour mettre la pièce dans le bon sens en fonction du joueur
             p.rotationHoraire();
         }
         l_case = jeu.tradMatrice(p, pos.getX() - 2*p.getDebMatrice().getX(),pos.getY() - 2*p.getDebMatrice().getY());
+        System.out.println("l_case = "+l_case);
         res = new ListeValeur<>(l_case, p);
         return res;
     }
