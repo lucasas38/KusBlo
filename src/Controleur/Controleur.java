@@ -469,4 +469,8 @@ public class Controleur {
     public int[] getListDiff(){
         return inter.getListDiff();
     }
+
+    public int getPersoNbJoueur(){
+        return inter.getPersoNbJoueur();
+    }
 }

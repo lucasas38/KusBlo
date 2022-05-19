@@ -16,12 +16,15 @@ public class MenuPartiePerso {
     int w;
     int h ;
     Bouton b;
+    JPanel affichageJoueurG;
+    JPanel affichageJoueurD;
     JPanel J1;
     JPanel J2;
     JPanel J3;
     JPanel J4;
     JPanel[] diff;
     int[] listeDiff;
+    int nbJoueur;
 
 
     public MenuPartiePerso(Controleur c,Bouton bout,int width, int height){
@@ -36,6 +39,7 @@ public class MenuPartiePerso {
         listeDiff[1]=0;
         listeDiff[2]=0;
         listeDiff[3]=0;
+        nbJoueur=2;
         J1=createJ(1);
         J2=createJ(2);
         J3=createJ(3);
@@ -51,12 +55,46 @@ public class MenuPartiePerso {
         panelHaut.add(new JPanel(new BorderLayout()));
 
         //Création panel Central
-        JPanel panelCentral = new JPanel(new GridLayout(2,2));
-        panelCentral.setPreferredSize(new Dimension(w,3*h/8));
-        panelCentral.add(J1);
-        panelCentral.add(J2);
-        panelCentral.add(J4);
-        panelCentral.add(J3);
+        JPanel panelCentral = new JPanel();
+        panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
+        JPanel selectionNbJoueur = new JPanel(new GridLayout(1,4));
+        JPanel affichageJoueur = new JPanel(new GridLayout(1,2));
+        selectionNbJoueur.setPreferredSize(new Dimension(w,h/8));
+        selectionNbJoueur.add(new JLabel("Type de partie"));
+        JComboBox typeJeu = new JComboBox();
+        typeJeu.addItem("2 Joueurs");
+        typeJeu.addItem("4 Joueurs");
+
+        typeJeu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                JComboBox comboBox = (JComboBox) event.getSource();
+                Object selected = comboBox.getSelectedItem();
+                if (selected.toString().equals("2 Joueurs")) {
+                    setTypePartie(true);
+                    affichageJoueur.updateUI();
+                } else{
+                    setTypePartie(false);
+                    affichageJoueur.updateUI();
+
+                }
+            }
+        });
+        selectionNbJoueur.add(typeJeu);
+        selectionNbJoueur.add(new JPanel());
+        selectionNbJoueur.add(new JPanel());
+
+        affichageJoueur.setPreferredSize(new Dimension(w,5*h/8));
+        affichageJoueurG=new JPanel((new GridLayout(2,1)));
+        affichageJoueurD=new JPanel((new GridLayout(2,1)));
+        affichageJoueurG.add(J1);
+        affichageJoueurD.add(J2);
+        //affichageJoueur.add(J4);
+        //affichageJoueur.add(J3);
+        affichageJoueur.add(affichageJoueurG);
+        affichageJoueur.add(affichageJoueurD);
+
+        panelCentral.add(selectionNbJoueur);
+        panelCentral.add(affichageJoueur);
 
         //Création du panel bas
         JPanel panelBas = new JPanel(new BorderLayout());
@@ -117,12 +155,15 @@ public class MenuPartiePerso {
             JComboBox difficulte = new JComboBox();
             difficulte.addItem("Facile");
             difficulte.addItem("Intermédiaire");
+            difficulte.addItem("Difficile (inter)");
             difficulte.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     JComboBox comboBox = (JComboBox) event.getSource();
                     Object selected = comboBox.getSelectedItem();
                     if (selected.toString().equals("Facile")) {
                         listeDiff[joueur-1]=1;
+                    } else if(selected.toString().equals("Intermédiaire")){
+                        listeDiff[joueur-1]=2;
                     } else{
                         listeDiff[joueur-1]=2;
                     }
@@ -136,7 +177,24 @@ public class MenuPartiePerso {
         }
     }
 
+    public void setTypePartie(boolean deuxJoueur){
+        if(deuxJoueur){
+            affichageJoueurD.remove(J3);
+            affichageJoueurG.remove(J4);
+            nbJoueur=2;
+        }else{
+            affichageJoueurG.add(J4);
+            affichageJoueurD.add(J3);
+            nbJoueur=4;
+        }
+    }
+
+
     public int[] getListeDiff() {
         return listeDiff;
+    }
+
+    public int getNbJoueur() {
+        return nbJoueur;
     }
 }

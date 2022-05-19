@@ -310,7 +310,8 @@ public class Bouton {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int[] l=c.getListDiff();
-                c.newGame(4,l[0],l[1],l[2],l[3],false);
+                int nbJoueur =c.getPersoNbJoueur();
+                c.newGame(nbJoueur,l[0],l[1],l[2],l[3],false);
             }
         });
         return button;

@@ -100,4 +100,8 @@ public class InterfaceKusBlo implements Runnable {
     public int[] getListDiff(){
        return menuPerso.getListeDiff();
     }
+
+    public int getPersoNbJoueur(){
+        return menuPerso.getNbJoueur();
+    }
 }
