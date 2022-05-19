@@ -106,7 +106,7 @@ public class Controleur {
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()-2%4,piece.getId(),false,null);
             setMenu1();
         }
 
@@ -115,7 +115,7 @@ public class Controleur {
     public void joueIA2(){
         jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),lastCoupIA.getValeur().getId(), lastCoupIA.getListe(),false);
         inter.getInterJ().getM().resetBorder();
-        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),lastCoupIA.getValeur().getId(),false,null);
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()-1%4,lastCoupIA.getValeur().getId(),false,null);
         setMenu1();
     }
 
@@ -386,12 +386,17 @@ public class Controleur {
             if(jeu.getHistorique().peutAnnuler()){
                 inter.getInterJ().delMouseClick();
 
-                Piece pPrec = jeu.getHistorique().getPasse().getFirst().getE1();
+                Trio<Piece,Integer,Integer> passe = jeu.getHistorique().getPasse().getFirst();
+                Piece pPrec = passe.getE1();
+                Integer idJoueurPrec = passe.getE2();
+                Integer indTabCouleurJoueurPrec=passe.getE3();
+                int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
+                System.out.println(idCouleurPrec );
 
                 inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
                 jeu.annuler();
                 inter.getInterJ().getM().resetBorder();
-                inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()%4+1,pPrec.getId(),true, pPrec);
+                inter.getInterJ().refreshPanJoueur(idCouleurPrec-1,pPrec.getId(),true, pPrec);
                 inter.getInterJ().setTour(getActCouleur());
                 setMenu5();
 
@@ -420,7 +425,7 @@ public class Controleur {
             jeu.getJoueur(idJoueurProc).setCouleur(indTabCouleurJoueurProc);
 
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId(),false, null);
+            inter.getInterJ().refreshPanJoueur(idCouleurProc-1,pProchain.getId(),false, null);
             setMenu5();
 
         }
