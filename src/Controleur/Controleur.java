@@ -387,11 +387,7 @@ public class Controleur {
 
     public void annuler(){
         if(ia[getActJoueur()-1]!=null && !pause){
-            stopTimer();
-            setPause(true);
-            inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
-            inter.getInterJ().setTour(getActCouleur());
-            setMenu5();
+            pause();
         }else{
             if(jeu.getHistorique().peutAnnuler()){
                 inter.getInterJ().delMouseClick();
@@ -498,5 +494,13 @@ public class Controleur {
 
     public int getPersoNbJoueur(){
         return inter.getPersoNbJoueur();
+    }
+
+    public void pause(){
+        stopTimer();
+        setPause(true);
+        inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
+        inter.getInterJ().setTour(getActCouleur());
+        setMenu5();
     }
 }

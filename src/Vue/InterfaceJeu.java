@@ -36,7 +36,6 @@ public class InterfaceJeu {
             c=cont;
             c.setPause(false);
             frame= new JPanel(new BorderLayout());
-            //frame.setSize(w, h);
             w=c.getFrameW();
             h=c.getFrameH();
             setResize();
@@ -45,7 +44,6 @@ public class InterfaceJeu {
             pause= b.pause();
             resume =b.resume();
             joueurs=new PanneauJoueur[4];
-
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
             mouseAdapt =new AdaptateurSouris(graph,m,c);
@@ -110,10 +108,6 @@ public class InterfaceJeu {
 
             joueurs[0].setTour();
             frame.updateUI();
-            //Ajout à la fenêtre + affichage
-            //frame.add(frame);
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            //frame.setVisible(true);
 
         }
 
@@ -135,11 +129,7 @@ public class InterfaceJeu {
 
         //Supprime les listener du terrain de jeu
         public void delMouseClick(){
-            if(mouseAdapt.activ){
-                adaptAct=true;
-            }else{
-                adaptAct=false;
-            }
+            adaptAct= mouseAdapt.activ;
             mouseAdapt.setActiv(false);
             keyAdapt.setActiv(false);
         }

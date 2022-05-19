@@ -85,8 +85,6 @@ public class MenuPartiePerso {
         affichageJoueurD=new JPanel((new GridLayout(2,1)));
         affichageJoueurG.add(J1);
         affichageJoueurD.add(J2);
-        //affichageJoueur.add(J4);
-        //affichageJoueur.add(J3);
         affichageJoueur.add(affichageJoueurG);
         affichageJoueur.add(affichageJoueurD);
 
