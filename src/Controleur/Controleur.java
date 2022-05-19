@@ -60,15 +60,20 @@ public class Controleur {
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
             inter.getInterJ().delMouseClick();
-            int maxScore=jeu.getJoueur(1).getScore();
-            int bestPlayer=1;
+            int maxScore=-10000;
+            int[] vainqueurs= new int[4];
+            int nbVainqueur=1;
             for (int i=1;i<jeu.getNbJoueurs()+1;i++){
                 if(jeu.getJoueur(i).getScore()>maxScore){
                     maxScore=jeu.getJoueur(i).getScore();
-                    bestPlayer=i;
+                    nbVainqueur=1;
+                    vainqueurs[nbVainqueur-1]=i;
+                }else if(jeu.getJoueur(i).getScore()==maxScore){
+                    nbVainqueur++;
+                    vainqueurs[nbVainqueur-1]=i;
                 }
             }
-            inter.getInterJ().getM().setMenuType3(bestPlayer);
+            inter.getInterJ().getM().setMenuType3(vainqueurs,nbVainqueur);
             setScoreToutLesJoueurs();
 
             }else {
@@ -361,6 +366,10 @@ public class Controleur {
         inter.setMenuMulti();
     }
 
+    public void setMenuPerso(){
+        inter.setMenuPerso();
+    }
+
 
     public int getCouleur(int i, int j){
         return jeu.getNiveau().getGrille()[i][j];
@@ -467,5 +476,13 @@ public class Controleur {
 
     public void updateBoutPause(boolean mettrePause){
         inter.getInterJ().changePauseMenu(mettrePause);
+    }
+
+    public int[] getListDiff(){
+        return inter.getListDiff();
+    }
+
+    public int getPersoNbJoueur(){
+        return inter.getPersoNbJoueur();
     }
 }

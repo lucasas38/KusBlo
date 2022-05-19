@@ -14,10 +14,10 @@ public class MenuPrincipal {
     int w;
     int h ;
 
-    public MenuPrincipal(Controleur c,Bouton bout,ImageKusBlo ima,int width, int height){
+    public MenuPrincipal(Controleur c,Bouton bout,ImageKusBlo ima){
         cont=c;
-        w=width;
-        h=height;
+        w=c.getFrameW();
+        h=c.getFrameH();
         b=bout;
         im=ima;
         frame= new JPanel(new BorderLayout());

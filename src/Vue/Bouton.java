@@ -250,7 +250,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(4,0,2,1,2,false);
+                c.setMenuPerso();
             }
         });
         return button;
@@ -299,6 +299,19 @@ public class Bouton {
                 c.updateBoutPause(true);
                 c.setPause(false);
                 c.setMenu1();
+            }
+        });
+        return button;
+    }
+
+    public JButton lancerPartie(){
+        JButton button = new JButton("Commencer la partie");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int[] l=c.getListDiff();
+                int nbJoueur =c.getPersoNbJoueur();
+                c.newGame(nbJoueur,l[0],l[1],l[2],l[3],false);
             }
         });
         return button;

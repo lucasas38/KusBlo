@@ -105,15 +105,19 @@ public class PanneauJoueur {
         votreTour.add(new JLabel("A votre tour"));
         switch (couleur){
             case 1:
+                votreTour.setBackground(new Color(73,216,230));
                 pan.setBorder(BorderFactory.createLineBorder(Color.blue,2));
                 break;
             case 2:
+                votreTour.setBackground(new Color(233,150,122));
                 pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
                 break;
             case 3:
+                votreTour.setBackground(new Color(255,215,0));
                 pan.setBorder(BorderFactory.createLineBorder(Color.yellow,2));
                 break;
             case 4:
+                votreTour.setBackground(new Color(154,205,50));
                 pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
                 break;
         }
@@ -121,6 +125,7 @@ public class PanneauJoueur {
 
     public void delTour(){
         votreTour.removeAll();
+        votreTour.setBackground(Color.white);
         pan.setBorder(BorderFactory.createLineBorder(Color.black,2));
     }
 

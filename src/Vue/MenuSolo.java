@@ -13,10 +13,10 @@ public class MenuSolo {
     int h ;
     Bouton b;
 
-    public MenuSolo(Controleur c,Bouton bout,int width, int height){
+    public MenuSolo(Controleur c,Bouton bout){
         cont=c;
-        w=width;
-        h=height;
+        w=c.getFrameW();
+        h=c.getFrameH();
         b=bout;
         frame= new JPanel(new BorderLayout());
 
