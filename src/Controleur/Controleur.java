@@ -13,7 +13,7 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv = false;
     boolean pause;
     ListeValeur<Case,Piece> lastCoupIA;
 
@@ -42,7 +42,6 @@ public class Controleur {
     }
 
     public void setMenu1(){
-        //System.out.println("setMenu1");
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
             setMenu5();
@@ -52,25 +51,29 @@ public class Controleur {
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             //si la couleur courante du joueur n'a plus de pieces a jouer
             //alors on passe la couleur courante en fin de jeu (peut plus jouer et score final mis à jour)
-            if(!jeu.restePieceJouable()){
+            if(!jeu.restePieceJouable(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant())){
                 finCouleur();
             }
         }
 
-        //System.out.println("score = "+jeu.getJoueur(jeu.getIDJoueurCourant()).getScore());
 
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
             inter.getInterJ().delMouseClick();
-            int maxScore=jeu.getJoueur(1).getScore();
-            int bestPlayer=1;
+            int maxScore=-10000;
+            int[] vainqueurs= new int[4];
+            int nbVainqueur=1;
             for (int i=1;i<jeu.getNbJoueurs()+1;i++){
                 if(jeu.getJoueur(i).getScore()>maxScore){
                     maxScore=jeu.getJoueur(i).getScore();
-                    bestPlayer=i;
+                    nbVainqueur=1;
+                    vainqueurs[nbVainqueur-1]=i;
+                }else if(jeu.getJoueur(i).getScore()==maxScore){
+                    nbVainqueur++;
+                    vainqueurs[nbVainqueur-1]=i;
                 }
             }
-            inter.getInterJ().getM().setMenuType3(bestPlayer);
+            inter.getInterJ().getM().setMenuType3(vainqueurs,nbVainqueur);
             setScoreToutLesJoueurs();
 
             }else {
@@ -99,20 +102,20 @@ public class Controleur {
         inter.getInterJ().delMouseClick();
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
-            jeu.jouerPiece(jeu.getIDJoueurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
+            jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
             //jeu.getNiveau().ajouterPiece(piece,x-decx,y-decy,1);
             //inter.delMouseClick();
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),piece.getId(),false,null);
+            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()-2%4,piece.getId(),false,null);
             setMenu1();
         }
 
     }
 
     public void joueIA2(){
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),lastCoupIA.getValeur().getId(), lastCoupIA.getListe(),false);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),lastCoupIA.getValeur().getId(), lastCoupIA.getListe(),false);
         inter.getInterJ().getM().resetBorder();
-        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),lastCoupIA.getValeur().getId(),false,null);
+        inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()-1%4,lastCoupIA.getValeur().getId(),false,null);
         setMenu1();
     }
 
@@ -150,13 +153,14 @@ public class Controleur {
     }
 
     public  boolean estPosableRegle(Piece piece,int x, int y, int decx, int decy){
-        return  jeu.estPosableRegle(jeu.tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant());
+        return  jeu.estPosableRegle(jeu.tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
     }
 
     public  Piece getPiece(int j, int p){
         return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
     }
 
+    // a revoir / modif nom parametres, si 2 couleurs joueurs en haut risque bug
     public ListePieces getListPiece(int couleur){
         if(getNbJoueur()==2){
             if(couleur>2){
@@ -186,6 +190,7 @@ public class Controleur {
     public int getActCouleur(){
         return jeu.getNumCouleurCourante();
     }
+
     public int getActJoueur(){
         return jeu.getIDJoueurCourant();
     }
@@ -199,6 +204,7 @@ public class Controleur {
         m.getPiece().rotationAntiHoraire();
         m.refreshPiece(jeu.getNumCouleurCourante());
     }
+
     public void rotaHoraire(){
         MenuPiece m= inter.getInterJ().getM();
         m.getPiece().rotationHoraire();
@@ -241,12 +247,12 @@ public class Controleur {
     }
 
     public void passerTour(){
-        jeu.passerTour();
+        jeu.passerTour(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
         setMenu1();
     }
 
     public void finCouleur() {
-        jeu.finCouleur();
+        jeu.finCouleur(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
     }
 
     public int getFrameH(){
@@ -360,6 +366,10 @@ public class Controleur {
         inter.setMenuMulti();
     }
 
+    public void setMenuPerso(){
+        inter.setMenuPerso();
+    }
+
 
     public int getCouleur(int i, int j){
         return jeu.getNiveau().getGrille()[i][j];
@@ -376,12 +386,17 @@ public class Controleur {
             if(jeu.getHistorique().peutAnnuler()){
                 inter.getInterJ().delMouseClick();
 
-                Piece pPrec = jeu.getHistorique().getPasse().getFirst().getE1();
+                Trio<Piece,Integer,Integer> passe = jeu.getHistorique().getPasse().getFirst();
+                Piece pPrec = passe.getE1();
+                Integer idJoueurPrec = passe.getE2();
+                Integer indTabCouleurJoueurPrec=passe.getE3();
+                int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
+                System.out.println(idCouleurPrec );
 
                 inter.getInterJ().getGraph().retirerPiece(pPrec.getListeCases());
                 jeu.annuler();
                 inter.getInterJ().getM().resetBorder();
-                inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante()%4+1,pPrec.getId(),true, pPrec);
+                inter.getInterJ().refreshPanJoueur(idCouleurPrec-1,pPrec.getId(),true, pPrec);
                 inter.getInterJ().setTour(getActCouleur());
                 setMenu5();
 
@@ -397,14 +412,20 @@ public class Controleur {
         Trio<Piece,Integer,Integer> prochain = jeu.getHistorique().refaire();
         if(prochain!=null){
             Piece pProchain = prochain.getE1();
-//            Integer idJoueurProc = prochain.getE2();
-//            Integer idCouleurJoueurProc = prochain.getE3();
+            Integer idJoueurProc = prochain.getE2();
+            Integer indTabCouleurJoueurProc = prochain.getE3();
+            int idCouleurProc = jeu.getJoueur(idJoueurProc).getCouleur(indTabCouleurJoueurProc).getId();
 
             inter.getInterJ().delMouseClick();
-            inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(),pProchain.getListeCases());
-            jeu.jouerPiece(jeu.getIDJoueurCourant(),pProchain.getId(), pProchain.getListeCases(),true);
+            inter.getInterJ().getGraph().poserPiece(idCouleurProc,pProchain.getListeCases());
+            jeu.jouerPiece(idJoueurProc,indTabCouleurJoueurProc,pProchain.getId(), pProchain.getListeCases(),true);
+
+            //met à jour le joueur et la couleur car pas fait dans jouerPiece (car refaire == true)
+            jeu.setJoueur(idJoueurProc);
+            jeu.getJoueur(idJoueurProc).setCouleur(indTabCouleurJoueurProc);
+
             inter.getInterJ().getM().resetBorder();
-            inter.getInterJ().refreshPanJoueur(jeu.getNumCouleurCourante(),pProchain.getId(),false, null);
+            inter.getInterJ().refreshPanJoueur(idCouleurProc-1,pProchain.getId(),false, null);
             setMenu5();
 
         }
@@ -460,5 +481,13 @@ public class Controleur {
 
     public void updateBoutPause(boolean mettrePause){
         inter.getInterJ().changePauseMenu(mettrePause);
+    }
+
+    public int[] getListDiff(){
+        return inter.getListDiff();
+    }
+
+    public int getPersoNbJoueur(){
+        return inter.getPersoNbJoueur();
     }
 }

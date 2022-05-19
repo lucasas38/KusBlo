@@ -93,7 +93,7 @@ public class MenuPiece {
     }
 
     public void creerMenuType3(){
-        menuType3 =new JPanel(new BorderLayout());
+        menuType3 =new JPanel(new GridLayout(6,1));
         menuType3.add(new JLabel("Fin de la partie"));
     }
     public void creerMenuType4(){
@@ -101,7 +101,7 @@ public class MenuPiece {
         menuType4.add(new JLabel("Ce n'est pas a votre tour de jouer"));
     }
     public void creerMenuType5(){
-        menuType5 =new JPanel(new BorderLayout());
+        menuType5 =new JPanel(new GridLayout(2,1));
         menuType5.add(new JLabel("Vous êtes en train de parcourir l'historique"));
         menuType5.add(new JLabel("Vous êtes au tour du joueur : "+c.getActCouleur()));
     }
@@ -147,8 +147,16 @@ public class MenuPiece {
 
 
     //Menu de fin de partie, Ver.1
-    public void setMenuType3(int joue){
-        menuType3.add(new JLabel("Victoire du joueur "+joue));
+    public void setMenuType3(int[] joueur, int nbVainqueur){
+        if(nbVainqueur==1){
+            menuType3.add(new JLabel("Victoire du joueur "+joueur[0]));
+        }else{
+            menuType3.add(new JLabel("Egalité !"));
+            for(int i=0; i<nbVainqueur;i++){
+                menuType3.add(new JLabel("Victoire du joueur "+joueur[i]));
+            }
+        }
+
         menu.removeAll();
         menu.add(menuType3);
         menu.updateUI();
@@ -161,6 +169,9 @@ public class MenuPiece {
         menu.updateUI();
     }
     public void setMenuType5(){
+        menuType5.removeAll();
+        menuType5.add(new JLabel("Vous êtes en train de parcourir l'historique"));
+        menuType5.add(new JLabel("Vous êtes au tour du joueur : "+c.getActCouleur()));
         menu.removeAll();
         menu.add(menuType5);
         menu.updateUI();

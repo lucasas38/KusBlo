@@ -11,7 +11,7 @@ public class Joueur implements Serializable {
     boolean peutJouer; //true si joueur à encore une couleur qu'il peut jouer
     Couleur[] listeCouleur;  // Liste des couleurs du joueur entre (1 et 2)
     int nbCouleurs;  //nombre de couleurs que joue un joueur
-    int couleurCourant;  //identifiant de la couleur courante que le joueur joue/va jouer
+    int couleurCourant;  //indice de la couleur courante dans le tableau listeCouleur que le joueur joue/va jouer
 
     Joueur(int id){
         this.id = id;
@@ -32,6 +32,35 @@ public class Joueur implements Serializable {
 
     public Couleur[] getListeCouleur() {
         return listeCouleur;
+    }
+
+    public int getIndiceTabCouleurCourant(){
+        return couleurCourant;
+    }
+
+    public Couleur getCouleurCourante(){
+        return listeCouleur[couleurCourant-1];
+    }
+
+    public Couleur getCouleur(int indTabCouleur){
+        return listeCouleur[indTabCouleur-1];
+    }
+
+    public int getNbCouleurs() {
+        return nbCouleurs;
+    }
+
+    public boolean isPeutJouer() {
+        return peutJouer;
+    }
+
+    //change la couleur courante d'un joueur, passe à la suivante
+    public void setCouleurCourant(){
+        couleurCourant = (couleurCourant%nbCouleurs)+1;
+    }
+
+    public void setCouleur(int indTabCouleur){
+        couleurCourant=indTabCouleur;
     }
 
     public void addCouleur(Couleur c){
@@ -61,29 +90,21 @@ public class Joueur implements Serializable {
     }
 
     //met à jour le score d'un joueur et joue une piece pour sa couleur courante
-    void jouePiece(Piece p){
+    void jouePiece(Piece p,int indTabCouleur){
         this.score += p.taille;
-        this.listeCouleur[couleurCourant-1].jouePiece(p);
+        this.listeCouleur[indTabCouleur-1].jouePiece(p);
     }
 
     //ajoute un coin à la couleur courante du joueur
-    void ajouteCoin(Case ca){
-        this.listeCouleur[couleurCourant-1].ajouteCoin(ca);
+    void ajouteCoin(Case ca,int indTabCouleur){
+        this.listeCouleur[indTabCouleur-1].ajouteCoin(ca);
     }
 
-    public Couleur getCouleurCourante(){
-        return listeCouleur[couleurCourant-1];
-    }
-
-    //change la couleur courante d'un joueur, passe à la suivante
-    public void setCouleurCourant(){
-        couleurCourant = (couleurCourant%nbCouleurs)+1;
-    }
 
     //met l'attribut peutJouer de sa couleur courante à faux, signifie que cette couleur ne peut plus jouer
     //parcourt ses couleur et si plus aucune ne peut jouer, passe son attribut peutJouer à faux, le joueur ne peut plus jouer
-    public boolean finCouleur() {
-        Couleur couleur = getCouleurCourante();
+    public boolean finCouleur(int indTabCouleur) {
+        Couleur couleur = getCouleur(indTabCouleur);
         couleur.peutJouer=false;
         for (int i=0;i<nbCouleurs;i++){
             if(listeCouleur[i].peutJouer){
@@ -93,15 +114,8 @@ public class Joueur implements Serializable {
         return false;
     }
 
-    public boolean isPeutJouer() {
-        return peutJouer;
-    }
-
-    public int getNbCouleurs() {
-        return nbCouleurs;
-    }
-    public boolean reprendreCouleur(){
-        Couleur couleur = getCouleurCourante();
+    public boolean reprendreCouleur(int indTabCouleur){
+        Couleur couleur = getCouleur(indTabCouleur);
         couleur.peutJouer=true;
         return true;
     }

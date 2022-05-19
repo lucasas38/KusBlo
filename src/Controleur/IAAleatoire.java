@@ -4,9 +4,7 @@ import Modele.*;
 import Structures.Case;
 import Structures.ListeValeur;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
 
 public class IAAleatoire extends IA {
 
@@ -27,7 +25,7 @@ public class IAAleatoire extends IA {
             indexPiecesDispo = r.nextInt(listePiecesDispo.getTaille());
             p = listePiecesDispo.getListe().get(indexPiecesDispo);
 
-            LinkedList<ListeValeur<Case,Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p);
+            LinkedList<ListeValeur<Case,Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p,jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
 
             if(listeEmplacementPossible.size()>0){
                 int indexEmplacementPossible = r.nextInt(listeEmplacementPossible.size());
@@ -53,7 +51,7 @@ public class IAAleatoire extends IA {
         }
         System.out.println("Ia ne peut plus jouer");
 
-        jeu.finCouleur();
+//        jeu.finCouleur();
 
         return null;
 
