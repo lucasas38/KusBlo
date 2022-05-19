@@ -12,10 +12,7 @@ public class InterfaceJeu {
         JPanel frame;
         VueNiveau graph;
         MenuPiece m;
-        PanneauJoueur j1;
-        PanneauJoueur j2;
-        PanneauJoueur j3;
-        PanneauJoueur j4;
+        PanneauJoueur[] joueurs;
         AdaptateurSouris mouseAdapt;
         AdaptateurSelPiece selAdapt;
         AdaptateurClavier keyAdapt;
@@ -47,6 +44,7 @@ public class InterfaceJeu {
             boutonMenu= b.menuJeu();
             pause= b.pause();
             resume =b.resume();
+            joueurs=new PanneauJoueur[4];
 
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
@@ -54,17 +52,17 @@ public class InterfaceJeu {
             keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
             selAdapt= new AdaptateurSelPiece(graph,m,c,true);
             //Création des panneau joueur
-            j1 = new PanneauJoueur(1,c,im);
-            j2 = new PanneauJoueur(2,c,im);
-            j3 = new PanneauJoueur(3,c,im);
-            j4 = new PanneauJoueur(4,c,im);
+            joueurs[0] = new PanneauJoueur(1,c,im);
+            joueurs[1] = new PanneauJoueur(2,c,im);
+            joueurs[2] = new PanneauJoueur(3,c,im);
+            joueurs[3] = new PanneauJoueur(4,c,im);
 
 
             //Panel Gauche
             JPanel panelGauche = new JPanel();
             panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
-            panelGauche.add(j1.pan);
-            panelGauche.add(j4.pan);
+            panelGauche.add(joueurs[0].pan);
+            panelGauche.add(joueurs[3].pan);
             menuGauche= new JPanel(new GridLayout(2,1));
             menuGauche.add(boutonMenu);
             menuGauche.add(pause);
@@ -90,8 +88,8 @@ public class InterfaceJeu {
             //Panel Droite
             JPanel panelDroite = new JPanel();
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
-            panelDroite.add(j2.pan);
-            panelDroite.add(j3.pan);
+            panelDroite.add(joueurs[1].pan);
+            panelDroite.add(joueurs[2].pan);
             annuler=b.annuler();
             refaire=b.refaire();
             JPanel histo=new JPanel(new GridLayout(2,1));
@@ -110,7 +108,7 @@ public class InterfaceJeu {
 
 
 
-            j1.setTour();
+            joueurs[0].setTour();
             frame.updateUI();
             //Ajout à la fenêtre + affichage
             //frame.add(frame);
@@ -167,76 +165,25 @@ public class InterfaceJeu {
         }
 
         //Met à jour uniquement le panneau du joueur qui a joué (qui est donc le joueur précedent
-        public void refreshPanJoueur(int couleur, int piece, boolean undo, Piece p){
-            switch (couleur){
-                case 1:
-                    cleanTour();
-                    j1.setTour();
-                    j4.refreshAffichage(piece,undo,p);
-                    break;
-                case 2:
-                    cleanTour();
-                    j2.setTour();
-                    j1.refreshAffichage(piece,undo,p);
-                    break;
-                case 3:
-                    cleanTour();
-                    j3.setTour();
-                    j2.refreshAffichage(piece,undo,p);
-                    break;
-                case 4:
-                    cleanTour();
-                    j4.setTour();
-                    j3.refreshAffichage(piece,undo,p);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        public void setTour(int coul){
+        public void refreshPanJoueur(int idCouleur, int piece, boolean undo, Piece p){
             cleanTour();
-            switch (coul){
-                case 1:
-                    j1.setTour();
-                    break;
-                case 2:
-                    j2.setTour();
-                    break;
-                case 3:
-                    j3.setTour();
-                    break;
-                case 4:
-                    j4.setTour();
-                    break;
-                default:
-                    break;
-            }
+            joueurs[idCouleur].setTour();
+            joueurs[idCouleur].refreshAffichage(piece,undo,p);
         }
 
-        public void setScore(int coul, int score){
-            switch (coul){
-                case 1:
-                    j1.setScore(score);
-                    break;
-                case 2:
-                    j2.setScore(score);
-                    break;
-                case 3:
-                    j3.setScore(score);
-                    break;
-                case 4:
-                    j4.setScore(score);
-                    break;
-                default:
-                    break;
-            }
+        public void setTour(int couleur){
+            cleanTour();
+            joueurs[couleur-1].setTour();
+        }
+
+        public void setScore(int couleur, int score){
+            joueurs[couleur-1].setScore(score);
         }
         public void cleanTour(){
-            j1.delTour();
-            j2.delTour();
-            j3.delTour();
-            j4.delTour();
+            joueurs[0].delTour();
+            joueurs[1].delTour();
+            joueurs[2].delTour();
+            joueurs[3].delTour();
         }
 
 
@@ -254,10 +201,10 @@ public class InterfaceJeu {
         public void resizeAllPanel(){
             graph.resize(getFrameW(),getFrameH());
             m.resize(getFrameW(),getFrameH());
-            j1.resize(getFrameW(),getFrameH());
-            j2.resize(getFrameW(),getFrameH());
-            j3.resize(getFrameW(),getFrameH());
-            j4.resize(getFrameW(),getFrameH());
+            joueurs[0].resize(getFrameW(),getFrameH());
+            joueurs[1].resize(getFrameW(),getFrameH());
+            joueurs[2].resize(getFrameW(),getFrameH());
+            joueurs[3].resize(getFrameW(),getFrameH());
         }
 
         public JPanel getFrame(){
