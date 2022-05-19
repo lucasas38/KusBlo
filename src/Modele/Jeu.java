@@ -330,7 +330,7 @@ public class Jeu implements Serializable {
 
     //return true si au moins une piece peut encore être joué , false sinon
     public boolean restePieceJouable(){
-        System.out.println("restePieceJouable");
+        //System.out.println("restePieceJouable");
         Couleur couleur = getJoueur(getIDJoueurCourant()).getCouleurCourante();
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
         Iterator<Piece> it = listePiecesDispoClone.iterateur();
@@ -355,7 +355,7 @@ public class Jeu implements Serializable {
         Joueur joueur = listeJoueurs[joueurCourant-1];
         joueur.peutJouer = joueur.finCouleur();
         if(!joueur.peutJouer){
-            System.out.println("setScore");
+            //System.out.println("setScore");
             joueur.setScoreFinal();
         }
     }

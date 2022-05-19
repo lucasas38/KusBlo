@@ -42,7 +42,7 @@ public class Controleur {
     }
 
     public void setMenu1(){
-        System.out.println("setMenu1");
+        //System.out.println("setMenu1");
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
             setMenu5();
@@ -57,7 +57,7 @@ public class Controleur {
             }
         }
 
-        System.out.println("score = "+jeu.getJoueur(jeu.getIDJoueurCourant()).getScore());
+        //System.out.println("score = "+jeu.getJoueur(jeu.getIDJoueurCourant()).getScore());
 
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
