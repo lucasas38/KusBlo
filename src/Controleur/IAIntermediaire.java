@@ -19,6 +19,7 @@ public class IAIntermediaire extends IA {
         super(j);
         mode = m;
         ouv = r.nextInt(2);
+        type = 2+mode;
     }
 
     // joue une pièce pour l'IA intermédiaire
@@ -52,7 +53,7 @@ public class IAIntermediaire extends IA {
                 p = listePiecesDispo.getListe().get(0);
                 LinkedList<Case> listeCases = null;
 
-                LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p);
+                LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p,jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
 
                 for (int i = 0; i < listeEmplacementPossible.size(); i++) { //tous les emplacment et les rotations pour une piece
 
@@ -104,7 +105,7 @@ public class IAIntermediaire extends IA {
         }
 
         System.out.println("Ia ne peut plus jouer");
-        jeu.finCouleur();
+        //jeu.finCouleur();
         return null;
     }
 

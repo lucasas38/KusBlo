@@ -154,6 +154,9 @@ public class MenuPartiePerso {
             difficulte.addItem("Facile");
             difficulte.addItem("Intermédiaire");
             difficulte.addItem("Difficile (inter)");
+            difficulte.addItem("Intermédiaire Ouvrante");
+            difficulte.addItem("Intermédiaire Taille");
+            difficulte.addItem("Intermédiaire Pattern");
             difficulte.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     JComboBox comboBox = (JComboBox) event.getSource();
@@ -162,7 +165,13 @@ public class MenuPartiePerso {
                         listeDiff[joueur-1]=1;
                     } else if(selected.toString().equals("Intermédiaire")){
                         listeDiff[joueur-1]=2;
-                    } else{
+                    } else if(selected.toString().equals("Intermédiaire Ouvrante")){
+                        listeDiff[joueur-1]=3;
+                    } else if(selected.toString().equals("Intermédiaire Taille")){
+                        listeDiff[joueur-1]=4;
+                    } else if(selected.toString().equals("Intermédiaire Pattern")){
+                        listeDiff[joueur-1]=5;
+                    } else{ // rajouter IA difficile quand elle sera prête (avec valeur = 6)
                         listeDiff[joueur-1]=2;
                     }
                 }

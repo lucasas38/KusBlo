@@ -20,15 +20,25 @@ public class Controleur {
     public Controleur(){
     }
 
-    public void addIA(int type_ia,int idJoueur, int mode_ia){
+    public void addIA(int type_ia,int idJoueur){
+        // les "case" 2,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
         switch (type_ia){
             case 1:
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, mode_ia);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 0);
                 break;
             case 3:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 1);
+                break;
+            case 4:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 2);
+                break;
+            case 5:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3);
+                break;
+            case 6:
                 ia[idJoueur-1] = new IADifficile(this.jeu);
                 break;
             default:
@@ -282,7 +292,7 @@ public class Controleur {
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=2;
+                    joueur[i]=ia[i].getTypeIA(); // à changer pour garder la même IA qu'avant
                 }else{
                     joueur[i]=0;
                 }
@@ -299,7 +309,7 @@ public class Controleur {
         ia = new IA[jeu.getNbJoueurs()];
         for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1, i);
+                addIA(joueur[i],i+1);
             }
         }
         //utilisé pour les test, merci de ne pas l'enlever !!
@@ -499,4 +509,7 @@ public class Controleur {
     public int getPersoNbJoueur(){
         return inter.getPersoNbJoueur();
     }
+
+    //public IA[] getIa() {return ia;}
+
 }

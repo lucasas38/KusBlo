@@ -10,6 +10,7 @@ public class IAAleatoire extends IA {
 
     public IAAleatoire(Jeu j){
         super(j);
+        type = 1;
     }
 
 
@@ -65,6 +66,6 @@ public class IAAleatoire extends IA {
     @Override
     public int getType(){
         return 1;
-    }
+    } // encore utile ?
 
 }
