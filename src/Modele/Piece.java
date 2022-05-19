@@ -15,6 +15,7 @@ public class Piece implements Serializable {
     Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice : permet de connaitre la sous matrice dans la matrice (5*5)
     LinkedList<Case> listeCases; //mis à jour quand la piece est posée (on sait qu'elle ne bougera plus) : liste de cases de la piece avec les "vraies" coordonnées sur le plateau
 
+
     public Piece(int id,int taille){
         this.id = id;
         this.taille = taille;
@@ -129,32 +130,6 @@ public class Piece implements Serializable {
     @Override
     public String toString() {
         return ""+id;
-        /*
-        String res = "id=" + id + ", taille=" + taille + "\n";
-        for (int i = 0;i< matrice.length;i++){
-            for (int j = 0;j< matrice.length;j++){
-                res += matrice[i][j];
-            }
-            res +="\n";
-        }
-        res += "debMatrice=" + debMatrice.toString();
-        res += ", finMatrice=" + finMatrice.toString() + "\n";
-
-        if(listeCases != null){
-            Iterator<Case> it = listeCases.iterator();
-            while (it.hasNext()){
-                Case c = it.next();
-                res += c.toString() + " ";
-            }
-        }else{
-            res += ", listeCases=null";
-        }
-        res +="\n";
-
-        return res;
-
-         */
-
     }
 
     public String toStringMatrice() {
