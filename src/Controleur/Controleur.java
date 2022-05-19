@@ -142,10 +142,12 @@ public class Controleur {
 
     public void joueIA(){
         lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
+        System.out.println("lastCoupIA "+lastCoupIA.getListe() + " " + lastCoupIA.getValeur().getId());
         if(lastCoupIA != null){
             if(animActiv){
                 inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getValeur(),lastCoupIA.getListe(),jeu.getNumCouleurCourante());
             }else{
+                System.out.println("couleur = "+jeu.getNumCouleurCourante());
                 inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
                 joueIA2();
             }
@@ -373,9 +375,12 @@ public class Controleur {
         chargement.lire();
         jeu=chargement.getJeu(); //: recupere Jeu jeu;
         ia=chargement.getIa();// : recupere IA[] ia;
-        inter.setInterJeu();
-        inter.charger();
-        setMenu1();
+        if(jeu != null && ia != null){
+            inter.setInterJeu();
+            inter.charger();
+            setMenu1();
+        }
+
     }
 
     public void setMenuSolo(){
@@ -397,11 +402,7 @@ public class Controleur {
 
     public void annuler(){
         if(ia[getActJoueur()-1]!=null && !pause){
-            stopTimer();
-            setPause(true);
-            inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
-            inter.getInterJ().setTour(getActCouleur());
-            setMenu5();
+            pause();
         }else{
             if(jeu.getHistorique().peutAnnuler()){
                 inter.getInterJ().delMouseClick();
@@ -510,6 +511,11 @@ public class Controleur {
         return inter.getPersoNbJoueur();
     }
 
-    //public IA[] getIa() {return ia;}
-
+    public void pause(){
+        stopTimer();
+        setPause(true);
+        inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
+        inter.getInterJ().setTour(getActCouleur());
+        setMenu5();
+    }
 }

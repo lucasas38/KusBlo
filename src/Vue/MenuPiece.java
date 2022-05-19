@@ -137,21 +137,17 @@ public class MenuPiece {
     public void setMenuType2(int p){
         numPiece=p+1;
         piece = c.getListPiece(couleur).getPiece(p+1);
-        //Affichage de la piece
-
-
-        //Affichage du menu
-
     }
 
 
 
     //Menu de fin de partie, Ver.1
     public void setMenuType3(int[] joueur, int nbVainqueur){
+        resetMenu3();
         if(nbVainqueur==1){
             menuType3.add(new JLabel("Victoire du joueur "+joueur[0]));
         }else{
-            menuType3.add(new JLabel("Egalité !"));
+            menuType3.add(new JLabel("Égalité !"));
             for(int i=0; i<nbVainqueur;i++){
                 menuType3.add(new JLabel("Victoire du joueur "+joueur[i]));
             }
@@ -193,12 +189,12 @@ public class MenuPiece {
         int numPiece = 1;
         ListePieces liste = c.getListPiece(couleur); //On récupère la liste de la couleur actuelle
         Iterator<Piece> ite = liste.iterateur();
-        Piece p = null;
+        Piece p;
         int indiceListe=0;
-        //On parcours la liste pour afficher les différentes pièces
+        //On parcourt la liste pour afficher les différentes pièces
         while (ite.hasNext()) {
             p = ite.next();
-            //Si des pièces on déjà été joués on affiche une case vide à la place
+            //Si des pièces ont déjà été joués on affiche une case vide à la place
             while(numPiece!=p.getId()){
                 JPanel affPiece = new JPanel(new GridLayout(5, 5));
                 for (int i = 0; i < 5; i++) {
@@ -294,5 +290,10 @@ public class MenuPiece {
 
     public boolean isPieceSelected(){
         return  pieceSelected;
+    }
+
+    public void resetMenu3(){
+        menuType3.removeAll();
+        menuType3.add(new JLabel("Fin de la partie"));
     }
 }

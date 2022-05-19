@@ -3,11 +3,6 @@ package Vue;
 import Controleur.Controleur;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 
 public class InterfaceKusBlo implements Runnable {
     JFrame frame;
@@ -19,8 +14,6 @@ public class InterfaceKusBlo implements Runnable {
     Controleur c;
     ImageKusBlo im;
     Bouton b;
-    AdaptateurClavier keyAdapt;
-    int test=0;
 
 
     public InterfaceKusBlo(Controleur cont){
@@ -75,9 +68,6 @@ public class InterfaceKusBlo implements Runnable {
         frame.setContentPane(interJ.getFrame());
         interJ.resizeAllPanel();
         frame.revalidate();
-       // frame.repaint();
-        //frameMenu.setVisible(false);
-        //frameJeu.setVisible(true);
     }
 
     public InterfaceJeu getInterJ(){
