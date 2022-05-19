@@ -250,7 +250,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.newGame(2,2,2,0,0,false);
+                c.newGame(4,0,2,1,2,false);
             }
         });
         return button;

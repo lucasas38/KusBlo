@@ -48,16 +48,21 @@ public class ListePieces implements Serializable {
     public void ajoutePieceOrdre(Piece p){
         Iterator<Piece> it = iterateur();
         int i = 0;
-        Piece pCourante = it.next();
-        while (it.hasNext() && pCourante.id < p.id){
-            pCourante = it.next();
-            i++;
-        }
-        if(liste.getLast().id < p.id){
-            liste.addLast(p);
+        if(it.hasNext()){
+            Piece pCourante = it.next();
+            while (it.hasNext() && pCourante.id < p.id){
+                pCourante = it.next();
+                i++;
+            }
+            if(liste.getLast().id < p.id){
+                liste.addLast(p);
+            }else{
+                liste.add(i,p);
+            }
         }else{
-            liste.add(i,p);
+            liste.addLast(p);
         }
+
 
     }
 

@@ -66,7 +66,7 @@ public class IAIntermediaire extends IA {
                 p = listePiecesDispo.getListe().get(0);
                 LinkedList<Case> listeCases = null;
 
-                LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p);
+                LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p, jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
 
                 for (int i = 0; i < listeEmplacementPossible.size(); i++) { //tous les emplacment et les rotations pour une piece
 
@@ -131,9 +131,11 @@ public class IAIntermediaire extends IA {
 
         System.out.println("Ia ne peut plus jouer");
 
-        jeu.finCouleur();
+//        jeu.finCouleur();
 
         return null;
+
+
 
     }
 
@@ -335,7 +337,6 @@ public class IAIntermediaire extends IA {
         return 2;
     }
 
-
     private HashSet<Case> CoinsPieces(LinkedList<Case> listeCases, int idJoueur) {
         Iterator<Case> it = listeCases.iterator();
         HashSet<Case> coins = new HashSet<>();
@@ -455,4 +456,5 @@ public class IAIntermediaire extends IA {
 
         return res;
     }
+
 }

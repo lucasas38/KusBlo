@@ -13,6 +13,7 @@ import java.util.Random;
 
 public abstract class IA implements Serializable {
     Jeu jeu;
+    //mettre attribut Joueur et Couleur et definir a la creation puis utiliser ces attributs a la place de getCourant
     Random r;
 
     IA(Jeu j){
