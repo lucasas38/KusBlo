@@ -5,10 +5,7 @@ import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 
 public class MenuPartiePerso {
     JPanel frame;
@@ -27,10 +24,10 @@ public class MenuPartiePerso {
     int nbJoueur;
 
 
-    public MenuPartiePerso(Controleur c,Bouton bout,int width, int height){
+    public MenuPartiePerso(Controleur c,Bouton bout){
         cont=c;
-        w=width;
-        h=height;
+        w=c.getFrameW();
+        h=c.getFrameH();
         b=bout;
         frame= new JPanel(new BorderLayout());
         diff = new JPanel[8];
@@ -105,6 +102,7 @@ public class MenuPartiePerso {
         frame.add(panelHaut,BorderLayout.NORTH);
         frame.add(panelCentral,BorderLayout.CENTER);
         frame.add(panelBas,BorderLayout.SOUTH);
+        setResize();
 
     }
 
@@ -196,5 +194,19 @@ public class MenuPartiePerso {
 
     public int getNbJoueur() {
         return nbJoueur;
+    }
+
+    public void setResize(){
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                resizeAllPanel();
+            }
+        });
+
+    }
+
+    public void resizeAllPanel(){
+        w= cont.getFrameW();
+        h=cont.getFrameH();
     }
 }

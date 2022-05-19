@@ -35,13 +35,13 @@ public class InterfaceJeu {
         int h;
 
 
-        public InterfaceJeu(Controleur cont, Bouton bout,int width, int height, ImageKusBlo im){
+        public InterfaceJeu(Controleur cont, Bouton bout, ImageKusBlo im){
             c=cont;
             c.setPause(false);
             frame= new JPanel(new BorderLayout());
             //frame.setSize(w, h);
-            w=width;
-            h=height;
+            w=c.getFrameW();
+            h=c.getFrameH();
             setResize();
             b=bout;
             boutonMenu= b.menuJeu();
@@ -86,7 +86,6 @@ public class InterfaceJeu {
             graph.panelJeu.addMouseListener(mouseAdapt);
             graph.panelJeu.addMouseWheelListener(mouseAdapt);
             frame.addKeyListener(keyAdapt);
-
 
             //Panel Droite
             JPanel panelDroite = new JPanel();

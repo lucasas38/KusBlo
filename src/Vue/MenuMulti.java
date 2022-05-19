@@ -5,6 +5,8 @@ import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class MenuMulti {
     JPanel frame;
@@ -13,10 +15,10 @@ public class MenuMulti {
     int h ;
     Bouton b;
 
-    public MenuMulti(Controleur c,Bouton bout,int width, int height){
+    public MenuMulti(Controleur c,Bouton bout){
         cont=c;
-        w=width;
-        h=height;
+        w=c.getFrameW();
+        h=c.getFrameH();
         b=bout;
         frame= new JPanel(new BorderLayout());
 
@@ -53,9 +55,25 @@ public class MenuMulti {
         frame.add(panelCentral, BorderLayout.CENTER);
         frame.add(panelDroit, BorderLayout.EAST);
 
+        setResize();
+
     }
 
     public JPanel getFrame(){
         return frame;
+    }
+
+    public void setResize(){
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                resizeAllPanel();
+            }
+        });
+
+    }
+
+    public void resizeAllPanel(){
+        w= cont.getFrameW();
+        h=cont.getFrameH();
     }
 }
