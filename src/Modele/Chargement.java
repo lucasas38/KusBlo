@@ -3,6 +3,7 @@ package Modele;
 import Controleur.IA;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -34,6 +35,9 @@ public class Chargement {
 
             in.close();
             System.out.println("Jeu chargé !!!");
+        } catch (FileNotFoundException fnf){
+//            fnf.printStackTrace();
+            System.out.println("Erreur chargement !!! Fichier "+filename+" n'existe pas");
         } catch (IOException ex) {
             ex.printStackTrace();
             System.out.println("Erreur chargement !!!");

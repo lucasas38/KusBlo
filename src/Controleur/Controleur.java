@@ -355,9 +355,12 @@ public class Controleur {
         chargement.lire();
         jeu=chargement.getJeu(); //: recupere Jeu jeu;
         ia=chargement.getIa();// : recupere IA[] ia;
-        inter.setInterJeu();
-        inter.charger();
-        setMenu1();
+        if(jeu != null && ia != null){
+            inter.setInterJeu();
+            inter.charger();
+            setMenu1();
+        }
+
     }
 
     public void setMenuSolo(){
