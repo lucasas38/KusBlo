@@ -11,8 +11,6 @@ public class AdaptateurSelPiece implements MouseListener {
     MenuPiece m;
     Controleur cont;
     boolean pieceMultiple;
-    int x;
-    int y;
     boolean activ;
 
 
@@ -20,8 +18,6 @@ public class AdaptateurSelPiece implements MouseListener {
         n = niv;
         m = menu;
         pieceMultiple=multPiece;
-        x = 0;
-        y = 0;
         cont=c;
         activ=true;
     }

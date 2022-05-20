@@ -20,9 +20,9 @@ public class PanneauJoueur {
     JLabel score;
     JPanel[] listePiece;
 
-    //Panneau pour la couleur c
-    PanneauJoueur(int c, Controleur control, ImageKusBlo ima){
-        couleur=c;
+    //Panneau pour la couleur couleur
+    PanneauJoueur(int couleur, Controleur control, ImageKusBlo ima){
+        this.couleur =couleur;
         cont=control;
         im=ima;
         affichageListe= new JPanel(new GridLayout(3,7));
@@ -30,11 +30,11 @@ public class PanneauJoueur {
         pan = new JPanel(new BorderLayout());
         pan.setBackground(Color.pink);
         pan.setBorder(BorderFactory.createLineBorder(Color.black,2));
-        int numJoueur=0;
-        if(cont.getNbJoueur()==2 && c>2){
-            numJoueur=c-2;
+        int numJoueur;
+        if(cont.getNbJoueur()==2 && couleur>2){
+            numJoueur=couleur-2;
         }else{
-            numJoueur=c;
+            numJoueur=couleur;
         }
         pan.add(new JLabel("Joueur "+numJoueur), BorderLayout.PAGE_START);
 
@@ -60,7 +60,7 @@ public class PanneauJoueur {
         int numPiece = 1;
         ListePieces liste = cont.getListPiece(couleur);
         Iterator<Piece> ite = liste.iterateur();
-        Piece p = null;
+        Piece p;
         int indiceListe=0;
         //Si des pièces on déjà été joués on affiche une case vide à la place
         while (ite.hasNext()) {

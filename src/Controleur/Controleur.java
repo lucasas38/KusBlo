@@ -16,6 +16,8 @@ public class Controleur {
     boolean animActiv = true;
     boolean pause;
     ListeValeur<Case,Piece> lastCoupIA;
+    int oldX;
+    int oldY;
 
     public Controleur(){
     }
@@ -108,7 +110,10 @@ public class Controleur {
         inter.getInterJ().setMenu2(numPiece);
     }
 
-    public void click(Piece piece,int x, int y, int decx, int decy){
+    public void click(int x, int y){
+        Piece piece= inter.getInterJ().getM().getPiece();
+        int decx=piece.getDecx();
+        int decy=piece.getDecy();
         inter.getInterJ().delMouseClick();
         if(jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isPeutJouer()){
             inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
@@ -156,12 +161,18 @@ public class Controleur {
         }
     }
 
-    public boolean estPosable2(Piece piece,int x, int y, int decx, int decy){
+    public boolean estPosable2(int x, int y){
+        Piece piece = inter.getInterJ().getM().getPiece();
+        int decx= piece.getDecx();
+        int decy= piece.getDecy();
         Niveau n= jeu.getNiveau();
         return n.estPosable(piece, x-decx, y-decy);
     }
 
-    public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
+    public  boolean estPosable(int x, int y){
+        Piece piece = inter.getInterJ().getM().getPiece();
+        int decx = piece.getDecx();
+        int decy= piece.getDecy();
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
                 if(x+i-decx>19 || x+i-decx<0 || y+j-decy>19 || y+j-decy<0 ){
@@ -174,7 +185,10 @@ public class Controleur {
         return true;
     }
 
-    public  boolean estPosableRegle(Piece piece,int x, int y, int decx, int decy){
+    public  boolean estPosableRegle(int x, int y){
+        Piece piece = inter.getInterJ().getM().getPiece();
+        int decx=piece.getDecx();
+        int decy= piece.getDecy();
         return  jeu.estPosableRegle(jeu.tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
     }
 
@@ -205,8 +219,18 @@ public class Controleur {
         }
     }
 
-    public void delVisu(int x, int y,int[][] grille, int decx,int decy){
-        inter.getInterJ().getGraph().supprimerVisualisation(x,y,grille,decx,decy);
+    public void visualiser(int x, int y,boolean error){
+        Piece p= inter.getInterJ().getM().getPiece();
+        if(error){
+            inter.getInterJ().getGraph().visualiser(5,x,y,p.getMatrice(),p.getDecx(),p.getDecy());
+        } else{
+            inter.getInterJ().getGraph().visualiser(jeu.getNumCouleurCourante(),x,y,p.getMatrice(),p.getDecx(),p.getDecy());
+        }
+    }
+
+    public void delVisu(int x, int y){
+        Piece p =inter.getInterJ().getM().getPiece();
+        inter.getInterJ().getGraph().supprimerVisualisation(x,y,p.getMatrice(), p.getDecx(),p.getDecy());
     }
 
     public int getActCouleur(){
@@ -517,5 +541,33 @@ public class Controleur {
         inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
         inter.getInterJ().setTour(getActCouleur());
         setMenu5();
+    }
+
+    public int getOldX() {
+        return oldX;
+    }
+
+    public int getOldY() {
+        return oldY;
+    }
+
+    public void setOldX(int oldX) {
+        this.oldX = oldX;
+    }
+
+    public void setOldY(int oldY) {
+        this.oldY = oldY;
+    }
+
+    public int getHautCaseGrille(){
+        return inter.getInterJ().getGraph().hauteurCase();
+    }
+
+    public int getLargeCaseGrille(){
+        return inter.getInterJ().getGraph().largeurCase();
+    }
+
+    public void setActivKeyAdapt(boolean activ){
+        inter.setActivKeyAdapt(activ);
     }
 }
