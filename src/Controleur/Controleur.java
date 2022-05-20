@@ -16,19 +16,31 @@ public class Controleur {
     boolean animActiv = true;
     boolean pause;
     ListeValeur<Case,Piece> lastCoupIA;
+    int oldX;
+    int oldY;
 
     public Controleur(){
     }
 
-    public void addIA(int type_ia,int idJoueur, int mode_ia){
+    public void addIA(int type_ia,int idJoueur){
+        // les "case" 2,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
         switch (type_ia){
             case 1:
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, mode_ia);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 0);
                 break;
             case 3:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 1);
+                break;
+            case 4:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 2);
+                break;
+            case 5:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3);
+                break;
+            case 6:
                 ia[idJoueur-1] = new IADifficile(this.jeu);
                 break;
             default:
@@ -94,7 +106,10 @@ public class Controleur {
         inter.getInterJ().setMenu2(numPiece);
     }
 
-    public void click(Piece piece,int x, int y, int decx, int decy){
+    public void click(int x, int y){
+        Piece piece= inter.getInterJ().getM().getPiece();
+        int decx=piece.getDecx();
+        int decy=piece.getDecy();
         inter.getInterJ().delMouseClick();
         inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
@@ -122,7 +137,6 @@ public class Controleur {
 
 
     public void joueIA(){
-
         lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
         if(lastCoupIA != null){
             if(animActiv){
@@ -136,12 +150,18 @@ public class Controleur {
         }
     }
 
-    public boolean estPosable2(Piece piece,int x, int y, int decx, int decy){
+    public boolean estPosable2(int x, int y){
+        Piece piece = inter.getInterJ().getM().getPiece();
+        int decx= piece.getDecx();
+        int decy= piece.getDecy();
         Niveau n= jeu.getNiveau();
         return n.estPosable(piece, x-decx, y-decy);
     }
 
-    public  boolean estPosable(Piece piece,int x, int y, int decx, int decy){
+    public  boolean estPosable(int x, int y){
+        Piece piece = inter.getInterJ().getM().getPiece();
+        int decx = piece.getDecx();
+        int decy= piece.getDecy();
         for(int i=0;i<5;i++){
             for(int j=0; j<5; j++){
                 if(x+i-decx>19 || x+i-decx<0 || y+j-decy>19 || y+j-decy<0 ){
@@ -154,7 +174,10 @@ public class Controleur {
         return true;
     }
 
-    public  boolean estPosableRegle(Piece piece,int x, int y, int decx, int decy){
+    public  boolean estPosableRegle(int x, int y){
+        Piece piece = inter.getInterJ().getM().getPiece();
+        int decx=piece.getDecx();
+        int decy= piece.getDecy();
         return  jeu.estPosableRegle(jeu.tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
     }
 
@@ -184,8 +207,18 @@ public class Controleur {
         }
     }
 
-    public void delVisu(int x, int y,int[][] grille, int decx,int decy){
-        inter.getInterJ().getGraph().supprimerVisualisation(x,y,grille,decx,decy);
+    public void visualiser(int x, int y,boolean error){
+        Piece p= inter.getInterJ().getM().getPiece();
+        if(error){
+            inter.getInterJ().getGraph().visualiser(5,x,y,p.getMatrice(),p.getDecx(),p.getDecy());
+        } else{
+            inter.getInterJ().getGraph().visualiser(jeu.getNumCouleurCourante(),x,y,p.getMatrice(),p.getDecx(),p.getDecy());
+        }
+    }
+
+    public void delVisu(int x, int y){
+        Piece p =inter.getInterJ().getM().getPiece();
+        inter.getInterJ().getGraph().supprimerVisualisation(x,y,p.getMatrice(), p.getDecx(),p.getDecy());
     }
 
     public int getActCouleur(){
@@ -269,7 +302,7 @@ public class Controleur {
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=2;
+                    joueur[i]=ia[i].getTypeIA(); // à changer pour garder la même IA qu'avant
                 }else{
                     joueur[i]=0;
                 }
@@ -286,7 +319,7 @@ public class Controleur {
         ia = new IA[jeu.getNbJoueurs()];
         for(int i=0; i<nbJoueur; i++){
             if(joueur[i]!=0){
-                addIA(joueur[i],i+1, i);
+                addIA(joueur[i],i+1);
             }
         }
         //utilisé pour les test, merci de ne pas l'enlever !!
@@ -317,7 +350,6 @@ public class Controleur {
     }
 
     public  void setMenu5(){
-        System.out.println("setMenu5");
         inter.getInterJ().getM().setMenuType5();
     }
 
@@ -545,4 +577,31 @@ public class Controleur {
         return inter.getPersoNbJoueur();
     }
 
+    public int getOldX() {
+        return oldX;
+    }
+
+    public int getOldY() {
+        return oldY;
+    }
+
+    public void setOldX(int oldX) {
+        this.oldX = oldX;
+    }
+
+    public void setOldY(int oldY) {
+        this.oldY = oldY;
+    }
+
+    public int getHautCaseGrille(){
+        return inter.getInterJ().getGraph().hauteurCase();
+    }
+
+    public int getLargeCaseGrille(){
+        return inter.getInterJ().getGraph().largeurCase();
+    }
+
+    public void setActivKeyAdapt(boolean activ){
+        inter.setActivKeyAdapt(activ);
+    }
 }

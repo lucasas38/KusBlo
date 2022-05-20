@@ -19,6 +19,7 @@ public class IAIntermediaire extends IA {
         super(j);
         mode = m;
         ouv = r.nextInt(2);
+        type = 2+mode;
     }
 
     // joue une pièce pour l'IA intermédiaire

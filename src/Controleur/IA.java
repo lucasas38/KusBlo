@@ -16,11 +16,14 @@ public abstract class IA implements Serializable {
     //mettre attribut Joueur et Couleur et definir a la creation puis utiliser ces attributs a la place de getCourant
     Random r;
 
+    int type;
+
     IA(Jeu j){
         jeu=j;
         r=new Random();
     }
 
+    public int getTypeIA(){ return type;} //
     public abstract ListeValeur<Case,Piece> joue();
     public abstract String toString();
     public void setR(){r=new Random();};

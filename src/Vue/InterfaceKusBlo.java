@@ -3,11 +3,6 @@ package Vue;
 import Controleur.Controleur;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
 
 public class InterfaceKusBlo implements Runnable {
     JFrame frame;
@@ -20,7 +15,6 @@ public class InterfaceKusBlo implements Runnable {
     ImageKusBlo im;
     Bouton b;
     AdaptateurClavier keyAdapt;
-    int test=0;
 
 
     public InterfaceKusBlo(Controleur cont){
@@ -36,6 +30,7 @@ public class InterfaceKusBlo implements Runnable {
     public void run(){
         im= new ImageKusBlo();
         b=new Bouton(c);
+        keyAdapt=new AdaptateurClavier(c);
         frame = new JFrame("KusBlo");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +39,9 @@ public class InterfaceKusBlo implements Runnable {
         menuSol=new MenuSolo(c,b);
         menuMult=new MenuMulti(c,b);
         menuPerso=new MenuPartiePerso(c,b);
+        frame.addKeyListener(keyAdapt);
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
         frame.setContentPane(menu.getFrame());
         frame.setVisible(true);
     }
@@ -75,9 +73,6 @@ public class InterfaceKusBlo implements Runnable {
         frame.setContentPane(interJ.getFrame());
         interJ.resizeAllPanel();
         frame.revalidate();
-       // frame.repaint();
-        //frameMenu.setVisible(false);
-        //frameJeu.setVisible(true);
     }
 
     public InterfaceJeu getInterJ(){
@@ -101,5 +96,9 @@ public class InterfaceKusBlo implements Runnable {
 
     public int getPersoNbJoueur(){
         return menuPerso.getNbJoueur();
+    }
+
+    public void setActivKeyAdapt(boolean activ){
+        keyAdapt.setActiv(activ);
     }
 }

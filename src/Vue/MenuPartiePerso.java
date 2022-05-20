@@ -85,8 +85,6 @@ public class MenuPartiePerso {
         affichageJoueurD=new JPanel((new GridLayout(2,1)));
         affichageJoueurG.add(J1);
         affichageJoueurD.add(J2);
-        //affichageJoueur.add(J4);
-        //affichageJoueur.add(J3);
         affichageJoueur.add(affichageJoueurG);
         affichageJoueur.add(affichageJoueurD);
 
@@ -149,11 +147,16 @@ public class MenuPartiePerso {
 
     public void setDiff(boolean IA, int joueur){
         if(IA){
+            diff[joueur-1].removeAll();
+            diff[joueur+3].removeAll();
             diff[joueur-1].add(new JLabel("Difficulté"));
             JComboBox difficulte = new JComboBox();
             difficulte.addItem("Facile");
             difficulte.addItem("Intermédiaire");
             difficulte.addItem("Difficile (inter)");
+            difficulte.addItem("Intermédiaire Ouvrante");
+            difficulte.addItem("Intermédiaire Taille");
+            difficulte.addItem("Intermédiaire Pattern");
             difficulte.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     JComboBox comboBox = (JComboBox) event.getSource();
@@ -162,7 +165,13 @@ public class MenuPartiePerso {
                         listeDiff[joueur-1]=1;
                     } else if(selected.toString().equals("Intermédiaire")){
                         listeDiff[joueur-1]=2;
-                    } else{
+                    } else if(selected.toString().equals("Intermédiaire Ouvrante")){
+                        listeDiff[joueur-1]=3;
+                    } else if(selected.toString().equals("Intermédiaire Taille")){
+                        listeDiff[joueur-1]=4;
+                    } else if(selected.toString().equals("Intermédiaire Pattern")){
+                        listeDiff[joueur-1]=5;
+                    } else{ // rajouter IA difficile quand elle sera prête (avec valeur = 6)
                         listeDiff[joueur-1]=2;
                     }
                 }
