@@ -512,8 +512,6 @@ public class Controleur {
             setMenu5();
             setScoreToutLesJoueurs();
 
-
-
         }
 
     }
@@ -544,17 +542,8 @@ public class Controleur {
                 break;
         }
 
-        lastCoupIA = aide.joue();
-        if(lastCoupIA != null){
-//            if(animActiv){
-//                inter.getInterJ().getGraph().poserPieceIA(coup.getValeur(),coup.getListe(),jeu.getNumCouleurCourante());
-//            }else{
-                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
-                joueIA2();
-//            }
-        }else{
-            setMenu1();
-        }
+        ListeValeur<Case,Piece> coup = aide.joue();
+
     }
 
     public void stopTimer(){
