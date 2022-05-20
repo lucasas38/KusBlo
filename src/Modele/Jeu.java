@@ -102,8 +102,10 @@ public class Jeu implements Serializable {
                     //met à jour historique si l'on ne refait pas un coup du futur
                     if(!refaire){
                         historique.nouveau(new Trio(piece,idJoueur,indTabCouleur));
-                        setJoueur((idJoueur%nbJoueurs)+1);
-                        getJoueur(idJoueur).setCouleur((indTabCouleur%(getJoueur(idJoueur).nbCouleurs))+1);
+                        int idJoueurFutur = (idJoueur%nbJoueurs)+1;
+                        int indTabCouleurJoueurFutur = (indTabCouleur%(getJoueur(idJoueur).getNbCouleurs()))+1;
+                        setJoueur(idJoueurFutur);
+                        listeJoueurs[idJoueur-1].setCouleur(indTabCouleurJoueurFutur);
                     }
                 }else{
                     System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
@@ -303,16 +305,6 @@ public class Jeu implements Serializable {
 
     }
 
-    public void finCouleur(int idJoueur, int indTabCouleur) {
-        System.out.println("Fin jeu pour couleur "+getJoueur(idJoueur).getCouleur(indTabCouleur).id);
-        Joueur joueur = listeJoueurs[idJoueur-1];
-        joueur.peutJouer = joueur.finCouleur(indTabCouleur);
-        if(!joueur.peutJouer){
-            System.out.println("setScore");
-            joueur.setScoreFinal();
-        }
-    }
-
     public void passerTour(int idJoueur,int indTabCouleur) {
         System.out.println("Couleur "+getJoueur(idJoueur).getCouleur(indTabCouleur).id +" passe son tour");
         setJoueur((idJoueur%nbJoueurs)+1);
@@ -333,33 +325,29 @@ public class Jeu implements Serializable {
 
             //parcourt la liste des cases de la piece (coordonées réelles sur la grille)
             //et met à zero (vide) les cases de la grille
-            Iterator<Case> it = dernier.getE1().listeCases.iterator();
-            while (it.hasNext()){
-                Case ca = it.next();
-                n.grille[ca.getX()][ca.getY()] = 0;
-            }
+            n.ajouterPiece(piecePrec,piecePrec.listeCases,0);
 
             //change joueur courant et couleur courante pour le joueur
             setJoueur(idJoueurPrec);
             getJoueur(idJoueurPrec).setCouleur(indTabCouleurJoueurPrec);
 
+            if(!getJoueur(idJoueurPrec).peutJouer){
+                getJoueur(idJoueurPrec).annulerScoreFinal();
+            }
+
             //s'il ne pouvait plus jouer , maintenant il peut de nouveau jouer
-            if(!getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).isPeutJouer()){
-                reprendreCouleur(idJoueurPrec,indTabCouleurJoueurPrec);
+            if(!getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).isRestePieceJouable()){
+                getJoueur(idJoueurPrec).setRestePieceJouableCouleur(indTabCouleurJoueurPrec,true);
             }
 
             getJoueur(idJoueurPrec).score -= piecePrec.taille;
 
             //met à jour pieces disponibles et pieces posées
-
             getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getListePiecesDispo().ajoutePieceOrdre(piecePrec);
-
             getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getListesPiecesPosees().remove(piecePrec);
 
             //on recalcule les coins pour joueur courant et autre joueur
             annulerCoins(idJoueurPrec,indTabCouleurJoueurPrec);
-
-
 
         }
     }
@@ -383,15 +371,6 @@ public class Jeu implements Serializable {
 
         if(getJoueur(idJoueur).getCouleur(indTabCouleur).getListesPiecesPosees().isEmpty()){
             getJoueur(idJoueur).getCouleur(indTabCouleur).ajoutePremierCoinCouleur();
-        }
-    }
-
-    public void reprendreCouleur(int idJoueur,int indTabCouleur) {
-        System.out.println("Couleur "+getJoueur(idJoueur).getCouleur(indTabCouleur).id + " reprend");
-        Joueur joueur = listeJoueurs[idJoueur-1];
-        joueur.peutJouer = joueur.reprendreCouleur(indTabCouleur);
-        if(joueur.peutJouer){
-            joueur.annulerScoreFinal();
         }
     }
 

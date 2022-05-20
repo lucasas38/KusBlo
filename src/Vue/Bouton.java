@@ -62,8 +62,7 @@ public class Bouton {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.finCouleur();
-                c.passerTour();
+                System.out.println("Abandon");
             }
         });
         return button;
@@ -285,7 +284,8 @@ public class Bouton {
             @Override
             public void actionPerformed(ActionEvent e){
                 c.updateBoutPause(false);
-                c.annuler();
+//                c.annuler();
+                c.pause();
             }
         });
         return button;
