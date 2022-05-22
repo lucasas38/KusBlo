@@ -121,6 +121,8 @@ public class Controleur {
         int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
         inter.getInterJ().refreshPanJoueur( idCouleurPrec-1,pPrec.getId(),false,null);
         setMenu1();
+        inter.setAnnuler(true);
+        inter.setRefaire(false);
     }
 
     public void joueIA2(){
@@ -133,6 +135,8 @@ public class Controleur {
         int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
         inter.getInterJ().refreshPanJoueur( idCouleurPrec-1,pPrec.getId(),false,null);
         setMenu1();
+        inter.setAnnuler(true);
+        inter.setRefaire(false);
     }
 
 
@@ -447,6 +451,11 @@ public class Controleur {
         }
         setMenu5();
         setScoreToutLesJoueurs();
+        if(!jeu.getHistorique().peutAnnuler()){
+            inter.setAnnuler(false);
+        }
+
+        inter.setRefaire(true);
     }
 
 
@@ -511,6 +520,11 @@ public class Controleur {
 
             setMenu5();
             setScoreToutLesJoueurs();
+            if(!jeu.getHistorique().peutRefaire()){
+                inter.setRefaire(false);
+            }
+
+            inter.setAnnuler(true);
 
         }
 

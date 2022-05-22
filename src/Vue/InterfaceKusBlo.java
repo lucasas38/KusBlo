@@ -101,4 +101,12 @@ public class InterfaceKusBlo implements Runnable {
     public void setActivKeyAdapt(boolean activ){
         keyAdapt.setActiv(activ);
     }
+
+    public void setAnnuler(boolean an) {
+        interJ.setAnnuler(an);
+    }
+
+    public void setRefaire(boolean re) {
+        interJ.setRefaire(re);
+    }
 }

@@ -83,7 +83,9 @@ public class InterfaceJeu {
             panelDroite.add(joueurs[1].pan);
             panelDroite.add(joueurs[2].pan);
             annuler=b.annuler();
+            annuler.setEnabled(false);
             refaire=b.refaire();
+            refaire.setEnabled(false);
             JPanel histo=new JPanel(new GridLayout(2,1));
             histo.add(annuler);
             histo.add(refaire);
@@ -278,6 +280,14 @@ public class InterfaceJeu {
             }
             menuGauche.updateUI();
         }
+
+    public void setAnnuler(boolean an) {
+        annuler.setEnabled(an);
     }
+
+    public void setRefaire(boolean re) {
+        refaire.setEnabled(re);
+    }
+}
 
 
