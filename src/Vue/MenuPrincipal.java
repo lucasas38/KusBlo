@@ -40,6 +40,7 @@ public class MenuPrincipal {
         listeBoutons.setBackground(new Color(0,0,0,80));
         listeBoutons.add(b.solo());
         listeBoutons.add(b.multi());
+        listeBoutons.add(b.partiePerso());
         listeBoutons.add(b.load());
         listeBoutons.add(b.exit());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));

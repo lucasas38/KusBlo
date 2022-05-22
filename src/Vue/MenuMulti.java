@@ -35,11 +35,9 @@ public class MenuMulti {
 
         //création de la liste de boutons
         JPanel listeBoutons = new JPanel(new GridLayout(6,1));
-        listeBoutons.add(new Bouton(cont).deuxJoueurs());
-        listeBoutons.add(new Bouton(cont).quatreJoueur());
-        listeBoutons.add(new Bouton(cont).deuxJdeuxIA());
-        listeBoutons.add(new Bouton(cont).partiePerso());
-        listeBoutons.add(new Bouton(c).load());
+        listeBoutons.add(b.deuxJoueurs());
+        listeBoutons.add(b.quatreJoueur());
+        listeBoutons.add(b.deuxJdeuxIA());
         listeBoutons.add(b.menuPrincpal());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 

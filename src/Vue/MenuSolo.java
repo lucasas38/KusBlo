@@ -33,11 +33,10 @@ public class MenuSolo {
 
         //création de la liste de boutons
         JPanel listeBoutons = new JPanel(new GridLayout(6,1));
-        listeBoutons.add(new Bouton(cont).vsUneIAf());
-        listeBoutons.add(new Bouton(cont).vsUneIAi());
-        listeBoutons.add(new Bouton(cont).vsUneIAd());
-        listeBoutons.add(new Bouton(cont).vsMultIa());
-        listeBoutons.add(new Bouton(c).load());
+        listeBoutons.add(b.vsUneIAf());
+        listeBoutons.add(b.vsUneIAi());
+        listeBoutons.add(b.vsUneIAd());
+        listeBoutons.add(b.vsMultIa());
         listeBoutons.add(b.menuPrincpal());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 
