@@ -1,5 +1,6 @@
 package Controleur;
 
+import Global.Configuration;
 import Modele.*;
 import Structures.Case;
 import Structures.ListeValeur;
@@ -13,13 +14,14 @@ public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv;
     boolean pause;
     ListeValeur<Case,Piece> lastCoupIA;
     int oldX;
     int oldY;
 
     public Controleur(){
+        animActiv = Boolean.parseBoolean(Configuration.instance().lis("AnimActive"));
     }
 
     public void addIA(int type_ia,int idJoueur){
@@ -406,7 +408,6 @@ public class Controleur {
     public void setMenuPerso(){
         inter.setMenuPerso();
     }
-
 
     public int getCouleur(int i, int j){
         return jeu.getNiveau().getGrille()[i][j];

@@ -1,18 +1,25 @@
 import Controleur.IA;
 import Controleur.IAAleatoire;
+import Global.Configuration;
 import Modele.*;
 
 public class Test {
 
     public static void main(String args[]){
 
-        Jeu j = new Jeu(2);
+        Configuration instance = Configuration.instance();
 
-        IA ia = new IAAleatoire(j);
+        instance.ecris("AnimActive","true");
+        instance.ecris("VitesseAnim","20");
 
-        ia.joue();
+        System.out.println("AnimActive = " +instance.lis("AnimActive"));
+        System.out.println("VitesseAnim = " +instance.lis("VitesseAnim"));
 
+        instance.ecris("AnimActive","false");
+        instance.ecris("VitesseAnim","30");
 
+        System.out.println("AnimActive = " +instance.lis("AnimActive"));
+        System.out.println("VitesseAnim = " +instance.lis("VitesseAnim"));
 
     }
 }
