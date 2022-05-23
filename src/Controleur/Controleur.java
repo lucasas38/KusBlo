@@ -81,7 +81,7 @@ public class Controleur {
                     vainqueurs[nbVainqueur-1]=i;
                 }
             }
-            inter.getInterJ().getM().setMenuType3(vainqueurs,nbVainqueur);
+            inter.getInterJ().getM().setMenuFinPartie(vainqueurs,nbVainqueur);
             setScoreToutLesJoueurs();
 
             }else {
@@ -144,7 +144,7 @@ public class Controleur {
         lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
         if(lastCoupIA != null){
             if(animActiv){
-                inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getValeur(),lastCoupIA.getListe(),jeu.getNumCouleurCourante());
+                inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getListe(),jeu.getNumCouleurCourante());
             }else{
                 inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
                 joueIA2();
@@ -350,11 +350,11 @@ public class Controleur {
     }
 
     public  void setMenu4(){
-        inter.getInterJ().getM().setMenuType4();
+        inter.getInterJ().getM().setMenuTourIA();
     }
 
     public  void setMenu5(){
-        inter.getInterJ().getM().setMenuType5();
+        inter.getInterJ().getM().setMenuHistorique();
     }
 
     public void visuIA(LinkedList<Case> listeCase, int couleur){
@@ -366,15 +366,23 @@ public class Controleur {
     }
 
     public void showMenuOpt(){
+        inter.getInterJ().getGraph().stopTimerAide();
         inter.getInterJ().getGraph().stopTimer();
         inter.getInterJ().setMenuOpt();
     }
 
     public void reprendre(){
-        if(ia[jeu.getIDJoueurCourant()-1]!=null){
+        inter.getInterJ().getGraph().starTimerAide();
+        if(ia[jeu.getIDJoueurCourant()-1]!=null && !pause){
             inter.getInterJ().getGraph().startTimer();
         }
         inter.getInterJ().reprendre();
+        if(!jeu.getHistorique().peutAnnuler()){
+            inter.setAnnuler(false);
+        }
+        if(!jeu.getHistorique().peutRefaire()){
+            inter.setRefaire(false);
+        }
     }
 
     public void save(){
@@ -557,6 +565,8 @@ public class Controleur {
         }
 
         ListeValeur<Case,Piece> coup = aide.joue();
+        desactiverAide();
+        inter.getInterJ().getGraph().visAide(coup.getListe());
 
     }
 
@@ -606,5 +616,14 @@ public class Controleur {
 
     public void setActivKeyAdapt(boolean activ){
         inter.setActivKeyAdapt(activ);
+    }
+
+
+    public void desactiverAide(){
+        inter.getInterJ().setEnabledAide(false);
+    }
+    public void supprVisAide(LinkedList<Case> listeCase){
+        inter.getInterJ().setEnabledAide(true);
+        inter.getInterJ().getGraph().supprVisAide(listeCase);
     }
 }

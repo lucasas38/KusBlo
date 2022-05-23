@@ -12,17 +12,21 @@ public class MenuSolo {
     int w;
     int h ;
     Bouton b;
+    ImageKusBlo im;
 
-    public MenuSolo(Controleur c,Bouton bout){
+    public MenuSolo(Controleur c,Bouton bout, ImageKusBlo ima){
         cont=c;
         w=c.getFrameW();
         h=c.getFrameH();
         b=bout;
         frame= new JPanel(new BorderLayout());
+        im= ima;
 
         //Création du panel Gauche
-        JPanel panelGauche = new JPanel();
+        JPanel panelGauche = new JPanel(new BorderLayout());
         panelGauche.setPreferredSize(new Dimension(w/4,h));
+        BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
+        panelGauche.add(fondG);
 
 
         //Création du panel centrale avec le logo
@@ -44,8 +48,10 @@ public class MenuSolo {
         panelCentral.add(listeBoutons, BorderLayout.CENTER);
 
         //Création du panel droit
-        JPanel panelDroit = new JPanel();
+        JPanel panelDroit = new JPanel(new BorderLayout());
         panelDroit.setPreferredSize(new Dimension(w/4,h));
+        BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
+        panelDroit.add(fondD);
 
 
         frame.add(panelGauche, BorderLayout.WEST);

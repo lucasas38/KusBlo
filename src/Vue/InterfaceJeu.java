@@ -21,10 +21,13 @@ public class InterfaceJeu {
         JButton refaire;
         JButton pause;
         JButton resume;
+        JButton aide;
         JPanel menuGauche;
         JPanel panelOpt;
         JPanel limGauche;
         JPanel limDroite;
+        JPanel panGrey;
+        JPanel panGrey2;
         boolean adaptAct;
         Bouton b;
         int w;
@@ -43,6 +46,7 @@ public class InterfaceJeu {
             boutonMenu= b.menuJeu();
             pause= b.pause();
             resume =b.resume();
+            aide=b.aide();
             joueurs=new PanneauJoueur[4];
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
@@ -60,8 +64,9 @@ public class InterfaceJeu {
             panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
             panelGauche.add(joueurs[0].pan);
             panelGauche.add(joueurs[3].pan);
-            menuGauche= new JPanel(new GridLayout(2,1));
+            menuGauche= new JPanel(new GridLayout(2,2));
             menuGauche.add(boutonMenu);
+            menuGauche.add(aide);
             menuGauche.add(pause);
             menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
             panelGauche.add(menuGauche);
@@ -102,7 +107,7 @@ public class InterfaceJeu {
 
 
 
-            m.menuType1.addMouseListener(selAdapt);
+            m.menuListePiece.addMouseListener(selAdapt);
             m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
             graph.panelJeu.addMouseMotionListener(mouseAdapt);
             graph.panelJeu.addMouseListener(mouseAdapt);
@@ -142,7 +147,7 @@ public class InterfaceJeu {
         //Active le menu avec la liste
         public void setMenu1(int j, int coul){
             delMouseClick();
-            m.setMenuType1(j,coul);
+            m.setMenuListePiece(j,coul);
 
         }
 
@@ -152,7 +157,7 @@ public class InterfaceJeu {
                 mouseAdapt.setActiv(true);
                 c.setActivKeyAdapt(true);
             }
-            m.setMenuType2(numPiece);
+            m.setMenuPieceUnique(numPiece);
         }
 
         //Met à jour uniquement le panneau du joueur qui a joué (qui est donc le joueur précedent
@@ -208,6 +213,9 @@ public class InterfaceJeu {
             selAdapt.setActiv(false);
             refaire.setEnabled(false);
             annuler.setEnabled(false);
+            pause.setEnabled(false);
+            resume.setEnabled(false);
+            aide.setEnabled(false);
             boutonMenu.setEnabled(false);
 
 
@@ -234,8 +242,8 @@ public class InterfaceJeu {
             panelOpt.add(limDroite,BorderLayout.EAST);
 
 
-            JPanel panGrey=new JPanel(new BorderLayout());
-            JPanel panGrey2=new JPanel(new BorderLayout());
+            panGrey=new JPanel(new BorderLayout());
+            panGrey2=new JPanel(new BorderLayout());
             panGrey.setBackground(new Color(0,0,0,75));
             panGrey2.setBackground(new Color(0,0,0,75));
             panelOpt.setBackground(new Color(0,0,0,75));
@@ -256,14 +264,20 @@ public class InterfaceJeu {
             frame.remove(panelOpt);
             frame.remove((limGauche));
             frame.remove(limDroite);
+            frame.remove(panGrey);
+            frame.remove(panGrey2);
             boutonMenu.setEnabled(true);
             annuler.setEnabled(true);
             refaire.setEnabled(true);
+            pause.setEnabled(true);
+            resume.setEnabled(true);
+            aide.setEnabled(true);
             frame.updateUI();
             if(adaptAct){
                 actMouseClick();
             }
             selAdapt.setActiv(true);
+            setResize();
         }
 
         public void charger(){
@@ -287,6 +301,10 @@ public class InterfaceJeu {
 
     public void setRefaire(boolean re) {
         refaire.setEnabled(re);
+    }
+
+    public void setEnabledAide(boolean act){
+            aide.setEnabled(act);
     }
 }
 

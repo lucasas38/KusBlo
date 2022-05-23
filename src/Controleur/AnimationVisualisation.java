@@ -13,6 +13,7 @@ import java.util.LinkedList;
 public class AnimationVisualisation {
     Timer timerAnimation;
     Timer timeAnimeIa;
+    Timer timeAnimeAide;
     int numImage;
     boolean asc; //indique l'ordre de sélection des images de clignotement
     Controleur c;
@@ -80,9 +81,9 @@ public class AnimationVisualisation {
 
 
     //Fonction de visualisation du time IA
-    public void visualisationIa(Piece piece, LinkedList<Case> listeCase, int couleur){
+    public void visualisationIa(LinkedList<Case> listeCase, int couleur){
         //Timer qui pose la pièce après un delai
-        timeAnimeIa = new Timer(100, new ActionListener() {
+        timeAnimeIa = new Timer(500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.poserPiece(listeCase,couleur);
@@ -93,5 +94,30 @@ public class AnimationVisualisation {
         c.visuIA(listeCase,couleur);
         timeAnimeIa.start();
         c.setMenu4();
+    }
+
+    public void visualisationAide(LinkedList<Case> listeCase){
+        //Timer qui pose la pièce après un delai
+        timeAnimeAide = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c.supprVisAide(listeCase);
+            }
+        });
+        //On affiche la visualisation
+        timeAnimeAide.start();
+    }
+
+    public  boolean hasTimerAide(){
+        return timeAnimeAide !=null;
+    }
+
+    public  void resetTimerAide(){
+        if(hasTimerAide())
+        timeAnimeAide.stop();
+    }
+    public  void startTimeAide(){
+        if(hasTimerAide())
+        timeAnimeAide.start();
     }
 }

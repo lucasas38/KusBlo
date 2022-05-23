@@ -27,6 +27,7 @@ public class ImageKusBlo {
     Image noPosR;
     Image noPosV;
     Image noPosJ;
+    Image aide;
     Image fondG;
     Image fondD;
     Image fondC;
@@ -50,6 +51,7 @@ public class ImageKusBlo {
         selJ2=getImage("visRouge4.png");
         selJ3=getImage(("visJaune4.png"));
         selJ4=getImage(("visVert4.png"));
+        aide=getImage("visTemp.png");
         noPos=getImage("cantPos.png");
         noPosB=getImage("cantPosB.png");
         noPosR=getImage("cantPosR.png");
@@ -163,5 +165,13 @@ public class ImageKusBlo {
         }else{
             return 0;
         }
+    }
+
+    public Image imageFondAide(Image ima){
+         if(ima==aide){
+             return gris;
+         }else{
+             return ima;
+         }
     }
 }

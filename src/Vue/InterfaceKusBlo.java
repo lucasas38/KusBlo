@@ -36,8 +36,8 @@ public class InterfaceKusBlo implements Runnable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //On génère et affiche le menu principal
         menu=new MenuPrincipal(c,b,im);
-        menuSol=new MenuSolo(c,b);
-        menuMult=new MenuMulti(c,b);
+        menuSol=new MenuSolo(c,b,im);
+        menuMult=new MenuMulti(c,b,im);
         menuPerso=new MenuPartiePerso(c,b);
         frame.addKeyListener(keyAdapt);
         frame.setFocusable(true);

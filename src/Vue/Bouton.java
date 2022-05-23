@@ -194,4 +194,12 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton aide(){
+        JButton button = new JButton("Aide");
+        button.addActionListener(e -> {
+            c.aide(0);
+        });
+        return button;
+    }
 }
