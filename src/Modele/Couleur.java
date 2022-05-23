@@ -16,7 +16,7 @@ public class Couleur implements Serializable {
     Couleur(int idCouleur){
         this.id = idCouleur;
         restePieceJouable=true;
-        this.listePiecesDispo = new ListePieces();
+        this.listePiecesDispo = new ListePieces(true);
         this.listesPiecesPosees = new LinkedList<>();
         this.listeCoins = new HashSet<>();
         //determine les coins de départ pour une couleur

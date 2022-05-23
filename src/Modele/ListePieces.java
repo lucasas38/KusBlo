@@ -10,8 +10,12 @@ import java.util.List;
 public class ListePieces implements Serializable {
     LinkedList<Piece> liste;
 
-    public ListePieces(){
-        this.lirePieces();
+    public ListePieces(boolean init){
+        if(init){
+            this.lirePieces();
+        }else{
+            liste = new LinkedList<>();
+        }
     }
 
     public void lirePieces(){
@@ -62,8 +66,6 @@ public class ListePieces implements Serializable {
         }else{
             liste.addLast(p);
         }
-
-
     }
 
     public boolean estVide(){
@@ -113,18 +115,6 @@ public class ListePieces implements Serializable {
             }
         }
         return false;
-    }
-
-    @Override
-    public ListePieces clone() throws CloneNotSupportedException {
-        ListePieces clone = null;
-        try {
-            clone = (ListePieces) super.clone();
-            clone.liste = (LinkedList<Piece>) liste.clone();
-        } catch (CloneNotSupportedException e) {
-            System.err.println("Bug interne serieux avec le clone : ListePieces");
-        }
-        return clone;
     }
 
     public void setListe(LinkedList<Piece> liste) {

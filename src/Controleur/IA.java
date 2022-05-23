@@ -30,16 +30,15 @@ public abstract class IA implements Serializable {
     public abstract int getType();
 
     public ListePieces copiePiecesDispo(){
-        ListePieces listePieces = new ListePieces();
+        ListePieces listePieces = new ListePieces(false);
 
-        LinkedList<Piece> liste = new LinkedList<>();
         Iterator<Piece> it = jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().getListePiecesDispo().iterateur();
         Piece p;
         while (it.hasNext()){
             p = it.next();
-            liste.addLast(p);
+            listePieces.getListe().addLast(p);
         }
-        listePieces.setListe(liste);
+        listePieces.setListe(listePieces.getListe());
 
         return listePieces;
     }
