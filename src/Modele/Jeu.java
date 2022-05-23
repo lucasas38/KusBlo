@@ -364,7 +364,7 @@ public class Jeu implements Serializable {
                 it = couleur.listesPiecesPosees.iterator();
                 while (it.hasNext()){
                     Piece p = it.next();
-                    ajouteCoinsValides(p,idJoueur,indTabCouleur);
+                    ajouteCoinsValides(p,i+1,j+1);
                 }
             }
         }
