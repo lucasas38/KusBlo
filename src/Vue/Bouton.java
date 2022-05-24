@@ -117,14 +117,14 @@ public class Bouton {
     }
 
     public JButton vsUneIAd(){
-        JButton button = new JButton("Contre une IA (difficile)"); // actuellement IA vs IA
-        button.addActionListener(e -> c.newGame(4,2,0,2,2,false));
+        JButton button = new JButton("Contre une IA (difficile)");
+        button.addActionListener(e -> c.newGame(4,0,6,2,2,false));
         return button;
     }
 
     public JButton vsMultIa(){
         JButton button = new JButton("Contre plusieurs IA (inter)"); // actuellement utilisé pour faire s'affronter des IA
-        button.addActionListener(e -> c.newGame(4,2,2,2,2,false));
+        button.addActionListener(e -> c.newGame(4,2,6,2,2,false));
         return button;
     }
     public JButton deuxJoueurs(){

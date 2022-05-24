@@ -29,7 +29,7 @@ public class Jeu implements Serializable {
         listeJoueurs = new Joueur[this.nbJoueurs];
 
         //si 4 joueurs, chaque joueur a une couleur
-        //si 2 joeurs, chque joueur a 2 couleurs différentes
+        //si 2 joueurs, chque joueur a 2 couleurs différentes
         //si 3 joueurs, chque joueur a une couleur et se partagent la derniere
         for (int i=0;i<this.nbJoueurs;i++){
             listeJoueurs[i] = new Joueur(i+1);
@@ -328,7 +328,8 @@ public class Jeu implements Serializable {
             n.ajouterPiece(piecePrec,piecePrec.listeCases,0);
 
             //change joueur courant et couleur courante pour le joueur
-            setJoueur(idJoueurPrec);
+            setJoueur(idJoueurPrec);        //System.out.println("Numéro pièce jouée par IA : " + lastCoupIA.getValeur().getId());
+        //System.out.println("Liste Pièce Dispo : " + jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().toString());
             getJoueur(idJoueurPrec).setCouleur(indTabCouleurJoueurPrec);
 
             if(!getJoueur(idJoueurPrec).peutJouer){
