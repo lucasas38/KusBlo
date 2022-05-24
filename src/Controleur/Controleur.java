@@ -15,7 +15,6 @@ public class Controleur {
     IA[] ia;
     boolean animActiv = true;
     boolean pause;
-    ListeValeur<Case,Piece> lastCoupIA;
     int oldX;
     int oldY;
 
@@ -126,7 +125,7 @@ public class Controleur {
     }
 
     public void joueIA2(){
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),lastCoupIA.getValeur().getId(), lastCoupIA.getListe(),false);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),ia[jeu.getIDJoueurCourant()-1].dernierCoup.getValeur().getId(), ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe(),false);
         inter.getInterJ().getM().resetBorder();
         Trio<Piece,Integer,Integer> passe = jeu.getHistorique().getPasse().getFirst();
         Piece pPrec = passe.getE1();
@@ -141,12 +140,12 @@ public class Controleur {
 
 
     public void joueIA(){
-        lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
-        if(lastCoupIA != null){
+        ia[jeu.getIDJoueurCourant()-1].joue();
+        if(ia[jeu.getIDJoueurCourant()-1].dernierCoup != null){
             if(animActiv){
-                inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getListe(),jeu.getNumCouleurCourante());
+                inter.getInterJ().getGraph().poserPieceIA(ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe(),jeu.getNumCouleurCourante());
             }else{
-                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe());
                 joueIA2();
             }
         }else{
@@ -423,7 +422,7 @@ public class Controleur {
     public void pause(){
         System.out.println("pause");
         if(ia[getActJoueur()-1]!=null && !pause){
-            inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
+            inter.getInterJ().getGraph().supprimerVisualisation(ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe());
             inter.getInterJ().setTour(getActCouleur());
         }
 
@@ -564,9 +563,9 @@ public class Controleur {
                 break;
         }
 
-        ListeValeur<Case,Piece> coup = aide.joue();
+        aide.joue();
         desactiverAide();
-        inter.getInterJ().getGraph().visAide(coup.getListe());
+        inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe());
 
     }
 
@@ -618,10 +617,10 @@ public class Controleur {
         inter.setActivKeyAdapt(activ);
     }
 
-
     public void desactiverAide(){
         inter.getInterJ().setEnabledAide(false);
     }
+
     public void supprVisAide(LinkedList<Case> listeCase){
         inter.getInterJ().setEnabledAide(true);
         inter.getInterJ().getGraph().supprVisAide(listeCase);

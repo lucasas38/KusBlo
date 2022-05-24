@@ -24,7 +24,7 @@ public class IAIntermediaire extends IA {
 
     // joue une pièce pour l'IA intermédiaire
     @Override
-    public ListeValeur<Case, Piece> joue() {
+    public void joue() {
         ListePieces listePiecesDispo = copiePiecesDispo();
         Piece p_max = null;
         Piece p;
@@ -101,11 +101,12 @@ public class IAIntermediaire extends IA {
         // res peut ne pas être null mais il peut contenir des choses null
         // a réfléchir pour savoir si c'est la bonne solution
         if(res!=null && res.getListe()!=null && res.getValeur()!=null){
-            return res;
+            dernierCoup = res;
+            return;
         }
 
         System.out.println("Ia ne peut plus jouer");
-        return null;
+        dernierCoup=null;
     }
 
     // renvoie l'heuristique pour les IA intermédiaires
@@ -359,12 +360,6 @@ public class IAIntermediaire extends IA {
     public String toString() {
         return "IAIntermediaire";
     }
-
-    @Override
-    public int getType(){
-        return 2;
-    }
-
 
     private HashSet<Case> CoinsPieces(LinkedList<Case> listeCases, int idJoueur) {
         Iterator<Case> it = listeCases.iterator();

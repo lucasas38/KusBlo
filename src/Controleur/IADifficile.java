@@ -14,17 +14,12 @@ public class IADifficile extends IA{
     }
 
     @Override
-    public ListeValeur<Case, Piece> joue() {
-        return null;
+    public void joue() {
+        dernierCoup=null;
     }
 
     @Override
     public String toString(){
         return "IADifficile";
-    }
-
-    @Override
-    public int getType(){
-        return 3;
     }
 }

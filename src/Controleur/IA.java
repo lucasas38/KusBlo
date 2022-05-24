@@ -18,16 +18,17 @@ public abstract class IA implements Serializable {
 
     int type;
 
+    ListeValeur<Case,Piece> dernierCoup;
+
     IA(Jeu j){
         jeu=j;
         r=new Random();
     }
 
-    public int getTypeIA(){ return type;} //
-    public abstract ListeValeur<Case,Piece> joue();
+    public int getTypeIA(){ return type;}
+    public abstract void joue();
     public abstract String toString();
     public void setR(){r=new Random();};
-    public abstract int getType();
 
     public ListePieces copiePiecesDispo(){
         ListePieces listePieces = new ListePieces(false);

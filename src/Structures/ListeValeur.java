@@ -18,4 +18,12 @@ public class ListeValeur<E,A> {
     public A getValeur() {
         return valeur;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "liste=" + liste +
+                ", valeur=" + valeur +
+                "}\n";
+    }
 }
