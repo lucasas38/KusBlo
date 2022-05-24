@@ -136,13 +136,14 @@ public class Controleur {
         Integer indTabCouleurJoueurPrec=passe.getE3();
         int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
         inter.getInterJ().refreshPanJoueur( idCouleurPrec-1,pPrec.getId(),false,null);
+
         setMenu1();
     }
 
 
     public void joueIA(){
         lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
-        System.out.println("lastCoupIA "+lastCoupIA.getListe() + " " + lastCoupIA.getValeur().getId());
+        //System.out.println("lastCoupIA "+lastCoupIA.getListe());
         if(lastCoupIA != null){
             if(animActiv){
                 inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getValeur(),lastCoupIA.getListe(),jeu.getNumCouleurCourante());

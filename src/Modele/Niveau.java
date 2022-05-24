@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Niveau implements Serializable {
-    int[][] grille;  // (0,0) en haut à gauche
+    int[][] grille;  // (0,0) en haut à gauche et (ligne,colonne)
 
     public Niveau() {
         this.grille = new int[20][20];

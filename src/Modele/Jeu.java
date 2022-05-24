@@ -29,7 +29,7 @@ public class Jeu implements Serializable {
         listeJoueurs = new Joueur[this.nbJoueurs];
 
         //si 4 joueurs, chaque joueur a une couleur
-        //si 2 joeurs, chque joueur a 2 couleurs différentes
+        //si 2 joueurs, chque joueur a 2 couleurs différentes
         //si 3 joueurs, chque joueur a une couleur et se partagent la derniere
         for (int i=0;i<this.nbJoueurs;i++){
             listeJoueurs[i] = new Joueur(i+1);
@@ -86,31 +86,31 @@ public class Jeu implements Serializable {
     }
 
     //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
-    public void jouerPiece(int idJoueur,int indTabCouleur, int idPiece, LinkedList<Case> listeCasesPiece,boolean refaire){
-            //recupere liste des pieces disponibles pour la couleur courante
-            Piece piece = listeJoueurs[idJoueur-1].getCouleur(indTabCouleur).getPieceDispo(idPiece);
-            //si la piece que l'on veut jouer est disponible
-            if(piece != null) {
-                //si la piece est posable selon les regles du jeu
-                if (estPosableRegle(listeCasesPiece, idJoueur,indTabCouleur)) {
-                    //on ajoute la piece au niveau (plateau du jeu)
-                    n.ajouterPiece(piece,listeCasesPiece,getJoueur(idJoueur).getCouleur(indTabCouleur).getId());
-                    //on calcule les coins possibles pour la couleur courante du joueur
-                    calculeCoinPiece(piece,idJoueur,indTabCouleur);
-                    //on joue la piece pour le joueur (et sa couleur courante)
-                    listeJoueurs[idJoueur-1].jouePiece(piece,indTabCouleur);
-                    //met à jour historique si l'on ne refait pas un coup du futur
-                    if(!refaire){
-                        historique.nouveau(new Trio(piece,idJoueur,indTabCouleur));
-                        setJoueur((idJoueur%nbJoueurs)+1);
-                        getJoueur(idJoueur).setCouleur((indTabCouleur%(getJoueur(idJoueur).nbCouleurs))+1);
-                    }
-                }else{
-                    System.out.println("Piece "+idPiece+" n'est pas posable selon les règles du jeu");
+    public void jouerPiece(int idJoueur, int indTabCouleur, int idPiece, LinkedList<Case> listeCasesPiece, boolean refaire) {
+        //recupere liste des pieces disponibles pour la couleur courante
+        Piece piece = listeJoueurs[idJoueur - 1].getCouleur(indTabCouleur).getPieceDispo(idPiece);
+        //si la piece que l'on veut jouer est disponible
+        if (piece != null) {
+            //si la piece est posable selon les regles du jeu
+            if (estPosableRegle(listeCasesPiece, idJoueur, indTabCouleur)) {
+                //on ajoute la piece au niveau (plateau du jeu)
+                n.ajouterPiece(piece, listeCasesPiece, getJoueur(idJoueur).getCouleur(indTabCouleur).getId());
+                //on calcule les coins possibles pour la couleur courante du joueur
+                calculeCoinPiece(piece, idJoueur, indTabCouleur);
+                //on joue la piece pour le joueur (et sa couleur courante)
+                listeJoueurs[idJoueur - 1].jouePiece(piece, indTabCouleur);
+                //met à jour historique si l'on ne refait pas un coup du futur
+                if (!refaire) {
+                    historique.nouveau(new Trio(piece, idJoueur, indTabCouleur));
+                    setJoueur((idJoueur % nbJoueurs) + 1);
+                    getJoueur(idJoueur).setCouleur((indTabCouleur % (getJoueur(idJoueur).nbCouleurs)) + 1);
                 }
-            }else{
-                System.out.println("Piece "+idPiece+" n'est plus disponible pour la couleur "+indTabCouleur);
+            } else {
+                System.out.println("Piece " + idPiece + " n'est pas posable selon les règles du jeu");
             }
+        } else {
+            System.out.println("Piece " + idPiece + " n'est plus disponible pour la couleur " + indTabCouleur);
+        }
 
     }
 
@@ -376,7 +376,7 @@ public class Jeu implements Serializable {
                 it = couleur.listesPiecesPosees.iterator();
                 while (it.hasNext()){
                     Piece p = it.next();
-                    ajouteCoinsValides(p,idJoueur,indTabCouleur);
+                    ajouteCoinsValides(p,i+1,j+1);
                 }
             }
         }
@@ -395,4 +395,10 @@ public class Jeu implements Serializable {
         }
     }
 
+    /*public Jeu copie(Jeu jeu) {
+        Jeu jeu2 = new Jeu();
+        jeu2.n = this.n;
+        jeu2.nbJoueurs = jeu.nbJoueurs;
+        jeu2.joueurCourant = jeu.joueurCourant;
+    }*/
 }
