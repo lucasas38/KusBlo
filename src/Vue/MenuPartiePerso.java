@@ -147,6 +147,8 @@ public class MenuPartiePerso {
 
     public void setDiff(boolean IA, int joueur){
         if(IA){
+            diff[joueur-1].removeAll();
+            diff[joueur+3].removeAll();
             diff[joueur-1].add(new JLabel("Difficulté"));
             JComboBox difficulte = new JComboBox();
             difficulte.addItem("Facile");

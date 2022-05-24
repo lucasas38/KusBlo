@@ -70,6 +70,7 @@ public class Joueur implements Serializable {
 
     //definit le score final d'un joueur : ajoute les bonus et les malus concernant les pieces qu'il a posé
     public void setScoreFinal(){
+        System.out.println("setScoreFinal");
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
                 //enlever pour chaque piece restante sa taille
@@ -79,7 +80,6 @@ public class Joueur implements Serializable {
                     p = it.next();
                     this.score -= p.taille;
                 }
-
             }else{
                 this.score += 15;
                 if(this.listeCouleur[i].getListesPiecesPosees().getLast().getId() == 1){
@@ -103,24 +103,28 @@ public class Joueur implements Serializable {
 
     //met l'attribut peutJouer de sa couleur courante à faux, signifie que cette couleur ne peut plus jouer
     //parcourt ses couleur et si plus aucune ne peut jouer, passe son attribut peutJouer à faux, le joueur ne peut plus jouer
-    public boolean finCouleur(int indTabCouleur) {
+    public void setRestePieceJouableCouleur(int indTabCouleur,boolean b) {
         Couleur couleur = getCouleur(indTabCouleur);
-        couleur.peutJouer=false;
-        for (int i=0;i<nbCouleurs;i++){
-            if(listeCouleur[i].peutJouer){
-                return true;
-            }
-        }
-        return false;
+        couleur.setRestePieceJouable(b);
+        setPeutJouer();
     }
 
-    public boolean reprendreCouleur(int indTabCouleur){
-        Couleur couleur = getCouleur(indTabCouleur);
-        couleur.peutJouer=true;
-        return true;
+    public void setPeutJouer(){
+        for (int i = 0;i<nbCouleurs;i++){
+            if(getCouleur(i+1).restePieceJouable){
+                peutJouer=true;
+                return;
+            }
+        }
+        if(peutJouer){
+            setScoreFinal();
+        }
+        peutJouer=false;
+
     }
 
     public void annulerScoreFinal(){
+        System.out.println("annulerScoreFinal");
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
                 //enlever pour chaque piece restante sa taille
@@ -140,4 +144,14 @@ public class Joueur implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Joueur{" +
+                "id=" + id +
+                ", score=" + score +
+                ", peutJouer=" + peutJouer +
+                ", nbCouleurs=" + nbCouleurs +
+                ", couleurCourant=" + couleurCourant +
+                " (n°"+listeCouleur[couleurCourant-1].getId()+")";
+    }
 }

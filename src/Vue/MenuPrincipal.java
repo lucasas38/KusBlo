@@ -33,20 +33,21 @@ public class MenuPrincipal {
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
         BasicBackgroundPanel logo = new BasicBackgroundPanel(new ImageKusBlo().getLogo());
         logo.setPreferredSize(new Dimension(w/2,h/4));
-        logo.setBackground(new Color(0,0,0,80));
+        //logo.setBackground(new Color(0,0,0,80));
 
         //création de la liste de boutons
         JPanel listeBoutons = new JPanel(new GridLayout(6,1));
-        listeBoutons.setBackground(new Color(0,0,0,80));
+        //listeBoutons.setBackground(new Color(0,0,0,80));
         listeBoutons.add(b.solo());
         listeBoutons.add(b.multi());
+        listeBoutons.add(b.partiePerso());
         listeBoutons.add(b.load());
         listeBoutons.add(b.exit());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 
         panelCentral.add(logo,BorderLayout.NORTH);
         panelCentral.add(listeBoutons, BorderLayout.CENTER);
-        panelCentral.setBackground(new Color(0,0,0,0));
+        //panelCentral.setBackground(new Color(0,0,0,0));
 
         //Création du panel droit
         JPanel panelDroit = new JPanel();

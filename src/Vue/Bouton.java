@@ -39,9 +39,11 @@ public class Bouton {
 
     public JButton skipTour(){
         JButton button = new JButton("Abandon");
-        button.addActionListener(e -> {
-            c.finCouleur();
-            c.passerTour();
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Abandon");
+            }
         });
         return button;
     }
@@ -65,7 +67,7 @@ public class Bouton {
     }
 
     public JButton newGame(){
-        JButton button = new JButton("Nouvelle Partie");
+        JButton button = new JButton("Rejouer");
         // les paramètres ne sont pas utilisés dans ce cas
         button.addActionListener(e -> c.newGame(4,1,1,1,1, true));
         return button;
@@ -189,6 +191,14 @@ public class Bouton {
             int[] l=c.getListDiff();
             int nbJoueur =c.getPersoNbJoueur();
             c.newGame(nbJoueur,l[0],l[1],l[2],l[3],false);
+        });
+        return button;
+    }
+
+    public JButton aide(){
+        JButton button = new JButton("Aide");
+        button.addActionListener(e -> {
+            c.aide(0);
         });
         return button;
     }

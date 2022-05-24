@@ -12,17 +12,21 @@ public class MenuSolo {
     int w;
     int h ;
     Bouton b;
+    ImageKusBlo im;
 
-    public MenuSolo(Controleur c,Bouton bout){
+    public MenuSolo(Controleur c,Bouton bout, ImageKusBlo ima){
         cont=c;
         w=c.getFrameW();
         h=c.getFrameH();
         b=bout;
         frame= new JPanel(new BorderLayout());
+        im= ima;
 
         //Création du panel Gauche
-        JPanel panelGauche = new JPanel();
+        JPanel panelGauche = new JPanel(new BorderLayout());
         panelGauche.setPreferredSize(new Dimension(w/4,h));
+        BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
+        panelGauche.add(fondG);
 
 
         //Création du panel centrale avec le logo
@@ -33,11 +37,10 @@ public class MenuSolo {
 
         //création de la liste de boutons
         JPanel listeBoutons = new JPanel(new GridLayout(6,1));
-        listeBoutons.add(new Bouton(cont).vsUneIAf());
-        listeBoutons.add(new Bouton(cont).vsUneIAi());
-        listeBoutons.add(new Bouton(cont).vsUneIAd());
-        listeBoutons.add(new Bouton(cont).vsMultIa());
-        listeBoutons.add(new Bouton(c).load());
+        listeBoutons.add(b.vsUneIAf());
+        listeBoutons.add(b.vsUneIAi());
+        listeBoutons.add(b.vsUneIAd());
+        listeBoutons.add(b.vsMultIa());
         listeBoutons.add(b.menuPrincpal());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 
@@ -45,8 +48,10 @@ public class MenuSolo {
         panelCentral.add(listeBoutons, BorderLayout.CENTER);
 
         //Création du panel droit
-        JPanel panelDroit = new JPanel();
+        JPanel panelDroit = new JPanel(new BorderLayout());
         panelDroit.setPreferredSize(new Dimension(w/4,h));
+        BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
+        panelDroit.add(fondD);
 
 
         frame.add(panelGauche, BorderLayout.WEST);

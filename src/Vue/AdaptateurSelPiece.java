@@ -11,8 +11,6 @@ public class AdaptateurSelPiece implements MouseListener {
     MenuPiece m;
     Controleur cont;
     boolean pieceMultiple;
-    int x;
-    int y;
     boolean activ;
 
 
@@ -20,8 +18,6 @@ public class AdaptateurSelPiece implements MouseListener {
         n = niv;
         m = menu;
         pieceMultiple=multPiece;
-        x = 0;
-        y = 0;
         cont=c;
         activ=true;
     }
@@ -34,7 +30,7 @@ public class AdaptateurSelPiece implements MouseListener {
                 int c = e.getX() / m.getLargMenu();
                 if(cont.contientPiece(l*7+c+1)){
                     cont.setMenu2(l,c);
-                    m.showMenuType2();
+                    m.showMenuPieceUnique();
                 }
             }else{
                 int l = e.getY() / m.getHautMenu();

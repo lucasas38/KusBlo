@@ -122,7 +122,7 @@ public class VueNiveau {
         Iterator<Case>ite = listeCase.iterator();
         while(ite.hasNext()){
             Case ca= ite.next();
-            listPanel[ca.getX()][ca.getY()].changeBackground(new ImageKusBlo().animJoueur(couleur, 0));
+            listPanel[ca.getX()][ca.getY()].changeBackground(im.animJoueur(couleur, 0));
         }
     }
 
@@ -163,8 +163,8 @@ public class VueNiveau {
 
 
     //Fonction de visualisation pour l'animation de l'IA
-    public void poserPieceIA(Piece piece, LinkedList<Case> listeCase, int couleur){
-        anim.visualisationIa(piece,listeCase,couleur);
+    public void poserPieceIA(LinkedList<Case> listeCase, int couleur){
+        anim.visualisationIa(listeCase,couleur);
     }
 
 
@@ -187,6 +187,37 @@ public class VueNiveau {
                 listPanel[i][j].changeBackground(im.coulJoueur(c.getCouleur(i,j)));
             }
         }
+    }
+    
+    public void visAide(LinkedList<Case> listeCase){
+        Iterator<Case>ite = listeCase.iterator();
+        while(ite.hasNext()){
+            Case ca= ite.next();
+            listPanel[ca.getX()][ca.getY()].changeBackground(im.aide);
+            listPanel[ca.getX()][ca.getY()].setBorder(BorderFactory.createLineBorder(Color.blue));
+        }
+        anim.visualisationAide(listeCase);
+    }
+
+    public void supprVisAide(LinkedList<Case> listeCase){
+        Iterator<Case> ite = listeCase.iterator();
+        while(ite.hasNext()){
+            Case ca=ite.next();
+            int caX=ca.getX();
+            int caY=ca.getY();
+            Image fond = listPanel[caX][caY].getBackgroundImage();
+            listPanel[caX][caY].changeBackground(im.imageFondAide(fond));
+            listPanel[caX][caY].setBorder(BorderFactory.createLineBorder(Color.black));
+        }
+        stopTimerAide();
+    }
+
+    public void stopTimerAide(){
+        anim.resetTimerAide();
+    }
+
+    public void starTimerAide(){
+        anim.startTimeAide();
     }
 
 }

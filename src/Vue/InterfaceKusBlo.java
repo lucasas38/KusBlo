@@ -14,6 +14,7 @@ public class InterfaceKusBlo implements Runnable {
     Controleur c;
     ImageKusBlo im;
     Bouton b;
+    AdaptateurClavier keyAdapt;
 
 
     public InterfaceKusBlo(Controleur cont){
@@ -29,14 +30,18 @@ public class InterfaceKusBlo implements Runnable {
     public void run(){
         im= new ImageKusBlo();
         b=new Bouton(c);
+        keyAdapt=new AdaptateurClavier(c);
         frame = new JFrame("KusBlo");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //On génère et affiche le menu principal
         menu=new MenuPrincipal(c,b,im);
-        menuSol=new MenuSolo(c,b);
-        menuMult=new MenuMulti(c,b);
+        menuSol=new MenuSolo(c,b,im);
+        menuMult=new MenuMulti(c,b,im);
         menuPerso=new MenuPartiePerso(c,b);
+        frame.addKeyListener(keyAdapt);
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
         frame.setContentPane(menu.getFrame());
         frame.setVisible(true);
     }
@@ -91,5 +96,17 @@ public class InterfaceKusBlo implements Runnable {
 
     public int getPersoNbJoueur(){
         return menuPerso.getNbJoueur();
+    }
+
+    public void setActivKeyAdapt(boolean activ){
+        keyAdapt.setActiv(activ);
+    }
+
+    public void setAnnuler(boolean an) {
+        interJ.setAnnuler(an);
+    }
+
+    public void setRefaire(boolean re) {
+        interJ.setRefaire(re);
     }
 }

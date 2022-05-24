@@ -15,18 +15,20 @@ public class InterfaceJeu {
         PanneauJoueur[] joueurs;
         AdaptateurSouris mouseAdapt;
         AdaptateurSelPiece selAdapt;
-        AdaptateurClavier keyAdapt;
         Controleur c;
         JButton boutonMenu;
         JButton annuler;
         JButton refaire;
         JButton pause;
         JButton resume;
+        JButton aide;
         JPanel menuGauche;
         JPanel panelOpt;
         JPanel limGauche;
         JPanel limDroite;
-        boolean adaptAct=false;
+        JPanel panGrey;
+        JPanel panGrey2;
+        boolean adaptAct;
         Bouton b;
         int w;
         int h;
@@ -40,14 +42,15 @@ public class InterfaceJeu {
             h=c.getFrameH();
             setResize();
             b=bout;
+            adaptAct=false;
             boutonMenu= b.menuJeu();
             pause= b.pause();
             resume =b.resume();
+            aide=b.aide();
             joueurs=new PanneauJoueur[4];
             m=new MenuPiece(c);
             graph = new VueNiveau(c,im);
-            mouseAdapt =new AdaptateurSouris(graph,m,c);
-            keyAdapt=new AdaptateurClavier(c, mouseAdapt,m);
+            mouseAdapt =new AdaptateurSouris(c);
             selAdapt= new AdaptateurSelPiece(graph,m,c,true);
             //Création des panneau joueur
             joueurs[0] = new PanneauJoueur(1,c,im);
@@ -61,8 +64,9 @@ public class InterfaceJeu {
             panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
             panelGauche.add(joueurs[0].pan);
             panelGauche.add(joueurs[3].pan);
-            menuGauche= new JPanel(new GridLayout(2,1));
+            menuGauche= new JPanel(new GridLayout(2,2));
             menuGauche.add(boutonMenu);
+            menuGauche.add(aide);
             menuGauche.add(pause);
             menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
             panelGauche.add(menuGauche);
@@ -76,12 +80,7 @@ public class InterfaceJeu {
             setMenu1(c.getActJoueur(),c.getActCouleur());
             repartiteur.add(m.menu);
             panelCentral.add(repartiteur,BorderLayout.CENTER);
-            m.menuType1.addMouseListener(selAdapt);
-            m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
-            graph.panelJeu.addMouseMotionListener(mouseAdapt);
-            graph.panelJeu.addMouseListener(mouseAdapt);
-            graph.panelJeu.addMouseWheelListener(mouseAdapt);
-            frame.addKeyListener(keyAdapt);
+
 
             //Panel Droite
             JPanel panelDroite = new JPanel();
@@ -89,7 +88,9 @@ public class InterfaceJeu {
             panelDroite.add(joueurs[1].pan);
             panelDroite.add(joueurs[2].pan);
             annuler=b.annuler();
+            annuler.setEnabled(false);
             refaire=b.refaire();
+            refaire.setEnabled(false);
             JPanel histo=new JPanel(new GridLayout(2,1));
             histo.add(annuler);
             histo.add(refaire);
@@ -106,6 +107,11 @@ public class InterfaceJeu {
 
 
 
+            m.menuListePiece.addMouseListener(selAdapt);
+            m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
+            graph.panelJeu.addMouseMotionListener(mouseAdapt);
+            graph.panelJeu.addMouseListener(mouseAdapt);
+            graph.panelJeu.addMouseWheelListener(mouseAdapt);
             joueurs[0].setTour();
             frame.updateUI();
 
@@ -131,17 +137,17 @@ public class InterfaceJeu {
         public void delMouseClick(){
             adaptAct= mouseAdapt.activ;
             mouseAdapt.setActiv(false);
-            keyAdapt.setActiv(false);
+            c.setActivKeyAdapt(false);
         }
         public void actMouseClick(){
             mouseAdapt.setActiv(true);
-            keyAdapt.setActiv(true);
+            c.setActivKeyAdapt(true);
         }
 
         //Active le menu avec la liste
         public void setMenu1(int j, int coul){
             delMouseClick();
-            m.setMenuType1(j,coul);
+            m.setMenuListePiece(j,coul);
 
         }
 
@@ -149,16 +155,16 @@ public class InterfaceJeu {
         public  void setMenu2(int numPiece){
             if(!getM().isPieceSelected()){
                 mouseAdapt.setActiv(true);
-                keyAdapt.setActiv(true);
+                c.setActivKeyAdapt(true);
             }
-            m.setMenuType2(numPiece);
+            m.setMenuPieceUnique(numPiece);
         }
 
         //Met à jour uniquement le panneau du joueur qui a joué (qui est donc le joueur précedent
-        public void refreshPanJoueur(int idCouleur, int piece, boolean undo, Piece p){
+        public void refreshPanJoueur(int indiceCouleur, int piece, boolean undo, Piece p){
             cleanTour();
-            joueurs[idCouleur].setTour();
-            joueurs[idCouleur].refreshAffichage(piece,undo,p);
+            joueurs[indiceCouleur].setTour();
+            joueurs[indiceCouleur].refreshAffichage(piece,undo,p);
         }
 
         public void setTour(int couleur){
@@ -207,7 +213,13 @@ public class InterfaceJeu {
             selAdapt.setActiv(false);
             refaire.setEnabled(false);
             annuler.setEnabled(false);
+            pause.setEnabled(false);
+            resume.setEnabled(false);
+            aide.setEnabled(false);
             boutonMenu.setEnabled(false);
+
+
+
             panelOpt= new JPanel(new BorderLayout());
             limGauche=new JPanel();
             limGauche.setBackground(new Color(0,0,0,75));
@@ -228,11 +240,15 @@ public class InterfaceJeu {
             panelOpt.add(limGauche,BorderLayout.WEST);
             panelOpt.add(listeBoutons,BorderLayout.CENTER);
             panelOpt.add(limDroite,BorderLayout.EAST);
-            JPanel panGrey=new JPanel(new BorderLayout());
-            JPanel panGrey2=new JPanel(new BorderLayout());
+
+
+            panGrey=new JPanel(new BorderLayout());
+            panGrey2=new JPanel(new BorderLayout());
             panGrey.setBackground(new Color(0,0,0,75));
             panGrey2.setBackground(new Color(0,0,0,75));
             panelOpt.setBackground(new Color(0,0,0,75));
+
+
             frame.add(panGrey,BorderLayout.WEST);
             frame.add(panelOpt,BorderLayout.CENTER);
             frame.add(panGrey2,BorderLayout.EAST);
@@ -248,14 +264,20 @@ public class InterfaceJeu {
             frame.remove(panelOpt);
             frame.remove((limGauche));
             frame.remove(limDroite);
+            frame.remove(panGrey);
+            frame.remove(panGrey2);
             boutonMenu.setEnabled(true);
             annuler.setEnabled(true);
             refaire.setEnabled(true);
+            pause.setEnabled(true);
+            resume.setEnabled(true);
+            aide.setEnabled(true);
             frame.updateUI();
             if(adaptAct){
                 actMouseClick();
             }
             selAdapt.setActiv(true);
+            setResize();
         }
 
         public void charger(){
@@ -272,6 +294,18 @@ public class InterfaceJeu {
             }
             menuGauche.updateUI();
         }
+
+    public void setAnnuler(boolean an) {
+        annuler.setEnabled(an);
     }
+
+    public void setRefaire(boolean re) {
+        refaire.setEnabled(re);
+    }
+
+    public void setEnabledAide(boolean act){
+            aide.setEnabled(act);
+    }
+}
 
 

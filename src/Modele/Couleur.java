@@ -8,15 +8,15 @@ import java.util.LinkedList;
 
 public class Couleur implements Serializable {
     int id;  //identifiant unique d'une piece (entre 1 et 4)
-    boolean peutJouer; //true si une couleur peut encore jouer
+    boolean restePieceJouable; //true s'il reste des piece jouable pour cette couleur
     ListePieces listePiecesDispo; //liste des pieces disponibles pour une couleur
     LinkedList<Piece> listesPiecesPosees;  //liste des pieces posées par une couleur
     HashSet<Case> listeCoins;  //liste des coins possible pour une couleur
 
     Couleur(int idCouleur){
         this.id = idCouleur;
-        this.peutJouer=true;
-        this.listePiecesDispo = new ListePieces();
+        restePieceJouable=true;
+        this.listePiecesDispo = new ListePieces(true);
         this.listesPiecesPosees = new LinkedList<>();
         this.listeCoins = new HashSet<>();
         //determine les coins de départ pour une couleur
@@ -45,8 +45,8 @@ public class Couleur implements Serializable {
         return id;
     }
 
-    public boolean isPeutJouer() {
-        return peutJouer;
+    public boolean isRestePieceJouable() {
+        return restePieceJouable;
     }
 
     public ListePieces getListePiecesDispo() {
@@ -74,5 +74,10 @@ public class Couleur implements Serializable {
     public void ajouteCoin(Case ca) {
         listeCoins.add(ca);
     }
+
+    public void setRestePieceJouable(boolean b){
+        restePieceJouable=b;
+    }
+
 
 }
