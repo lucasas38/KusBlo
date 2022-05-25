@@ -606,7 +606,7 @@ public class Controleur {
         aide.joue();
         if(aide.dernierCoup != null){
             desactiverAide();
-            inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe());
+            inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe(),getActCouleur());
             selPiece(aide.dernierCoup.getValeur().getId());
         }
 
