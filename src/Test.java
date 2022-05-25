@@ -24,7 +24,5 @@ public class Test {
             System.out.println("piece "+p.getId()+" : "+ configPossible);
         }
 
-
-
     }
 }
