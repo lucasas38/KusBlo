@@ -19,6 +19,7 @@ public class Option {
         ImageKusBlo im;
         JPanel panActAnim;
         JPanel panSlide;
+        JSlider slider;
 
         public Option(Controleur c,Bouton bout, ImageKusBlo ima){
             cont=c;
@@ -46,11 +47,11 @@ public class Option {
             listeOption.setPreferredSize(new Dimension(w/2,3*h/4));
             panActAnim = new JPanel();
             listeOption.add(panActAnim);
-            activerAnim(Boolean.parseBoolean(Configuration.instance().lis("AnimActive")));
+
 
             panSlide= new JPanel(new BorderLayout());
             panSlide.add(new JLabel("Vitesse des animations IA :"),BorderLayout.NORTH);
-            JSlider slider = new JSlider(0, 5000, 100);
+            slider = new JSlider(0, 5000, 100);
             Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
             table.put (0, new JLabel("Rapide"));
             table.put (5000, new JLabel("Lente"));
@@ -79,7 +80,7 @@ public class Option {
             panelDroit.setPreferredSize(new Dimension(w/4,h));
             BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
             panelDroit.add(fondD);
-
+            activerAnim(Boolean.parseBoolean(Configuration.instance().lis("AnimActive")));
 
             frame.add(panelGauche, BorderLayout.WEST);
             frame.add(panelCentral, BorderLayout.CENTER);
@@ -96,10 +97,14 @@ public class Option {
             panActAnim.removeAll();
             if(activer){
                 panActAnim.add(b.desactAnim());
+                panSlide.add(new JLabel("Vitesse des animations IA :"),BorderLayout.NORTH);
+                panSlide.add(slider);
             }else{
                 panActAnim.add(b.actAnim());
+                panSlide.removeAll();
             }
             panActAnim.updateUI();
+            panSlide.updateUI();
         }
 }
 

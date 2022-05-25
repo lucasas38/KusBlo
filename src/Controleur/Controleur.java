@@ -90,8 +90,10 @@ public class Controleur {
                         inter.getInterJ().setTour(jeu.getNumCouleurCourante());
                         if(ia[jeu.getIDJoueurCourant()-1] != null){
                             inter.getInterJ().delMouseClick();
+                            inter.getInterJ().setEnabledAide(false);
                             joueIA();
                         }else{
+                            inter.getInterJ().setEnabledAide(true);
                             inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
                             inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
                         }
@@ -109,6 +111,7 @@ public class Controleur {
     }
 
     public void click(int x, int y){
+        delVisu(oldX,oldY);
         inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), false);
         Piece piece= inter.getInterJ().getM().getPiece();
         int decx=piece.getDecx();

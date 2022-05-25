@@ -165,22 +165,22 @@ public class PanneauJoueur {
         String diff = "";
         switch (difficulté){
             case 1:
-                diff="(facile)";
+                diff="facile)";
                 break;
             case 2:
-                diff="(Intermédiaire)";
+                diff="Intermédiaire)";
                 break;
             case 3:
-                diff="(Intermédiaire ouvrante)";
+                diff="Intermédiaire ouvrante)";
                 break;
             case 4:
-                diff="(Intermédiaire taille)";
+                diff="Intermédiaire taille)";
                 break;
             case 5:
-                diff="(Intermédiaire pattern)";
+                diff="Intermédiaire pattern)";
                 break;
             case 6:
-                diff="(Difficile)";
+                diff="Difficile)";
                 break;
         }
         int numJoueur;
@@ -189,7 +189,7 @@ public class PanneauJoueur {
         }else{
             numJoueur=couleur;
         }
-        nomJoueur.setText("IA "+numJoueur+" "+diff);
+        nomJoueur.setText("Joueur "+numJoueur+" (IA "+diff);
     }
 
 
