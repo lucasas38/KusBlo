@@ -1,5 +1,7 @@
 package Vue;
 
+import Global.Configuration;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -75,7 +77,7 @@ public class ImageKusBlo {
     //récupère l'image demandée
     public Image getImage(String s){
         try{
-            ImageIcon icon = new ImageIcon(read(new File("./res/img/"+s)));
+            ImageIcon icon = new ImageIcon(read(Configuration.instance().charge("img/"+s)));
             return icon.getImage();
         }catch (Exception e){
             e.printStackTrace();

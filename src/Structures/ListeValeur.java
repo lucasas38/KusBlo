@@ -1,8 +1,9 @@
 package Structures;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class ListeValeur<E,A> {
+public class ListeValeur<E,A> implements Serializable {
     LinkedList<E> liste;
     A valeur;
 
