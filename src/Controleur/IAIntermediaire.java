@@ -12,11 +12,13 @@ import java.util.*;
 
 public class IAIntermediaire extends IA {
 
+    boolean aide;
 
-    IAIntermediaire(Jeu j, int m) {
+    IAIntermediaire(Jeu j, int m, boolean aide) {
         super(j);
         mode = m;
         type = 2+mode;
+        this.aide = aide;
     }
 
     // joue une pièce pour l'IA intermédiaire
@@ -31,7 +33,7 @@ public class IAIntermediaire extends IA {
 
         LinkedList<Case> listeCasesMax = null;
 
-        if (listePiecesDispo.getTaille() > 18){     // pour les 3 premiers coups (ouvertures)
+        if (listePiecesDispo.getTaille() > 18 && !aide){     // pour les 3 premiers coups (ouvertures)
             res = ouvertures(listePiecesDispo);
         } else {    // pour tous les coups suivants
             while (listePiecesDispo.getTaille() > 0) {

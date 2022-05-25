@@ -9,6 +9,7 @@ import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Controleur {
     Jeu jeu;
@@ -30,16 +31,16 @@ public class Controleur {
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 0);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 0,false);
                 break;
             case 3:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 1);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 1,false);
                 break;
             case 4:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 2);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 2,false);
                 break;
             case 5:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3,false);
                 break;
             case 6:
                 ia[idJoueur-1] = new IADifficile(this.jeu);
@@ -349,7 +350,6 @@ public class Controleur {
         addIA(2,3, 2);
         addIA(1,4, 0);*/
 
-
         setMenu1();
     }
 
@@ -573,12 +573,13 @@ public class Controleur {
 
     public void aide(int type){
         IA aide;
+        Random r = new Random();
         switch (type){
             case 1:
                 aide = new IAAleatoire(jeu);
                 break;
             case 2:
-                aide = new IAIntermediaire(jeu,1);
+                aide = new IAIntermediaire(jeu,r.nextInt(5),true);
                 break;
             case 3:
                 aide = new IADifficile(jeu);
@@ -588,9 +589,13 @@ public class Controleur {
                 break;
         }
 
+
         aide.joue();
-        desactiverAide();
-        inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe());
+        if(aide.dernierCoup != null){
+            desactiverAide();
+            inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe());
+        }
+
 
     }
 

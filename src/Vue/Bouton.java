@@ -198,7 +198,7 @@ public class Bouton {
     public JButton aide(){
         JButton button = new JButton("Aide");
         button.addActionListener(e -> {
-            c.aide(0);
+            c.aide(2);
         });
         return button;
     }
