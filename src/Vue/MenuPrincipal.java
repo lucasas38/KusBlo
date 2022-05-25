@@ -42,6 +42,7 @@ public class MenuPrincipal {
         listeBoutons.add(b.multi());
         listeBoutons.add(b.partiePerso());
         listeBoutons.add(b.load());
+        listeBoutons.add(b.option());
         listeBoutons.add(b.exit());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 

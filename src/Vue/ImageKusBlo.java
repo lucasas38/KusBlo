@@ -32,6 +32,7 @@ public class ImageKusBlo {
     Image fondD;
     Image fondC;
     Image logo;
+    Image tuto;
     Image[] selAnimRouge;
 
     //Récupère toutes les images
@@ -61,6 +62,7 @@ public class ImageKusBlo {
         fondG =getImage("fondG.png");
         fondD =getImage("fondD.png");
         fondC =getImage("fondC.png");
+        tuto=getImage("tuto.png");
         selAnimRouge = new Image[5];
         selAnimRouge[0]=gris;
 

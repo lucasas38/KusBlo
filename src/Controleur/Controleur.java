@@ -93,6 +93,7 @@ public class Controleur {
                             joueIA();
                         }else{
                             inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
+                            inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
                         }
                 } else {
                     passerTour();
@@ -108,6 +109,7 @@ public class Controleur {
     }
 
     public void click(int x, int y){
+        inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), false);
         Piece piece= inter.getInterJ().getM().getPiece();
         int decx=piece.getDecx();
         int decy=piece.getDecy();
@@ -303,11 +305,12 @@ public class Controleur {
             inter.getInterJ().getGraph().stopTimer();
         }
         int[] joueur = new int[4];
+
         if(rejouer){
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=ia[i].getTypeIA(); // à changer pour garder la même IA qu'avant
+                    joueur[i]=ia[i].getTypeIA();// à changer pour garder la même IA qu'avant
                 }else{
                     joueur[i]=0;
                 }
@@ -327,13 +330,26 @@ public class Controleur {
                 addIA(joueur[i],i+1);
             }
         }
+
+        inter.setInterJeu();
+
+        for(int i=0; i<nbJoueur; i++){
+            if(ia[i]!=null){
+                if(nbJoueur==2){
+                    inter.updateNameIA(i+2,ia[i].getTypeIA());
+                }
+                inter.updateNameIA(i,ia[i].getTypeIA());
+            }else{
+                joueur[i]=0;
+            }
+        }
         //utilisé pour les test, merci de ne pas l'enlever !!
         /*addIA(2,1, 0);
         addIA(1,2, 2);
         addIA(2,3, 2);
         addIA(1,4, 0);*/
 
-        inter.setInterJeu();
+
         setMenu1();
     }
 
@@ -399,7 +415,14 @@ public class Controleur {
         if(jeu != null && ia != null){
             inter.setInterJeu();
             inter.charger();
-            setMenu1();
+            pause();
+            updateBoutPause(false);
+            if(jeu.getHistorique().peutAnnuler()){
+                inter.setAnnuler(true);
+            }
+            if(jeu.getHistorique().peutRefaire()){
+                inter.setRefaire(true);
+            }
         }
 
     }
@@ -422,6 +445,7 @@ public class Controleur {
 
     public void pause(){
         System.out.println("pause");
+        inter.getInterJ().actMenu1(getActCouleur(),false);
         if(ia[getActJoueur()-1]!=null && !pause){
             inter.getInterJ().getGraph().supprimerVisualisation(ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe());
             inter.getInterJ().setTour(getActCouleur());
@@ -625,5 +649,9 @@ public class Controleur {
     public void supprVisAide(LinkedList<Case> listeCase){
         inter.getInterJ().setEnabledAide(true);
         inter.getInterJ().getGraph().supprVisAide(listeCase);
+    }
+
+    public void setOption(){
+        inter.setOption();
     }
 }

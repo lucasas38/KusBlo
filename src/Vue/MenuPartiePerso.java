@@ -22,13 +22,15 @@ public class MenuPartiePerso {
     JPanel[] diff;
     int[] listeDiff;
     int nbJoueur;
+    ImageKusBlo im;
 
 
-    public MenuPartiePerso(Controleur c,Bouton bout){
+    public MenuPartiePerso(Controleur c,Bouton bout, ImageKusBlo ima){
         cont=c;
         w=c.getFrameW();
         h=c.getFrameH();
         b=bout;
+        im=ima;
         frame= new JPanel(new BorderLayout());
         diff = new JPanel[8];
         listeDiff=new int[4];
@@ -46,7 +48,7 @@ public class MenuPartiePerso {
         JPanel panelHaut = new JPanel(new GridLayout(1,3));
         panelHaut.setPreferredSize(new Dimension(w,h/8));
         panelHaut.add(b.menuPrincpal());
-        BasicBackgroundPanel logo = new BasicBackgroundPanel(new ImageKusBlo().getLogo());
+        BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/3,h/8));
         panelHaut.add(logo);
         panelHaut.add(new JPanel(new BorderLayout()));

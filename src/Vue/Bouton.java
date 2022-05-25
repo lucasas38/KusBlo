@@ -202,4 +202,12 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton option(){
+        JButton button = new JButton("Option");
+        button.addActionListener(e -> {
+            c.setOption();
+        });
+        return button;
+    }
 }

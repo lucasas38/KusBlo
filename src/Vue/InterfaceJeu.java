@@ -68,7 +68,7 @@ public class InterfaceJeu {
             menuGauche.add(boutonMenu);
             menuGauche.add(aide);
             menuGauche.add(pause);
-            menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
+            menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
             panelGauche.add(menuGauche);
 
 
@@ -76,8 +76,10 @@ public class InterfaceJeu {
             JPanel panelCentral = new JPanel(new BorderLayout());
             JPanel repartiteur =new JPanel(); //réparti le jeu et le menu du bas
             repartiteur.setLayout((new BoxLayout(repartiteur,BoxLayout.PAGE_AXIS)));
+           // repartiteur.add(new JPanel(new BorderLayout()));
             repartiteur.add(graph.panelJeu);
             setMenu1(c.getActJoueur(),c.getActCouleur());
+            //repartiteur.add(new JPanel(new BorderLayout()));
             repartiteur.add(m.menu);
             panelCentral.add(repartiteur,BorderLayout.CENTER);
 
@@ -94,7 +96,7 @@ public class InterfaceJeu {
             JPanel histo=new JPanel(new GridLayout(2,1));
             histo.add(annuler);
             histo.add(refaire);
-            histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/3));
+            histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
             panelDroite.add(histo);
 
 
@@ -305,6 +307,17 @@ public class InterfaceJeu {
 
     public void setEnabledAide(boolean act){
             aide.setEnabled(act);
+    }
+
+    public void actMenu1(int cool,boolean act){
+            if(act){
+                joueurs[cool-1].setMenu1();
+            }else{
+                joueurs[cool-1].delMenu1();
+            }
+    }
+    public void updateNameIA(int numIACouleur, int diff){
+            joueurs[numIACouleur].updateNameIA(diff);
     }
 }
 
