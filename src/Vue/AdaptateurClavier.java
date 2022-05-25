@@ -50,12 +50,16 @@ public class AdaptateurClavier extends KeyAdapter {
 
     public void visu(){
         if(control.estPosable(control.getOldX(),control.getOldY())){
-            control.visualiser(control.getOldX(),control.getOldY(), !control.estPosableRegle(control.getOldX(), control.getOldY()));
+            control.visualiser(control.getOldX(),control.getOldY(), !estPosableSelonRegle(control.getOldX(),control.getOldY()));
         }
 
     }
 
     public void setActiv(Boolean activ) {
         this.activ = activ;
+    }
+
+    public boolean estPosableSelonRegle(int l, int c){
+        return control.estPosableRegle(l,c) && control.estPosable2(l,c);
     }
 }

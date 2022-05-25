@@ -126,4 +126,5 @@ public class InterfaceKusBlo implements Runnable {
     public void actAnim(boolean activer){
         option.activerAnim(activer);
     }
+
 }

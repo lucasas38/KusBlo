@@ -28,7 +28,6 @@ public class InterfaceJeu {
         JPanel limDroite;
         JPanel panGrey;
         JPanel panGrey2;
-        boolean adaptAct;
         Bouton b;
         int w;
         int h;
@@ -42,7 +41,6 @@ public class InterfaceJeu {
             h=c.getFrameH();
             setResize();
             b=bout;
-            adaptAct=false;
             boutonMenu= b.menuJeu();
             pause= b.pause();
             resume =b.resume();
@@ -136,29 +134,25 @@ public class InterfaceJeu {
         }
 
         //Supprime les listener du terrain de jeu
-        public void delMouseClick(){
-            adaptAct= mouseAdapt.activ;
+        public void delListener(){
             mouseAdapt.setActiv(false);
             c.setActivKeyAdapt(false);
         }
-        public void actMouseClick(){
+        public void actListener(){
             mouseAdapt.setActiv(true);
             c.setActivKeyAdapt(true);
         }
 
         //Active le menu avec la liste
         public void setMenu1(int j, int coul){
-            delMouseClick();
+            delListener();
             m.setMenuListePiece(j,coul);
 
         }
 
         //Active le menu avec les adaptateurs
         public  void setMenu2(int numPiece){
-            if(!getM().isPieceSelected()){
-                mouseAdapt.setActiv(true);
-                c.setActivKeyAdapt(true);
-            }
+            actListener();;
             m.setMenuPieceUnique(numPiece);
         }
 
@@ -211,7 +205,7 @@ public class InterfaceJeu {
 
 
         public void setMenuOpt(){
-            delMouseClick();
+            delListener();
             selAdapt.setActiv(false);
             refaire.setEnabled(false);
             annuler.setEnabled(false);
@@ -275,9 +269,7 @@ public class InterfaceJeu {
             resume.setEnabled(true);
             aide.setEnabled(true);
             frame.updateUI();
-            if(adaptAct){
-                actMouseClick();
-            }
+            actListener();
             selAdapt.setActiv(true);
             setResize();
         }

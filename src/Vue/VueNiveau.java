@@ -202,12 +202,11 @@ public class VueNiveau {
         }
     }
     
-    public void visAide(LinkedList<Case> listeCase){
+    public void visAide(LinkedList<Case> listeCase,int couleur){
         Iterator<Case>ite = listeCase.iterator();
         while(ite.hasNext()){
             Case ca= ite.next();
-            listPanel[ca.getX()][ca.getY()].changeBackground(im.aide);
-            listPanel[ca.getX()][ca.getY()].setBorder(BorderFactory.createLineBorder(Color.blue));
+            listPanel[ca.getX()][ca.getY()].changeBackground(im.animJoueur(couleur,0));
         }
         anim.visualisationAide(listeCase);
     }
@@ -218,9 +217,8 @@ public class VueNiveau {
             Case ca=ite.next();
             int caX=ca.getX();
             int caY=ca.getY();
-            Image fond = listPanel[caX][caY].getBackgroundImage();
-            listPanel[caX][caY].changeBackground(im.imageFondAide(fond));
-            listPanel[caX][caY].setBorder(BorderFactory.createLineBorder(Color.black));
+            int cFond = im.imToInt(listPanel[caX][caY].getBackgroundImage());
+            listPanel[caX][caY].changeBackground(im.coulJoueur(cFond));
         }
         stopTimerAide();
     }

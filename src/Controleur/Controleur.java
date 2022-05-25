@@ -3,7 +3,6 @@ package Controleur;
 import Global.Configuration;
 import Modele.*;
 import Structures.Case;
-import Structures.ListeValeur;
 import Structures.Trio;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
@@ -68,7 +67,7 @@ public class Controleur {
 
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
-            inter.getInterJ().delMouseClick();
+            inter.getInterJ().delListener();
             int maxScore=-10000;
             int[] vainqueurs= new int[4];
             int nbVainqueur=1;
@@ -89,7 +88,7 @@ public class Controleur {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isRestePieceJouable()) {
                         inter.getInterJ().setTour(jeu.getNumCouleurCourante());
                         if(ia[jeu.getIDJoueurCourant()-1] != null){
-                            inter.getInterJ().delMouseClick();
+                            inter.getInterJ().delListener();
                             inter.getInterJ().setEnabledAide(false);
                             joueIA();
                         }else{
@@ -110,13 +109,17 @@ public class Controleur {
         inter.getInterJ().setMenu2(numPiece);
     }
 
+    public void setMenu2(int numPiece){
+        inter.getInterJ().setMenu2(numPiece-1);
+    }
+
     public void click(int x, int y){
         delVisu(oldX,oldY);
         inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), false);
         Piece piece= inter.getInterJ().getM().getPiece();
         int decx=piece.getDecx();
         int decy=piece.getDecy();
-        inter.getInterJ().delMouseClick();
+        inter.getInterJ().delListener();
         inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
         inter.getInterJ().getM().resetBorder();
@@ -290,6 +293,12 @@ public class Controleur {
         inter.getInterJ().getM().selPiece(l*7+c+1);
     }
 
+    public void selPiece(int numPiece){
+        setMenu2(numPiece);
+        inter.getInterJ().getM().selPiece(numPiece);
+    }
+
+
     public void passerTour(){
         jeu.passerTour(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
         setMenu1();
@@ -448,6 +457,7 @@ public class Controleur {
 
     public void pause(){
         System.out.println("pause");
+        inter.getInterJ().delListener();
         inter.getInterJ().actMenu1(getActCouleur(),false);
         if(ia[getActJoueur()-1]!=null && !pause){
             inter.getInterJ().getGraph().supprimerVisualisation(ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe());
@@ -471,7 +481,7 @@ public class Controleur {
             Integer idJoueurPrec = passe.getE2();
             Integer indTabCouleurJoueurPrec=passe.getE3();
 
-            inter.getInterJ().delMouseClick();
+            inter.getInterJ().delListener();
 
             int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
 
@@ -503,7 +513,7 @@ public class Controleur {
             Integer indTabCouleurJoueurProc = prochain.getE3();
             int idCouleurProc = jeu.getJoueur(idJoueurProc).getCouleur(indTabCouleurJoueurProc).getId();
 
-            inter.getInterJ().delMouseClick();
+            inter.getInterJ().delListener();
             inter.getInterJ().getGraph().poserPiece(idCouleurProc,pProchain.getListeCases());
             jeu.jouerPiece(idJoueurProc,indTabCouleurJoueurProc,pProchain.getId(), pProchain.getListeCases(),true);
 
@@ -593,7 +603,8 @@ public class Controleur {
 
         aide.joue();
         desactiverAide();
-        inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe());
+        inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe(), getActCouleur());
+        selPiece(aide.dernierCoup.getValeur().getId());
 
     }
 
@@ -668,5 +679,6 @@ public class Controleur {
 
         inter.actAnim(activer);
     }
+
 
 }
