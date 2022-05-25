@@ -7,18 +7,23 @@ import java.util.Properties;
 public class Configuration {
     private static Configuration instance = null;
     Properties prop;
+    String dirUser;
+
+    public String getDirUser() {
+        return dirUser;
+    }
 
     public static InputStream charge(String nom) {
         return ClassLoader.getSystemClassLoader().getResourceAsStream(nom);
     }
 
     private Configuration() {
+        dirUser = System.getProperty("user.dir");
         prop = new Properties();
         try {
             InputStream propIn = charge("defaut.cfg");
             prop.load(propIn);
-            String home = System.getProperty("user.home");
-            FileInputStream f = new FileInputStream(home + File.separator + ".kusblo");
+            FileInputStream f = new FileInputStream(dirUser + File.separator + ".kusblo");
             prop = new Properties(prop);
             prop.load(f);
         } catch (Exception e) {
@@ -52,8 +57,7 @@ public class Configuration {
     public void sauvegarde()
     {
         try{
-            String home = System.getProperty("user.home");
-            FileOutputStream fr = new FileOutputStream(home + File.separator + ".kusblo");
+            FileOutputStream fr = new FileOutputStream(dirUser + File.separator + ".kusblo");
             prop.store(fr, null);
             fr.close();
         }catch(Exception e){

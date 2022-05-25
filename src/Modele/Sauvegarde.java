@@ -1,19 +1,16 @@
 package Modele;
 
 import Controleur.IA;
+import Global.Configuration;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 public class Sauvegarde {
 
     public Sauvegarde(){}
 
     public void ecrire(Jeu j, IA[] ia){
-        String home = System.getProperty("user.home");
-        String filename = home + File.separator + "save1";
+        String filename = Configuration.instance().getDirUser() + File.separator + ".save";
 
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename));

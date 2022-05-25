@@ -9,6 +9,7 @@ import Vue.InterfaceKusBlo;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Properties;
 
 public class Test {
 
@@ -16,6 +17,5 @@ public class Test {
 
         Niveau n = new Niveau();
         System.out.println("Bonjour test");
-
     }
 }

@@ -1,6 +1,7 @@
 package Modele;
 
 import Controleur.IA;
+import Global.Configuration;
 
 import java.io.*;
 
@@ -16,8 +17,7 @@ public class Chargement {
     }
 
     public void lire() {
-        String home = System.getProperty("user.home");
-        String filename = home + File.separator + "save1";
+        String filename = Configuration.instance().getDirUser() + File.separator + ".save";
 
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
