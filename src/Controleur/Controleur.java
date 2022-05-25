@@ -654,4 +654,16 @@ public class Controleur {
     public void setOption(){
         inter.setOption();
     }
+
+    public void actAnim(boolean activer){
+        if(activer){
+            Configuration.instance().ecris("AnimActive","true");
+        }else{
+            Configuration.instance().ecris("AnimActive","false");
+        }
+        animActiv=activer;
+
+        inter.actAnim(activer);
+    }
+
 }

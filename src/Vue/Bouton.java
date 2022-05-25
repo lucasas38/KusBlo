@@ -210,4 +210,20 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton actAnim(){
+        JButton button = new JButton("Activer Animation");
+        button.addActionListener(e -> {
+            c.actAnim(true);
+        });
+        return button;
+    }
+
+    public JButton desactAnim(){
+        JButton button = new JButton("Désactiver Animation");
+        button.addActionListener(e -> {
+            c.actAnim(false);
+        });
+        return button;
+    }
 }

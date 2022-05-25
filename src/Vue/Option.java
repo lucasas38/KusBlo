@@ -1,10 +1,14 @@
 package Vue;
 
 import Controleur.Controleur;
+import Global.Configuration;
 import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.util.Hashtable;
 
 public class Option {
         JPanel frame;
@@ -13,6 +17,8 @@ public class Option {
         int h ;
         Bouton b;
         ImageKusBlo im;
+        JPanel panActAnim;
+        JPanel panSlide;
 
         public Option(Controleur c,Bouton bout, ImageKusBlo ima){
             cont=c;
@@ -38,17 +44,30 @@ public class Option {
             //création de la liste de boutons
             JPanel listeOption = new JPanel(new GridLayout(6,1));
             listeOption.setPreferredSize(new Dimension(w/2,3*h/4));
-            JPanel panSlide= new JPanel(new BorderLayout());
-            // Définir l'espacement
+            panActAnim = new JPanel();
+            listeOption.add(panActAnim);
+            activerAnim(Boolean.parseBoolean(Configuration.instance().lis("AnimActive")));
+
+            panSlide= new JPanel(new BorderLayout());
+            panSlide.add(new JLabel("Vitesse des animations IA :"),BorderLayout.NORTH);
             JSlider slider = new JSlider(0, 5000, 100);
-            // Peindre la piste(track) et l'étiquette
+            Hashtable<Integer, JLabel> table = new Hashtable<Integer, JLabel>();
+            table.put (0, new JLabel("Rapide"));
+            table.put (5000, new JLabel("Lente"));
+            slider.setLabelTable (table);
+            slider.setValue(Integer.parseInt(Configuration.instance().lis("VitesseAnim")));
+            slider.setInverted(true);
             slider.setPaintTrack(true);
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
-
-            slider.setMajorTickSpacing(1000);
-            slider.setMinorTickSpacing(100);
+            slider.setMinorTickSpacing(500);
             panSlide.add(slider);
+            slider.addChangeListener(new ChangeListener() {
+                public void stateChanged(ChangeEvent event) {
+                    int value = slider.getValue();
+                    Configuration.instance().ecris("VitesseAnim",""+value);
+                }
+            });
             listeOption.add(panSlide);
             listeOption.add(b.menuPrincpal());
 
@@ -71,6 +90,16 @@ public class Option {
 
         public JPanel getFrame(){
             return frame;
+        }
+
+        public void activerAnim(boolean activer){
+            panActAnim.removeAll();
+            if(activer){
+                panActAnim.add(b.desactAnim());
+            }else{
+                panActAnim.add(b.actAnim());
+            }
+            panActAnim.updateUI();
         }
 }
 

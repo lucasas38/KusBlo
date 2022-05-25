@@ -122,4 +122,8 @@ public class InterfaceKusBlo implements Runnable {
     public void updateNameIA(int numCoulIA, int diff){
         interJ.updateNameIA(numCoulIA,diff);
     }
+
+    public void actAnim(boolean activer){
+        option.activerAnim(activer);
+    }
 }

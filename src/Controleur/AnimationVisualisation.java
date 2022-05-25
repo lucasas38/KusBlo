@@ -1,5 +1,6 @@
 package Controleur;
 
+import Global.Configuration;
 import Modele.Piece;
 import Structures.BasicBackgroundPanel;
 import Structures.Case;
@@ -83,7 +84,7 @@ public class AnimationVisualisation {
     //Fonction de visualisation du time IA
     public void visualisationIa(LinkedList<Case> listeCase, int couleur){
         //Timer qui pose la pièce après un delai
-        timeAnimeIa = new Timer(500, new ActionListener() {
+        timeAnimeIa = new Timer(Integer.parseInt(Configuration.instance().lis("VitesseAnim")), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 c.poserPiece(listeCase,couleur);
