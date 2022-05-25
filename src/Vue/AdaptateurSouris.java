@@ -7,14 +7,14 @@ import java.awt.event.*;
 
 public class AdaptateurSouris implements MouseListener, MouseMotionListener, MouseWheelListener {
     Controleur cont;
-    int x;
-    int y;
     boolean activ;
 
 
     AdaptateurSouris(Controleur c) {
         cont=c;
         activ=false;
+        c.setOldX(10);
+        c.setOldY(10);
     }
 
 
