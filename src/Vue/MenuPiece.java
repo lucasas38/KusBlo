@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.Controleur;
+import Global.Configuration;
 import Modele.ListePieces;
 import Modele.Piece;
 import Structures.BasicBackgroundPanel;
@@ -203,9 +204,18 @@ public class MenuPiece {
         Iterator<Piece> ite = liste.iterateur();
         Piece p;
         int indiceListe=0;
+        boolean grise=false;
         //On parcourt la liste pour afficher les différentes pièces
         while (ite.hasNext()) {
+            grise=false;
             p = ite.next();
+
+            if(Boolean.parseBoolean(Configuration.instance().lis("AidePiecePosable"))){
+                if(!c.estPiecePosable(p)){
+                    grise=true;
+                }
+            }
+
             //Si des pièces ont déjà été joués on affiche une case vide à la place
             while(numPiece!=p.getId()){
                 JPanel affPiece = new JPanel(new GridLayout(5, 5));
@@ -231,7 +241,12 @@ public class MenuPiece {
                     if (p.getMatrice()[i][j] == 0) {
                         newPan.changeBackground(im.gris);
                     } else {
-                        newPan.changeBackground(im.coulJoueur(couleur));
+                        if(grise){
+                            newPan.changeBackground(im.animJoueur(5,0));
+                        }else{
+                            newPan.changeBackground(im.coulJoueur(couleur));
+                        }
+
                     }
                     affPiece.add(newPan);
                 }
@@ -263,16 +278,11 @@ public class MenuPiece {
     public void refreshPiece(int couleur){
         for(int i=0; i<5;i++){
             for(int j=0; j<5;j++){
-                if(i== piece.getDecx() & j==piece.getDecy()){
-                    pieceUnique[i][j].changeBackground(im.selCouleur(couleur));
-                }else {
-                    if(piece.getMatrice()[i][j]==0){
-                        pieceUnique[i][j].changeBackground(im.gris);
-                    }else{
-                        pieceUnique[i][j].changeBackground(im.coulJoueur(couleur));
-                    }
+                if(piece.getMatrice()[i][j]==0){
+                    pieceUnique[i][j].changeBackground(im.gris);
+                }else{
+                    pieceUnique[i][j].changeBackground(im.coulJoueur(couleur));
                 }
-
             }
         }
 

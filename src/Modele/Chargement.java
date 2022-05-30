@@ -53,4 +53,6 @@ public class Chargement {
     public IA[] getIa() {
         return ia;
     }
+
+
 }

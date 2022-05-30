@@ -261,7 +261,9 @@ public class InterfaceJeu {
             listeBoutons.add(b.reprendre());
             listeBoutons.add(b.newGame());
             listeBoutons.add(b.save());
-            listeBoutons.add(b.load());
+            JButton load= b.load();
+            load.setEnabled(c.canLoad());
+            listeBoutons.add(load);
             listeBoutons.add(b.menuPrincpal());
             listeBoutons.add(Box.createHorizontalGlue());
             panelOpt.setPreferredSize(new Dimension(getFrameW()/2,getFrameH()));
@@ -300,6 +302,7 @@ public class InterfaceJeu {
             refaire.setEnabled(true);
             pause.setEnabled(true);
             resume.setEnabled(true);
+            if(!c.isPause())
             aide.setEnabled(true);
             frame.updateUI();
             if(listeAct){

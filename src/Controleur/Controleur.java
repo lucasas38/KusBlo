@@ -8,6 +8,7 @@ import Structures.Trio;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -58,8 +59,6 @@ public class Controleur {
 
     public void setMenu1(){
         inter.getInterJ().delListener();
-        showMenuOpt();
-        reprendre();
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
             setMenuHistorique();
@@ -709,6 +708,30 @@ public class Controleur {
         inter.resetKeyList();
     }
 
+    public boolean canLoad(){
+        String filename = Configuration.instance().getDirUser() + File.separator + ".save";
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
+            return true;
+        }catch (FileNotFoundException fnf){
+            return false;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
+        }
 
+    }
+
+    public void refreshLoad(){
+        inter.refreshLoad();
+   }
+
+   public boolean isPause(){
+        return pause;
+   }
+
+   public boolean estPiecePosable(Piece p){
+        return jeu.positionPossibleConfig(p,getActJoueur(),jeu.getJoueurCourant().getIndiceTabCouleurCourant()).size()!=0;
+   }
 
 }

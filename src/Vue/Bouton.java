@@ -69,7 +69,10 @@ public class Bouton {
 
     public JButton menuPrincpal(){
         JButton button = new JButton("Menu Principal");
-        button.addActionListener(e -> c.menu());
+        button.addActionListener(e -> {
+            c.menu();
+            c.refreshLoad();
+        });
         return button;
     }
 
