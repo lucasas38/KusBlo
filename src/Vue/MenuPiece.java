@@ -34,9 +34,9 @@ public class MenuPiece {
 
 
 
-    public MenuPiece(Controleur cont, Bouton bout){
+    public MenuPiece(Controleur cont, Bouton bout, ImageKusBlo ima){
         menu= new JPanel(new BorderLayout());
-        im=new ImageKusBlo();
+        im=ima;
         c=cont;
         b=bout;
         creerMenuListePiece();

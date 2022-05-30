@@ -57,8 +57,9 @@ public class Option {
             table.put (5000, new JLabel("Lente"));
             slider.setLabelTable (table);
             slider.setValue(Integer.parseInt(Configuration.instance().lis("VitesseAnim")));
+            slider.setPaintTrack(false);
+            slider.setBorder(BorderFactory.createLineBorder(Color.black));
             slider.setInverted(true);
-            slider.setPaintTrack(true);
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
             slider.setMinorTickSpacing(500);

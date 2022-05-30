@@ -52,7 +52,12 @@ public class Bouton {
 
     public JButton menuJeu(){
         JButton button = new JButton("Menu");
-        button.addActionListener(e -> c.showMenuOpt());
+        button.addActionListener(e ->{
+            c.showMenuOpt();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();});
         return button;
     }
 
@@ -219,6 +224,7 @@ public class Bouton {
         JButton button = new JButton("Aide");
         button.addActionListener(e -> {
             c.aide(2);
+            c.resetKeyList();
         });
         return button;
     }
@@ -227,10 +233,6 @@ public class Bouton {
         JButton button = new JButton("Option");
         button.addActionListener(e -> {
             c.setOption();
-            c.pause();
-            c.stopTimerAide();
-            if(c.dernierCoupAide()!=null)
-                c.supprVisAide(c.dernierCoupAide().getListe());
         });
         return button;
     }

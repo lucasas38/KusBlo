@@ -407,7 +407,6 @@ public class Controleur {
     }
 
     public void reprendre(){
-        inter.getInterJ().getGraph().starTimerAide();
         if(ia[jeu.getIDJoueurCourant()-1]!=null && !pause){
             inter.getInterJ().getGraph().startTimer();
         }

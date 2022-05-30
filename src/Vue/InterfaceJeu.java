@@ -63,7 +63,7 @@ public class InterfaceJeu {
             resume.setContentAreaFilled(false);
             aide=b.aide();
             joueurs=new PanneauJoueur[4];
-            m=new MenuPiece(c,b);
+            m=new MenuPiece(c,b,im);
             graph = new VueNiveau(c,im);
             mouseAdapt =new AdaptateurSouris(c);
             selAdapt= new AdaptateurSelPiece(graph,m,c,true);
