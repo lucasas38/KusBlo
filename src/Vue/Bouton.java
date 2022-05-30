@@ -8,9 +8,11 @@ import java.awt.event.ActionListener;
 
 public class Bouton {
     Controleur c;
+    ImageKusBlo im;
 
-    Bouton(Controleur cont){
+    Bouton(Controleur cont, ImageKusBlo ima){
         c=cont;
+        im=ima;
     }
 
     public JButton retourListePiece(){
@@ -50,7 +52,12 @@ public class Bouton {
 
     public JButton menuJeu(){
         JButton button = new JButton("Menu");
-        button.addActionListener(e -> c.showMenuOpt());
+        button.addActionListener(e ->{
+            c.showMenuOpt();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();});
         return button;
     }
 
@@ -62,7 +69,10 @@ public class Bouton {
 
     public JButton menuPrincpal(){
         JButton button = new JButton("Menu Principal");
-        button.addActionListener(e -> c.menu());
+        button.addActionListener(e -> {
+            c.menu();
+            c.refreshLoad();
+        });
         return button;
     }
 
@@ -152,35 +162,53 @@ public class Bouton {
     }
 
     public JButton annuler(){
-        JButton button = new JButton("Annuler");
+        JButton button = new JButton();
         button.addActionListener(e -> {
             c.updateBoutPause(false);
+            c.desactiverAide();
             c.annuler();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();
         });
         return button;
     }
 
     public JButton refaire(){
-        JButton button = new JButton("Refaire");
-        button.addActionListener(e -> c.refaire());
+        JButton button = new JButton();
+        button.addActionListener(e -> {
+            c.updateBoutPause(false);
+            c.refaire();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();});
+
         return button;
     }
 
     public JButton pause(){
-        JButton button = new JButton("Pause");
+        JButton button = new JButton(new ImageIcon(im.pause));
         button.addActionListener(e -> {
             c.updateBoutPause(false);
+            c.desactiverAide();
             c.pause();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();
         });
         return button;
     }
 
     public JButton resume(){
-        JButton button = new JButton("Reprendre");
+        JButton button = new JButton(new ImageIcon(im.resume));
         button.addActionListener(e -> {
             c.updateBoutPause(true);
             c.setPause(false);
             c.setMenu1();
+            c.resetKeyList();
         });
         return button;
     }
@@ -198,7 +226,32 @@ public class Bouton {
     public JButton aide(){
         JButton button = new JButton("Aide");
         button.addActionListener(e -> {
-            c.aide(0);
+            c.aide(2);
+            c.resetKeyList();
+        });
+        return button;
+    }
+
+    public JButton option(){
+        JButton button = new JButton("Option");
+        button.addActionListener(e -> {
+            c.setOption();
+        });
+        return button;
+    }
+
+    public JButton actAnim(){
+        JButton button = new JButton("Activer Animation");
+        button.addActionListener(e -> {
+            c.actAnim(true);
+        });
+        return button;
+    }
+
+    public JButton desactAnim(){
+        JButton button = new JButton("Désactiver Animation");
+        button.addActionListener(e -> {
+            c.actAnim(false);
         });
         return button;
     }

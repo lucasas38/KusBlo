@@ -1,5 +1,7 @@
 package Vue;
 
+import Global.Configuration;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -10,10 +12,6 @@ public class ImageKusBlo {
     Image gris;
     Image rouge;
     Image grisRouge;
-    Image selRouge;
-    Image selBleu;
-    Image selVert;
-    Image selJaune;
     Image couleurJ1;
     Image couleurJ2;
     Image couleurJ3;
@@ -32,6 +30,11 @@ public class ImageKusBlo {
     Image fondD;
     Image fondC;
     Image logo;
+    Image tuto;
+    Image pause;
+    Image resume;
+    Image undo;
+    Image redo;
     Image[] selAnimRouge;
 
     //Récupère toutes les images
@@ -39,10 +42,6 @@ public class ImageKusBlo {
         gris = getImage("Gris.png");
         rouge =getImage("Rouge.png");
         grisRouge=getImage("visRouge.png");
-        selBleu= getImage("selBleu.png");
-        selRouge= getImage("selRouge.png");
-        selJaune= getImage("selJaune.png");
-        selVert= getImage("selVert.png");
         couleurJ1=getImage("Bleu.png");
         couleurJ2=getImage("Rouge.png");
         couleurJ3=getImage(("Jaune.png"));
@@ -61,25 +60,26 @@ public class ImageKusBlo {
         fondG =getImage("fondG.png");
         fondD =getImage("fondD.png");
         fondC =getImage("fondC.png");
+        pause = getImage("pause.png");
+        resume= getImage("resume.png");
+        undo = getImage("undo.png");
+        redo = getImage("redo.png");
+        tuto=getImage("tuto.png");
         selAnimRouge = new Image[5];
-        selAnimRouge[0]=gris;
-
-
-        for(int k=1; k<5;k++){
-            selAnimRouge[k]= getImage("visRouge"+k+".png");
-        }
     }
 
     //récupère l'image demandée
     public Image getImage(String s){
         try{
-            ImageIcon icon = new ImageIcon(read(new File("./res/img/"+s)));
+            ImageIcon icon = new ImageIcon(read(Configuration.instance().charge("img/"+s)));
             return icon.getImage();
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
     }
+
+
 
     //Renvoie l'image correspondante au jouer
     public Image coulJoueur(int j){
@@ -97,21 +97,7 @@ public class ImageKusBlo {
         }
     }
 
-    //Renvoie l'image de sélection correspondante au joueur A SUPPRIMER
-    public Image selCouleur(int j){
-        switch (j){
-            case 1:
-                return selBleu;
-            case 2:
-                return selRouge;
-            case 3:
-                return selJaune;
-            case 4:
-                return selVert;
-            default:
-                return gris;
-        }
-    }
+
 
 
     //Renvoie l'image de sélection correspondante au joueur

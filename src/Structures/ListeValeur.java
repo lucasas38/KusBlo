@@ -1,8 +1,9 @@
 package Structures;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class ListeValeur<E,A> {
+public class ListeValeur<E,A> implements Serializable {
     LinkedList<E> liste;
     A valeur;
 
@@ -17,5 +18,13 @@ public class ListeValeur<E,A> {
 
     public A getValeur() {
         return valeur;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "liste=" + liste +
+                ", valeur=" + valeur +
+                "}\n";
     }
 }

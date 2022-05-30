@@ -3,6 +3,7 @@ package Vue;
 import Controleur.Controleur;
 import Modele.ListePieces;
 import Modele.Piece;
+import Structures.BasicBackgroundPanel;
 import Structures.PanelPiece;
 
 import javax.swing.*;
@@ -17,7 +18,9 @@ public class PanneauJoueur {
     JPanel affichageListe;
     JPanel infoBas;
     JPanel votreTour;
+    JPanel lPiece;
     JLabel score;
+    JLabel nomJoueur;
     JPanel[] listePiece;
 
     //Panneau pour la couleur couleur
@@ -25,8 +28,8 @@ public class PanneauJoueur {
         this.couleur =couleur;
         cont=control;
         im=ima;
-        affichageListe= new JPanel(new GridLayout(3,7));
-        listePiece= new JPanel[21];
+        affichageListe= new JPanel(new GridLayout(5,5));
+        listePiece= new JPanel[25];
         pan = new JPanel(new BorderLayout());
         pan.setBackground(Color.pink);
         pan.setBorder(BorderFactory.createLineBorder(Color.black,2));
@@ -36,9 +39,13 @@ public class PanneauJoueur {
         }else{
             numJoueur=couleur;
         }
-        pan.add(new JLabel("Joueur "+numJoueur), BorderLayout.PAGE_START);
-
-        pan.add(affichageListe, BorderLayout.CENTER);
+        nomJoueur=new JLabel("Joueur "+numJoueur);
+        pan.add(nomJoueur, BorderLayout.PAGE_START);
+        lPiece = new JPanel(new BorderLayout());
+        int minDim = Math.min(cont.getFrameW()/4,cont.getFrameH()/4);
+        lPiece.setPreferredSize(new Dimension(minDim,minDim));
+        lPiece.add(affichageListe);
+        pan.add(lPiece, BorderLayout.CENTER);
         infoBas= new JPanel(new GridLayout(1,2));
         votreTour= new JPanel();
         votreTour.add(new JLabel(""));
@@ -83,7 +90,7 @@ public class PanneauJoueur {
         }
         //On finit de remplir avec des cases
         // vides
-        for (int k = numPiece; k < 22; k++) {
+        for (int k = numPiece; k < 26; k++) {
             JPanel affPiece = new PanelPiece().newPanelPieceVide(im);
             affPiece.setBorder(BorderFactory.createLineBorder(Color.black));
             affichageListe.add(affPiece);
@@ -121,6 +128,7 @@ public class PanneauJoueur {
                 pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
                 break;
         }
+        pan.updateUI();
     }
 
     public void delTour(){
@@ -135,8 +143,53 @@ public class PanneauJoueur {
 
     //Proportionne la fenêtre
     public void resize(int w, int h){
-        affichageListe.setPreferredSize(new Dimension(w/4, h/4));
+        int minDim = Math.min(w/4,h/4);
+        lPiece.setPreferredSize(new Dimension(minDim,minDim));
         infoBas.setPreferredSize(new Dimension(w/4, h/12));
+    }
+
+    public void setMenu1(){
+        lPiece.removeAll();
+        BasicBackgroundPanel tuto= new BasicBackgroundPanel(im.tuto);
+        lPiece.add(tuto);
+        lPiece.updateUI();
+    }
+
+    public void delMenu1(){
+        lPiece.removeAll();
+        lPiece.add(affichageListe);
+        lPiece.updateUI();
+    }
+
+    public void updateNameIA(int difficulté){
+        String diff = "";
+        switch (difficulté){
+            case 1:
+                diff="facile)";
+                break;
+            case 2:
+                diff="Intermédiaire)";
+                break;
+            case 3:
+                diff="Intermédiaire ouvrante)";
+                break;
+            case 4:
+                diff="Intermédiaire taille)";
+                break;
+            case 5:
+                diff="Intermédiaire pattern)";
+                break;
+            case 6:
+                diff="Difficile)";
+                break;
+        }
+        int numJoueur;
+        if(cont.getNbJoueur()==2 && couleur>2){
+            numJoueur=couleur-2;
+        }else{
+            numJoueur=couleur;
+        }
+        nomJoueur.setText("Joueur "+numJoueur+" (IA "+diff);
     }
 
 

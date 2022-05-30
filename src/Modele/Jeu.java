@@ -255,7 +255,7 @@ public class Jeu implements Serializable {
             decx = p.getDecx();
             decy = p.getDecy();
 
-            config = tradMatrice(p,0 - decx,0-decy);
+            config = tradMatrice(p,0-decx,0-decy);
 
             //si cette configuration a déjà été testé/parcouru, on ne la refait pas
             if(!configPiecePossible.contains(config)){

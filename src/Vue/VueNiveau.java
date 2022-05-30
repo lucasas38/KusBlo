@@ -44,9 +44,14 @@ public class VueNiveau {
                 panelJeu.add(newPan);
             }
         }panelJeu.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        listPanel[0][0].setBorder(BorderFactory.createLineBorder(Color.blue,2));
+        listPanel[0][19].setBorder(BorderFactory.createLineBorder(Color.red,2));
+        listPanel[19][0].setBorder(BorderFactory.createLineBorder(Color.green,2));
+        listPanel[19][19].setBorder(BorderFactory.createLineBorder(Color.yellow,2));
         resize(c.getFrameW(),c.getFrameH()); //Formate l'affichage de la grille
-
+        //listPanel[0][0].changeBackground(im.selCouleur(1));
     }
+
     //Renvoi la hauteur d'une case de façon dynamique
     public int hauteurCase(){
         return panelJeu.getHeight()/20;
@@ -97,7 +102,15 @@ public class VueNiveau {
             x = ca.getX();
             y=ca.getY();
             listPanel[x][y].changeBackground(im.coulJoueur(0));
-            listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.black));
+            if(x==0 && y==0){
+                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.blue,2));
+            } else if(x==0 && y==19){
+                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.red,2));
+            }else if(x==19 && y==0){
+                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.green,2));
+            } else if(x==19 && y==19){
+                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.yellow,2));
+            }
             listPanel[x][y].setVide(false);
         }
     }
@@ -135,7 +148,7 @@ public class VueNiveau {
                         //On récupère le fond de visualisation pour remettre la bonne couleur
                         int cFond = im.imToInt(listPanel[i+x-decx][j+y-decy].getBackgroundImage());
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.coulJoueur(cFond));
-                        listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
+                        //listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
                     }
                 }
             }
@@ -184,17 +197,25 @@ public class VueNiveau {
     public void charger(){
         for(int i=0;i<20;i++){
             for(int j=0; j<20;j++){
+                if(i==0 && j==0 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                } else if(i==0 && j==19 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                }else if(i==19 && j==0 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                } else if(i==19 && j==19 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                }
                 listPanel[i][j].changeBackground(im.coulJoueur(c.getCouleur(i,j)));
             }
         }
     }
     
-    public void visAide(LinkedList<Case> listeCase){
+    public void visAide(LinkedList<Case> listeCase,int couleur){
         Iterator<Case>ite = listeCase.iterator();
         while(ite.hasNext()){
             Case ca= ite.next();
-            listPanel[ca.getX()][ca.getY()].changeBackground(im.aide);
-            listPanel[ca.getX()][ca.getY()].setBorder(BorderFactory.createLineBorder(Color.blue));
+            listPanel[ca.getX()][ca.getY()].changeBackground(im.animJoueur(couleur,0));
         }
         anim.visualisationAide(listeCase);
     }
@@ -205,9 +226,8 @@ public class VueNiveau {
             Case ca=ite.next();
             int caX=ca.getX();
             int caY=ca.getY();
-            Image fond = listPanel[caX][caY].getBackgroundImage();
-            listPanel[caX][caY].changeBackground(im.imageFondAide(fond));
-            listPanel[caX][caY].setBorder(BorderFactory.createLineBorder(Color.black));
+            int cFond = im.imToInt(listPanel[caX][caY].getBackgroundImage());
+            listPanel[caX][caY].changeBackground(im.coulJoueur(cFond));
         }
         stopTimerAide();
     }

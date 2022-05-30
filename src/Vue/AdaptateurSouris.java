@@ -7,14 +7,14 @@ import java.awt.event.*;
 
 public class AdaptateurSouris implements MouseListener, MouseMotionListener, MouseWheelListener {
     Controleur cont;
-    int x;
-    int y;
     boolean activ;
 
 
     AdaptateurSouris(Controleur c) {
         cont=c;
         activ=false;
+        c.setOldX(10);
+        c.setOldY(10);
     }
 
 
@@ -63,6 +63,7 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
 
     @Override
     public void mousePressed(MouseEvent e) {
+
     }
 
     @Override
@@ -85,7 +86,14 @@ public class AdaptateurSouris implements MouseListener, MouseMotionListener, Mou
     }
 
     public void mouseReleased(MouseEvent e) {}
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+        if(activ){
+            cont.stopTimerAide();
+            if(cont.dernierCoupAide()!=null)
+                cont.supprVisAide(cont.dernierCoupAide().getListe());
+        }
+
+    }
     public void mouseDragged(MouseEvent e) {}
 
     public void setActiv(boolean activ) {

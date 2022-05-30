@@ -1,11 +1,9 @@
 package Modele;
 
 import Controleur.IA;
+import Global.Configuration;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 public class Chargement {
 
@@ -19,7 +17,7 @@ public class Chargement {
     }
 
     public void lire() {
-        String filename = "res/sauvegarde";
+        String filename = Configuration.instance().getDirUser() + File.separator + ".save";
 
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
@@ -55,4 +53,6 @@ public class Chargement {
     public IA[] getIa() {
         return ia;
     }
+
+
 }

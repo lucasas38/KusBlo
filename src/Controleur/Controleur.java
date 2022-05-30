@@ -1,5 +1,6 @@
 package Controleur;
 
+import Global.Configuration;
 import Modele.*;
 import Structures.Case;
 import Structures.ListeValeur;
@@ -7,19 +8,22 @@ import Structures.Trio;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
+import java.io.*;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Controleur {
     Jeu jeu;
     InterfaceKusBlo inter;
     IA[] ia;
-    boolean animActiv = true;
+    boolean animActiv;
     boolean pause;
-    ListeValeur<Case,Piece> lastCoupIA;
     int oldX;
     int oldY;
+    IA aide;
 
     public Controleur(){
+        animActiv = Boolean.parseBoolean(Configuration.instance().lis("AnimActive"));
     }
 
     public void addIA(int type_ia,int idJoueur){
@@ -29,16 +33,16 @@ public class Controleur {
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 0);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 0,false);
                 break;
             case 3:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 1);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 1,false);
                 break;
             case 4:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 2);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 2,false);
                 break;
             case 5:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3,false);
                 break;
             case 6:
                 ia[idJoueur-1] = new IAIntermediaire(this.jeu, 4);
@@ -57,9 +61,10 @@ public class Controleur {
     }
 
     public void setMenu1(){
+        inter.getInterJ().delListener();
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
-            setMenu5();
+            setMenuHistorique();
         }else{
             setScoreToutLesJoueurs();
 
@@ -70,7 +75,7 @@ public class Controleur {
 
         if(isFinJeu()){
             inter.getInterJ().cleanTour();
-            inter.getInterJ().delMouseClick();
+            inter.getInterJ().delListener();
             int maxScore=-10000;
             int[] vainqueurs= new int[4];
             int nbVainqueur=1;
@@ -91,10 +96,14 @@ public class Controleur {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isRestePieceJouable()) {
                         inter.getInterJ().setTour(jeu.getNumCouleurCourante());
                         if(ia[jeu.getIDJoueurCourant()-1] != null){
-                            inter.getInterJ().delMouseClick();
+                            inter.getInterJ().delListener();
+                            inter.getInterJ().setEnabledAide(false);
                             joueIA();
                         }else{
+                            inter.getInterJ().setEnabledAide(true);
                             inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
+                            inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
+
                         }
                 } else {
                     passerTour();
@@ -109,11 +118,17 @@ public class Controleur {
         inter.getInterJ().setMenu2(numPiece);
     }
 
+    public void setMenu2(int numPiece){
+        inter.getInterJ().setMenu2(numPiece-1);
+    }
+
     public void click(int x, int y){
+        delVisu(oldX,oldY);
+        inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), false);
         Piece piece= inter.getInterJ().getM().getPiece();
         int decx=piece.getDecx();
         int decy=piece.getDecy();
-        inter.getInterJ().delMouseClick();
+        inter.getInterJ().delListener();
         inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), x, y, piece.getMatrice(),decx,decy);
         jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),inter.getInterJ().getM().getNumPiece(), jeu.tradMatrice(piece, x-decx,y-decy ),false);
         inter.getInterJ().getM().resetBorder();
@@ -129,7 +144,7 @@ public class Controleur {
     }
 
     public void joueIA2(){
-        jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),lastCoupIA.getValeur().getId(), lastCoupIA.getListe(),false);
+        jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(),ia[jeu.getIDJoueurCourant()-1].dernierCoup.getValeur().getId(), ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe(),false);
         inter.getInterJ().getM().resetBorder();
         Trio<Piece,Integer,Integer> passe = jeu.getHistorique().getPasse().getFirst();
         Piece pPrec = passe.getE1();
@@ -144,12 +159,12 @@ public class Controleur {
 
 
     public void joueIA(){
-        lastCoupIA = ia[jeu.getIDJoueurCourant()-1].joue();
-        if(lastCoupIA != null){
+        ia[jeu.getIDJoueurCourant()-1].joue();
+        if(ia[jeu.getIDJoueurCourant()-1].dernierCoup != null){
             if(animActiv){
-                inter.getInterJ().getGraph().poserPieceIA(lastCoupIA.getListe(),jeu.getNumCouleurCourante());
+                inter.getInterJ().getGraph().poserPieceIA(ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe(),jeu.getNumCouleurCourante());
             }else{
-                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), lastCoupIA.getListe());
+                inter.getInterJ().getGraph().poserPiece(jeu.getNumCouleurCourante(), ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe());
                 joueIA2();
             }
         }else{
@@ -287,6 +302,12 @@ public class Controleur {
         inter.getInterJ().getM().selPiece(l*7+c+1);
     }
 
+    public void selPiece(int numPiece){
+        setMenu2(numPiece);
+        inter.getInterJ().getM().selPiece(numPiece);
+    }
+
+
     public void passerTour(){
         jeu.passerTour(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
         setMenu1();
@@ -305,11 +326,12 @@ public class Controleur {
             inter.getInterJ().getGraph().stopTimer();
         }
         int[] joueur = new int[4];
+
         if(rejouer){
             nbJoueur=jeu.getNbJoueurs();
             for(int i=0; i<nbJoueur; i++){
                 if(ia[i]!=null){
-                    joueur[i]=ia[i].getTypeIA(); // à changer pour garder la même IA qu'avant
+                    joueur[i]=ia[i].getTypeIA();// à changer pour garder la même IA qu'avant
                 }else{
                     joueur[i]=0;
                 }
@@ -329,13 +351,25 @@ public class Controleur {
                 addIA(joueur[i],i+1);
             }
         }
+
+        inter.setInterJeu();
+
+        for(int i=0; i<nbJoueur; i++){
+            if(ia[i]!=null){
+                if(nbJoueur==2){
+                    inter.updateNameIA(i+2,ia[i].getTypeIA());
+                }
+                inter.updateNameIA(i,ia[i].getTypeIA());
+            }else{
+                joueur[i]=0;
+            }
+        }
         //utilisé pour les test, merci de ne pas l'enlever !!
         /*addIA(2,1, 0);
         addIA(1,2, 2);
         addIA(2,3, 2);
         addIA(1,4, 0);*/
 
-        inter.setInterJeu();
         setMenu1();
     }
 
@@ -356,7 +390,7 @@ public class Controleur {
         inter.getInterJ().getM().setMenuTourIA();
     }
 
-    public  void setMenu5(){
+    public  void setMenuHistorique(){
         inter.getInterJ().getM().setMenuHistorique();
     }
 
@@ -375,7 +409,6 @@ public class Controleur {
     }
 
     public void reprendre(){
-        inter.getInterJ().getGraph().starTimerAide();
         if(ia[jeu.getIDJoueurCourant()-1]!=null && !pause){
             inter.getInterJ().getGraph().startTimer();
         }
@@ -401,7 +434,14 @@ public class Controleur {
         if(jeu != null && ia != null){
             inter.setInterJeu();
             inter.charger();
-            setMenu1();
+            pause();
+            updateBoutPause(false);
+            if(jeu.getHistorique().peutAnnuler()){
+                inter.setAnnuler(true);
+            }
+            if(jeu.getHistorique().peutRefaire()){
+                inter.setRefaire(true);
+            }
         }
 
     }
@@ -418,21 +458,22 @@ public class Controleur {
         inter.setMenuPerso();
     }
 
-
     public int getCouleur(int i, int j){
         return jeu.getNiveau().getGrille()[i][j];
     }
 
     public void pause(){
         System.out.println("pause");
+        inter.getInterJ().delListener();
+        inter.getInterJ().actMenu1(getActCouleur(),false);
         if(ia[getActJoueur()-1]!=null && !pause){
-            inter.getInterJ().getGraph().supprimerVisualisation(lastCoupIA.getListe());
+            inter.getInterJ().getGraph().supprimerVisualisation(ia[jeu.getIDJoueurCourant()-1].dernierCoup.getListe());
             inter.getInterJ().setTour(getActCouleur());
         }
 
         stopTimer();
         setPause(true);
-        setMenu5();
+        setMenuHistorique();
     }
 
     public void annuler(){
@@ -447,7 +488,7 @@ public class Controleur {
             Integer idJoueurPrec = passe.getE2();
             Integer indTabCouleurJoueurPrec=passe.getE3();
 
-            inter.getInterJ().delMouseClick();
+            inter.getInterJ().delListener();
 
             int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
 
@@ -460,7 +501,7 @@ public class Controleur {
         }else{
             System.out.println("Pas de coup antérieur");
         }
-        setMenu5();
+        setMenuHistorique();
         setScoreToutLesJoueurs();
         if(!jeu.getHistorique().peutAnnuler()){
             inter.setAnnuler(false);
@@ -479,7 +520,7 @@ public class Controleur {
             Integer indTabCouleurJoueurProc = prochain.getE3();
             int idCouleurProc = jeu.getJoueur(idJoueurProc).getCouleur(indTabCouleurJoueurProc).getId();
 
-            inter.getInterJ().delMouseClick();
+            inter.getInterJ().delListener();
             inter.getInterJ().getGraph().poserPiece(idCouleurProc,pProchain.getListeCases());
             jeu.jouerPiece(idJoueurProc,indTabCouleurJoueurProc,pProchain.getId(), pProchain.getListeCases(),true);
 
@@ -529,7 +570,7 @@ public class Controleur {
             inter.getInterJ().refreshPanJoueur(idCouleurProc-1,pProchain.getId(),false, null);
             inter.getInterJ().setTour(getActCouleur());
 
-            setMenu5();
+            setMenuHistorique();
             setScoreToutLesJoueurs();
             if(!jeu.getHistorique().peutRefaire()){
                 inter.setRefaire(false);
@@ -551,13 +592,13 @@ public class Controleur {
     }
 
     public void aide(int type){
-        IA aide;
+        Random r = new Random();
         switch (type){
             case 1:
                 aide = new IAAleatoire(jeu);
                 break;
             case 2:
-                aide = new IAIntermediaire(jeu,1);
+                aide = new IAIntermediaire(jeu,r.nextInt(5),true);
                 break;
             case 3:
                 aide = new IADifficile(jeu);
@@ -567,9 +608,14 @@ public class Controleur {
                 break;
         }
 
-        ListeValeur<Case,Piece> coup = aide.joue();
-        desactiverAide();
-        inter.getInterJ().getGraph().visAide(coup.getListe());
+
+        aide.joue();
+        if(aide.dernierCoup != null){
+            desactiverAide();
+            inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe(),getActCouleur());
+            selPiece(aide.dernierCoup.getValeur().getId());
+        }
+
 
     }
 
@@ -621,12 +667,74 @@ public class Controleur {
         inter.setActivKeyAdapt(activ);
     }
 
-
     public void desactiverAide(){
         inter.getInterJ().setEnabledAide(false);
     }
+
     public void supprVisAide(LinkedList<Case> listeCase){
         inter.getInterJ().setEnabledAide(true);
         inter.getInterJ().getGraph().supprVisAide(listeCase);
     }
+
+    public void setOption(){
+        inter.setOption();
+    }
+
+    public void actAnim(boolean activer){
+        if(activer){
+            Configuration.instance().ecris("AnimActive","true");
+        }else{
+            Configuration.instance().ecris("AnimActive","false");
+        }
+        animActiv=activer;
+
+        inter.actAnim(activer);
+    }
+
+    public void stopTimerAide(){
+        inter.getInterJ().getGraph().stopTimerAide();
+    }
+
+    public ListeValeur<Case,Piece> dernierCoupAide(){
+        if(aide.dernierCoup!=null){
+            return aide.dernierCoup;
+        }else{
+            return null;
+        }
+    }
+
+    public void initAide(){
+        aide = new IAAleatoire(jeu);
+    }
+
+    public void resetKeyList(){
+        inter.resetKeyList();
+    }
+
+    public boolean canLoad(){
+        String filename = Configuration.instance().getDirUser() + File.separator + ".save";
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
+            return true;
+        }catch (FileNotFoundException fnf){
+            return false;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
+        }
+
+    }
+
+    public void refreshLoad(){
+        inter.refreshLoad();
+   }
+
+   public boolean isPause(){
+        return pause;
+   }
+
+   public boolean estPiecePosable(Piece p){
+        return jeu.positionPossibleConfig(p,getActJoueur(),jeu.getJoueurCourant().getIndiceTabCouleurCourant()).size()!=0;
+   }
+
 }

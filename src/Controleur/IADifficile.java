@@ -45,10 +45,11 @@ public class IADifficile extends IA{
             res = new ListeValeur<>(listeCaseaJouer, p);
         }
         if(res!=null && res.getListe()!=null && res.getValeur()!=null){
-            return res;
+            dernierCoup = res;
+            return;
         }
         System.out.println("Ia ne peut plus jouer");
-        return null;
+        dernierCoup=null;
     }
 
     //fonction minMax
@@ -155,10 +156,5 @@ public class IADifficile extends IA{
     @Override
     public String toString(){
         return "IADifficile";
-    }
-
-    @Override
-    public int getType(){
-        return type;
     }
 }

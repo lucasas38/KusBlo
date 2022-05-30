@@ -21,6 +21,8 @@ public abstract class IA implements Serializable {
     int ouv; // type d'ouverture ( 0 : classique, 1 : Barasona)
     int type;
 
+    ListeValeur<Case,Piece> dernierCoup;
+
     int mode; // mode de l'IA inetermédiaire (cf calcul_heuristique pour détail)
 
     IA(Jeu j){
@@ -29,11 +31,10 @@ public abstract class IA implements Serializable {
         ouv = r.nextInt(2);
     }
 
-    public int getTypeIA(){ return type;} //
-    public abstract ListeValeur<Case,Piece> joue();
+    public int getTypeIA(){ return type;}
+    public abstract void joue();
     public abstract String toString();
     public void setR(){r=new Random();};
-    public abstract int getType();
 
     public ListePieces copiePiecesDispo(){
         ListePieces listePieces = new ListePieces(false);

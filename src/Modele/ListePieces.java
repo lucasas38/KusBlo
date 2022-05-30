@@ -1,5 +1,7 @@
 package Modele;
 
+import Global.Configuration;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Serializable;
@@ -20,11 +22,7 @@ public class ListePieces implements Serializable {
 
     public void lirePieces(){
         try {
-            File f = new File("res/listePieces");
-
-            FileInputStream in = new FileInputStream(f);
-
-            LecteurPieces lecteurPieces = new LecteurPieces(in);
+            LecteurPieces lecteurPieces = new LecteurPieces(Configuration.instance().charge("listePieces"));
             this.liste = lecteurPieces.lirePieces();
 
         }catch(Exception e)

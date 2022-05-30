@@ -15,7 +15,7 @@ public class IAAleatoire extends IA {
 
 
     @Override
-    public ListeValeur<Case,Piece> joue() {
+    public void joue() {
 
         ListePieces listePiecesDispo = copiePiecesDispo();
 
@@ -44,7 +44,8 @@ public class IAAleatoire extends IA {
                 }
 
                 ListeValeur<Case,Piece> res = new ListeValeur<>(listeCases,p);
-                return res;
+                dernierCoup = res;
+                return;
 
             }else{
                 listePiecesDispo.supprimer(p.getId());
@@ -52,7 +53,7 @@ public class IAAleatoire extends IA {
         }
         System.out.println("Ia ne peut plus jouer");
 
-        return null;
+        dernierCoup=null;
 
     }
 
@@ -60,10 +61,5 @@ public class IAAleatoire extends IA {
     public String toString(){
         return "IAAleatoire";
     }
-
-    @Override
-    public int getType(){
-        return 1;
-    } // encore utile ?
 
 }

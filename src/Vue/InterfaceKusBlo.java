@@ -11,6 +11,8 @@ public class InterfaceKusBlo implements Runnable {
     MenuSolo menuSol;
     MenuMulti menuMult;
     MenuPartiePerso menuPerso;
+
+    Option option;
     Controleur c;
     ImageKusBlo im;
     Bouton b;
@@ -29,7 +31,7 @@ public class InterfaceKusBlo implements Runnable {
 
     public void run(){
         im= new ImageKusBlo();
-        b=new Bouton(c);
+        b=new Bouton(c, im);
         keyAdapt=new AdaptateurClavier(c);
         frame = new JFrame("KusBlo");
         frame.setSize(800, 600);
@@ -38,7 +40,8 @@ public class InterfaceKusBlo implements Runnable {
         menu=new MenuPrincipal(c,b,im);
         menuSol=new MenuSolo(c,b,im);
         menuMult=new MenuMulti(c,b,im);
-        menuPerso=new MenuPartiePerso(c,b);
+        menuPerso=new MenuPartiePerso(c,b,im);
+        option= new Option(c,b,im);
         frame.addKeyListener(keyAdapt);
         frame.setFocusable(true);
         frame.requestFocusInWindow();
@@ -67,12 +70,19 @@ public class InterfaceKusBlo implements Runnable {
         frame.revalidate();
     }
 
+    public void setOption(){
+        frame.setContentPane(option.getFrame());
+        frame.revalidate();
+    }
+
+
     //Affiche un nouveau jeu
     public void setInterJeu(){
         interJ= new InterfaceJeu(c ,b,im);
         frame.setContentPane(interJ.getFrame());
         interJ.resizeAllPanel();
         frame.revalidate();
+        c.initAide();
     }
 
     public InterfaceJeu getInterJ(){
@@ -109,4 +119,24 @@ public class InterfaceKusBlo implements Runnable {
     public void setRefaire(boolean re) {
         interJ.setRefaire(re);
     }
+
+    public void updateNameIA(int numCoulIA, int diff){
+        interJ.updateNameIA(numCoulIA,diff);
+    }
+
+    public void actAnim(boolean activer){
+        option.activerAnim(activer);
+    }
+
+    public void resetKeyList(){
+        frame.removeKeyListener(keyAdapt);
+        frame.addKeyListener(keyAdapt);
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
+    }
+
+    public void refreshLoad(){
+        menu.refreshLoad();
+    }
+
 }
