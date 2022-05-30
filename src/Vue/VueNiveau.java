@@ -197,6 +197,15 @@ public class VueNiveau {
     public void charger(){
         for(int i=0;i<20;i++){
             for(int j=0; j<20;j++){
+                if(i==0 && j==0 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                } else if(i==0 && j==19 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                }else if(i==19 && j==0 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                } else if(i==19 && j==19 && c.getCouleur(i,j)!=0){
+                    listPanel[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
+                }
                 listPanel[i][j].changeBackground(im.coulJoueur(c.getCouleur(i,j)));
             }
         }

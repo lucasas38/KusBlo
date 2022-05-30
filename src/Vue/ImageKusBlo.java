@@ -35,6 +35,10 @@ public class ImageKusBlo {
     Image fondC;
     Image logo;
     Image tuto;
+    Image pause;
+    Image resume;
+    Image undo;
+    Image redo;
     Image[] selAnimRouge;
 
     //Récupère toutes les images
@@ -64,14 +68,12 @@ public class ImageKusBlo {
         fondG =getImage("fondG.png");
         fondD =getImage("fondD.png");
         fondC =getImage("fondC.png");
+        pause = getImage("pause.png");
+        resume= getImage("resume.png");
+        undo = getImage("undo.png");
+        redo = getImage("redo.png");
         tuto=getImage("tuto.png");
         selAnimRouge = new Image[5];
-        selAnimRouge[0]=gris;
-
-
-        for(int k=1; k<5;k++){
-            selAnimRouge[k]= getImage("visRouge"+k+".png");
-        }
     }
 
     //récupère l'image demandée
@@ -84,6 +86,8 @@ public class ImageKusBlo {
         }
         return null;
     }
+
+
 
     //Renvoie l'image correspondante au jouer
     public Image coulJoueur(int j){

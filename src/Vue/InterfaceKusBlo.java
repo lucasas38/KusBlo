@@ -31,7 +31,7 @@ public class InterfaceKusBlo implements Runnable {
 
     public void run(){
         im= new ImageKusBlo();
-        b=new Bouton(c);
+        b=new Bouton(c, im);
         keyAdapt=new AdaptateurClavier(c);
         frame = new JFrame("KusBlo");
         frame.setSize(800, 600);
@@ -82,6 +82,7 @@ public class InterfaceKusBlo implements Runnable {
         frame.setContentPane(interJ.getFrame());
         interJ.resizeAllPanel();
         frame.revalidate();
+        c.initAide();
     }
 
     public InterfaceJeu getInterJ(){
@@ -125,6 +126,13 @@ public class InterfaceKusBlo implements Runnable {
 
     public void actAnim(boolean activer){
         option.activerAnim(activer);
+    }
+
+    public void resetKeyList(){
+        frame.removeKeyListener(keyAdapt);
+        frame.addKeyListener(keyAdapt);
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
     }
 
 }

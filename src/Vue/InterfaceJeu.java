@@ -29,6 +29,7 @@ public class InterfaceJeu {
         JPanel panGrey;
         JPanel panGrey2;
         Bouton b;
+        boolean listeAct;
         int w;
         int h;
 
@@ -42,11 +43,27 @@ public class InterfaceJeu {
             setResize();
             b=bout;
             boutonMenu= b.menuJeu();
+            int minDim = Math.min(getFrameW()/8,getFrameH()/16);
             pause= b.pause();
+            Image img = im.pause ;
+            Image newimg = img.getScaledInstance( minDim, minDim,  java.awt.Image.SCALE_SMOOTH ) ;
+            ImageIcon icon = new ImageIcon( newimg );
+            pause.setIcon(icon);
+            pause.setBorder(BorderFactory.createEmptyBorder());
+
+
             resume =b.resume();
+            img = im.resume ;
+            newimg = img.getScaledInstance( minDim, minDim,  java.awt.Image.SCALE_SMOOTH ) ;
+            icon = new ImageIcon( newimg );
+            resume.setIcon(icon);
+            resume.setBorder(BorderFactory.createEmptyBorder());
+
+
+            resume.setContentAreaFilled(false);
             aide=b.aide();
             joueurs=new PanneauJoueur[4];
-            m=new MenuPiece(c);
+            m=new MenuPiece(c,b);
             graph = new VueNiveau(c,im);
             mouseAdapt =new AdaptateurSouris(c);
             selAdapt= new AdaptateurSelPiece(graph,m,c,true);
@@ -74,10 +91,8 @@ public class InterfaceJeu {
             JPanel panelCentral = new JPanel(new BorderLayout());
             JPanel repartiteur =new JPanel(); //réparti le jeu et le menu du bas
             repartiteur.setLayout((new BoxLayout(repartiteur,BoxLayout.PAGE_AXIS)));
-           // repartiteur.add(new JPanel(new BorderLayout()));
             repartiteur.add(graph.panelJeu);
             setMenu1(c.getActJoueur(),c.getActCouleur());
-            //repartiteur.add(new JPanel(new BorderLayout()));
             repartiteur.add(m.menu);
             panelCentral.add(repartiteur,BorderLayout.CENTER);
 
@@ -87,11 +102,26 @@ public class InterfaceJeu {
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
             panelDroite.add(joueurs[1].pan);
             panelDroite.add(joueurs[2].pan);
+
+            int minDim2 = Math.min(getFrameW()/8,getFrameH()/8);
+
             annuler=b.annuler();
+            Image img2 = im.undo ;
+            Image newimg2 = img2.getScaledInstance( minDim2, minDim2,  java.awt.Image.SCALE_SMOOTH ) ;
+            ImageIcon icon2 = new ImageIcon( newimg2 );
+            annuler.setIcon(icon2);
+            annuler.setBorder(BorderFactory.createEmptyBorder());
             annuler.setEnabled(false);
+
             refaire=b.refaire();
             refaire.setEnabled(false);
-            JPanel histo=new JPanel(new GridLayout(2,1));
+            img2 = im.redo ;
+            newimg2 = img2.getScaledInstance( minDim2, minDim2,  java.awt.Image.SCALE_SMOOTH ) ;
+            icon2 = new ImageIcon( newimg2 );
+            refaire.setIcon(icon2);
+            refaire.setBorder(BorderFactory.createEmptyBorder());
+
+            JPanel histo=new JPanel(new GridLayout(1,2));
             histo.add(annuler);
             histo.add(refaire);
             histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
@@ -205,7 +235,10 @@ public class InterfaceJeu {
 
 
         public void setMenuOpt(){
+            if(mouseAdapt.activ)
+                listeAct=true;
             delListener();
+
             selAdapt.setActiv(false);
             refaire.setEnabled(false);
             annuler.setEnabled(false);
@@ -269,7 +302,10 @@ public class InterfaceJeu {
             resume.setEnabled(true);
             aide.setEnabled(true);
             frame.updateUI();
-            actListener();
+            if(listeAct){
+                actListener();
+                listeAct=false;
+            }
             selAdapt.setActiv(true);
             setResize();
         }

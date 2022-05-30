@@ -34,11 +34,11 @@ public class MenuPiece {
 
 
 
-    public MenuPiece(Controleur cont){
+    public MenuPiece(Controleur cont, Bouton bout){
         menu= new JPanel(new BorderLayout());
         im=new ImageKusBlo();
-        b=new Bouton(cont);
         c=cont;
+        b=bout;
         creerMenuListePiece();
         creerMenuPieceUnique();
         creerMenuFinPartie();

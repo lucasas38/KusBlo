@@ -8,9 +8,11 @@ import java.awt.event.ActionListener;
 
 public class Bouton {
     Controleur c;
+    ImageKusBlo im;
 
-    Bouton(Controleur cont){
+    Bouton(Controleur cont, ImageKusBlo ima){
         c=cont;
+        im=ima;
     }
 
     public JButton retourListePiece(){
@@ -152,35 +154,53 @@ public class Bouton {
     }
 
     public JButton annuler(){
-        JButton button = new JButton("Annuler");
+        JButton button = new JButton();
         button.addActionListener(e -> {
             c.updateBoutPause(false);
+            c.desactiverAide();
             c.annuler();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();
         });
         return button;
     }
 
     public JButton refaire(){
-        JButton button = new JButton("Refaire");
-        button.addActionListener(e -> c.refaire());
+        JButton button = new JButton();
+        button.addActionListener(e -> {
+            c.updateBoutPause(false);
+            c.refaire();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();});
+
         return button;
     }
 
     public JButton pause(){
-        JButton button = new JButton("Pause");
+        JButton button = new JButton(new ImageIcon(im.pause));
         button.addActionListener(e -> {
             c.updateBoutPause(false);
+            c.desactiverAide();
             c.pause();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();
         });
         return button;
     }
 
     public JButton resume(){
-        JButton button = new JButton("Reprendre");
+        JButton button = new JButton(new ImageIcon(im.resume));
         button.addActionListener(e -> {
             c.updateBoutPause(true);
             c.setPause(false);
             c.setMenu1();
+            c.resetKeyList();
         });
         return button;
     }
@@ -207,6 +227,10 @@ public class Bouton {
         JButton button = new JButton("Option");
         button.addActionListener(e -> {
             c.setOption();
+            c.pause();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
         });
         return button;
     }

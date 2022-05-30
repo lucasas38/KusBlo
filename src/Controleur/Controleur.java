@@ -3,6 +3,7 @@ package Controleur;
 import Global.Configuration;
 import Modele.*;
 import Structures.Case;
+import Structures.ListeValeur;
 import Structures.Trio;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
@@ -18,6 +19,7 @@ public class Controleur {
     boolean pause;
     int oldX;
     int oldY;
+    IA aide;
 
     public Controleur(){
         animActiv = Boolean.parseBoolean(Configuration.instance().lis("AnimActive"));
@@ -55,9 +57,12 @@ public class Controleur {
     }
 
     public void setMenu1(){
+        inter.getInterJ().delListener();
+        showMenuOpt();
+        reprendre();
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
-            setMenu5();
+            setMenuHistorique();
         }else{
             setScoreToutLesJoueurs();
 
@@ -96,6 +101,7 @@ public class Controleur {
                             inter.getInterJ().setEnabledAide(true);
                             inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
                             inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
+
                         }
                 } else {
                     passerTour();
@@ -382,7 +388,7 @@ public class Controleur {
         inter.getInterJ().getM().setMenuTourIA();
     }
 
-    public  void setMenu5(){
+    public  void setMenuHistorique(){
         inter.getInterJ().getM().setMenuHistorique();
     }
 
@@ -466,7 +472,7 @@ public class Controleur {
 
         stopTimer();
         setPause(true);
-        setMenu5();
+        setMenuHistorique();
     }
 
     public void annuler(){
@@ -494,7 +500,7 @@ public class Controleur {
         }else{
             System.out.println("Pas de coup antérieur");
         }
-        setMenu5();
+        setMenuHistorique();
         setScoreToutLesJoueurs();
         if(!jeu.getHistorique().peutAnnuler()){
             inter.setAnnuler(false);
@@ -563,7 +569,7 @@ public class Controleur {
             inter.getInterJ().refreshPanJoueur(idCouleurProc-1,pProchain.getId(),false, null);
             inter.getInterJ().setTour(getActCouleur());
 
-            setMenu5();
+            setMenuHistorique();
             setScoreToutLesJoueurs();
             if(!jeu.getHistorique().peutRefaire()){
                 inter.setRefaire(false);
@@ -585,7 +591,6 @@ public class Controleur {
     }
 
     public void aide(int type){
-        IA aide;
         Random r = new Random();
         switch (type){
             case 1:
@@ -606,7 +611,7 @@ public class Controleur {
         aide.joue();
         if(aide.dernierCoup != null){
             desactiverAide();
-            inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe());
+            inter.getInterJ().getGraph().visAide(aide.dernierCoup.getListe(),getActCouleur());
             selPiece(aide.dernierCoup.getValeur().getId());
         }
 
@@ -684,6 +689,27 @@ public class Controleur {
 
         inter.actAnim(activer);
     }
+
+    public void stopTimerAide(){
+        inter.getInterJ().getGraph().stopTimerAide();
+    }
+
+    public ListeValeur<Case,Piece> dernierCoupAide(){
+        if(aide.dernierCoup!=null){
+            return aide.dernierCoup;
+        }else{
+            return null;
+        }
+    }
+
+    public void initAide(){
+        aide = new IAAleatoire(jeu);
+    }
+
+    public void resetKeyList(){
+        inter.resetKeyList();
+    }
+
 
 
 }
