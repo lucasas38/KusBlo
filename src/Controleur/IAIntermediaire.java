@@ -6,8 +6,6 @@ import Modele.ListePieces;
 import Modele.Piece;
 import Structures.Case;
 import Structures.ListeValeur;
-
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class IAIntermediaire extends IA {
@@ -27,8 +25,7 @@ public class IAIntermediaire extends IA {
         Piece p;
         int heur_max = 0;
         int rotation_max = 0;
-        ListeValeur<Case, Piece> res =null;
-
+        ListeValeur<Case, Piece> res = null;
         LinkedList<Case> listeCasesMax = null;
 
         if (listePiecesDispo.getTaille() > 18){     // pour les 3 premiers coups (ouvertures)
@@ -40,16 +37,14 @@ public class IAIntermediaire extends IA {
                 LinkedList<Case> listeCases = null;
 
                 LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p,jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
-
                 for (int i = 0; i < listeEmplacementPossible.size(); i++) { //tous les emplacment et les rotations pour une piece
 
                     listeCases = listeEmplacementPossible.get(i).getListe();
                     int rotation = listeEmplacementPossible.get(i).getValeur();
-                    int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases);
+                    int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases, jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getTaille());
                     int taille = p.getTaille();
                     int poss_bloq = nb_possibilite_bloquees(jeu.getIDJoueurCourant(), listeCases);
                     int case_bloq = nb_case_bloquees(listeCases);
-
                     int heur = calcul_heuristique(taille, poss_ouv,poss_bloq,case_bloq); // calcul heuristique
 
                     if (heur < 0) {
@@ -69,25 +64,18 @@ public class IAIntermediaire extends IA {
                     }
 
                 }
-                int i = 0;
-                while (i < rotation_max) {
-                    if (i == 4) {
-                        p_max.rotationSymetrique();
-                    } else {
-                        p_max.rotationHoraire();
-                    }
-                    i++;
-                }
-                res = new ListeValeur<>(listeCasesMax, p_max); // bon emplacement ?
+
 
                 listePiecesDispo.supprimer(p.getId());
             }
 
+        tournePiece(rotation_max,p_max);
+        res = new ListeValeur<>(listeCasesMax, p_max);
         }
 
         // res peut ne pas être null mais il peut contenir des choses null
-        // a réfléchir pour savoir si c'est la bonne solution
         if(res!=null && res.getListe()!=null && res.getValeur()!=null){
+            System.out.println("Heuristique : " + heur_max);
             return res;
         }
 
