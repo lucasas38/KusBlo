@@ -31,7 +31,7 @@ public class IADifficile extends IA{
     }
 
     @Override
-    public ListeValeur<Case, Piece> joue() {
+    public void joue() {
 
         ListeValeur<Case, Piece> res = null;
         cpt = 0;

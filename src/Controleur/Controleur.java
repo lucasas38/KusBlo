@@ -45,7 +45,7 @@ public class Controleur {
                 ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3,false);
                 break;
             case 6:
-                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 4);
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 4,false);
                 break;
             case 7: // IA difficile
                 ia[idJoueur-1] = new IADifficile(this.jeu);
