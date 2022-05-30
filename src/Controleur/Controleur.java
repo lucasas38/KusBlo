@@ -8,6 +8,7 @@ import Structures.Trio;
 import Vue.InterfaceKusBlo;
 import Vue.MenuPiece;
 
+import java.io.*;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -26,9 +27,9 @@ public class Controleur {
     }
 
     public void addIA(int type_ia,int idJoueur){
-        // les "case" 2,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
+        // les "case" 2,3,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
         switch (type_ia){
-            case 1:
+            case 1: // IA facile
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
@@ -44,6 +45,9 @@ public class Controleur {
                 ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3,false);
                 break;
             case 6:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 4);
+                break;
+            case 7: // IA difficile
                 ia[idJoueur-1] = new IADifficile(this.jeu);
                 break;
             default:
@@ -58,8 +62,6 @@ public class Controleur {
 
     public void setMenu1(){
         inter.getInterJ().delListener();
-        showMenuOpt();
-        reprendre();
         inter.getInterJ().getGraph().stopTimer();
         if(pause){
             setMenuHistorique();
@@ -709,6 +711,30 @@ public class Controleur {
         inter.resetKeyList();
     }
 
+    public boolean canLoad(){
+        String filename = Configuration.instance().getDirUser() + File.separator + ".save";
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename));
+            return true;
+        }catch (FileNotFoundException fnf){
+            return false;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
+        }
 
+    }
+
+    public void refreshLoad(){
+        inter.refreshLoad();
+   }
+
+   public boolean isPause(){
+        return pause;
+   }
+
+   public boolean estPiecePosable(Piece p){
+        return jeu.positionPossibleConfig(p,getActJoueur(),jeu.getJoueurCourant().getIndiceTabCouleurCourant()).size()!=0;
+   }
 
 }

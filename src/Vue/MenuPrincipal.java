@@ -11,6 +11,7 @@ public class MenuPrincipal {
     Controleur cont;
     Bouton b;
     ImageKusBlo im;
+    JButton load;
     int w;
     int h ;
 
@@ -41,7 +42,9 @@ public class MenuPrincipal {
         listeBoutons.add(b.solo());
         listeBoutons.add(b.multi());
         listeBoutons.add(b.partiePerso());
-        listeBoutons.add(b.load());
+        load=b.load();
+        listeBoutons.add(load);
+        load.setEnabled(c.canLoad());
         listeBoutons.add(b.option());
         listeBoutons.add(b.exit());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
@@ -97,5 +100,9 @@ public class MenuPrincipal {
 
     public JPanel getFrame(){
         return frame;
+    }
+
+    public void refreshLoad(){
+        load.setEnabled(cont.canLoad());
     }
 }

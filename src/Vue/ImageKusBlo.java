@@ -12,10 +12,6 @@ public class ImageKusBlo {
     Image gris;
     Image rouge;
     Image grisRouge;
-    Image selRouge;
-    Image selBleu;
-    Image selVert;
-    Image selJaune;
     Image couleurJ1;
     Image couleurJ2;
     Image couleurJ3;
@@ -46,10 +42,6 @@ public class ImageKusBlo {
         gris = getImage("Gris.png");
         rouge =getImage("Rouge.png");
         grisRouge=getImage("visRouge.png");
-        selBleu= getImage("selBleu.png");
-        selRouge= getImage("selRouge.png");
-        selJaune= getImage("selJaune.png");
-        selVert= getImage("selVert.png");
         couleurJ1=getImage("Bleu.png");
         couleurJ2=getImage("Rouge.png");
         couleurJ3=getImage(("Jaune.png"));
@@ -105,21 +97,7 @@ public class ImageKusBlo {
         }
     }
 
-    //Renvoie l'image de sélection correspondante au joueur A SUPPRIMER
-    public Image selCouleur(int j){
-        switch (j){
-            case 1:
-                return selBleu;
-            case 2:
-                return selRouge;
-            case 3:
-                return selJaune;
-            case 4:
-                return selVert;
-            default:
-                return gris;
-        }
-    }
+
 
 
     //Renvoie l'image de sélection correspondante au joueur

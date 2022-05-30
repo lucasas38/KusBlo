@@ -27,7 +27,7 @@ public abstract class IA implements Serializable {
 
     IA(Jeu j){
         jeu=j;
-        r=new Random();
+        setR();
         ouv = r.nextInt(2);
     }
 
@@ -50,26 +50,45 @@ public abstract class IA implements Serializable {
         return listePieces;
     }
 
+    public void tournePiece(int rota, Piece p){
+        int i = 0;
+        while (i < rota) {
+            if (i == 4) {
+                p.rotationSymetrique();
+            } else {
+                p.rotationHoraire();
+            }
+            i++;
+        }
+    }
+
     // renvoie l'heuristique pour les IA intermédiaires
     // peut probablement être amélioré en faisant évoluer les coeficients au fur et à mesure de la partie
     int calcul_heuristique(int taille, int poss_ouv, int poss_bloq, int case_bloq){
         int res = 0;
         switch (mode) {
             case 0: // IA test
-                res = 4*taille + 2*poss_ouv - case_bloq;
+                res = 200 * taille + poss_ouv - 100 * case_bloq;
                 break;
             case 1: // IA ouvrante
-                res = 2 * taille + 2 * poss_ouv + poss_bloq - case_bloq;
+                res = 100 * taille + poss_ouv + 50 * poss_bloq - 50 * case_bloq;
                 break;
             case 2: // IA privilégiant les grandes pièces
-                res = 3 * taille + poss_ouv + poss_bloq - case_bloq;
+                res = 150 * taille + poss_ouv + 50 * poss_bloq - 50 * case_bloq;
                 break;
             case 3: // IA pattern
-                res = 2 * taille + poss_ouv + poss_bloq - 2 * case_bloq;
+                res = 100 * taille + poss_ouv + 50 * poss_bloq - 50 * case_bloq;
+                break;
+            case 4: // IA bloquante
+                res = 100 * taille + poss_ouv + 200 * poss_bloq - 50 * case_bloq;
                 break;
             default:
                 break;
         }
+        /*if (mode == 0 && jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getTaille() == 12){
+            mode = 4;
+            System.out.println("Passage en mode bloquant");
+        }*/
         return res;
     }
 
@@ -249,7 +268,7 @@ public abstract class IA implements Serializable {
         }
 
         verif_rotation(p); // remet les pièces à leur rotation d'origine
-        tourne_piece(p); // oriente les pièces correctement pour leur prochain coup
+        rotaPieceOuverture(p); // oriente les pièces correctement pour leur prochain coup
 
         pos = determ_pos(couleur, 21-taille);
 
@@ -258,8 +277,8 @@ public abstract class IA implements Serializable {
         return res;
     }
 
-    // tourne les pièces pour qu'elles soient dans le bon sens pour l'IA inter
-    public void tourne_piece(Piece p){
+    // tourne les pièces pour qu'elles soient dans le bon sens pour l'IA inter (pour les ouvertures
+    public void rotaPieceOuverture(Piece p){
         if (p.getId() == 18 && ouv == 1){ // cas spécial où la pièce a besoin d'avoir une rotation initiale différente
             p.rotationAntiHoraire();
         }
@@ -327,16 +346,54 @@ public abstract class IA implements Serializable {
     }
 
 
-    public int nb_possibilite_ouverte(int idCouleur, LinkedList<Case> listeCases) {
+    public int nb_possibilite_ouverte(int idCouleur, LinkedList<Case> listeCases, int nb_coup) {
         int res = 0;
         HashSet<Case> l_coin_piece = CoinsPieces(listeCases, idCouleur); //on doit recuperer la liste des nouveau coins
         Iterator<Case> it_coin = l_coin_piece.iterator();
         while (it_coin.hasNext()) {
             Case cb = it_coin.next();
             if (jeu.getNiveau().getGrille()[cb.getX()][cb.getY()] == 0) {
-                res++;
+                if (nb_coup == 18 || getTypeIA() == 7){ // on réduit les calculs pour l'IA difficile et le premier coup après l'ouverture
+                    res+=1;
+                } else {
+                    res += espaceCase(cb);
+                }
             }
         }
+        return res;
+    }
+
+    // calcule le nombre de cases accessibles à partir d'une case
+    // permet d'avoir une notion d'espace dans l'heuristique
+    public int espaceCase(Case c){
+        int res = 0;
+        int compteurBoucle = 0;
+        LinkedList<Case> lCase = new LinkedList<>();
+        lCase.add(c);
+        Iterator<Case> itCase = lCase.iterator();
+        while (itCase.hasNext()){
+            Case c2 = itCase.next();
+            //System.out.println("Case choisie : " + c2.toString());
+            LinkedList<Case> voisins = jeu.getNiveau().voisinsCase(c2);
+            Iterator<Case> itVois = voisins.iterator();
+            while(itVois.hasNext()){
+                Case cVois = itVois.next();
+                if (!lCase.contains(cVois) && jeu.getNiveau().getGrille()[cVois.getX()][cVois.getY()] == 0){
+                    res++;
+                    lCase.add(cVois);
+                }
+            }
+            //System.out.println("Liste case : " + lCase.toString());
+            itCase = lCase.iterator();
+            compteurBoucle ++;
+            int i = 0;
+            while(i<compteurBoucle && itCase.hasNext()){
+                itCase.next();
+                i++;
+            }
+
+        }
+        //System.out.println("Sortie fonction");
         return res;
     }
 

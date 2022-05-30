@@ -135,4 +135,8 @@ public class InterfaceKusBlo implements Runnable {
         frame.requestFocusInWindow();
     }
 
+    public void refreshLoad(){
+        menu.refreshLoad();
+    }
+
 }
