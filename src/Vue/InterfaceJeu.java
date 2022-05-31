@@ -29,6 +29,9 @@ public class InterfaceJeu {
         JPanel limDroite;
         JPanel panGrey;
         JPanel panGrey2;
+        JPanel panelGauche;
+        JPanel panelCentral;
+        JPanel panelDroite;
         Bouton b;
         boolean listeAct;
         int w;
@@ -76,7 +79,7 @@ public class InterfaceJeu {
 
 
             //Panel Gauche
-            JPanel panelGauche = new JPanel();
+            panelGauche = new JPanel();
             panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
             panelGauche.add(joueurs[0].pan);
             panelGauche.add(joueurs[3].pan);
@@ -90,7 +93,7 @@ public class InterfaceJeu {
 
 
             //Panel central
-            JPanel panelCentral = new JPanel(new BorderLayout());
+            panelCentral = new JPanel(new BorderLayout());
             JPanel repartiteur =new JPanel(); //réparti le jeu et le menu du bas
             repartiteur.setLayout((new BoxLayout(repartiteur,BoxLayout.PAGE_AXIS)));
             repartiteur.add(graph.panelJeu);
@@ -100,7 +103,7 @@ public class InterfaceJeu {
 
 
             //Panel Droite
-            JPanel panelDroite = new JPanel();
+            panelDroite = new JPanel();
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
             panelDroite.add(joueurs[1].pan);
             panelDroite.add(joueurs[2].pan);
@@ -296,11 +299,11 @@ public class InterfaceJeu {
         }
 
         public void reprendre(){
-            frame.remove(panelOpt);
-            frame.remove((limGauche));
-            frame.remove(limDroite);
-            frame.remove(panGrey);
-            frame.remove(panGrey2);
+            frame.removeAll();
+            frame.add(panelGauche,BorderLayout.WEST);
+            frame.add(panelCentral,BorderLayout.CENTER);
+            frame.add(panelDroite,BorderLayout.EAST);
+
             boutonMenu.setEnabled(true);
             annuler.setEnabled(true);
             refaire.setEnabled(true);

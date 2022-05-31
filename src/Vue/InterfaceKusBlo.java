@@ -159,4 +159,12 @@ public class InterfaceKusBlo implements Runnable {
         option.updateBoutRetour(depuisJeu);
     }
 
+    public void changePage(boolean nextPage){
+        if(nextPage){
+            menuRegle.nextPage();
+        }else{
+            menuRegle.precPage();
+        }
+    }
+
 }

@@ -304,4 +304,20 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton pageSuiv(){
+        JButton button = new JButton("Page Suivante");
+        button.addActionListener(e -> {
+            c.changePage(true);
+        });
+        return button;
+    }
+
+    public JButton pagePrec(){
+        JButton button = new JButton("Page précédente");
+        button.addActionListener(e -> {
+            c.changePage(false);
+        });
+        return button;
+    }
 }

@@ -95,11 +95,15 @@ public class MenuPiece {
 
     public void creerMenuFinPartie(){
         menuFinPartie =new JPanel(new GridLayout(6,1));
-        menuFinPartie.add(new JLabel("Fin de la partie"));
+        JPanel finPartie = new JPanel();
+        finPartie.add(new JLabel("Fin de la partie"));
+        menuFinPartie.add(finPartie);
     }
     public void creerMenuTourIA(){
         menuTourIA =new JPanel(new BorderLayout());
-        menuTourIA.add(new JLabel("Ce n'est pas a votre tour de jouer"));
+        JPanel tourIA= new JPanel();
+        tourIA.add(new JLabel("Ce n'est pas a votre tour de jouer"));
+        menuTourIA.add(tourIA);
     }
     public void creerMenuHistorique(){
         menuHistorique =new JPanel(new GridLayout(2,1));
@@ -151,11 +155,17 @@ public class MenuPiece {
     public void setMenuFinPartie(int[] joueur, int nbVainqueur){
         resetMenuFinPartie();
         if(nbVainqueur==1){
-            menuFinPartie.add(new JLabel("Victoire du joueur "+joueur[0]));
+            JPanel finPartie1=new JPanel();
+            finPartie1.add(new JLabel("Victoire du joueur "+joueur[0]));
+            menuFinPartie.add(finPartie1);
         }else{
-            menuFinPartie.add(new JLabel("Égalité !"));
+            JPanel finPartie2=new JPanel();
+            finPartie2.add(new JLabel("Égalité !"));
+            menuFinPartie.add(finPartie2);
             for(int i=0; i<nbVainqueur;i++){
-                menuFinPartie.add(new JLabel("Victoire du joueur "+joueur[i]));
+                JPanel finPartie3= new JPanel();
+                finPartie3.add(new JLabel("Victoire du joueur "+joueur[i]));
+                menuFinPartie.add(finPartie3);
             }
         }
 
@@ -172,8 +182,12 @@ public class MenuPiece {
     }
     public void setMenuHistorique(){
         menuHistorique.removeAll();
-        menuHistorique.add(new JLabel("Vous êtes en train de parcourir l'historique"));
-        menuHistorique.add(new JLabel("Vous êtes au tour du joueur : "+c.getActCouleur()));
+        JPanel histo1= new JPanel();
+        JPanel histo2 = new JPanel();
+        histo1.add(new JLabel("Vous êtes en train de parcourir l'historique"));
+        histo2.add(new JLabel("Vous êtes au tour du joueur : "+c.getActCouleur()));
+        menuHistorique.add(histo1);
+        menuHistorique.add(histo2);
         menu.removeAll();
         menu.add(menuHistorique);
         menu.updateUI();

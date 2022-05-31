@@ -780,4 +780,8 @@ public class Controleur {
         inter.setMenuRegle();
    }
 
+   public void changePage(boolean nextPage){
+        inter.changePage(nextPage);
+   }
+
 }

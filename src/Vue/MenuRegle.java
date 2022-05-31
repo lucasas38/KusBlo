@@ -10,7 +10,9 @@ public class MenuRegle {
     Controleur cont;
     Bouton b;
     ImageKusBlo im;
-    JButton load;
+    JButton pageSuiv;
+    JButton pagePrec;
+    JPanel centre;
     int w;
     int h ;
     BasicBackgroundPanel[] regle;
@@ -25,6 +27,8 @@ public class MenuRegle {
         im=ima;
         page=1;
         frame= new JPanel(new BorderLayout());
+        pagePrec=b.pagePrec();
+        pageSuiv=b.pageSuiv();
 
         //Création du panel Gauche
         JPanel panelGauche = new JPanel(new BorderLayout());
@@ -39,10 +43,21 @@ public class MenuRegle {
         logo.setPreferredSize(new Dimension(w/2,h/4));
 
         //création de la liste de boutons
-        JPanel boutonMenu= new JPanel();
-        boutonMenu.add(b.retourJeu());
+        JPanel boutonMenu= new JPanel(new GridLayout(1,3));
+        JPanel panBoutPrec = new JPanel();
+        panBoutPrec.add(pagePrec);
+        boutonMenu.add(panBoutPrec);
+        pagePrec.setEnabled(false);
 
-        JPanel centre= new JPanel(new BorderLayout());
+        JPanel panBoutRetour=new JPanel();
+        panBoutRetour.add(b.retourJeu());
+        boutonMenu.add(panBoutRetour);
+
+        JPanel panBoutSuiv = new JPanel();
+        panBoutSuiv.add(pageSuiv);
+        boutonMenu.add(panBoutSuiv);
+
+        centre= new JPanel(new BorderLayout());
         regle = new BasicBackgroundPanel[4];
         regle[0]=new BasicBackgroundPanel(im.regle[0]);
         regle[1]=new BasicBackgroundPanel(im.regle[1]);
@@ -95,6 +110,28 @@ public class MenuRegle {
         frame.updateUI();
 
 
+    }
+
+    public void nextPage(){
+        pagePrec.setEnabled(true);
+        centre.removeAll();
+        page++;
+        centre.add(regle[page-1]);
+        if(page==4){
+            pageSuiv.setEnabled(false);
+        }
+        centre.updateUI();
+    }
+
+    public void precPage(){
+        pageSuiv.setEnabled(true);
+        centre.removeAll();
+        page--;
+        centre.add(regle[page-1]);
+        if(page==1){
+            pagePrec.setEnabled(false);
+        }
+        centre.updateUI();
     }
 
     public JPanel getFrame(){
