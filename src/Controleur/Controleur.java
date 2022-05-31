@@ -350,7 +350,8 @@ public class Controleur {
 
         jeu = new Jeu(nbJoueur);
         ia = new IA[jeu.getNbJoueurs()];
-        for(int i=0; i<nbJoueur; i++){
+
+        for(int i=0; i<jeu.getNbJoueurs(); i++){
             if(joueur[i]!=0){
                 addIA(joueur[i],i+1);
             }
@@ -358,9 +359,9 @@ public class Controleur {
 
         inter.setInterJeu();
 
-        for(int i=0; i<nbJoueur; i++){
+        for(int i=0; i<jeu.getNbJoueurs(); i++){
             if(ia[i]!=null){
-                if(nbJoueur==2){
+                if(jeu.getNbJoueurs()==2){
                     inter.updateNameIA(i+2,ia[i].getTypeIA());
                 }
                 inter.updateNameIA(i,ia[i].getTypeIA());
@@ -368,11 +369,6 @@ public class Controleur {
                 joueur[i]=0;
             }
         }
-        //utilisé pour les test, merci de ne pas l'enlever !!
-        /*addIA(2,1, 0);
-        addIA(1,2, 2);
-        addIA(2,3, 2);
-        addIA(1,4, 0);*/
 
         setMenu1();
     }
