@@ -103,8 +103,8 @@ public class Bouton {
     }
 
     public JButton vsMultIa(){
-        JButton button = new JButton("4 IA difficiles");
-        button.addActionListener(e -> c.newGame(4,7,2,2,7,false));
+        JButton button = new JButton("Contre plusieurs IA");
+        button.addActionListener(e -> randomNewGame4Joueurs(3,1));
         return button;
     }
     public JButton deuxJoueurs(){
@@ -121,7 +121,7 @@ public class Bouton {
 
     public JButton deuxJdeuxIA(){
         JButton button = new JButton("2 Joueurs et 2 IA");
-        button.addActionListener(e -> c.newGame(4,2,0,2,0,false));
+        button.addActionListener(e -> randomNewGame4Joueurs(2,2));
         return button;
     }
 
