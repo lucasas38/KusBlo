@@ -40,8 +40,8 @@ public class MenuPartiePerso {
         listeDiff[3]=0;
         colorJ= new Color[4];
         colorJ[0]=new Color(102, 140, 255);
-        colorJ[1]=new Color(255, 77, 77);
-        colorJ[2]=new Color(255, 214, 51);
+        colorJ[1]=new Color(255, 214, 51);
+        colorJ[2]=new Color(255, 77, 77);
         colorJ[3]=new Color(102, 255, 102);
         nbJoueur=2;
         J1=createJ(1);

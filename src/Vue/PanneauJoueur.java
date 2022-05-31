@@ -114,12 +114,12 @@ public class PanneauJoueur {
                 pan.setBorder(BorderFactory.createLineBorder(Color.blue,2));
                 break;
             case 2:
-                votreTour.setBackground(new Color(233,150,122));
-                pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
-                break;
-            case 3:
                 votreTour.setBackground(new Color(255,215,0));
                 pan.setBorder(BorderFactory.createLineBorder(Color.yellow,2));
+                break;
+            case 3:
+                votreTour.setBackground(new Color(233,150,122));
+                pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
                 break;
             case 4:
                 votreTour.setBackground(new Color(154,205,50));
@@ -184,6 +184,9 @@ public class PanneauJoueur {
                 diff="Intermédiaire pattern)";
                 break;
             case 6:
+                diff="Intermédiaire bloquante)";
+                break;
+            case 7:
                 diff="Difficile)";
                 break;
         }
