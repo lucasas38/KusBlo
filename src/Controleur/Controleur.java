@@ -100,12 +100,19 @@ public class Controleur {
                             inter.getInterJ().setEnabledAide(false);
                             joueIA();
                         }else{
+                            if(jeu.getHistorique().peutAnnuler()){
+                                inter.setAnnuler(true);
+                            }
+                            if(jeu.getHistorique().peutRefaire()){
+                                inter.setRefaire(true);
+                            }
                             inter.getInterJ().setEnabledAide(true);
                             inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
                             inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
 
                         }
                 } else {
+                    inter.getInterJ().setFinJouable(getActJoueur());
                     passerTour();
                 }
             }
@@ -123,6 +130,8 @@ public class Controleur {
     }
 
     public void click(int x, int y){
+        desactiverAide();
+        inter.setAnnuler(false);
         delVisu(oldX,oldY);
         inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), false);
         Piece piece= inter.getInterJ().getM().getPiece();
@@ -139,8 +148,6 @@ public class Controleur {
         int idCouleurPrec = jeu.getJoueur(idJoueurPrec).getCouleur(indTabCouleurJoueurPrec).getId();
         inter.getInterJ().refreshPanJoueur( idCouleurPrec-1,pPrec.getId(),false,null);
         setMenu1();
-        inter.setAnnuler(true);
-        inter.setRefaire(false);
     }
 
     public void joueIA2(){
@@ -442,6 +449,15 @@ public class Controleur {
             if(jeu.getHistorique().peutRefaire()){
                 inter.setRefaire(true);
             }
+            int  nbJoueur=jeu.getNbJoueurs();
+            for(int i=0; i<nbJoueur; i++){
+                if(ia[i]!=null){
+                    if(nbJoueur==2){
+                        inter.updateNameIA(i+2,ia[i].getTypeIA());
+                    }
+                    inter.updateNameIA(i,ia[i].getTypeIA());
+                }
+            }
         }
 
     }
@@ -463,6 +479,12 @@ public class Controleur {
     }
 
     public void pause(){
+        if(jeu.getHistorique().peutAnnuler()){
+            inter.setAnnuler(true);
+        }
+        if(jeu.getHistorique().peutRefaire()){
+            inter.setRefaire(true);
+        }
         System.out.println("pause");
         inter.getInterJ().delListener();
         inter.getInterJ().actMenu1(getActCouleur(),false);
@@ -591,9 +613,9 @@ public class Controleur {
         }
     }
 
-    public void aide(int type){
+    public void aide(){
         Random r = new Random();
-        switch (type){
+        switch (Integer.parseInt(Configuration.instance().lis("NiveauAide"))){
             case 1:
                 aide = new IAAleatoire(jeu);
                 break;
@@ -680,6 +702,14 @@ public class Controleur {
         inter.setOption();
     }
 
+    public void updateRetourOption(boolean depuisJeu){
+        inter.updateRetourOption(depuisJeu);
+    }
+
+    public void retourJeu(){
+        inter.showInterJeu();
+    }
+
     public void actAnim(boolean activer){
         if(activer){
             Configuration.instance().ecris("AnimActive","true");
@@ -689,6 +719,15 @@ public class Controleur {
         animActiv=activer;
 
         inter.actAnim(activer);
+    }
+
+    public void actAide(boolean activer){
+        if(activer){
+            Configuration.instance().ecris("AidePiecePosable","true");
+        }else{
+            Configuration.instance().ecris("AidePiecePosable","false");
+        }
+        inter.actAide(activer);
     }
 
     public void stopTimerAide(){
@@ -735,6 +774,14 @@ public class Controleur {
 
    public boolean estPiecePosable(Piece p){
         return jeu.positionPossibleConfig(p,getActJoueur(),jeu.getJoueurCourant().getIndiceTabCouleurCourant()).size()!=0;
+   }
+
+   public void setMenuregle(){
+        inter.setMenuRegle();
+   }
+
+   public void changePage(boolean nextPage){
+        inter.changePage(nextPage);
    }
 
 }

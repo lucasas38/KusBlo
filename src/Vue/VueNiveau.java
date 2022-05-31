@@ -1,10 +1,8 @@
 package Vue;
 
 import Controleur.AnimationVisualisation;
-import Modele.Piece;
 import Structures.Case;
 import Controleur.Controleur;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,9 +43,9 @@ public class VueNiveau {
             }
         }panelJeu.setBorder(BorderFactory.createLineBorder(Color.BLUE));
         listPanel[0][0].setBorder(BorderFactory.createLineBorder(Color.blue,2));
-        listPanel[0][19].setBorder(BorderFactory.createLineBorder(Color.red,2));
+        listPanel[0][19].setBorder(BorderFactory.createLineBorder(Color.yellow,2));
         listPanel[19][0].setBorder(BorderFactory.createLineBorder(Color.green,2));
-        listPanel[19][19].setBorder(BorderFactory.createLineBorder(Color.yellow,2));
+        listPanel[19][19].setBorder(BorderFactory.createLineBorder(Color.red,2));
         resize(c.getFrameW(),c.getFrameH()); //Formate l'affichage de la grille
         //listPanel[0][0].changeBackground(im.selCouleur(1));
     }
@@ -105,11 +103,11 @@ public class VueNiveau {
             if(x==0 && y==0){
                 listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.blue,2));
             } else if(x==0 && y==19){
-                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.red,2));
+                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.yellow,2));
             }else if(x==19 && y==0){
                 listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.green,2));
             } else if(x==19 && y==19){
-                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.yellow,2));
+                listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.red,2));
             }
             listPanel[x][y].setVide(false);
         }

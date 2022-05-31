@@ -1,6 +1,7 @@
-package Structures;
+package Vue;
 
 import Modele.Piece;
+import Vue.BasicBackgroundPanel;
 import Vue.ImageKusBlo;
 
 import javax.swing.*;

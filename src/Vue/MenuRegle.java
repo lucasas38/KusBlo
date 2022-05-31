@@ -5,22 +5,30 @@ import Controleur.Controleur;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuPrincipal {
+public class MenuRegle {
     JPanel frame;
     Controleur cont;
     Bouton b;
     ImageKusBlo im;
-    JButton load;
+    JButton pageSuiv;
+    JButton pagePrec;
+    JPanel centre;
     int w;
     int h ;
+    BasicBackgroundPanel[] regle;
 
-    public MenuPrincipal(Controleur c,Bouton bout,ImageKusBlo ima){
+    int page;
+
+    public MenuRegle(Controleur c,Bouton bout,ImageKusBlo ima){
         cont=c;
         w=c.getFrameW();
         h=c.getFrameH();
         b=bout;
         im=ima;
+        page=1;
         frame= new JPanel(new BorderLayout());
+        pagePrec=b.pagePrec();
+        pageSuiv=b.pageSuiv();
 
         //Création du panel Gauche
         JPanel panelGauche = new JPanel(new BorderLayout());
@@ -33,23 +41,35 @@ public class MenuPrincipal {
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
         BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/2,h/4));
-        //logo.setBackground(new Color(0,0,0,80));
 
         //création de la liste de boutons
-        JPanel listeBoutons = new JPanel(new GridLayout(6,1));
-        //listeBoutons.setBackground(new Color(0,0,0,80));
-        listeBoutons.add(b.solo());
-        listeBoutons.add(b.multi());
-        listeBoutons.add(b.partiePerso());
-        load=b.load();
-        listeBoutons.add(load);
-        load.setEnabled(c.canLoad());
-        listeBoutons.add(b.optionMenu());
-        listeBoutons.add(b.exit());
-        listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
+        JPanel boutonMenu= new JPanel(new GridLayout(1,3));
+        JPanel panBoutPrec = new JPanel();
+        panBoutPrec.add(pagePrec);
+        boutonMenu.add(panBoutPrec);
+        pagePrec.setEnabled(false);
+
+        JPanel panBoutRetour=new JPanel();
+        panBoutRetour.add(b.retourJeu());
+        boutonMenu.add(panBoutRetour);
+
+        JPanel panBoutSuiv = new JPanel();
+        panBoutSuiv.add(pageSuiv);
+        boutonMenu.add(panBoutSuiv);
+
+        centre= new JPanel(new BorderLayout());
+        regle = new BasicBackgroundPanel[4];
+        regle[0]=new BasicBackgroundPanel(im.regle[0]);
+        regle[1]=new BasicBackgroundPanel(im.regle[1]);
+        regle[2]=new BasicBackgroundPanel(im.regle[2]);
+        regle[3]=new BasicBackgroundPanel(im.regle[3]);
+        centre.add(regle[page-1]);
 
         panelCentral.add(logo,BorderLayout.NORTH);
-        panelCentral.add(listeBoutons, BorderLayout.CENTER);
+        panelCentral.add(centre,BorderLayout.CENTER);
+
+
+        panelCentral.add(boutonMenu, BorderLayout.SOUTH);
         //panelCentral.setBackground(new Color(0,0,0,0));
 
         //Création du panel droit
@@ -85,23 +105,36 @@ public class MenuPrincipal {
         frame.add(panelDroitFond,BorderLayout.EAST);
 
 
-        //frame.add(panelGauche, BorderLayout.WEST);
         frame.add(panelCentral, BorderLayout.CENTER);
-        //frame.add(panelDroit, BorderLayout.EAST);
-
-        //frame.setComponentZOrder(panelGaucheFond, 0);
         frame.setComponentZOrder(panelCentral, 0);
-        //frame.setComponentZOrder(panelDroit, 0);
         frame.updateUI();
 
 
     }
 
-    public JPanel getFrame(){
-        return frame;
+    public void nextPage(){
+        pagePrec.setEnabled(true);
+        centre.removeAll();
+        page++;
+        centre.add(regle[page-1]);
+        if(page==4){
+            pageSuiv.setEnabled(false);
+        }
+        centre.updateUI();
     }
 
-    public void refreshLoad(){
-        load.setEnabled(cont.canLoad());
+    public void precPage(){
+        pageSuiv.setEnabled(true);
+        centre.removeAll();
+        page--;
+        centre.add(regle[page-1]);
+        if(page==1){
+            pagePrec.setEnabled(false);
+        }
+        centre.updateUI();
+    }
+
+    public JPanel getFrame(){
+        return frame;
     }
 }

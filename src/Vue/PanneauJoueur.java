@@ -3,8 +3,6 @@ package Vue;
 import Controleur.Controleur;
 import Modele.ListePieces;
 import Modele.Piece;
-import Structures.BasicBackgroundPanel;
-import Structures.PanelPiece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -116,18 +114,24 @@ public class PanneauJoueur {
                 pan.setBorder(BorderFactory.createLineBorder(Color.blue,2));
                 break;
             case 2:
-                votreTour.setBackground(new Color(233,150,122));
-                pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
-                break;
-            case 3:
                 votreTour.setBackground(new Color(255,215,0));
                 pan.setBorder(BorderFactory.createLineBorder(Color.yellow,2));
+                break;
+            case 3:
+                votreTour.setBackground(new Color(233,150,122));
+                pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
                 break;
             case 4:
                 votreTour.setBackground(new Color(154,205,50));
                 pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
                 break;
         }
+        pan.updateUI();
+    }
+
+    public void setFinJouable(){
+        votreTour.removeAll();
+        votreTour.add(new JLabel("Ne peut plus jouer"));
         pan.updateUI();
     }
 
@@ -180,6 +184,9 @@ public class PanneauJoueur {
                 diff="Intermédiaire pattern)";
                 break;
             case 6:
+                diff="Intermédiaire bloquante)";
+                break;
+            case 7:
                 diff="Difficile)";
                 break;
         }

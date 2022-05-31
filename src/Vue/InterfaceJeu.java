@@ -22,12 +22,16 @@ public class InterfaceJeu {
         JButton pause;
         JButton resume;
         JButton aide;
+        JButton menuRegle;
         JPanel menuGauche;
         JPanel panelOpt;
         JPanel limGauche;
         JPanel limDroite;
         JPanel panGrey;
         JPanel panGrey2;
+        JPanel panelGauche;
+        JPanel panelCentral;
+        JPanel panelDroite;
         Bouton b;
         boolean listeAct;
         int w;
@@ -58,9 +62,9 @@ public class InterfaceJeu {
             icon = new ImageIcon( newimg );
             resume.setIcon(icon);
             resume.setBorder(BorderFactory.createEmptyBorder());
-
-
             resume.setContentAreaFilled(false);
+
+            menuRegle=b.menuRegle();
             aide=b.aide();
             joueurs=new PanneauJoueur[4];
             m=new MenuPiece(c,b,im);
@@ -75,20 +79,21 @@ public class InterfaceJeu {
 
 
             //Panel Gauche
-            JPanel panelGauche = new JPanel();
+            panelGauche = new JPanel();
             panelGauche.setLayout(new BoxLayout(panelGauche,BoxLayout.PAGE_AXIS));
             panelGauche.add(joueurs[0].pan);
             panelGauche.add(joueurs[3].pan);
             menuGauche= new JPanel(new GridLayout(2,2));
             menuGauche.add(boutonMenu);
             menuGauche.add(aide);
+            menuGauche.add(menuRegle);
             menuGauche.add(pause);
             menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
             panelGauche.add(menuGauche);
 
 
             //Panel central
-            JPanel panelCentral = new JPanel(new BorderLayout());
+            panelCentral = new JPanel(new BorderLayout());
             JPanel repartiteur =new JPanel(); //réparti le jeu et le menu du bas
             repartiteur.setLayout((new BoxLayout(repartiteur,BoxLayout.PAGE_AXIS)));
             repartiteur.add(graph.panelJeu);
@@ -98,7 +103,7 @@ public class InterfaceJeu {
 
 
             //Panel Droite
-            JPanel panelDroite = new JPanel();
+            panelDroite = new JPanel();
             panelDroite.setLayout(new BoxLayout(panelDroite,BoxLayout.PAGE_AXIS));
             panelDroite.add(joueurs[1].pan);
             panelDroite.add(joueurs[2].pan);
@@ -246,6 +251,7 @@ public class InterfaceJeu {
             resume.setEnabled(false);
             aide.setEnabled(false);
             boutonMenu.setEnabled(false);
+            menuRegle.setEnabled(false);
 
 
 
@@ -257,13 +263,14 @@ public class InterfaceJeu {
             limDroite.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
             limDroite.setBackground(new Color(0,0,0,75));
             JPanel listeBoutons = new JPanel();
-            listeBoutons.setLayout(new GridLayout(6,1,5,5));
+            listeBoutons.setLayout(new GridLayout(7,1,5,5));
             listeBoutons.add(b.reprendre());
             listeBoutons.add(b.newGame());
             listeBoutons.add(b.save());
             JButton load= b.load();
             load.setEnabled(c.canLoad());
             listeBoutons.add(load);
+            listeBoutons.add(b.optionJeu());
             listeBoutons.add(b.menuPrincpal());
             listeBoutons.add(Box.createHorizontalGlue());
             panelOpt.setPreferredSize(new Dimension(getFrameW()/2,getFrameH()));
@@ -292,11 +299,11 @@ public class InterfaceJeu {
         }
 
         public void reprendre(){
-            frame.remove(panelOpt);
-            frame.remove((limGauche));
-            frame.remove(limDroite);
-            frame.remove(panGrey);
-            frame.remove(panGrey2);
+            frame.removeAll();
+            frame.add(panelGauche,BorderLayout.WEST);
+            frame.add(panelCentral,BorderLayout.CENTER);
+            frame.add(panelDroite,BorderLayout.EAST);
+
             boutonMenu.setEnabled(true);
             annuler.setEnabled(true);
             refaire.setEnabled(true);
@@ -310,6 +317,7 @@ public class InterfaceJeu {
                 listeAct=false;
             }
             selAdapt.setActiv(true);
+            menuRegle.setEnabled(true);
             setResize();
         }
 
@@ -349,6 +357,10 @@ public class InterfaceJeu {
     }
     public void updateNameIA(int numIACouleur, int diff){
             joueurs[numIACouleur].updateNameIA(diff);
+    }
+
+    public void setFinJouable(int joueur){
+            joueurs[joueur-1].setFinJouable();
     }
 }
 

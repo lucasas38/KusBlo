@@ -11,6 +11,7 @@ public class InterfaceKusBlo implements Runnable {
     MenuSolo menuSol;
     MenuMulti menuMult;
     MenuPartiePerso menuPerso;
+    MenuRegle menuRegle;
 
     Option option;
     Controleur c;
@@ -41,6 +42,7 @@ public class InterfaceKusBlo implements Runnable {
         menuSol=new MenuSolo(c,b,im);
         menuMult=new MenuMulti(c,b,im);
         menuPerso=new MenuPartiePerso(c,b,im);
+        menuRegle=new MenuRegle(c,b,im);
         option= new Option(c,b,im);
         frame.addKeyListener(keyAdapt);
         frame.setFocusable(true);
@@ -75,6 +77,10 @@ public class InterfaceKusBlo implements Runnable {
         frame.revalidate();
     }
 
+    public void setMenuRegle() {
+        frame.setContentPane(menuRegle.getFrame());
+        frame.revalidate();
+    }
 
     //Affiche un nouveau jeu
     public void setInterJeu(){
@@ -83,6 +89,12 @@ public class InterfaceKusBlo implements Runnable {
         interJ.resizeAllPanel();
         frame.revalidate();
         c.initAide();
+    }
+
+    public void showInterJeu(){
+        frame.setContentPane(interJ.getFrame());
+        interJ.resizeAllPanel();
+        frame.revalidate();
     }
 
     public InterfaceJeu getInterJ(){
@@ -128,6 +140,10 @@ public class InterfaceKusBlo implements Runnable {
         option.activerAnim(activer);
     }
 
+    public void actAide(boolean activer){
+        option.activerAide(activer);
+    }
+
     public void resetKeyList(){
         frame.removeKeyListener(keyAdapt);
         frame.addKeyListener(keyAdapt);
@@ -137,6 +153,18 @@ public class InterfaceKusBlo implements Runnable {
 
     public void refreshLoad(){
         menu.refreshLoad();
+    }
+
+    public void updateRetourOption(boolean depuisJeu){
+        option.updateBoutRetour(depuisJeu);
+    }
+
+    public void changePage(boolean nextPage){
+        if(nextPage){
+            menuRegle.nextPage();
+        }else{
+            menuRegle.precPage();
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 package Vue;
 
 import Controleur.Controleur;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +33,7 @@ public class MenuMulti {
         //Création du panel centrale avec le logo
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-        BasicBackgroundPanel logo = new BasicBackgroundPanel(new ImageKusBlo().getLogo());
+        BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/2,h/4));
 
         //création de la liste de boutons

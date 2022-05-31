@@ -35,7 +35,7 @@ public class ImageKusBlo {
     Image resume;
     Image undo;
     Image redo;
-    Image[] selAnimRouge;
+    Image[] regle;
 
     //Récupère toutes les images
      public ImageKusBlo(){
@@ -43,12 +43,12 @@ public class ImageKusBlo {
         rouge =getImage("Rouge.png");
         grisRouge=getImage("visRouge.png");
         couleurJ1=getImage("Bleu.png");
-        couleurJ2=getImage("Rouge.png");
-        couleurJ3=getImage(("Jaune.png"));
+        couleurJ2=getImage(("Jaune.png"));
+        couleurJ3=getImage("Rouge.png");
         couleurJ4=getImage(("Vert.png"));
         selJ1=getImage("visBleu4.png");
-        selJ2=getImage("visRouge4.png");
-        selJ3=getImage(("visJaune4.png"));
+        selJ2=getImage(("visJaune4.png"));
+        selJ3=getImage("visRouge4.png");
         selJ4=getImage(("visVert4.png"));
         aide=getImage("visTemp.png");
         noPos=getImage("cantPos.png");
@@ -56,7 +56,7 @@ public class ImageKusBlo {
         noPosR=getImage("cantPosR.png");
         noPosV=getImage("cantPosV.png");
         noPosJ=getImage("cantPosJ.png");
-        logo=getImage("logo.png");
+        logo=getImage("Logo.png");
         fondG =getImage("fondG.png");
         fondD =getImage("fondD.png");
         fondC =getImage("fondC.png");
@@ -65,7 +65,12 @@ public class ImageKusBlo {
         undo = getImage("undo.png");
         redo = getImage("redo.png");
         tuto=getImage("tuto.png");
-        selAnimRouge = new Image[5];
+
+        regle=new Image[4];
+        regle[0]=getImage("Regle1.png");
+        regle[1]=getImage("Regle2.png");
+        regle[2]=getImage("Regle3.png");
+        regle[3]=getImage("Regle4.png");
     }
 
     //récupère l'image demandée
@@ -128,9 +133,9 @@ public class ImageKusBlo {
             case 1 :
                 return noPosB;
             case 2 :
-                return noPosR;
-            case 3 :
                 return noPosJ;
+            case 3 :
+                return noPosR;
             case 4 :
                 return noPosV;
             default:
@@ -142,9 +147,9 @@ public class ImageKusBlo {
     public int imToInt(Image couleur){
         if(couleur==noPosB || couleur==couleurJ1) {
             return 1;
-        } else if(couleur==noPosR || couleur==couleurJ2){
+        }else  if(couleur==noPosJ || couleur==couleurJ2){
             return 2;
-        }else  if(couleur==noPosJ || couleur==couleurJ3){
+        } else if(couleur==noPosR || couleur==couleurJ3){
             return 3;
         }else if(couleur==noPosV || couleur==couleurJ4){
             return 4;

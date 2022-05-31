@@ -1,7 +1,6 @@
 package Vue;
 
 import Controleur.Controleur;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +22,7 @@ public class MenuPartiePerso {
     int[] listeDiff;
     int nbJoueur;
     ImageKusBlo im;
+    Color[] colorJ;
 
 
     public MenuPartiePerso(Controleur c,Bouton bout, ImageKusBlo ima){
@@ -38,6 +38,11 @@ public class MenuPartiePerso {
         listeDiff[1]=0;
         listeDiff[2]=0;
         listeDiff[3]=0;
+        colorJ= new Color[4];
+        colorJ[0]=new Color(102, 140, 255);
+        colorJ[1]=new Color(255, 214, 51);
+        colorJ[2]=new Color(255, 77, 77);
+        colorJ[3]=new Color(102, 255, 102);
         nbJoueur=2;
         J1=createJ(1);
         J2=createJ(2);
@@ -47,7 +52,9 @@ public class MenuPartiePerso {
         //Création du panel Logo
         JPanel panelHaut = new JPanel(new GridLayout(1,3));
         panelHaut.setPreferredSize(new Dimension(w,h/8));
-        panelHaut.add(b.menuPrincpal());
+        JPanel panelMenu= new JPanel();
+        panelMenu.add(b.menuPrincpal());
+        panelHaut.add(panelMenu);
         BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/3,h/8));
         panelHaut.add(logo);
@@ -57,12 +64,15 @@ public class MenuPartiePerso {
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
         JPanel selectionNbJoueur = new JPanel(new GridLayout(1,4));
-        JPanel affichageJoueur = new JPanel(new GridLayout(1,2));
+        JPanel affichageJoueur = new JPanel(new GridLayout(1,2,20,0));
         selectionNbJoueur.setPreferredSize(new Dimension(w,h/8));
-        selectionNbJoueur.add(new JLabel("Type de partie"));
+        JPanel panLab= new JPanel();
+        panLab.add(new JLabel("Choisissez un type de partie :"));
+        selectionNbJoueur.add(panLab);
+        JPanel panCombo = new JPanel();
         JComboBox typeJeu = new JComboBox();
-        typeJeu.addItem("2 Joueurs");
-        typeJeu.addItem("4 Joueurs");
+        typeJeu.addItem("Partie à 2 Joueurs");
+        typeJeu.addItem("Partie à 4 Joueurs");
 
         typeJeu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -78,13 +88,14 @@ public class MenuPartiePerso {
                 }
             }
         });
-        selectionNbJoueur.add(typeJeu);
+        panCombo.add(typeJeu);
+        selectionNbJoueur.add(panCombo);
         selectionNbJoueur.add(new JPanel());
         selectionNbJoueur.add(new JPanel());
 
         affichageJoueur.setPreferredSize(new Dimension(w,5*h/8));
-        affichageJoueurG=new JPanel((new GridLayout(2,1)));
-        affichageJoueurD=new JPanel((new GridLayout(2,1)));
+        affichageJoueurG=new JPanel((new GridLayout(2,1,0,20)));
+        affichageJoueurD=new JPanel((new GridLayout(2,1,0,20)));
         affichageJoueurG.add(J1);
         affichageJoueurD.add(J2);
         affichageJoueur.add(affichageJoueurG);
@@ -112,11 +123,31 @@ public class MenuPartiePerso {
 
     public JPanel createJ(int joueur){
         JPanel panJ = new JPanel(new GridLayout(3,3));
-        panJ.setBackground(Color.gray);
+        panJ.setBackground(colorJ[joueur-1]);
         panJ.setBorder(BorderFactory.createLineBorder(Color.black));
-        panJ.add(new JLabel("Joueur "+ joueur));
-        panJ.add(new JPanel());
-        panJ.add(new JLabel("Type de joueur"));
+
+
+        JPanel panNumJoueur= new JPanel();
+        panNumJoueur.add(new JLabel("Joueur "+ joueur));
+        panNumJoueur.setBackground(colorJ[joueur-1]);
+        panJ.add(panNumJoueur);
+
+
+        JPanel panVide = new JPanel();
+        panVide.setBackground(colorJ[joueur-1]);
+        panVide.setBorder(BorderFactory.createLineBorder(colorJ[joueur-1]));
+        panJ.add(panVide);
+
+
+        JPanel panTypeJoueur =new JPanel();
+        panTypeJoueur.setBackground(colorJ[joueur-1]);
+        panTypeJoueur.add(new JLabel("Type de joueur"));
+        panJ.add(panTypeJoueur);
+
+
+        JPanel panCombo1=new JPanel();
+        panCombo1.setBackground(colorJ[joueur-1]);
+        panCombo1.setBorder(BorderFactory.createLineBorder(colorJ[joueur-1]));
         JComboBox listeTypeJoueur = new JComboBox();
         listeTypeJoueur.addItem("Humain");
         listeTypeJoueur.addItem("IA");
@@ -136,12 +167,21 @@ public class MenuPartiePerso {
                 }
             }
         });
-        panJ.add(listeTypeJoueur);
+        panCombo1.add(listeTypeJoueur);
+        panJ.add(panCombo1);
+
+
         JPanel panDiff= new JPanel();
+        panDiff.setBackground(colorJ[joueur-1]);
+        panDiff.setBorder(BorderFactory.createLineBorder(colorJ[joueur-1]));
+
+
         JPanel selDiff= new JPanel();
+        selDiff.setBackground(colorJ[joueur-1]);
+        selDiff.setBorder(BorderFactory.createLineBorder(colorJ[joueur-1]));
+
         diff[joueur-1] = panDiff;
         diff[joueur+3] = selDiff;
-
         panJ.add(diff[joueur-1]);
         panJ.add(diff[joueur+3]);
         return panJ;
