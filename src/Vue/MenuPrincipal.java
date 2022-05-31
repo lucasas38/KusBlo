@@ -31,7 +31,7 @@ public class MenuPrincipal {
         //Création du panel centrale avec le logo
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-        BasicBackgroundPanel logo = new BasicBackgroundPanel(new ImageKusBlo().getLogo());
+        BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/2,h/4));
         //logo.setBackground(new Color(0,0,0,80));
 
