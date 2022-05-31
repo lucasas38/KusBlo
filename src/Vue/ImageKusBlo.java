@@ -56,7 +56,7 @@ public class ImageKusBlo {
         noPosR=getImage("cantPosR.png");
         noPosV=getImage("cantPosV.png");
         noPosJ=getImage("cantPosJ.png");
-        logo=getImage("logo.png");
+        logo=getImage("Logo.png");
         fondG =getImage("fondG.png");
         fondD =getImage("fondD.png");
         fondC =getImage("fondC.png");
