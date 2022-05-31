@@ -164,7 +164,7 @@ public class Option {
             listeOption.add(retour);
             estDepuisJeu=true;
             listeOption.updateUI();
-        }else if(estDepuisJeu){
+        }else if(!depuisJeu && estDepuisJeu){
             listeOption.remove(retour);
             listeOption.add(menuPrin);
             estDepuisJeu=false;
