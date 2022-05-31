@@ -32,12 +32,6 @@ public class AdaptateurSelPiece implements MouseListener {
                     cont.setMenu2(l,c);
                     m.showMenuPieceUnique();
                 }
-            }else{
-                int l = e.getY() / m.getHautMenu();
-                int c = e.getX() / m.getLargMenu();
-                if(cont.contientPiece(l*7+c+1)){
-                    cont.selPiece(l,c);
-                }
             }
         }
 
@@ -53,6 +47,11 @@ public class AdaptateurSelPiece implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
+        int l = e.getY() / m.getHautMenu();
+        int c = e.getX() / m.getLargMenu();
+        if(cont.contientPiece(l*7+c+1)){
+            cont.selPiece(l,c);
+        }
     }
 
     public void setActiv(boolean activ) {

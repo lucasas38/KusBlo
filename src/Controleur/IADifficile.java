@@ -23,10 +23,13 @@ public class IADifficile extends IA{
     int horizon = 2;
     int cpt = 0; // compte les appels récursifs
 
-    IADifficile(Jeu j){
+    boolean aide;
+
+    IADifficile(Jeu j,boolean aide){
         super(j);
         type = 7;
         mode = r.nextInt(5); // randomise les heuristiques d'IA
+        this.aide = aide;
         System.out.println("Je suis de type : " + mode);
     }
 
@@ -36,7 +39,7 @@ public class IADifficile extends IA{
         ListeValeur<Case, Piece> res = null;
         cpt = 0;
         ListePieces listePiecesDispo = jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo();
-        if ( listePiecesDispo.getTaille() > 18){
+        if ( listePiecesDispo.getTaille() > 18 && !aide){
             res = ouvertures(listePiecesDispo);
         } else {
             //alphaBeta(jeu, horizon, 0,jeu.getIDJoueurCourant(),-1000000000, 1000000000);
