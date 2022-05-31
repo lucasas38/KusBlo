@@ -158,11 +158,4 @@ public class ImageKusBlo {
         }
     }
 
-    public Image imageFondAide(Image ima){
-         if(ima==aide){
-             return gris;
-         }else{
-             return ima;
-         }
-    }
 }

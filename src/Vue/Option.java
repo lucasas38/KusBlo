@@ -9,6 +9,8 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.Hashtable;
 
 public class Option {
@@ -18,6 +20,9 @@ public class Option {
         int h ;
         Bouton b;
         ImageKusBlo im;
+        JPanel panelDroit;
+        JPanel panelGauche;
+        BasicBackgroundPanel logo;
         JPanel panActAnim;
         JPanel panActAide;
         JPanel panSlide;
@@ -39,7 +44,7 @@ public class Option {
             retour=b.retourJeu();
 
             //Création du panel Gauche
-            JPanel panelGauche = new JPanel(new BorderLayout());
+            panelGauche = new JPanel(new BorderLayout());
             panelGauche.setPreferredSize(new Dimension(w/4,h));
             BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
             panelGauche.add(fondG);
@@ -48,7 +53,7 @@ public class Option {
             //Création du panel centrale avec le logo
             JPanel panelCentral = new JPanel();
             panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-            BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
+            logo = new BasicBackgroundPanel(im.getLogo());
             logo.setPreferredSize(new Dimension(w/2,h/4));
 
             //création de la liste de boutons
@@ -72,7 +77,7 @@ public class Option {
             slider.setInverted(true);
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
-            slider.setMinorTickSpacing(500);
+            slider.setMinorTickSpacing(100);
             panSlide.add(slider);
             slider.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent event) {
@@ -129,7 +134,7 @@ public class Option {
             panelCentral.add(listeOption, BorderLayout.CENTER);
 
             //Création du panel droit
-            JPanel panelDroit = new JPanel(new BorderLayout());
+            panelDroit = new JPanel(new BorderLayout());
             panelDroit.setPreferredSize(new Dimension(w/4,h));
             BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
             panelDroit.add(fondD);
@@ -142,6 +147,8 @@ public class Option {
             frame.add(panelGauche, BorderLayout.WEST);
             frame.add(panelCentral, BorderLayout.CENTER);
             frame.add(panelDroit, BorderLayout.EAST);
+
+            setResize();
 
         }
 
@@ -191,6 +198,23 @@ public class Option {
         }
     }
 
+    public void setResize(){
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                resizeAllPanel();
+            }
+        });
+
+    }
+
+    //redimensionne tous les pannel
+    public void resizeAllPanel(){
+        w=cont.getFrameW();
+        h=cont.getFrameH();
+        panelGauche.setPreferredSize(new Dimension(w/4,h));
+        panelDroit.setPreferredSize(new Dimension(w/4,h));
+        logo.setPreferredSize(new Dimension(w/2,h/4));
+    }
 
 }
 

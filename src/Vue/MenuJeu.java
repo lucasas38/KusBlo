@@ -9,17 +9,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
-public class MenuPiece {
+public class MenuJeu {
     JPanel menu;
     ImageKusBlo im;
     Bouton b;
     Controleur c;
     JPanel menuListePiece;
     JPanel[] listePiece;
-    JPanel menuPieceUnique;
     Piece piece;
-    BasicBackgroundPanel[][] pieceUnique;
-    JPanel affichagePiece;
     int numPiece;
     int joueur;
     int couleur;
@@ -28,19 +25,16 @@ public class MenuPiece {
     JPanel menuFinPartie;
     JPanel menuTourIA;
     JPanel menuHistorique;
-    JPanel menuPasserTour;
 
 
 
 
-
-    public MenuPiece(Controleur cont, Bouton bout, ImageKusBlo ima){
+    public MenuJeu(Controleur cont, Bouton bout, ImageKusBlo ima){
         menu= new JPanel(new BorderLayout());
         im=ima;
         c=cont;
         b=bout;
         creerMenuListePiece();
-        creerMenuPieceUnique();
         creerMenuFinPartie();
         creerMenuTourIA();
         creerMenuHistorique();
@@ -48,73 +42,35 @@ public class MenuPiece {
     }
 
 
-
+    //Création du menu de sélection de pièce
     public void creerMenuListePiece(){
         menuListePiece = new JPanel(new GridLayout(3,7,2,2));
         listePiece=new JPanel[21];
-
     }
 
-    public void creerMenuPieceUnique(){
-        menuPieceUnique = new JPanel(new GridLayout(1,3));
-        JPanel centre =new JPanel(new BorderLayout());
-        pieceUnique = new BasicBackgroundPanel[5][5];
-
-        //On créer le carré central
-        affichagePiece=new JPanel(new GridLayout(5, 5));
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                BasicBackgroundPanel newPan = new BasicBackgroundPanel(im.coulJoueur(5));
-                affichagePiece.add(newPan);
-                pieceUnique[i][j]=newPan;
-            }
-        }
-        //On ajoute les boutons latéraux
-        //Retour a la liste des pièces
-        JPanel boutGauche=new JPanel(new GridLayout(2,1,15,5));
-        boutGauche.add(b.retourListePiece());
-        boutGauche.add(b.skipTour());
-        boutGauche.add(new JPanel());
-        menuPieceUnique.add(boutGauche);
-
-        //Affichage de la pièce et parcours gauche/droite
-        centre.add(new JButton("<"),BorderLayout.WEST);
-        centre.add(affichagePiece,BorderLayout.CENTER);
-        centre.add(new JButton(">"),BorderLayout.EAST);
-        menuPieceUnique.add(centre);
-
-        //Rotation + Flip
-        JPanel boutDroit=new JPanel(new GridLayout(2,2,15,5));
-        boutDroit.add(b.rotaHoraire());
-        boutDroit.add(b.rotaAntiHoraire());
-        boutDroit.add(b.flip());
-        menuPieceUnique.add(boutDroit);
-
-
-    }
-
+    //Création du menu d'affichage de fin de partie
     public void creerMenuFinPartie(){
         menuFinPartie =new JPanel(new GridLayout(6,1));
         JPanel finPartie = new JPanel();
         finPartie.add(new JLabel("Fin de la partie"));
         menuFinPartie.add(finPartie);
     }
+
+    //Création du menu IA
     public void creerMenuTourIA(){
         menuTourIA =new JPanel(new BorderLayout());
         JPanel tourIA= new JPanel();
         tourIA.add(new JLabel("Ce n'est pas a votre tour de jouer"));
         menuTourIA.add(tourIA);
     }
+
+    //Création du menu de parcours d'historique
     public void creerMenuHistorique(){
         menuHistorique =new JPanel(new GridLayout(2,1));
         menuHistorique.add(new JLabel("Vous êtes en train de parcourir l'historique"));
         menuHistorique.add(new JLabel("Vous êtes au tour du joueur : "+c.getActCouleur()));
     }
 
-    public void creerPasserTour(){
-        menuTourIA =new JPanel(new BorderLayout());
-        menuTourIA.add(new JLabel("Vous n'avez plus de pièce disponible"));
-    }
 
     //Hauteur du menu complet
     public int getHautMenu(){
@@ -135,6 +91,7 @@ public class MenuPiece {
     }
 
 
+    //Affiche la liste des pièces d'un joueur
     public void setMenuListePiece(int joue, int c){
         joueur=joue;
         couleur= c;
@@ -144,6 +101,8 @@ public class MenuPiece {
         menu.add(menuListePiece);
         menu.updateUI();
     }
+
+    //Sélectionne la pièce
     public void setMenuPieceUnique(int p){
         numPiece=p+1;
         piece = c.getListPiece(couleur).getPiece(p+1);
@@ -151,14 +110,16 @@ public class MenuPiece {
 
 
 
-    //Menu de fin de partie, Ver.1
+    //Menu de fin de partie
     public void setMenuFinPartie(int[] joueur, int nbVainqueur){
         resetMenuFinPartie();
         if(nbVainqueur==1){
+            //On affiche le gagnant
             JPanel finPartie1=new JPanel();
             finPartie1.add(new JLabel("Victoire du joueur "+joueur[0]));
             menuFinPartie.add(finPartie1);
         }else{
+            //Si on a une égalité, on affiche tous les vainqueurs
             JPanel finPartie2=new JPanel();
             finPartie2.add(new JLabel("Égalité !"));
             menuFinPartie.add(finPartie2);
@@ -168,7 +129,6 @@ public class MenuPiece {
                 menuFinPartie.add(finPartie3);
             }
         }
-
         menu.removeAll();
         menu.add(menuFinPartie);
         menu.updateUI();
@@ -180,6 +140,8 @@ public class MenuPiece {
         menu.add(menuTourIA);
         menu.updateUI();
     }
+
+    //Menu de pause et de parcours d'historique
     public void setMenuHistorique(){
         menuHistorique.removeAll();
         JPanel histo1= new JPanel();
@@ -193,23 +155,9 @@ public class MenuPiece {
         menu.updateUI();
     }
 
-    public void setMenuPasserTour(){
-        menu.removeAll();
-        menu.add(menuPasserTour);
-        menu.updateUI();
-    }
 
 
-    //Affiche le menu avec pièce unique
-    public void showMenuPieceUnique(){
-        refreshPiece(c.getActCouleur());
-        menu.removeAll();
-        menu.add(menuPieceUnique);
-        menu.updateUI();
-    }
-
-
-    //Utilisé par le menu 1, affiche la liste des pièces pour
+    //Utilisé par le menu liste piece, affiche la liste des pièces pour
     public void refreshAffichageListePiece() {
         menuListePiece.removeAll();
         int numPiece = 1;
@@ -287,22 +235,8 @@ public class MenuPiece {
 
     }
 
-    //Affiche la pièce actuelle pour le menu 2
-    public void refreshPiece(int couleur){
-        for(int i=0; i<5;i++){
-            for(int j=0; j<5;j++){
-                if(piece.getMatrice()[i][j]==0){
-                    pieceUnique[i][j].changeBackground(im.gris);
-                }else{
-                    pieceUnique[i][j].changeBackground(im.coulJoueur(couleur));
-                }
-            }
-        }
 
-    }
-
-
-    //Sélectionne une pièce du menu 1
+    //Sélectionne une pièce du menu liste piece
     public void selPiece(int num){
         resetBorder();
         pieceSelected=true;
@@ -316,16 +250,14 @@ public class MenuPiece {
         }
     }
 
-    //Change la taille des différents menu
+    //Change la taille des différents menus
     public void resize(int w, int h){
         menuListePiece.setPreferredSize(new Dimension(w/2,h/4));
-        menuPieceUnique.setPreferredSize(new Dimension(w/2,h/4));
+        menuHistorique.setPreferredSize(new Dimension(w/2,h/4));
+        menuTourIA.setPreferredSize(new Dimension(w/2,h/4));
         menuFinPartie.setPreferredSize(new Dimension(w/2,h/4));
     }
-
-    public boolean isPieceSelected(){
-        return  pieceSelected;
-    }
+    
 
     public void resetMenuFinPartie(){
         menuFinPartie.removeAll();

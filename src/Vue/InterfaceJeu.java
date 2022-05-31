@@ -11,7 +11,7 @@ import java.awt.event.ComponentEvent;
 public class InterfaceJeu {
         JPanel frame;
         VueNiveau graph;
-        MenuPiece m;
+        MenuJeu m;
         PanneauJoueur[] joueurs;
         AdaptateurSouris mouseAdapt;
         AdaptateurSelPiece selAdapt;
@@ -47,6 +47,7 @@ public class InterfaceJeu {
             h=c.getFrameH();
             setResize();
             b=bout;
+            //Création des différents boutons
             boutonMenu= b.menuJeu();
             int minDim = Math.min(getFrameW()/8,getFrameH()/16);
             pause= b.pause();
@@ -56,28 +57,25 @@ public class InterfaceJeu {
             pause.setIcon(icon);
             pause.setBorder(BorderFactory.createEmptyBorder());
 
-
             resume =b.resume();
             img = im.resume ;
             newimg = img.getScaledInstance( minDim, minDim,  java.awt.Image.SCALE_SMOOTH ) ;
             icon = new ImageIcon( newimg );
             resume.setIcon(icon);
             resume.setBorder(BorderFactory.createEmptyBorder());
-            resume.setContentAreaFilled(false);
 
             menuRegle=b.menuRegle();
             aide=b.aide();
             joueurs=new PanneauJoueur[4];
-            m=new MenuPiece(c,b,im);
+            m=new MenuJeu(c,b,im);
             graph = new VueNiveau(c,im);
             mouseAdapt =new AdaptateurSouris(c);
-            selAdapt= new AdaptateurSelPiece(graph,m,c,true);
+            selAdapt= new AdaptateurSelPiece(graph,m,c);
             //Création des panneau joueur
             joueurs[0] = new PanneauJoueur(1,c,im);
             joueurs[1] = new PanneauJoueur(2,c,im);
             joueurs[2] = new PanneauJoueur(3,c,im);
             joueurs[3] = new PanneauJoueur(4,c,im);
-
 
             //Panel Gauche
             panelGauche = new JPanel();
@@ -135,7 +133,6 @@ public class InterfaceJeu {
 
 
 
-            //Pannel principal
 
             frame.add(panelGauche,BorderLayout.WEST);
             frame.add(panelCentral,BorderLayout.CENTER);
@@ -144,7 +141,6 @@ public class InterfaceJeu {
 
 
             m.menuListePiece.addMouseListener(selAdapt);
-            m.affichagePiece.addMouseListener(new AdaptateurSelPiece(graph, m,c,false));
             graph.panelJeu.addMouseMotionListener(mouseAdapt);
             graph.panelJeu.addMouseListener(mouseAdapt);
             graph.panelJeu.addMouseWheelListener(mouseAdapt);
@@ -161,7 +157,7 @@ public class InterfaceJeu {
             return c.getFrameW();
         }
 
-        public MenuPiece getM() {
+        public MenuJeu getM() {
             return m;
         }
 
@@ -225,7 +221,7 @@ public class InterfaceJeu {
 
         }
 
-        //redimensionne tous les pannel
+        //redimensionne tous les panels
         public void resizeAllPanel(){
             graph.resize(getFrameW(),getFrameH());
             m.resize(getFrameW(),getFrameH());
@@ -240,6 +236,7 @@ public class InterfaceJeu {
         }
 
 
+        //Affiche le menu option du jeu et met en pause le jeu
         public void setMenuOpt(){
             if(mouseAdapt.activ)
                 listeAct=true;
@@ -254,15 +251,15 @@ public class InterfaceJeu {
             boutonMenu.setEnabled(false);
             menuRegle.setEnabled(false);
 
-
-
             panelOpt= new JPanel(new BorderLayout());
             limGauche=new JPanel();
             limGauche.setBackground(new Color(0,0,0,75));
             limGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
+
             limDroite= new JPanel();
             limDroite.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
             limDroite.setBackground(new Color(0,0,0,75));
+
             JPanel listeBoutons = new JPanel();
             listeBoutons.setLayout(new GridLayout(7,1,5,5));
             listeBoutons.add(b.reprendre());
@@ -274,19 +271,18 @@ public class InterfaceJeu {
             listeBoutons.add(b.optionJeu());
             listeBoutons.add(b.menuPrincpal());
             listeBoutons.add(Box.createHorizontalGlue());
+
             panelOpt.setPreferredSize(new Dimension(getFrameW()/2,getFrameH()));
             listeBoutons.setBackground(new Color(0,0,0,75));
             panelOpt.add(limGauche,BorderLayout.WEST);
             panelOpt.add(listeBoutons,BorderLayout.CENTER);
             panelOpt.add(limDroite,BorderLayout.EAST);
 
-
             panGrey=new JPanel(new BorderLayout());
             panGrey2=new JPanel(new BorderLayout());
             panGrey.setBackground(new Color(0,0,0,75));
             panGrey2.setBackground(new Color(0,0,0,75));
             panelOpt.setBackground(new Color(0,0,0,75));
-
 
             frame.add(panGrey,BorderLayout.WEST);
             frame.add(panelOpt,BorderLayout.CENTER);
@@ -299,6 +295,7 @@ public class InterfaceJeu {
 
         }
 
+        //Enlève le menu et reprend le jeu en son état actuel
         public void reprendre(){
             frame.removeAll();
             frame.add(panelGauche,BorderLayout.WEST);
@@ -326,6 +323,8 @@ public class InterfaceJeu {
             graph.charger();
         }
 
+
+        //Modifie le bouton pause
         public void changePauseMenu(boolean mettrePause){
             if(mettrePause){
                 menuGauche.remove(resume);
@@ -337,36 +336,36 @@ public class InterfaceJeu {
             menuGauche.updateUI();
         }
 
-    public void setAnnuler(boolean an) {
-        annuler.setEnabled(an);
-    }
+        public void setAnnuler(boolean an) {
+            annuler.setEnabled(an);
+        }
 
-    public void setRefaire(boolean re) {
-        refaire.setEnabled(re);
-    }
+        public void setRefaire(boolean re) {
+            refaire.setEnabled(re);
+        }
 
-    public void setEnabledAide(boolean act){
-            aide.setEnabled(act);
-    }
+        public void setEnabledAide(boolean act){
+                aide.setEnabled(act);
+        }
 
-    public void actMenu1(int cool,boolean act){
-            if(act){
-                joueurs[cool-1].setMenu1();
-            }else{
-                joueurs[cool-1].delMenu1();
-            }
-    }
-    public void updateNameIA(int numIACouleur, int diff){
-            joueurs[numIACouleur].updateNameIA(diff);
-    }
+        public void actMenu1(int cool,boolean act){
+                if(act){
+                    joueurs[cool-1].setMenu1();
+                }else{
+                    joueurs[cool-1].delMenu1();
+                }
+        }
+        public void updateNameIA(int numIACouleur, int diff){
+                joueurs[numIACouleur].updateNameIA(diff);
+        }
 
-    public void setFinJouable(int joueur){
-            joueurs[joueur-1].setFinJouable();
-    }
+        public void setFinJouable(int joueur){
+                joueurs[joueur-1].setFinJouable();
+        }
 
-    public void refreshLoad(){
-            load.setEnabled(true);
-    }
+        public void refreshLoad(){
+                load.setEnabled(c.canLoad());
+        }
 }
 
 

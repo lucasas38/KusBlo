@@ -9,11 +9,14 @@ import java.awt.event.*;
 public class MenuPartiePerso {
     JPanel frame;
     Controleur cont;
-    int w;
-    int h ;
     Bouton b;
+    JPanel affichageJoueur;
     JPanel affichageJoueurG;
     JPanel affichageJoueurD;
+    JPanel panelBas;
+    JPanel panelHaut;
+    BasicBackgroundPanel logo;
+    JPanel selectionNbJoueur;
     JPanel J1;
     JPanel J2;
     JPanel J3;
@@ -27,8 +30,6 @@ public class MenuPartiePerso {
 
     public MenuPartiePerso(Controleur c,Bouton bout, ImageKusBlo ima){
         cont=c;
-        w=c.getFrameW();
-        h=c.getFrameH();
         b=bout;
         im=ima;
         frame= new JPanel(new BorderLayout());
@@ -50,22 +51,22 @@ public class MenuPartiePerso {
         J4=createJ(4);
 
         //Création du panel Logo
-        JPanel panelHaut = new JPanel(new GridLayout(1,3));
-        panelHaut.setPreferredSize(new Dimension(w,h/8));
+        panelHaut = new JPanel(new GridLayout(1,3));
+        panelHaut.setPreferredSize(new Dimension(cont.getFrameW(),cont.getFrameH()/8));
         JPanel panelMenu= new JPanel();
         panelMenu.add(b.menuPrincpal());
         panelHaut.add(panelMenu);
-        BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
-        logo.setPreferredSize(new Dimension(w/3,h/8));
+        logo = new BasicBackgroundPanel(im.getLogo());
+        logo.setPreferredSize(new Dimension(cont.getFrameW()/3,cont.getFrameH()/8));
         panelHaut.add(logo);
         panelHaut.add(new JPanel(new BorderLayout()));
 
         //Création panel Central
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-        JPanel selectionNbJoueur = new JPanel(new GridLayout(1,4));
-        JPanel affichageJoueur = new JPanel(new GridLayout(1,2,20,0));
-        selectionNbJoueur.setPreferredSize(new Dimension(w,h/8));
+        selectionNbJoueur = new JPanel(new GridLayout(1,4));
+        affichageJoueur = new JPanel(new GridLayout(1,2,20,0));
+        selectionNbJoueur.setPreferredSize(new Dimension(cont.getFrameW(),cont.getFrameH()/8));
         JPanel panLab= new JPanel();
         panLab.add(new JLabel("Choisissez un type de partie :"));
         selectionNbJoueur.add(panLab);
@@ -93,7 +94,7 @@ public class MenuPartiePerso {
         selectionNbJoueur.add(new JPanel());
         selectionNbJoueur.add(new JPanel());
 
-        affichageJoueur.setPreferredSize(new Dimension(w,5*h/8));
+        affichageJoueur.setPreferredSize(new Dimension(cont.getFrameW(),5*cont.getFrameH()/8));
         affichageJoueurG=new JPanel((new GridLayout(2,1,0,20)));
         affichageJoueurD=new JPanel((new GridLayout(2,1,0,20)));
         affichageJoueurG.add(J1);
@@ -105,9 +106,11 @@ public class MenuPartiePerso {
         panelCentral.add(affichageJoueur);
 
         //Création du panel bas
-        JPanel panelBas = new JPanel(new BorderLayout());
-        panelBas.setPreferredSize(new Dimension(w,h/8));
-        panelBas.add(b.lancerPartie(),BorderLayout.SOUTH);
+        panelBas = new JPanel(new BorderLayout());
+        panelBas.setPreferredSize(new Dimension(cont.getFrameW(),cont.getFrameH()/8));
+        JPanel lancerPartie= new JPanel();
+        lancerPartie.add(b.lancerPartie());
+        panelBas.add(lancerPartie,BorderLayout.SOUTH);
 
 
         frame.add(panelHaut,BorderLayout.NORTH);
@@ -121,6 +124,7 @@ public class MenuPartiePerso {
         return frame;
     }
 
+    //Créer le menu de sélection pour un joueur
     public JPanel createJ(int joueur){
         JPanel panJ = new JPanel(new GridLayout(3,3));
         panJ.setBackground(colorJ[joueur-1]);
@@ -187,6 +191,7 @@ public class MenuPartiePerso {
         return panJ;
     }
 
+    //Créer le sélecteur de difficulté
     public void setDiff(boolean IA, int joueur){
         if(IA){
             diff[joueur-1].removeAll();
@@ -229,6 +234,7 @@ public class MenuPartiePerso {
         }
     }
 
+    //Selection du type de partie
     public void setTypePartie(boolean deuxJoueur){
         if(deuxJoueur){
             affichageJoueurD.remove(J3);
@@ -259,8 +265,14 @@ public class MenuPartiePerso {
 
     }
 
+    //redimensionne tous les panels
     public void resizeAllPanel(){
-        w= cont.getFrameW();
-        h=cont.getFrameH();
+        affichageJoueur.setPreferredSize(new Dimension(cont.getFrameW(),5*cont.getFrameH()/8));
+        panelBas.setPreferredSize(new Dimension(cont.getFrameW(),cont.getFrameH()/8));
+        logo.setPreferredSize(new Dimension(cont.getFrameW()/3,cont.getFrameH()/8));
+        selectionNbJoueur.setPreferredSize(new Dimension(cont.getFrameW(),cont.getFrameH()/8));
+        panelHaut.setPreferredSize(new Dimension(cont.getFrameW(),cont.getFrameH()/8));
     }
+
+
 }

@@ -6,7 +6,7 @@ import Structures.Case;
 import Structures.ListeValeur;
 import Structures.Trio;
 import Vue.InterfaceKusBlo;
-import Vue.MenuPiece;
+import Vue.MenuJeu;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -263,22 +263,19 @@ public class Controleur {
     }
 
     public void antiHoraire(){
-        MenuPiece m= inter.getInterJ().getM();
+        MenuJeu m= inter.getInterJ().getM();
         m.getPiece().rotationAntiHoraire();
-        m.refreshPiece(jeu.getNumCouleurCourante());
     }
 
     public void rotaHoraire(){
-        MenuPiece m= inter.getInterJ().getM();
+        MenuJeu m= inter.getInterJ().getM();
         m.getPiece().rotationHoraire();
-        m.refreshPiece(jeu.getNumCouleurCourante());
 
     }
 
     public void flip(){
-        MenuPiece m= inter.getInterJ().getM();
+        MenuJeu m= inter.getInterJ().getM();
         m.getPiece().rotationSymetrique();
-        m.refreshPiece(jeu.getNumCouleurCourante());
     }
 
     public void toucheClavier(String touche) {

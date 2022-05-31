@@ -17,6 +17,8 @@ public class MenuPrincipal {
     JPanel panelDroit;
     JPanel panelCentral;
     BasicBackgroundPanel logo;
+    BasicBackgroundPanel fondG;
+    BasicBackgroundPanel fondD;
     int w;
     int h ;
 
@@ -31,7 +33,8 @@ public class MenuPrincipal {
         //Création du panel Gauche
         panelGauche = new JPanel(new BorderLayout());
         panelGauche.setPreferredSize(new Dimension(w/4,h));
-        BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
+        fondG = new BasicBackgroundPanel(im.fondG);
+        fondG.setPreferredSize(new Dimension(w/4,h));
         panelGauche.add(fondG);
 
         //Création du panel centrale avec le logo
@@ -43,7 +46,6 @@ public class MenuPrincipal {
 
         //création de la liste de boutons
         JPanel listeBoutons = new JPanel(new GridLayout(6,1));
-        //listeBoutons.setBackground(new Color(0,0,0,80));
         listeBoutons.add(b.solo());
         listeBoutons.add(b.multi());
         listeBoutons.add(b.partiePerso());
@@ -57,10 +59,11 @@ public class MenuPrincipal {
         panelCentral.add(logo,BorderLayout.NORTH);
         panelCentral.add(listeBoutons, BorderLayout.CENTER);
 
-
+        //Création du panel Droit
         panelDroit = new JPanel(new BorderLayout());
         panelDroit.setPreferredSize(new Dimension(w/4,h));
-        BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
+        fondD = new BasicBackgroundPanel(im.fondD);
+        fondD.setPreferredSize(new Dimension(w/4,h));
         panelDroit.add(fondD);
 
 
@@ -68,7 +71,7 @@ public class MenuPrincipal {
         frame.add(panelCentral, BorderLayout.CENTER);
         frame.add(panelDroit, BorderLayout.EAST);
         frame.updateUI();
-
+        setResize();
     }
 
     public JPanel getFrame(){
@@ -84,12 +87,15 @@ public class MenuPrincipal {
 
     }
 
-    //redimensionne tous les pannel
+    //redimensionne tous les panels
     public void resizeAllPanel(){
         w=cont.getFrameW();
         h=cont.getFrameH();
         panelGauche.setPreferredSize(new Dimension(w/4,h));
         panelDroit.setPreferredSize(new Dimension(w/4,h));
+        fondG.setPreferredSize(new Dimension(w/4,h));
+        fondD.setPreferredSize(new Dimension(w/4,h));
+        logo.setPreferredSize(new Dimension(w/2,h/4));
     }
 
     public void refreshLoad(){

@@ -14,6 +14,9 @@ public class MenuMulti {
     int h ;
     Bouton b;
     ImageKusBlo im;
+    JPanel panelDroit;
+    JPanel panelGauche;
+    BasicBackgroundPanel logo;
 
     public MenuMulti(Controleur c,Bouton bout, ImageKusBlo ima){
         cont=c;
@@ -24,7 +27,7 @@ public class MenuMulti {
         im=ima;
 
         //Création du panel Gauche
-        JPanel panelGauche = new JPanel(new BorderLayout());
+        panelGauche = new JPanel(new BorderLayout());
         panelGauche.setPreferredSize(new Dimension(w/4,h));
         BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
         panelGauche.add(fondG);
@@ -33,7 +36,7 @@ public class MenuMulti {
         //Création du panel centrale avec le logo
         JPanel panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-        BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
+        logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/2,h/4));
 
         //création de la liste de boutons
@@ -48,7 +51,7 @@ public class MenuMulti {
         panelCentral.add(listeBoutons, BorderLayout.CENTER);
 
         //Création du panel droit
-        JPanel panelDroit = new JPanel(new BorderLayout());
+        panelDroit = new JPanel(new BorderLayout());
         panelDroit.setPreferredSize(new Dimension(w/4,h));
         BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
         panelDroit.add(fondD);
@@ -57,9 +60,7 @@ public class MenuMulti {
         frame.add(panelGauche, BorderLayout.WEST);
         frame.add(panelCentral, BorderLayout.CENTER);
         frame.add(panelDroit, BorderLayout.EAST);
-
         setResize();
-
     }
 
     public JPanel getFrame(){
@@ -75,8 +76,13 @@ public class MenuMulti {
 
     }
 
+    //redimensionne tous les panels
     public void resizeAllPanel(){
-        w= cont.getFrameW();
+        w=cont.getFrameW();
         h=cont.getFrameH();
+        panelGauche.setPreferredSize(new Dimension(w/4,h));
+        panelDroit.setPreferredSize(new Dimension(w/4,h));
+        logo.setPreferredSize(new Dimension(w/2,h/4));
     }
+
 }

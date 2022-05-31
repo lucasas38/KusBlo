@@ -2,39 +2,25 @@ package Vue;
 
 import Controleur.Controleur;
 
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class AdaptateurSelPiece implements MouseListener {
     VueNiveau n;
-    MenuPiece m;
+    MenuJeu m;
     Controleur cont;
-    boolean pieceMultiple;
     boolean activ;
 
 
-    AdaptateurSelPiece(VueNiveau niv, MenuPiece menu,Controleur c, boolean multPiece) {
+    AdaptateurSelPiece(VueNiveau niv, MenuJeu menu, Controleur c) {
         n = niv;
         m = menu;
-        pieceMultiple=multPiece;
         cont=c;
         activ=true;
     }
 
     //Sélectionne la pièce ou affiche la pièce toute seule avec un click molette;
     public void mouseClicked(MouseEvent e) {
-        if(activ){
-            if (SwingUtilities.isMiddleMouseButton(e)) {
-                int l = e.getY() / m.getHautMenu();
-                int c = e.getX() / m.getLargMenu();
-                if(cont.contientPiece(l*7+c+1)){
-                    cont.setMenu2(l,c);
-                    m.showMenuPieceUnique();
-                }
-            }
-        }
-
     }
 
     public void mouseEntered(MouseEvent e) {

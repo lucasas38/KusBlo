@@ -3,8 +3,7 @@ package Vue;
 import Controleur.Controleur;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class Bouton {
     Controleur c;
@@ -13,41 +12,6 @@ public class Bouton {
     Bouton(Controleur cont, ImageKusBlo ima){
         c=cont;
         im=ima;
-    }
-
-    public JButton retourListePiece(){
-        JButton button = new JButton("Liste des pièces");
-        button.addActionListener(e -> c.setMenu1());
-        return button;
-    }
-
-    public JButton rotaHoraire(){
-        JButton button = new JButton("RotaHoraire");
-        button.addActionListener(e -> c.rotaHoraire());
-        return button;
-    }
-
-    public JButton rotaAntiHoraire(){
-        JButton button = new JButton("AntiHoraire");
-        button.addActionListener(e -> c.antiHoraire());
-        return button;
-    }
-
-    public JButton flip(){
-        JButton button = new JButton("Flip");
-        button.addActionListener(e -> c.flip());
-        return button;
-    }
-
-    public JButton skipTour(){
-        JButton button = new JButton("Abandon");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Abandon");
-            }
-        });
-        return button;
     }
 
     public JButton menuJeu(){
@@ -254,41 +218,31 @@ public class Bouton {
 
     public JButton retourJeu(){
         JButton button = new JButton("Retour");
-        button.addActionListener(e -> {
-            c.retourJeu();
-        });
+        button.addActionListener(e -> c.retourJeu());
         return button;
     }
 
     public JButton actAnim(){
         JButton button = new JButton("Activer Animation");
-        button.addActionListener(e -> {
-            c.actAnim(true);
-        });
+        button.addActionListener(e -> c.actAnim(true));
         return button;
     }
 
     public JButton desactAnim(){
         JButton button = new JButton("Désactiver Animation");
-        button.addActionListener(e -> {
-            c.actAnim(false);
-        });
+        button.addActionListener(e -> c.actAnim(false));
         return button;
     }
 
     public JButton actAidePiece(){
         JButton button = new JButton("Activer Aide pièces jouables");
-        button.addActionListener(e -> {
-            c.actAide(true);
-        });
+        button.addActionListener(e -> c.actAide(true));
         return button;
     }
 
     public JButton desactAidePiece(){
         JButton button = new JButton("Désactiver Aide pièces jouables");
-        button.addActionListener(e -> {
-            c.actAide(false);
-        });
+        button.addActionListener(e -> c.actAide(false));
         return button;
     }
 
@@ -309,17 +263,13 @@ public class Bouton {
 
     public JButton pageSuiv(){
         JButton button = new JButton("Page Suivante");
-        button.addActionListener(e -> {
-            c.changePage(true);
-        });
+        button.addActionListener(e -> c.changePage(true));
         return button;
     }
 
     public JButton pagePrec(){
         JButton button = new JButton("Page précédente");
-        button.addActionListener(e -> {
-            c.changePage(false);
-        });
+        button.addActionListener(e -> c.changePage(false));
         return button;
     }
 }

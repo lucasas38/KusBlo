@@ -68,7 +68,6 @@ public class VueNiveau {
                     if(grille[i][j]!=0){
                         listPanel[i+x-decx][j+y-decy].changeBackground(im.coulJoueur(joueur));
                         listPanel[i+x-decx][j+y-decy].setBorder(BorderFactory.createLineBorder(Color.black));
-                        listPanel[i+x-decx][j+y-decy].setVide(false);
                     }
                 }
             }
@@ -86,7 +85,6 @@ public class VueNiveau {
             y=ca.getY();
             listPanel[x][y].changeBackground(im.coulJoueur(joueur));
             listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.black));
-            listPanel[x][y].setVide(false);
         }
     }
 
@@ -109,7 +107,6 @@ public class VueNiveau {
             } else if(x==19 && y==19){
                 listPanel[x][y].setBorder(BorderFactory.createLineBorder(Color.red,2));
             }
-            listPanel[x][y].setVide(false);
         }
     }
 
@@ -234,8 +231,5 @@ public class VueNiveau {
         anim.resetTimerAide();
     }
 
-    public void starTimerAide(){
-        anim.startTimeAide();
-    }
 
 }

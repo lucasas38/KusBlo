@@ -17,7 +17,6 @@ public class AdaptateurClavier extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent event) {
-        System.out.println(event.getKeyCode());
         if(activ){
             switch (event.getKeyCode()) {
                 case KeyEvent.VK_LEFT:

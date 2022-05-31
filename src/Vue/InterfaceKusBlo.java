@@ -54,16 +54,19 @@ public class InterfaceKusBlo implements Runnable {
     //Affiche le menu
     public void setMenu(){
         frame.setContentPane(menu.getFrame());
+        menu.resizeAllPanel();
         frame.revalidate();
     }
 
     public void setMenuSolo(){
         frame.setContentPane(menuSol.getFrame());
+        menuSol.resizeAllPanel();
         frame.revalidate();
     }
 
     public void setMenuMulti(){
         frame.setContentPane(menuMult.getFrame());
+        menuMult.resizeAllPanel();
         frame.revalidate();
     }
 
@@ -74,11 +77,13 @@ public class InterfaceKusBlo implements Runnable {
 
     public void setOption(){
         frame.setContentPane(option.getFrame());
+        option.resizeAllPanel();
         frame.revalidate();
     }
 
     public void setMenuRegle() {
         frame.setContentPane(menuRegle.getFrame());
+        menuRegle.resizeAllPanel();
         frame.revalidate();
     }
 
@@ -153,6 +158,7 @@ public class InterfaceKusBlo implements Runnable {
 
     public void refreshLoad(){
         menu.refreshLoad();
+        if(interJ!=null)
         interJ.refreshLoad();
     }
 
