@@ -5,6 +5,7 @@ import Controleur.Controleur;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class Bouton {
     Controleur c;
@@ -118,19 +119,20 @@ public class Bouton {
 
     public JButton vsUneIAf(){
         JButton button = new JButton("Contre une IA (facile)");
-        button.addActionListener(e -> c.newGame(2,0,1,0,0,false));
+
+        button.addActionListener(e -> randomNewGame2Joueurs(1));
         return button;
     }
 
     public JButton vsUneIAi(){
         JButton button = new JButton("Contre une IA (intermédiaire)");
-        button.addActionListener(e -> c.newGame(2,0,2,0,0,false));
+        button.addActionListener(e -> randomNewGame2Joueurs(2));
         return button;
     }
 
     public JButton vsUneIAd(){
         JButton button = new JButton("Contre une IA (difficile)");
-        button.addActionListener(e -> c.newGame(4,0,7,7,7,false));
+        button.addActionListener(e -> randomNewGame2Joueurs(7));
         return button;
     }
 
@@ -153,7 +155,7 @@ public class Bouton {
 
     public JButton deuxJdeuxIA(){
         JButton button = new JButton("2 Joueurs et 2 IA");
-        button.addActionListener(e -> c.newGame(4,2,0,2,0,false));
+        button.addActionListener(e -> randomNewGame4Joueurs(2,2));
         return button;
     }
 
@@ -322,4 +324,64 @@ public class Bouton {
         });
         return button;
     }
+
+    public void randomNewGame2Joueurs(int typeIA){
+        Random r = new Random();
+        int j1 = 0;
+        int j2 = 0;
+        if(r.nextBoolean()){
+            j2 = typeIA;
+        }else{
+            j1 = typeIA;
+        }
+        c.newGame(2,j1,j2,0,0,false);
+    }
+
+    public void randomNewGame4Joueurs(int nombreIA, int nombreJoueurs){
+        if(nombreIA+nombreJoueurs != 4){
+            c.newGame(4,0,1,2,7,false);
+        }else{
+            Random r = new Random();
+            int[] joueurs = new int[4];
+            int nbIA = 0,nbJoueurs = 0;
+            int i=0;
+            while(i<4 && (nbJoueurs < nombreJoueurs && nbIA < nombreIA)){
+                //si ia
+                if(r.nextBoolean()){
+                    //aleatoire entre facile, intermediaire et difficile
+                    joueurs[i] = r.nextInt(3)+1;
+                    //si difficile on met son bon numero (le 7)
+                    if(joueurs[i] == 3){
+                        joueurs[i] = 7;
+                    }
+                    nbIA++;
+                }else{
+                    joueurs[i] = 0;
+                    nbJoueurs++;
+                }
+                i++;
+            }
+
+            //si on a deja 2 joueurs, il faut rajouter 1 ou 2 ia
+            if(nbJoueurs >= nombreJoueurs){
+                while(nbIA<nombreIA){
+                    joueurs[i] = r.nextInt(3)+1;
+                    //si difficile on met son bon numero (le 7)
+                    if(joueurs[i] == 3){
+                        joueurs[i] = 7;
+                    }
+                    nbIA++;
+                    i++;
+                }
+            }else{
+                while(nbJoueurs<nombreJoueurs){
+                    joueurs[i] = 0;
+                    nbJoueurs++;
+                    i++;
+                }
+            }
+            c.newGame(4,joueurs[0],joueurs[1],joueurs[2],joueurs[3],false);
+        }
+    }
+
 }
