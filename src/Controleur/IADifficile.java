@@ -39,6 +39,7 @@ public class IADifficile extends IA{
         if ( listePiecesDispo.getTaille() > 18){
             res = ouvertures(listePiecesDispo);
         } else {
+            //alphaBeta(jeu, horizon, 0,jeu.getIDJoueurCourant(),-1000000000, 1000000000);
             alphaBeta(jeu, horizon, 0,-1000000000, 1000000000, jeu.getIDJoueurCourant());
             Piece p = jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getPiece(indicePieceaJouer);
             tournePiece(rotation,p);
@@ -53,11 +54,13 @@ public class IADifficile extends IA{
     }
 
 
-    public int alphaBeta(Jeu jeu, int hor, int compteur_joueur, int a, int b, int joueuraRegarder) {
+    public int alphaBeta(Jeu jeu, int hor, int compteur_joueur, int a, int b, int joueur) {
 
         int n = 0;
+        int joueuraregarder = joueur;
         int alpha = a;
         int beta = b;
+        // pour l'instant on initialise les valeur avec les bornes max et min théorique de l'heuristique (0 et 109)
         int valeur;
 
         // en premier on récupère TOUS les coups possibles dans la configuration actuelle
@@ -83,11 +86,11 @@ public class IADifficile extends IA{
             while (it_piece2.hasNext()) { // on parcourt la liste des coups pour une seule pièce
                 ListeValeur<Case, Integer> piece = it_piece2.next();
                 // à voir
-                n = Heuristique(ind_piece, piece, joueuraRegarder);
+                n = Heuristique(ind_piece, piece, joueuraregarder);
                 jeu.jouerPiece(jeu.getIDJoueurCourant(), jeu.getJoueurCourant().getIndiceTabCouleurCourant(), ind_piece, piece.getListe(), false);
                 if (hor != 0) {
                     if (compteur_joueur == 0) {
-                        alpha = max(n, alphaBeta(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs(), alpha, beta, joueuraRegarder));
+                        alpha = max(n, alphaBeta(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs(), alpha, beta, joueuraregarder));
                         if (alpha >= beta) {
                             valeur = beta;
                             h.put(valeur, piece);
@@ -101,7 +104,7 @@ public class IADifficile extends IA{
                             jeu.annuler();
                         }
                     } else {
-                        beta = min(beta, alphaBeta(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs(), alpha, beta, joueuraRegarder));
+                        beta = min(beta, alphaBeta(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs(), alpha, beta, joueuraregarder));
 
                         if (alpha >= beta) {
                             valeur = alpha;
