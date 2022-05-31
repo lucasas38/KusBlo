@@ -77,7 +77,7 @@ public class Bouton {
     }
 
     public JButton newGame(){
-        JButton button = new JButton("Rejouer");
+        JButton button = new JButton("Recommencer");
         // les paramètres ne sont pas utilisés dans ce cas
         button.addActionListener(e -> c.newGame(4,1,1,1,1, true));
         return button;
