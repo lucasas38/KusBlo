@@ -91,7 +91,9 @@ public class Bouton {
 
     public JButton save(){
         JButton button = new JButton("Sauvegarder");
-        button.addActionListener(e -> c.save());
+        button.addActionListener(e -> {c.save();
+        c.refreshLoad();
+        });
         return button;
     }
 

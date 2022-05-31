@@ -92,6 +92,18 @@ public class Option {
             niveauAide.addItem("Aide Basique");
             niveauAide.addItem("Aide Intermédiaire");
             niveauAide.addItem("Aide Avancée");
+            switch (Integer.parseInt(Configuration.instance().lis("NiveauAide"))){
+                case 1:
+                    niveauAide.setSelectedItem("Aide Basique");
+                    break;
+                case 2:
+                    niveauAide.setSelectedItem("Aide Intermédiaire");
+                    break;
+                case 3:
+                    niveauAide.setSelectedItem("Aide Avancée");
+                    break;
+            }
+
 
             niveauAide.addActionListener(event -> {
                 JComboBox comboBox = (JComboBox) event.getSource();
@@ -121,8 +133,12 @@ public class Option {
             panelDroit.setPreferredSize(new Dimension(w/4,h));
             BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
             panelDroit.add(fondD);
+
+            //Modification des boutons selon la configuration actuelle
             activerAnim(Boolean.parseBoolean(Configuration.instance().lis("AnimActive")));
             activerAide(Boolean.parseBoolean(Configuration.instance().lis("AidePiecePosable")));
+
+
             frame.add(panelGauche, BorderLayout.WEST);
             frame.add(panelCentral, BorderLayout.CENTER);
             frame.add(panelDroit, BorderLayout.EAST);
@@ -135,6 +151,7 @@ public class Option {
         }
 
         public void activerAnim(boolean activer){
+            //Affiche le sélecteur de vitesse des animations IA
             panActAnim.removeAll();
             if(activer){
                 panActAnim.add(b.desactAnim());
@@ -149,6 +166,7 @@ public class Option {
         }
 
     public void activerAide(boolean activer){
+        //Change l'affichage du bouton activer aide
         panActAide.removeAll();
         if(activer){
             panActAide.add(b.desactAidePiece());
@@ -159,6 +177,7 @@ public class Option {
     }
 
     public void updateBoutRetour(boolean depuisJeu){
+        //Affiche le bouton retour en fonction du point de départ
         if(depuisJeu && !estDepuisJeu){
             listeOption.remove(menuPrin);
             listeOption.add(retour);
@@ -171,6 +190,8 @@ public class Option {
             listeOption.updateUI();
         }
     }
+
+
 }
 
 

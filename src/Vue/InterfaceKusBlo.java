@@ -153,6 +153,7 @@ public class InterfaceKusBlo implements Runnable {
 
     public void refreshLoad(){
         menu.refreshLoad();
+        interJ.refreshLoad();
     }
 
     public void updateRetourOption(boolean depuisJeu){

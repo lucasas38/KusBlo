@@ -23,6 +23,7 @@ public class InterfaceJeu {
         JButton resume;
         JButton aide;
         JButton menuRegle;
+        JButton load;
         JPanel menuGauche;
         JPanel panelOpt;
         JPanel limGauche;
@@ -267,7 +268,7 @@ public class InterfaceJeu {
             listeBoutons.add(b.reprendre());
             listeBoutons.add(b.newGame());
             listeBoutons.add(b.save());
-            JButton load= b.load();
+            load= b.load();
             load.setEnabled(c.canLoad());
             listeBoutons.add(load);
             listeBoutons.add(b.optionJeu());
@@ -361,6 +362,10 @@ public class InterfaceJeu {
 
     public void setFinJouable(int joueur){
             joueurs[joueur-1].setFinJouable();
+    }
+
+    public void refreshLoad(){
+            load.setEnabled(true);
     }
 }
 

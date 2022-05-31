@@ -4,6 +4,8 @@ import Controleur.Controleur;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class MenuPrincipal {
     JPanel frame;
@@ -11,6 +13,10 @@ public class MenuPrincipal {
     Bouton b;
     ImageKusBlo im;
     JButton load;
+    JPanel panelGauche;
+    JPanel panelDroit;
+    JPanel panelCentral;
+    BasicBackgroundPanel logo;
     int w;
     int h ;
 
@@ -23,15 +29,15 @@ public class MenuPrincipal {
         frame= new JPanel(new BorderLayout());
 
         //Création du panel Gauche
-        JPanel panelGauche = new JPanel(new BorderLayout());
+        panelGauche = new JPanel(new BorderLayout());
         panelGauche.setPreferredSize(new Dimension(w/4,h));
-        panelGauche.setBackground(new Color(0,0,0,0));
-
+        BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
+        panelGauche.add(fondG);
 
         //Création du panel centrale avec le logo
-        JPanel panelCentral = new JPanel();
+        panelCentral = new JPanel();
         panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-        BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
+        logo = new BasicBackgroundPanel(im.getLogo());
         logo.setPreferredSize(new Dimension(w/2,h/4));
         //logo.setBackground(new Color(0,0,0,80));
 
@@ -50,55 +56,40 @@ public class MenuPrincipal {
 
         panelCentral.add(logo,BorderLayout.NORTH);
         panelCentral.add(listeBoutons, BorderLayout.CENTER);
-        //panelCentral.setBackground(new Color(0,0,0,0));
 
-        //Création du panel droit
-        JPanel panelDroit = new JPanel();
+
+        panelDroit = new JPanel(new BorderLayout());
         panelDroit.setPreferredSize(new Dimension(w/4,h));
-        panelDroit.setBackground(new Color(0,0,0,20));
-
-        JPanel panelGaucheFond= new JPanel();
-        panelGaucheFond.setLayout(new BoxLayout(panelGaucheFond,BoxLayout.PAGE_AXIS));
-        JPanel pan=new JPanel(new BorderLayout());
-        BasicBackgroundPanel fondG = new BasicBackgroundPanel(im.fondG);
-        pan.add(fondG,BorderLayout.CENTER);
-        pan.setPreferredSize(new Dimension(w/4,h));
-        panelGaucheFond.add(pan);
-
-        JPanel panelCentralFond = new JPanel(new GridLayout(1,1));
-        panelCentralFond.setPreferredSize(new Dimension(w/2,h));
-        BasicBackgroundPanel fondC = new BasicBackgroundPanel(im.fondC);
-        fondC.setPreferredSize(new Dimension(w/2,h));
-        panelCentralFond.add(fondC);
-
-        JPanel panelDroitFond = new JPanel(new GridLayout(1,1));
-        panelDroitFond.setPreferredSize(new Dimension(w/4,h));
         BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
-        fondD.setPreferredSize(new Dimension(w/4,h));
-        panelDroitFond.add(fondD);
-        panelGaucheFond.add(panelGauche);
-        panelGaucheFond.setComponentZOrder(panelGauche,0);
+        panelDroit.add(fondD);
+
 
         frame.add(panelGauche, BorderLayout.WEST);
-        frame.add(panelGaucheFond,BorderLayout.WEST);
-        frame.add(panelCentralFond,BorderLayout.CENTER);
-        frame.add(panelDroitFond,BorderLayout.EAST);
-
-
-        //frame.add(panelGauche, BorderLayout.WEST);
         frame.add(panelCentral, BorderLayout.CENTER);
-        //frame.add(panelDroit, BorderLayout.EAST);
-
-        //frame.setComponentZOrder(panelGaucheFond, 0);
-        frame.setComponentZOrder(panelCentral, 0);
-        //frame.setComponentZOrder(panelDroit, 0);
+        frame.add(panelDroit, BorderLayout.EAST);
         frame.updateUI();
-
 
     }
 
     public JPanel getFrame(){
         return frame;
+    }
+
+    public void setResize(){
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent componentEvent) {
+                resizeAllPanel();
+            }
+        });
+
+    }
+
+    //redimensionne tous les pannel
+    public void resizeAllPanel(){
+        w=cont.getFrameW();
+        h=cont.getFrameH();
+        panelGauche.setPreferredSize(new Dimension(w/4,h));
+        panelDroit.setPreferredSize(new Dimension(w/4,h));
     }
 
     public void refreshLoad(){

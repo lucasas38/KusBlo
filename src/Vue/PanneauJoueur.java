@@ -47,7 +47,7 @@ public class PanneauJoueur {
         infoBas= new JPanel(new GridLayout(1,2));
         votreTour= new JPanel();
         votreTour.add(new JLabel(""));
-        score=new JLabel("Score : 0");
+        score=new JLabel("Score : 0", SwingConstants.CENTER);
         JPanel tabScore=new JPanel();
         tabScore.add(score);
         tabScore.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -107,21 +107,27 @@ public class PanneauJoueur {
     }
 
     public void setTour(){
-        votreTour.add(new JLabel("A votre tour"));
+        JPanel panTest = new JPanel();
+        panTest.add(new JLabel("A votre tour"));
+        votreTour.add(panTest);
         switch (couleur){
             case 1:
+                panTest.setBackground(new Color(73,216,230));
                 votreTour.setBackground(new Color(73,216,230));
                 pan.setBorder(BorderFactory.createLineBorder(Color.blue,2));
                 break;
             case 2:
+                panTest.setBackground(new Color(255,215,0));
                 votreTour.setBackground(new Color(255,215,0));
                 pan.setBorder(BorderFactory.createLineBorder(Color.yellow,2));
                 break;
             case 3:
+                panTest.setBackground(new Color(233,150,122));
                 votreTour.setBackground(new Color(233,150,122));
                 pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
                 break;
             case 4:
+                panTest.setBackground(new Color(154,205,50));
                 votreTour.setBackground(new Color(154,205,50));
                 pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
                 break;
