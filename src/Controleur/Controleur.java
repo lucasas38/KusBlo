@@ -776,4 +776,8 @@ public class Controleur {
         return jeu.positionPossibleConfig(p,getActJoueur(),jeu.getJoueurCourant().getIndiceTabCouleurCourant()).size()!=0;
    }
 
+   public void setMenuregle(){
+        inter.setMenuRegle();
+   }
+
 }

@@ -35,7 +35,7 @@ public class ImageKusBlo {
     Image resume;
     Image undo;
     Image redo;
-    Image[] selAnimRouge;
+    Image[] regle;
 
     //Récupère toutes les images
      public ImageKusBlo(){
@@ -65,7 +65,12 @@ public class ImageKusBlo {
         undo = getImage("undo.png");
         redo = getImage("redo.png");
         tuto=getImage("tuto.png");
-        selAnimRouge = new Image[5];
+
+        regle=new Image[4];
+        regle[0]=getImage("Regle1.png");
+        regle[1]=getImage("Regle2.png");
+        regle[2]=getImage("Regle3.png");
+        regle[3]=getImage("Regle4.png");
     }
 
     //récupère l'image demandée

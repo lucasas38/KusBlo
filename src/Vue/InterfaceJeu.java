@@ -22,6 +22,7 @@ public class InterfaceJeu {
         JButton pause;
         JButton resume;
         JButton aide;
+        JButton menuRegle;
         JPanel menuGauche;
         JPanel panelOpt;
         JPanel limGauche;
@@ -58,9 +59,9 @@ public class InterfaceJeu {
             icon = new ImageIcon( newimg );
             resume.setIcon(icon);
             resume.setBorder(BorderFactory.createEmptyBorder());
-
-
             resume.setContentAreaFilled(false);
+
+            menuRegle=b.menuRegle();
             aide=b.aide();
             joueurs=new PanneauJoueur[4];
             m=new MenuPiece(c,b,im);
@@ -82,6 +83,7 @@ public class InterfaceJeu {
             menuGauche= new JPanel(new GridLayout(2,2));
             menuGauche.add(boutonMenu);
             menuGauche.add(aide);
+            menuGauche.add(menuRegle);
             menuGauche.add(pause);
             menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
             panelGauche.add(menuGauche);
@@ -246,6 +248,7 @@ public class InterfaceJeu {
             resume.setEnabled(false);
             aide.setEnabled(false);
             boutonMenu.setEnabled(false);
+            menuRegle.setEnabled(false);
 
 
 
@@ -311,6 +314,7 @@ public class InterfaceJeu {
                 listeAct=false;
             }
             selAdapt.setActiv(true);
+            menuRegle.setEnabled(true);
             setResize();
         }
 

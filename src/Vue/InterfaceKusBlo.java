@@ -11,6 +11,7 @@ public class InterfaceKusBlo implements Runnable {
     MenuSolo menuSol;
     MenuMulti menuMult;
     MenuPartiePerso menuPerso;
+    MenuRegle menuRegle;
 
     Option option;
     Controleur c;
@@ -41,6 +42,7 @@ public class InterfaceKusBlo implements Runnable {
         menuSol=new MenuSolo(c,b,im);
         menuMult=new MenuMulti(c,b,im);
         menuPerso=new MenuPartiePerso(c,b,im);
+        menuRegle=new MenuRegle(c,b,im);
         option= new Option(c,b,im);
         frame.addKeyListener(keyAdapt);
         frame.setFocusable(true);
@@ -75,6 +77,10 @@ public class InterfaceKusBlo implements Runnable {
         frame.revalidate();
     }
 
+    public void setMenuRegle() {
+        frame.setContentPane(menuRegle.getFrame());
+        frame.revalidate();
+    }
 
     //Affiche un nouveau jeu
     public void setInterJeu(){

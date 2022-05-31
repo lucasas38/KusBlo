@@ -289,4 +289,19 @@ public class Bouton {
         });
         return button;
     }
+
+    public JButton menuRegle(){
+        JButton button = new JButton("Règles");
+        button.addActionListener(e -> {
+            c.updateBoutPause(false);
+            c.desactiverAide();
+            c.pause();
+            c.stopTimerAide();
+            if(c.dernierCoupAide()!=null)
+                c.supprVisAide(c.dernierCoupAide().getListe());
+            c.desactiverAide();
+            c.setMenuregle();
+        });
+        return button;
+    }
 }
