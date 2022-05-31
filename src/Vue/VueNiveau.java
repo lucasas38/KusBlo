@@ -1,10 +1,8 @@
 package Vue;
 
 import Controleur.AnimationVisualisation;
-import Modele.Piece;
 import Structures.Case;
 import Controleur.Controleur;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;

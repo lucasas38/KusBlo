@@ -1,7 +1,6 @@
 package Vue;
 
 import Controleur.Controleur;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;

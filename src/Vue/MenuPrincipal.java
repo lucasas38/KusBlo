@@ -1,7 +1,6 @@
 package Vue;
 
 import Controleur.Controleur;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +44,7 @@ public class MenuPrincipal {
         load=b.load();
         listeBoutons.add(load);
         load.setEnabled(c.canLoad());
-        listeBoutons.add(b.option());
+        listeBoutons.add(b.optionMenu());
         listeBoutons.add(b.exit());
         listeBoutons.setPreferredSize(new Dimension(w/2,3*h/4));
 

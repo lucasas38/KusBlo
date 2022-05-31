@@ -4,7 +4,6 @@ import Controleur.Controleur;
 import Global.Configuration;
 import Modele.ListePieces;
 import Modele.Piece;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import java.awt.*;

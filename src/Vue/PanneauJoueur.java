@@ -3,8 +3,6 @@ package Vue;
 import Controleur.Controleur;
 import Modele.ListePieces;
 import Modele.Piece;
-import Structures.BasicBackgroundPanel;
-import Structures.PanelPiece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -128,6 +126,12 @@ public class PanneauJoueur {
                 pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
                 break;
         }
+        pan.updateUI();
+    }
+
+    public void setFinJouable(){
+        votreTour.removeAll();
+        votreTour.add(new JLabel("Ne peut plus jouer"));
         pan.updateUI();
     }
 

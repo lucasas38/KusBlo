@@ -85,6 +85,12 @@ public class InterfaceKusBlo implements Runnable {
         c.initAide();
     }
 
+    public void showInterJeu(){
+        frame.setContentPane(interJ.getFrame());
+        interJ.resizeAllPanel();
+        frame.revalidate();
+    }
+
     public InterfaceJeu getInterJ(){
         return interJ;
     }
@@ -128,6 +134,10 @@ public class InterfaceKusBlo implements Runnable {
         option.activerAnim(activer);
     }
 
+    public void actAide(boolean activer){
+        option.activerAide(activer);
+    }
+
     public void resetKeyList(){
         frame.removeKeyListener(keyAdapt);
         frame.addKeyListener(keyAdapt);
@@ -137,6 +147,10 @@ public class InterfaceKusBlo implements Runnable {
 
     public void refreshLoad(){
         menu.refreshLoad();
+    }
+
+    public void updateRetourOption(boolean depuisJeu){
+        option.updateBoutRetour(depuisJeu);
     }
 
 }

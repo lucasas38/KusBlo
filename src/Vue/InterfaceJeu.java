@@ -257,13 +257,14 @@ public class InterfaceJeu {
             limDroite.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()));
             limDroite.setBackground(new Color(0,0,0,75));
             JPanel listeBoutons = new JPanel();
-            listeBoutons.setLayout(new GridLayout(6,1,5,5));
+            listeBoutons.setLayout(new GridLayout(7,1,5,5));
             listeBoutons.add(b.reprendre());
             listeBoutons.add(b.newGame());
             listeBoutons.add(b.save());
             JButton load= b.load();
             load.setEnabled(c.canLoad());
             listeBoutons.add(load);
+            listeBoutons.add(b.optionJeu());
             listeBoutons.add(b.menuPrincpal());
             listeBoutons.add(Box.createHorizontalGlue());
             panelOpt.setPreferredSize(new Dimension(getFrameW()/2,getFrameH()));
@@ -349,6 +350,10 @@ public class InterfaceJeu {
     }
     public void updateNameIA(int numIACouleur, int diff){
             joueurs[numIACouleur].updateNameIA(diff);
+    }
+
+    public void setFinJouable(int joueur){
+            joueurs[joueur-1].setFinJouable();
     }
 }
 

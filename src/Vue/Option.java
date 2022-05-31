@@ -2,12 +2,13 @@ package Vue;
 
 import Controleur.Controleur;
 import Global.Configuration;
-import Structures.BasicBackgroundPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
 public class Option {
@@ -18,8 +19,13 @@ public class Option {
         Bouton b;
         ImageKusBlo im;
         JPanel panActAnim;
+        JPanel panActAide;
         JPanel panSlide;
         JSlider slider;
+        JPanel listeOption;
+        JButton menuPrin;
+        JButton retour;
+        boolean estDepuisJeu;
 
         public Option(Controleur c,Bouton bout, ImageKusBlo ima){
             cont=c;
@@ -28,6 +34,9 @@ public class Option {
             b=bout;
             frame= new JPanel(new BorderLayout());
             im= ima;
+            estDepuisJeu=false;
+            menuPrin=b.menuPrincpal();
+            retour=b.retourJeu();
 
             //Création du panel Gauche
             JPanel panelGauche = new JPanel(new BorderLayout());
@@ -39,12 +48,13 @@ public class Option {
             //Création du panel centrale avec le logo
             JPanel panelCentral = new JPanel();
             panelCentral.setLayout(new BoxLayout(panelCentral,BoxLayout.PAGE_AXIS));
-            BasicBackgroundPanel logo = new BasicBackgroundPanel(new ImageKusBlo().getLogo());
+            BasicBackgroundPanel logo = new BasicBackgroundPanel(im.getLogo());
             logo.setPreferredSize(new Dimension(w/2,h/4));
 
             //création de la liste de boutons
-            JPanel listeOption = new JPanel(new GridLayout(6,1));
+            listeOption = new JPanel(new GridLayout(6,1));
             listeOption.setPreferredSize(new Dimension(w/2,3*h/4));
+            listeOption.add(new JPanel());
             panActAnim = new JPanel();
             listeOption.add(panActAnim);
 
@@ -71,7 +81,37 @@ public class Option {
                 }
             });
             listeOption.add(panSlide);
-            listeOption.add(b.menuPrincpal());
+
+            JPanel panNivAide= new JPanel(new GridLayout(1,2));
+            panNivAide.setBorder(BorderFactory.createLineBorder(Color.black));
+            JPanel labelNivAide = new JPanel();
+            labelNivAide.add(new JLabel("Niveau du bouton aide"));
+            panNivAide.add(labelNivAide);
+            JPanel panRadio= new JPanel();
+            JComboBox niveauAide = new JComboBox();
+            niveauAide.addItem("Aide Basique");
+            niveauAide.addItem("Aide Intermédiaire");
+            niveauAide.addItem("Aide Avancée");
+
+            niveauAide.addActionListener(event -> {
+                JComboBox comboBox = (JComboBox) event.getSource();
+                Object selected = comboBox.getSelectedItem();
+                if (selected.toString().equals("Aide Basique")) {
+                    Configuration.instance().ecris("NiveauAide",""+1);
+                } else if(selected.toString().equals("Aide Intermédiaire")){
+                    Configuration.instance().ecris("NiveauAide",""+2);
+                }else{
+                    Configuration.instance().ecris("NiveauAide",""+3);
+                }
+            });
+            panRadio.add(niveauAide);
+            panNivAide.add(panRadio);
+
+            listeOption.add(panNivAide);
+
+            panActAide=new JPanel();
+            listeOption.add(panActAide);
+            listeOption.add(menuPrin);
 
             panelCentral.add(logo,BorderLayout.NORTH);
             panelCentral.add(listeOption, BorderLayout.CENTER);
@@ -82,7 +122,7 @@ public class Option {
             BasicBackgroundPanel fondD = new BasicBackgroundPanel(im.fondD);
             panelDroit.add(fondD);
             activerAnim(Boolean.parseBoolean(Configuration.instance().lis("AnimActive")));
-
+            activerAide(Boolean.parseBoolean(Configuration.instance().lis("AidePiecePosable")));
             frame.add(panelGauche, BorderLayout.WEST);
             frame.add(panelCentral, BorderLayout.CENTER);
             frame.add(panelDroit, BorderLayout.EAST);
@@ -107,6 +147,30 @@ public class Option {
             panActAnim.updateUI();
             panSlide.updateUI();
         }
+
+    public void activerAide(boolean activer){
+        panActAide.removeAll();
+        if(activer){
+            panActAide.add(b.desactAidePiece());
+        }else{
+            panActAide.add(b.actAidePiece());
+        }
+        panActAide.updateUI();
+    }
+
+    public void updateBoutRetour(boolean depuisJeu){
+        if(depuisJeu && !estDepuisJeu){
+            listeOption.remove(menuPrin);
+            listeOption.add(retour);
+            estDepuisJeu=true;
+            listeOption.updateUI();
+        }else if(estDepuisJeu){
+            listeOption.remove(retour);
+            listeOption.add(menuPrin);
+            estDepuisJeu=false;
+            listeOption.updateUI();
+        }
+    }
 }
 
 

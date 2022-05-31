@@ -1,8 +1,7 @@
 package Controleur;
 
 import Global.Configuration;
-import Modele.Piece;
-import Structures.BasicBackgroundPanel;
+import Vue.BasicBackgroundPanel;
 import Structures.Case;
 
 import javax.swing.*;

@@ -226,16 +226,34 @@ public class Bouton {
     public JButton aide(){
         JButton button = new JButton("Aide");
         button.addActionListener(e -> {
-            c.aide(2);
+            c.aide();
             c.resetKeyList();
         });
         return button;
     }
 
-    public JButton option(){
+    public JButton optionMenu(){
         JButton button = new JButton("Option");
         button.addActionListener(e -> {
+            c.updateRetourOption(false);
             c.setOption();
+        });
+        return button;
+    }
+
+    public JButton optionJeu(){
+        JButton button = new JButton("Option");
+        button.addActionListener(e -> {
+            c.updateRetourOption(true);
+            c.setOption();
+        });
+        return button;
+    }
+
+    public JButton retourJeu(){
+        JButton button = new JButton("Retour");
+        button.addActionListener(e -> {
+            c.retourJeu();
         });
         return button;
     }
@@ -252,6 +270,22 @@ public class Bouton {
         JButton button = new JButton("Désactiver Animation");
         button.addActionListener(e -> {
             c.actAnim(false);
+        });
+        return button;
+    }
+
+    public JButton actAidePiece(){
+        JButton button = new JButton("Activer Aide pièces jouables");
+        button.addActionListener(e -> {
+            c.actAide(true);
+        });
+        return button;
+    }
+
+    public JButton desactAidePiece(){
+        JButton button = new JButton("Désactiver Aide pièces jouables");
+        button.addActionListener(e -> {
+            c.actAide(false);
         });
         return button;
     }
