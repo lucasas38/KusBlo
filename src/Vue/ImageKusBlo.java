@@ -61,7 +61,7 @@ public class ImageKusBlo {
         fondD =getImage("fondD.png");
         fondC =getImage("fondC.png");
         pause = getImage("pause.png");
-        resume= getImage("resume.png");
+        resume= getImage("Resume.png");
         undo = getImage("undo.png");
         redo = getImage("redo.png");
         tuto=getImage("tuto.png");

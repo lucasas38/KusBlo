@@ -20,20 +20,18 @@ public class IADifficile extends IA{
     LinkedList<Case> listeCaseaJouer;
     int indicePieceaJouer;
     int rotation;
-
-    int horizon = 2;
-
-    int cpt = 0;
+    int horizon = 1;
+    int cpt = 0; // compte les appels récursifs
 
     IADifficile(Jeu j){
         super(j);
-        type = 6;
-        mode = 0;
+        type = 7;
+        mode = r.nextInt(5); // randomise les heuristiques d'IA
+        System.out.println("Je suis de type : " + mode);
     }
 
     @Override
     public void joue() {
-        System.out.println("IA difficile joue :");
 
         ListeValeur<Case, Piece> res = null;
         cpt = 0;
@@ -41,18 +39,9 @@ public class IADifficile extends IA{
         if ( listePiecesDispo.getTaille() > 18){
             res = ouvertures(listePiecesDispo);
         } else {
-            miniMax(jeu, horizon, 0);
+            miniMax(jeu, horizon, 0,jeu.getIDJoueurCourant());
             Piece p = jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getPiece(indicePieceaJouer);
-            int i = 0;
-            while (i < rotation) {
-                if (i == 4) {
-                    p.rotationSymetrique();
-                } else {
-                    p.rotationHoraire();
-                }
-                i++;
-            }
-            System.out.println("Liste case à jouer : " + listeCaseaJouer.toString());
+            tournePiece(rotation,p);
             res = new ListeValeur<>(listeCaseaJouer, p);
         }
         if(res!=null && res.getListe()!=null && res.getValeur()!=null){
@@ -65,101 +54,102 @@ public class IADifficile extends IA{
 
     //fonction minMax
     // initialiser compteur_joueur à 0
-    public int miniMax(Jeu jeu, int hor, int compteur_joueur){
+    public int miniMax(Jeu jeu, int hor, int compteur_joueur, int joueuraRegarder){
 
-        int n = 0;
-
-        // cas de base, quand on arrive à l'horizon voulu où qu'il n'y a plus de coups possible pour le joueur en cours
-        if(hor == 0){ // pour l'instant on laisse seulement horizon, à voir...
-            return 0;
+        int n;
+        // en premier on récupère TOUS les coups possibles dans la configuration actuelle
+        ListePieces l_piece_init = jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo();
+        Iterator<Piece> it_piece = l_piece_init.iterateur();
+        LinkedList<LinkedList<ListeValeur<Case, Integer>>> listeCoupPossible = new LinkedList<>();
+        LinkedList<Integer> tab_indice_piece = new LinkedList<>();
+        while(it_piece.hasNext()) {
+            Piece p = it_piece.next();
+            tab_indice_piece.add(p.getId());
+            listeCoupPossible.add(jeu.positionPossibleConfig(p, jeu.getIDJoueurCourant(), jeu.getJoueurCourant().getIndiceTabCouleurCourant()));
         }
 
-        // cas récursif
-        else{
-            // pour l'instant on initialise les valeur avec les bornes max et min théorique de l'heuristique (0 et 109)
-            int valeur;
-            if (compteur_joueur == 0){
-                valeur = 0;
-            } else {
-                valeur =1000000000; // on suppose que l'heuristique ne dépassera pas cette valeur
-            }
+        //on initialise avec des valeurs inatteignable pour l'heuristique
+        int valeur ;
+        if (compteur_joueur == 0) { // cas max
+            valeur = -1000000000;
+        } else { // cas min
+            valeur = 1000000000;
+        }
 
-            // en premier on récupère TOUS les coups possibles dans la configuration actuelle
-            ListePieces l_piece_init = jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo();
-            Iterator<Piece> it_piece = l_piece_init.iterateur();
-            LinkedList<LinkedList<ListeValeur<Case, Integer>>> listeCoupPossible = new LinkedList<>();
-            LinkedList<Integer> tab_indice_piece = new LinkedList<>();
-            while(it_piece.hasNext()) {
-                Piece p = it_piece.next();
-                tab_indice_piece.add(p.getId());
-                listeCoupPossible.add(jeu.positionPossibleConfig(p, jeu.getIDJoueurCourant(), jeu.getJoueurCourant().getIndiceTabCouleurCourant()));
-            }
+        // On parcourt les coups pour chaque pièce et on fait les appels récursifs correspondant
+        HashMap<Integer,ListeValeur<Case,Integer>> h = new HashMap<Integer,ListeValeur<Case,Integer>>();
+        HashMap<Integer,Integer> hNumPiece = new HashMap<Integer, Integer>();
+        Iterator<LinkedList<ListeValeur<Case, Integer>>> it_liste_pieces = listeCoupPossible.iterator();
+        Iterator<Integer> it_ind_tab = tab_indice_piece.iterator();
+        while(it_liste_pieces.hasNext()){ // on parcourt la liste des coups par pièce
+            int ind_piece = it_ind_tab.next();
+            LinkedList<ListeValeur<Case, Integer>> listePiece = it_liste_pieces.next();
+            Iterator<ListeValeur<Case, Integer>> it_piece2 = listePiece.iterator();
+            while(it_piece2.hasNext()){ // on parcourt la liste des coups pour une seule pièce
+                ListeValeur<Case,Integer> piece = it_piece2.next();
 
-            // On parcourt les coups pour chaque pièce et on fait les appels récursifs correspondant
-            HashMap<Integer,ListeValeur<Case,Integer>> h = new HashMap<Integer,ListeValeur<Case,Integer>>();
-            HashMap<Integer,Integer> hNumPiece = new HashMap<Integer, Integer>();
-            Iterator<LinkedList<ListeValeur<Case, Integer>>> it_liste_pieces = listeCoupPossible.iterator();
-            Iterator<Integer> it_ind_tab = tab_indice_piece.iterator();
-            while(it_liste_pieces.hasNext()){ // on parcourt la liste des coups par pièce
-                int ind_piece = it_ind_tab.next();
-                LinkedList<ListeValeur<Case, Integer>> listePiece = it_liste_pieces.next();
-                Iterator<ListeValeur<Case, Integer>> it_piece2 = listePiece.iterator();
-                while(it_piece2.hasNext()){ // on parcourt la liste des coups pour une seule pièce
-                    ListeValeur<Case,Integer> piece = it_piece2.next();
-                    // à voir
-                    n = Heuristique(ind_piece,piece);
-                    jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(), ind_piece, piece.getListe(), false);
-                    if(compteur_joueur == 0) {
-                        valeur = max(n, miniMax(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs()));
+                n = Heuristique(ind_piece,piece,joueuraRegarder);
+                jeu.jouerPiece(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant(), ind_piece, piece.getListe(), false);
+                if (hor != 0) { // cas récursif
+                    if (compteur_joueur == 0) {
+                        valeur = max(n, miniMax(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs(), joueuraRegarder));
                     } else {
-                        valeur = min(valeur, miniMax(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs()));
+                        valeur = min(valeur, miniMax(jeu, hor - 1, (compteur_joueur + 1) % jeu.getNbJoueurs(),joueuraRegarder));
                     }
-                    h.put(valeur,piece);
-                    hNumPiece.put(valeur,ind_piece);
-                    jeu.annuler();
+                } else { // cas de base
+                    valeur = n;
                 }
+                h.put(valeur,piece);
+                hNumPiece.put(valeur,ind_piece);
+                jeu.annuler();
+            }
 
-            }
-            //parcourir hashmap et retourner la valeur de la plus grande clef (fonction max des clefs n'existe pas...)
-            int max_hash_table = 0;
-            Iterator<Integer> it_hash_table = h.keySet().iterator();
-            while(it_hash_table.hasNext()){
-                int valeur_clef = it_hash_table.next();
-                if(valeur_clef > max_hash_table){
-                    max_hash_table = valeur_clef;
-                }
-            }
-            System.out.println("Nombre d'appels récursifs : " + cpt);
-
-            // peut-être qu'on attribue ces variables que quand on est au sommet de l'arbre ?
-            if (hor == horizon) {
-                indicePieceaJouer = hNumPiece.get(max_hash_table);
-                listeCaseaJouer = h.get(max_hash_table).getListe();
-                rotation = h.get(max_hash_table).getValeur();
-            }
-            return max_hash_table;
         }
+
+        int indiceHashTable;
+
+        if (compteur_joueur == 0) { // cas max : on prend la plus grande heuristique parmi celles calculées
+            Iterator<Integer> it_hash_table = h.keySet().iterator();
+            indiceHashTable = 0; //it_hash_table.next();
+            while (it_hash_table.hasNext()) {
+                int valeur_clef = it_hash_table.next();
+                if (valeur_clef > indiceHashTable) {
+                    indiceHashTable = valeur_clef;
+                    //System.out.println("indiceHashTable : " + indiceHashTable);
+                }
+            }
+        } else { // cas min : on prend la plus petite heuristique parmi celles calculées
+            indiceHashTable = 1000000000;
+            Iterator<Integer> it_hash_table = h.keySet().iterator();
+            while (it_hash_table.hasNext()) {
+                int valeur_clef = it_hash_table.next();
+                if (valeur_clef < indiceHashTable) {
+                    indiceHashTable = valeur_clef;
+                }
+            }
+        }
+
+        if (hor == horizon){ // si on est dans l'appel initial, on modifie les variables
+            System.out.println("Nombre d'appels récursifs : " + cpt);
+            indicePieceaJouer = hNumPiece.get(indiceHashTable);
+            listeCaseaJouer = h.get(indiceHashTable).getListe();
+            rotation = h.get(indiceHashTable).getValeur();
+        }
+        return indiceHashTable;
     }
 
     // heuristique d'évaluation d'une configuration
-    // pour l'instant on fait une heuristique très simple, on améliorera plus tard
-    // Faut-il utiliser la même heuristique que pour l'IA intermédiaire
-    public int Heuristique(int ip,ListeValeur<Case,Integer> l){
-        //return jeu.getJoueurCourant().getScore();
+    // Pour l'instant même heuristique que pour l'IA intermédiaire
+    public int Heuristique(int ip,ListeValeur<Case,Integer> l, int idJ){
         cpt ++ ;
-        /*System.out.println("Liste Pièce dispo : " + jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().toString());
-        System.out.println("IP : " + ip);*/
-        //System.out.println("liste pièces préc: " + jeu.getJoueur(jeu.getIDJoueurCourant()-1).getCouleurCourante().getListePiecesDispo().toString());
         Piece p = jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getPiece(ip);
-        /*System.out.println("liste pièce joueur courant: " +jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().toString() );
-        System.out.println("ID joueur courant: "+ jeu.getIDJoueurCourant());*/
-        if (p == null) {
-            System.out.println("pièce null, ip : " + ip);
-        }
         int t = p.getTaille();
-        int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(),l.getListe());
-        int poss_bloq = nb_possibilite_bloquees(jeu.getIDJoueurCourant(),l.getListe());
-        int case_bloq = nb_case_bloquees(l.getListe());
+        int poss_ouv = nb_possibilite_ouverte(idJ,l.getListe(),jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getTaille());
+        int poss_bloq = nb_possibilite_bloquees(idJ,l.getListe());
+        int case_bloq = 0;
+        if (idJ == jeu.getIDJoueurCourant()){
+            case_bloq = nb_case_bloquees(l.getListe());
+        }
         return calcul_heuristique(t,poss_ouv,poss_bloq,case_bloq);
     }
 

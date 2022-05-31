@@ -27,9 +27,9 @@ public class Controleur {
     }
 
     public void addIA(int type_ia,int idJoueur){
-        // les "case" 2,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
+        // les "case" 2,3,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
         switch (type_ia){
-            case 1:
+            case 1: // IA facile
                 ia[idJoueur-1] = new IAAleatoire(this.jeu);
                 break;
             case 2:
@@ -45,6 +45,9 @@ public class Controleur {
                 ia[idJoueur-1] = new IAIntermediaire(this.jeu, 3,false);
                 break;
             case 6:
+                ia[idJoueur-1] = new IAIntermediaire(this.jeu, 4,false);
+                break;
+            case 7: // IA difficile
                 ia[idJoueur-1] = new IADifficile(this.jeu);
                 break;
             default:
