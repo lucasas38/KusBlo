@@ -467,7 +467,6 @@ public class Controleur {
         if(jeu.getHistorique().peutRefaire()){
             inter.setRefaire(true);
         }
-        System.out.println("pause");
         inter.getInterJ().delListener();
         inter.getInterJ().actMenu1(getActCouleur(),false);
         if(ia[getActJoueur()-1]!=null && !pause){

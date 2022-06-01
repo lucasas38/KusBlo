@@ -70,7 +70,6 @@ public class Joueur implements Serializable {
 
     //definit le score final d'un joueur : ajoute les bonus et les malus concernant les pieces qu'il a posé
     public void setScoreFinal(){
-        System.out.println("setScoreFinal");
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
                 //enlever pour chaque piece restante sa taille
@@ -124,7 +123,6 @@ public class Joueur implements Serializable {
     }
 
     public void annulerScoreFinal(){
-        System.out.println("annulerScoreFinal");
         for (int i = 0;i<nbCouleurs;i++){
             if(!this.listeCouleur[i].getListePiecesDispo().estVide()){
                 //enlever pour chaque piece restante sa taille
