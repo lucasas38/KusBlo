@@ -306,7 +306,9 @@ public class InterfaceJeu {
             frame.add(panelDroite,BorderLayout.EAST);
 
             boutonMenu.setEnabled(true);
+            if(c.peutAnnuler())
             annuler.setEnabled(true);
+            if(c.peutRefaire())
             refaire.setEnabled(true);
             pause.setEnabled(true);
             resume.setEnabled(true);

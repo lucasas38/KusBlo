@@ -77,6 +77,12 @@ public class Controleur {
 
             //si l'on est à la fin du jeu
             if(isFinJeu()){
+                if(jeu.getHistorique().peutAnnuler()){
+                    inter.setAnnuler(true);
+                }
+                if(jeu.getHistorique().peutRefaire()){
+                    inter.setRefaire(true);
+                }
                 inter.getInterJ().cleanTour();
                 inter.getInterJ().delListener();
                 int maxScore=-10000;
@@ -772,6 +778,14 @@ public class Controleur {
         }else{
             return jeu.getJoueur(couleur).getCouleur(1).isRestePieceJouable();
         }
+   }
+
+   public boolean peutRefaire(){
+        return jeu.getHistorique().peutRefaire();
+   }
+
+   public boolean peutAnnuler(){
+        return jeu.getHistorique().peutAnnuler();
    }
 
 }
