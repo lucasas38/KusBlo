@@ -11,6 +11,7 @@ public class LecteurPieces {
         s = new Scanner(in);
     }
 
+    //lis les pieces (sous forme matricielle) dans un fichier et retourne cette liste
     LinkedList<Piece> lirePieces(){
         String ligne;
         int idPiece=1;

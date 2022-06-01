@@ -10,7 +10,7 @@ public class Piece implements Serializable {
     int id;  //identifiant unique d'une piece
     int taille;  //nombre de petits carré qui composent la piece
     int decx;  //correspondent à l'ordonée du premier carré rempli dans la matrice
-    int decy;  //correspond à l'abscisse
+    int decy;  //correspond à l'abscisse du premier carré rempli dans la matrice
     int[][] matrice; // /!\ doit être une matrice carrée : représente la piece sur une matrice carré (5*5) : 1 = contient un carré et 0 = vide
     Case debMatrice, finMatrice;  //indice de début et fin de la sous-matrice : permet de connaitre la sous matrice dans la matrice (5*5)
     LinkedList<Case> listeCases; //mis à jour quand la piece est posée (on sait qu'elle ne bougera plus) : liste de cases de la piece avec les "vraies" coordonnées sur le plateau

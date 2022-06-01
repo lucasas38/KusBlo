@@ -13,8 +13,8 @@ public class Jeu implements Serializable {
     Niveau n;  //le plateau de jeu
     int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
     Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs chacun contenant une/des couleurs
-    int joueurCourant; //indice du joueur courant dasn le tableau qui joue/doit jouer
-    Historique historique;
+    int joueurCourant; //indice du joueur courant dans le tableau qui joue/doit jouer
+    Historique historique; //ensemble des coups de tous les joueurs
 
     public Jeu(int nombreJoueurs){
         this.n = new Niveau();
@@ -85,7 +85,8 @@ public class Jeu implements Serializable {
         joueurCourant = idJoueur;
     }
 
-    //dans cette méthode on considère que la pièce est dans la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
+    //dans cette méthode on considère que la pièce n'est pas en dehors des limites de la grille et ne superpose aucune autre piece (grace à estPosable appellé avant)
+    //joue une piece dans le jeu
     public void jouerPiece(int idJoueur,int indTabCouleur, int idPiece, LinkedList<Case> listeCasesPiece,boolean refaire){
             //recupere liste des pieces disponibles pour la couleur courante
             Piece piece = listeJoueurs[idJoueur-1].getCouleur(indTabCouleur).getPieceDispo(idPiece);
@@ -282,13 +283,14 @@ public class Jeu implements Serializable {
             }
         }
 
+        //ces deux rotations permettent de remettre la piece dans sa position originale du debut de fonction
         p.rotationSymetrique();
         p.rotationAntiHoraire();
 
        return listeEmplacementPossible;
     }
 
-    //return true si au moins une piece peut encore être joué , false sinon
+    //return true si au moins une piece peut encore être joué pour la couleur n°indTabCouleur du joueur idJoueur, false sinon
     public boolean restePieceJouable(int idJoueur,int indTabCouleur){
         Couleur couleur = getJoueur(idJoueur).getCouleur(indTabCouleur);
         ListePieces listePiecesDispoClone = couleur.getListePiecesDispo();
@@ -311,8 +313,7 @@ public class Jeu implements Serializable {
         getJoueur(idJoueur).setCouleur((indTabCouleur%(getJoueur(idJoueur).nbCouleurs))+1);
     }
 
-    //HISTORIQUE
-
+    //annule un coup joué précédemment
     public void annuler(){
         //recup dernier coup joué et change futur et passe
         Trio<Piece,Integer,Integer> dernier = historique.annuler();
@@ -328,8 +329,7 @@ public class Jeu implements Serializable {
             n.ajouterPiece(piecePrec,piecePrec.listeCases,0);
 
             //change joueur courant et couleur courante pour le joueur
-            setJoueur(idJoueurPrec);        //System.out.println("Numéro pièce jouée par IA : " + lastCoupIA.getValeur().getId());
-        //System.out.println("Liste Pièce Dispo : " + jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().toString());
+            setJoueur(idJoueurPrec);
             getJoueur(idJoueurPrec).setCouleur(indTabCouleurJoueurPrec);
 
             if(!getJoueur(idJoueurPrec).peutJouer){
@@ -353,10 +353,13 @@ public class Jeu implements Serializable {
         }
     }
 
+    //met à jour les coins de tous les joueurs après l'annulation d'un coup
     void annulerCoins(int idJoueur,int indTabCouleur){
 
+        //retire les coins invalides pour idJoueur
         supprimerCoinsInvalides(idJoueur,indTabCouleur);
 
+        //met à jour les coins des autres joueurs
         Iterator<Piece> it;
         for (int i=0;i<getNbJoueurs();i++){
             Joueur joueur = getJoueur(i+1);
@@ -370,6 +373,7 @@ public class Jeu implements Serializable {
             }
         }
 
+        //si on est revenu au debut de partie pour le joueur idJoueur, on lui ré-ajoute son coin de depart
         if(getJoueur(idJoueur).getCouleur(indTabCouleur).getListesPiecesPosees().isEmpty()){
             getJoueur(idJoueur).getCouleur(indTabCouleur).ajoutePremierCoinCouleur();
         }

@@ -48,7 +48,6 @@ public class Case implements Serializable {
     @Override
     public int hashCode() {
         return x+y;
-//        return (int) (Math.pow(2,(double) x) + Math.pow(3,(double)y));
     }
 
 }

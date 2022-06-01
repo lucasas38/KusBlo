@@ -277,6 +277,8 @@ public class Bouton {
         return button;
     }
 
+    //lance une nouvelle partie de 2 joueurs (une ia et un humain)
+    // tire aleatoirement le joueur qui commence entre l'ia et l'humain
     public void randomNewGame2Joueurs(int typeIA){
         Random r = new Random();
         int j1 = 0;
@@ -289,6 +291,8 @@ public class Bouton {
         c.newGame(2,j1,j2,0,0,false);
     }
 
+    //lance une nouvelle partie de 4 joueurs
+    //tire aleatoirement l'ordre de passage des 4 joueurs et le niveau de difficulté de chaque ia
     public void randomNewGame4Joueurs(int nombreIA, int nombreJoueurs){
         if(nombreIA+nombreJoueurs != 4){
             c.newGame(4,0,1,2,7,false);
@@ -314,7 +318,7 @@ public class Bouton {
                 i++;
             }
 
-            //si on a deja 2 joueurs, il faut rajouter 1 ou 2 ia
+            //exemple : si on a deja 2 joueurs, il faut rajouter 1 ou 2 ia
             if(nbJoueurs >= nombreJoueurs){
                 while(nbIA<nombreIA){
                     joueurs[i] = r.nextInt(3)+1;

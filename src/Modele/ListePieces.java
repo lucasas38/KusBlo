@@ -12,6 +12,7 @@ import java.util.List;
 public class ListePieces implements Serializable {
     LinkedList<Piece> liste;
 
+    //si init == true, initialise la liste des pieces avec les pieces d'origine
     public ListePieces(boolean init){
         if(init){
             this.lirePieces();
@@ -20,6 +21,7 @@ public class ListePieces implements Serializable {
         }
     }
 
+    //recupere la liste des pieces de base et met à jour la liste
     public void lirePieces(){
         try {
             LecteurPieces lecteurPieces = new LecteurPieces(Configuration.instance().charge("listePieces"));
@@ -43,10 +45,7 @@ public class ListePieces implements Serializable {
         }
     }
 
-    public void ajoute(Piece p){
-        this.liste.add(p);
-    }
-
+    //ajoute une piece dans la liste dans l'ordre des id
     public void ajoutePieceOrdre(Piece p){
         Iterator<Piece> it = iterateur();
         int i = 0;
@@ -104,6 +103,7 @@ public class ListePieces implements Serializable {
         return res;
     }
 
+    //return true si la liste contient la piece d'identifiant "id", false sinon
     public boolean contient(int id){
         Iterator<Piece> ite = iterateur();
         while(ite.hasNext()){
