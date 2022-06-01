@@ -24,7 +24,7 @@ public class Chargement {
             jeu = (Jeu) in.readObject();
             ia = (IA[]) in.readObject();
 
-            //changement seed random IAAleatoire
+            //changement seed random pour les IA
             for (int i=0;i<jeu.getNbJoueurs();i++){
                 if(ia[i]!=null){
                     ia[i].setR();

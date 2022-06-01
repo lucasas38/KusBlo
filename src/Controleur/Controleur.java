@@ -26,6 +26,7 @@ public class Controleur {
         animActiv = Boolean.parseBoolean(Configuration.instance().lis("AnimActive"));
     }
 
+    //ajoute une ia dans le tableau des IA
     public void addIA(int type_ia,int idJoueur){
         // les "case" 2,3,4,5,6 sont des IA intermédiaires avec chacune une heuristique différente (2 étant la meilleure)
         switch (type_ia){
@@ -60,9 +61,11 @@ public class Controleur {
         inter = v;
     }
 
+    //met à jour l'interface et le modele
     public void setMenu1(){
         inter.getInterJ().delListener();
         inter.getInterJ().getGraph().stopTimer();
+        //si le jeu en pause
         if(pause){
             setMenuHistorique();
         }else{
@@ -72,52 +75,51 @@ public class Controleur {
             jeu.getJoueurCourant().setRestePieceJouableCouleur(jeu.getJoueurCourant().getIndiceTabCouleurCourant(),
                     jeu.restePieceJouable(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant()));
 
-
-        if(isFinJeu()){
-            inter.getInterJ().cleanTour();
-            inter.getInterJ().delListener();
-            int maxScore=-10000;
-            int[] vainqueurs= new int[4];
-            int nbVainqueur=1;
-            for (int i=1;i<jeu.getNbJoueurs()+1;i++){
-                if(jeu.getJoueur(i).getScore()>maxScore){
-                    maxScore=jeu.getJoueur(i).getScore();
-                    nbVainqueur=1;
-                    vainqueurs[nbVainqueur-1]=i;
-                }else if(jeu.getJoueur(i).getScore()==maxScore){
-                    nbVainqueur++;
-                    vainqueurs[nbVainqueur-1]=i;
+            //si l'on est à la fin du jeu
+            if(isFinJeu()){
+                inter.getInterJ().cleanTour();
+                inter.getInterJ().delListener();
+                int maxScore=-10000;
+                int[] vainqueurs= new int[4];
+                int nbVainqueur=1;
+                for (int i=1;i<jeu.getNbJoueurs()+1;i++){
+                    if(jeu.getJoueur(i).getScore()>maxScore){
+                        maxScore=jeu.getJoueur(i).getScore();
+                        nbVainqueur=1;
+                        vainqueurs[nbVainqueur-1]=i;
+                    }else if(jeu.getJoueur(i).getScore()==maxScore){
+                        nbVainqueur++;
+                        vainqueurs[nbVainqueur-1]=i;
+                    }
                 }
-            }
-            inter.getInterJ().getM().setMenuFinPartie(vainqueurs,nbVainqueur);
-            setScoreToutLesJoueurs();
+                inter.getInterJ().getM().setMenuFinPartie(vainqueurs,nbVainqueur);
+                setScoreToutLesJoueurs();
 
             }else {
                 if (jeu.getJoueur(jeu.getIDJoueurCourant()).getCouleurCourante().isRestePieceJouable()) {
-                        inter.getInterJ().setTour(jeu.getNumCouleurCourante());
-                        if(ia[jeu.getIDJoueurCourant()-1] != null){
-                            inter.getInterJ().delListener();
-                            inter.getInterJ().setEnabledAide(false);
-                            joueIA();
-                        }else{
-                            if(jeu.getHistorique().peutAnnuler()){
-                                inter.setAnnuler(true);
-                            }
-                            if(jeu.getHistorique().peutRefaire()){
-                                inter.setRefaire(true);
-                            }
-                            inter.getInterJ().setEnabledAide(true);
-                            inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
-                            inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
-
+                    inter.getInterJ().setTour(jeu.getNumCouleurCourante());
+                    if(ia[jeu.getIDJoueurCourant()-1] != null){
+                        inter.getInterJ().delListener();
+                        inter.getInterJ().setEnabledAide(false);
+                        joueIA();
+                    }else{
+                        if(jeu.getHistorique().peutAnnuler()){
+                            inter.setAnnuler(true);
                         }
+                        if(jeu.getHistorique().peutRefaire()){
+                            inter.setRefaire(true);
+                        }
+                        inter.getInterJ().setEnabledAide(true);
+                        inter.getInterJ().setMenu1(jeu.getIDJoueurCourant(), jeu.getNumCouleurCourante());
+                        inter.getInterJ().actMenu1(jeu.getNumCouleurCourante(), true);
+
+                    }
                 } else {
                     inter.getInterJ().setFinJouable(getActJoueur());
                     passerTour();
                 }
             }
         }
-
     }
 
     public void setMenu2(int l, int c){
@@ -129,6 +131,7 @@ public class Controleur {
         inter.getInterJ().setMenu2(numPiece-1);
     }
 
+    //appelé après le click d'un utilisateur pour poser une piece valide
     public void click(int x, int y){
         desactiverAide();
         inter.setAnnuler(false);
@@ -210,10 +213,6 @@ public class Controleur {
         return  jeu.estPosableRegle(jeu.tradMatrice(piece,x-decx,y-decy),jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
     }
 
-    public  Piece getPiece(int j, int p){
-        return  jeu.getJoueur(j).getCouleurCourante().getListePiecesDispo().getPiece(p);
-    }
-
     public ListePieces getListPiece(int couleur){
         if(getNbJoueur()==2){
             if(couleur>2){
@@ -226,14 +225,6 @@ public class Controleur {
             return jeu.getJoueur(couleur).getCouleurCourante().getListePiecesDispo();
         }
 
-    }
-
-    public void visualiser(int x, int y,int[][] grille, int decx,int decy,boolean error){
-        if(error){
-            inter.getInterJ().getGraph().visualiser(5,x,y,grille,decx,decy);
-        } else{
-            inter.getInterJ().getGraph().visualiser(jeu.getNumCouleurCourante(),x,y,grille,decx,decy);
-        }
     }
 
     public void visualiser(int x, int y,boolean error){
@@ -270,7 +261,6 @@ public class Controleur {
     public void rotaHoraire(){
         MenuJeu m= inter.getInterJ().getM();
         m.getPiece().rotationHoraire();
-
     }
 
     public void flip(){
@@ -310,7 +300,6 @@ public class Controleur {
         setMenu2(numPiece);
         inter.getInterJ().getM().selPiece(numPiece);
     }
-
 
     public void passerTour(){
         jeu.passerTour(jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());

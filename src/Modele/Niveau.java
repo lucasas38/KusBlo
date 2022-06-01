@@ -30,29 +30,6 @@ public class Niveau implements Serializable {
         return res;
     }
 
-    //   mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
-    //place la piece sur la grille du niveau
-    public void ajouterPiece(Piece p,int x, int y,int idCouleur){
-        int [][] matrice = p.getMatrice();
-
-        int debX = p.getDebMatrice().getX();
-        int debY = p.getDebMatrice().getY();
-        int finX = p.getFinMatrice().getX();
-        int finY = p.getFinMatrice().getY();
-
-        p.listeCases = new LinkedList<>();
-
-        for (int i = debX;i< finX+1;i++){
-            for (int j = debY;j< finY+1;j++){
-                if(matrice[i][j] == 1){
-                    grille[x+i-debX][y+j-debY] = idCouleur;
-                    p.listeCases.add(new Case(x+i-debX,y+j-debY));
-                }
-            }
-        }
-
-    }
-
     //mise à jour de la grille de niveau : ajout de la piece (test réalisé avant)
     //place la couleur correspondante dans la grille du niveau
     public void ajouterPiece(Piece p, LinkedList<Case> listeCasesPiece,int idCouleur){
@@ -120,6 +97,7 @@ public class Niveau implements Serializable {
 
     }
 
+    //return true si le point x,y a au moins une case de meme couleur que lui dans un de ses coins, false sinon
     public boolean auMoinsUnCoin(int x,int y,int idCouleur){
         return !testVoisin(x+1,y-1,idCouleur)
                 || !testVoisin(x+1,y+1,idCouleur)
@@ -127,6 +105,7 @@ public class Niveau implements Serializable {
                 || !testVoisin(x-1,y+1,idCouleur);
     }
 
+    // return true si le point x,y est dans le grille et est different de la couleur idCouleur
     private boolean testVoisin(int x, int y, int idCouleur) {
         if(estDansGrille(x,y)){
             if(grille[x][y] != idCouleur){
