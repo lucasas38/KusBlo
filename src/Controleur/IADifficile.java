@@ -23,8 +23,6 @@ public class IADifficile extends IA{
     int horizon = 2; // nombre de coups que l'algorithme Min/Max va regarder à l'avance
     int cpt; // compte les appels récursifs
 
-    boolean aide;
-
     IADifficile(Jeu j,boolean aide){
         super(j);
         type = 7;

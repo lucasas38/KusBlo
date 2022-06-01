@@ -24,6 +24,8 @@ public abstract class IA implements Serializable {
 
     int mode; // mode de l'IA intermédiaire (cf calcul_heuristique pour détail)
 
+    boolean aide;
+
     IA(Jeu j){
         jeu=j;
         setR();

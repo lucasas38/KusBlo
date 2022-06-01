@@ -10,8 +10,6 @@ import java.util.*;
 
 public class IAIntermediaire extends IA {
 
-    boolean aide;
-
     IAIntermediaire(Jeu j, int m, boolean aide) {
         super(j);
         mode = m;
