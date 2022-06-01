@@ -11,7 +11,7 @@ import java.util.LinkedList;
 
 public class Jeu implements Serializable {
     Niveau n;  //le plateau de jeu
-    int nbJoueurs; // nombre de joueurs 2 , 3 ou 4
+    int nbJoueurs; // nombre de joueurs (2 ou 4)
     Joueur[] listeJoueurs;  //tableau de nbJoueurs joueurs chacun contenant une/des couleurs
     int joueurCourant; //indice du joueur courant dans le tableau qui joue/doit jouer
     Historique historique; //ensemble des coups de tous les joueurs
@@ -19,8 +19,8 @@ public class Jeu implements Serializable {
     public Jeu(int nombreJoueurs){
         this.n = new Niveau();
 
-        //nombre de joueurs doit etre compris entre 1 et 4
-        if(nombreJoueurs>1 && nombreJoueurs<=4){
+        //nombre de joueurs doit etre de 2 ou 4 (3 joueurs pas implémenté)
+        if(nombreJoueurs ==2 || nombreJoueurs == 4){
             this.nbJoueurs = nombreJoueurs;
         }else{
             this.nbJoueurs = 4;
@@ -30,17 +30,13 @@ public class Jeu implements Serializable {
 
         //si 4 joueurs, chaque joueur a une couleur
         //si 2 joueurs, chque joueur a 2 couleurs différentes
-        //si 3 joueurs, chque joueur a une couleur et se partagent la derniere
         for (int i=0;i<this.nbJoueurs;i++){
             listeJoueurs[i] = new Joueur(i+1);
             if(this.nbJoueurs == 4){
                 listeJoueurs[i].addCouleur(new Couleur(i+1));
-            }else if(this.nbJoueurs == 2){
+            }else{ //2 joueurs
                 listeJoueurs[i].addCouleur(new Couleur(i+1));
                 listeJoueurs[i].addCouleur(new Couleur(i+3));
-            }else{
-                listeJoueurs[i].addCouleur(new Couleur(i+1));
-                //manque couleur 4 (meme reference) à ajouter à chacun (sans compter le score pour celle ci)
             }
         }
 
