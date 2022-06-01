@@ -16,6 +16,7 @@ public class IAIntermediaire extends IA {
         super(j);
         mode = m;
         type = 2+mode;
+        ouv = r.nextInt(2); // les ouvertures sont tirés aléatoirement
         this.aide = aide;
     }
 
@@ -27,23 +28,25 @@ public class IAIntermediaire extends IA {
         Piece p;
         int heur_max = 0;
         int rotation_max = 0;
-        ListeValeur<Case, Piece> res =null;
+        ListeValeur<Case, Piece> res;
 
         LinkedList<Case> listeCasesMax = null;
 
-        if (listePiecesDispo.getTaille() > 18 && !aide){     // pour les 3 premiers coups (ouvertures)
+        if (listePiecesDispo.getTaille() > 18 && !aide){     // pour les 3 premiers coups on joue les ouvertures
             res = ouvertures(listePiecesDispo);
-        } else {    // pour tous les coups suivants
+        } else {
+            // pour chacune des pièces, on calcule l'ensemble de ses coups possibles et on garde le meilleur en fonction de l'heuristique
             while (listePiecesDispo.getTaille() > 0) {
 
                 p = listePiecesDispo.getListe().get(0);
-                LinkedList<Case> listeCases = null;
+                LinkedList<Case> listeCases;
 
                 LinkedList<ListeValeur<Case, Integer>> listeEmplacementPossible = jeu.positionPossibleConfig(p,jeu.getIDJoueurCourant(),jeu.getJoueurCourant().getIndiceTabCouleurCourant());
 
-                for (int i = 0; i < listeEmplacementPossible.size(); i++) { //tous les emplacment et les rotations pour une piece
-
+                for (int i = 0; i < listeEmplacementPossible.size(); i++) {
                     listeCases = listeEmplacementPossible.get(i).getListe();
+
+                    // calcul des différents paramètres de l'heuristique
                     int rotation = listeEmplacementPossible.get(i).getValeur();
                     int poss_ouv = nb_possibilite_ouverte(jeu.getIDJoueurCourant(), listeCases, jeu.getJoueurCourant().getCouleurCourante().getListePiecesDispo().getTaille());
                     int taille = p.getTaille();
@@ -55,6 +58,7 @@ public class IAIntermediaire extends IA {
                     if (heur < 0) {
                         heur = 0;
                     }
+
                     //randomise les coups pour ne pas choisir toujours le même à chaque partie
                     int random_coup = 0;
                     if (heur == heur_max) {
@@ -67,13 +71,10 @@ public class IAIntermediaire extends IA {
                         listeCasesMax = listeCases;
                         rotation_max = rotation;
                     }
-
                 }
-
-
                 listePiecesDispo.supprimer(p.getId());
             }
-
+        // on effectue la rotation pour la pièce
         tournePiece(rotation_max,p_max);
         res = new ListeValeur<>(listeCasesMax, p_max);
         }
@@ -84,7 +85,6 @@ public class IAIntermediaire extends IA {
             return;
         }
 
-        System.out.println("Ia ne peut plus jouer");
         dernierCoup=null;
     }
 
