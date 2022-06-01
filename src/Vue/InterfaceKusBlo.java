@@ -3,6 +3,8 @@ package Vue;
 import Controleur.Controleur;
 
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class InterfaceKusBlo implements Runnable {
     JFrame frame;
@@ -173,5 +175,6 @@ public class InterfaceKusBlo implements Runnable {
             menuRegle.precPage();
         }
     }
+
 
 }

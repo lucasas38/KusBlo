@@ -107,27 +107,27 @@ public class PanneauJoueur {
     }
 
     public void setTour(){
-        JPanel panTest = new JPanel();
-        panTest.add(new JLabel("A votre tour"));
-        votreTour.add(panTest);
+        JPanel messageJoueur = new JPanel();
+        messageJoueur.add(new JLabel("A votre tour"));
+        votreTour.add(messageJoueur);
         switch (couleur){
             case 1:
-                panTest.setBackground(new Color(73,216,230));
+                messageJoueur.setBackground(new Color(73,216,230));
                 votreTour.setBackground(new Color(73,216,230));
                 pan.setBorder(BorderFactory.createLineBorder(Color.blue,2));
                 break;
             case 2:
-                panTest.setBackground(new Color(255,215,0));
+                messageJoueur.setBackground(new Color(255,215,0));
                 votreTour.setBackground(new Color(255,215,0));
                 pan.setBorder(BorderFactory.createLineBorder(Color.yellow,2));
                 break;
             case 3:
-                panTest.setBackground(new Color(233,150,122));
+                messageJoueur.setBackground(new Color(233,150,122));
                 votreTour.setBackground(new Color(233,150,122));
                 pan.setBorder(BorderFactory.createLineBorder(Color.red,2));
                 break;
             case 4:
-                panTest.setBackground(new Color(154,205,50));
+                messageJoueur.setBackground(new Color(154,205,50));
                 votreTour.setBackground(new Color(154,205,50));
                 pan.setBorder(BorderFactory.createLineBorder(Color.green,2));
                 break;
@@ -136,8 +136,10 @@ public class PanneauJoueur {
     }
 
     public void setFinJouable(){
-        votreTour.removeAll();
-        votreTour.add(new JLabel("Ne peut plus jouer"));
+        JPanel finTour= new JPanel(new GridLayout(2,1));
+        finTour.add(new JLabel("Ne peut plus"));
+        finTour.add(new JLabel("jouer"));
+        votreTour.add(finTour);
         pan.updateUI();
     }
 
@@ -145,6 +147,8 @@ public class PanneauJoueur {
         votreTour.removeAll();
         votreTour.setBackground(Color.white);
         pan.setBorder(BorderFactory.createLineBorder(Color.black,2));
+        if(!cont.peutJouer(couleur))
+        setFinJouable();
     }
 
     public  void setScore(int val){
@@ -204,6 +208,7 @@ public class PanneauJoueur {
         }
         nomJoueur.setText("Joueur "+numJoueur+" (IA "+diff);
     }
+
 
 
 
