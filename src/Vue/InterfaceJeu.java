@@ -25,6 +25,7 @@ public class InterfaceJeu {
         JButton menuRegle;
         JButton load;
         JPanel menuGauche;
+        JPanel histo;
         JPanel panelOpt;
         JPanel limGauche;
         JPanel limDroite;
@@ -125,7 +126,7 @@ public class InterfaceJeu {
             refaire.setIcon(icon2);
             refaire.setBorder(BorderFactory.createEmptyBorder());
 
-            JPanel histo=new JPanel(new GridLayout(1,2));
+            histo=new JPanel(new GridLayout(1,2));
             histo.add(annuler);
             histo.add(refaire);
             histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
@@ -229,6 +230,8 @@ public class InterfaceJeu {
             joueurs[1].resize(getFrameW(),getFrameH());
             joueurs[2].resize(getFrameW(),getFrameH());
             joueurs[3].resize(getFrameW(),getFrameH());
+            menuGauche.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
+            histo.setPreferredSize(new Dimension(getFrameW()/4,getFrameH()/8));
         }
 
         public JPanel getFrame(){
@@ -359,9 +362,6 @@ public class InterfaceJeu {
                 joueurs[numIACouleur].updateNameIA(diff);
         }
 
-        public void setFinJouable(int joueur){
-                joueurs[joueur-1].setFinJouable();
-        }
 
         public void refreshLoad(){
                 load.setEnabled(c.canLoad());

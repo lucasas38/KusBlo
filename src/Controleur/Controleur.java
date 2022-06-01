@@ -115,7 +115,6 @@ public class Controleur {
 
                     }
                 } else {
-                    inter.getInterJ().setFinJouable(getActJoueur());
                     passerTour();
                 }
             }
@@ -764,6 +763,16 @@ public class Controleur {
 
    public void changePage(boolean nextPage){
         inter.changePage(nextPage);
+   }
+
+   public boolean peutJouer(int couleur){
+        if(jeu.getNbJoueurs()==2 && couleur>2){
+           return jeu.getJoueur(couleur-2).getCouleur(2).isRestePieceJouable();
+        }else if(jeu.getNbJoueurs()==2 && couleur<=2){
+           return jeu.getJoueur(couleur).getCouleur(1).isRestePieceJouable();
+        }else{
+            return jeu.getJoueur(couleur).getCouleur(1).isRestePieceJouable();
+        }
    }
 
 }
