@@ -79,7 +79,7 @@ public class MenuPartiePerso {
             public void actionPerformed(ActionEvent event) {
                 JComboBox comboBox = (JComboBox) event.getSource();
                 Object selected = comboBox.getSelectedItem();
-                if (selected.toString().equals("2 Joueurs")) {
+                if (selected.toString().equals("Partie à 2 Joueurs")) {
                     setTypePartie(true);
                     affichageJoueur.updateUI();
                 } else{
